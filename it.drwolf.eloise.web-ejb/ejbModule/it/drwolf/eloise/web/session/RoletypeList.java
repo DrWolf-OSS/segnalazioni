@@ -13,6 +13,11 @@ import java.util.Arrays;
 @Name("roletypeList")
 public class RoletypeList extends EntityQuery {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5596399614785307392L;
+
 	private static final String[] RESTRICTIONS = { "lower(roletype.role) like concat(lower(#{roletypeList.roletype.role}),'%')", };
 
 	private Roletype roletype = new Roletype();

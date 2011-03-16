@@ -25,6 +25,10 @@ import org.hibernate.validator.NotNull;
 @Table(name = "`OrganizationalRole`", catalog = "eloise")
 public class Organizationalrole implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2054428227193171008L;
 	private Integer organizationalRoleId;
 	private Roletype roletype;
 	private Ufficio ufficio;

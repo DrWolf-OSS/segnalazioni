@@ -14,7 +14,6 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
-import org.apache.poi.hssf.record.formula.functions.True;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Transactional;

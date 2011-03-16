@@ -17,6 +17,11 @@ import org.jboss.seam.framework.EntityHome;
 @Name("reportHome")
 public class ReportHome extends EntityHome<Report> {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 224500294056629592L;
+
 	@In(create = true)
 	EntityManager entityManager;
 
@@ -25,37 +30,15 @@ public class ReportHome extends EntityHome<Report> {
 
 	private String newColumn;
 	private List<String> columns;
-	
+
 	private Date dataInizioRicerca;
 	private Date dataFineRicerca;
 
 	public ReportHome() {
-		dataFineRicerca = new Date();
-		dataInizioRicerca = new Date();
-		dataInizioRicerca = new Date(dataInizioRicerca.getTime() - 365L * Timer.ONE_DAY);  
-	}
-	public Date getDataInizioRicerca() {
-		return dataInizioRicerca;
-	}
-
-	public Date getDataFineRicerca() {
-		return dataFineRicerca;
-	}
-
-	public void setDataInizioRicerca(Date dataInizioRicerca) {
-		this.dataInizioRicerca = dataInizioRicerca;
-	}
-
-	public void setDataFineRicerca(Date dataFineRicerca) {
-		this.dataFineRicerca = dataFineRicerca;
-	}
-
-	public void setReportId(Integer id) {
-		setId(id);
-	}
-
-	public Integer getReportId() {
-		return (Integer) getId();
+		this.dataFineRicerca = new Date();
+		this.dataInizioRicerca = new Date();
+		this.dataInizioRicerca = new Date(this.dataInizioRicerca.getTime()
+				- 365L * Timer.ONE_DAY);
 	}
 
 	@Override
@@ -64,14 +47,45 @@ public class ReportHome extends EntityHome<Report> {
 		return report;
 	}
 
-	public void wire() {
-		this.setColumns(this.getInstance().getColumns());
+	public List<String> getColumns() {
+		return this.columns;
 	}
 
-	@Override
-	public String update() {
-		this.getInstance().setColumns(this.getColumns());
-		return super.update();
+	public Date getDataFineRicerca() {
+		return this.dataFineRicerca;
+	}
+
+	public Date getDataInizioRicerca() {
+		return this.dataInizioRicerca;
+	}
+
+	public Report getDefinedInstance() {
+		return this.isIdDefined() ? this.getInstance() : null;
+	}
+
+	public String getNewColumn() {
+		return this.newColumn;
+	}
+
+	public Integer getReportId() {
+		return (Integer) this.getId();
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Object[]> getResults() {
+		Report report = this.getInstance();
+		List<Object[]> resultSet = new ArrayList<Object[]>();
+		if (report != null) {
+			resultSet = this.entityManager.createNativeQuery(report.getQuery())
+					.setParameter("inizio", this.dataInizioRicerca)
+					.setParameter("fine", this.dataFineRicerca).getResultList();
+		}
+
+		return resultSet;
+	}
+
+	public boolean isWired() {
+		return true;
 	}
 
 	@Override
@@ -80,33 +94,13 @@ public class ReportHome extends EntityHome<Report> {
 		return super.persist();
 	}
 
-	public boolean isWired() {
-		return true;
-	}
-
-	public Report getDefinedInstance() {
-		return isIdDefined() ? getInstance() : null;
-	}
-
-	public String getNewColumn() {
-		return newColumn;
-	}
-
-	public void setNewColumn(String newColumn) {
-		this.newColumn = newColumn;
-	}
-
 	public void pushNewColumn() {
-		this.getColumns().add(newColumn);
-		newColumn = new String();
+		this.getColumns().add(this.newColumn);
+		this.newColumn = new String();
 	}
 
-	public List<String> getColumns() {
-		return columns;
-	}
+	public void refreshView() {
 
-	public void setColumns(List<String> columns) {
-		this.columns = columns;
 	}
 
 	public void removeColumn(String daRimuovere) {
@@ -120,20 +114,33 @@ public class ReportHome extends EntityHome<Report> {
 		this.getColumns().removeAll(colonneDaRimuovere);
 	}
 
-	public List<Object[]> getResults() {
-		Report report = this.getInstance();
-		List<Object[]> resultSet = new ArrayList<Object[]>();
-		if (report != null) {
-			resultSet = entityManager.createNativeQuery(report.getQuery())
-			.setParameter("inizio", dataInizioRicerca)
-			.setParameter("fine", dataFineRicerca)
-			.getResultList();
-		}
-
-		return resultSet;
+	public void setColumns(List<String> columns) {
+		this.columns = columns;
 	}
-	
-	public void refreshView(){
-		
+
+	public void setDataFineRicerca(Date dataFineRicerca) {
+		this.dataFineRicerca = dataFineRicerca;
+	}
+
+	public void setDataInizioRicerca(Date dataInizioRicerca) {
+		this.dataInizioRicerca = dataInizioRicerca;
+	}
+
+	public void setNewColumn(String newColumn) {
+		this.newColumn = newColumn;
+	}
+
+	public void setReportId(Integer id) {
+		this.setId(id);
+	}
+
+	@Override
+	public String update() {
+		this.getInstance().setColumns(this.getColumns());
+		return super.update();
+	}
+
+	public void wire() {
+		this.setColumns(this.getInstance().getColumns());
 	}
 }

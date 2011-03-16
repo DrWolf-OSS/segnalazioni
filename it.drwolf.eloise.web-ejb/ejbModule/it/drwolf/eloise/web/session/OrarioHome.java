@@ -9,6 +9,11 @@ import org.jboss.seam.framework.EntityHome;
 @Name("orarioHome")
 public class OrarioHome extends EntityHome<Orario> {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8474039259955054124L;
+
 	public void setOrarioIdorario(Integer id) {
 		setId(id);
 	}

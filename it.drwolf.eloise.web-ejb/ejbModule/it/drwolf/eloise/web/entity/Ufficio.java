@@ -23,7 +23,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.hibernate.validator.Email;
 import org.hibernate.validator.NotNull;
 import org.hibernate.validator.Pattern;
 
@@ -34,6 +33,10 @@ import org.hibernate.validator.Pattern;
 @Table(name = "`Ufficio`", catalog = "eloise")
 public class Ufficio implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8685225622140243234L;
 	private Integer idufficio;
 	private Area area;
 	private Sede sede;

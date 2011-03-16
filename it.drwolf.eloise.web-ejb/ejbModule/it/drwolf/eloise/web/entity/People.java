@@ -20,7 +20,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.hibernate.validator.Email;
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotNull;
 import org.hibernate.validator.Pattern;
@@ -33,6 +32,10 @@ import org.hibernate.validator.Pattern;
 @Table(name = "`People`", catalog = "eloise")
 public class People implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -213237042460119073L;
 	private String idpeople;
 	private Sede sede;
 	private Orario orario;

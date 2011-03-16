@@ -18,6 +18,12 @@ import javax.persistence.EntityManager;
 @Name("ufficioList")
 public class UfficioList extends EntityQuery {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7170245354903464269L;
+
+
 	@In(create = true)
 	EntityManager entityManager;
 	

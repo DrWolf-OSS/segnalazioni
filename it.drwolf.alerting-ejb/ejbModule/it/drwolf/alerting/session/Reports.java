@@ -23,8 +23,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -121,7 +121,7 @@ public class Reports {
 		this.results = null;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private List<Segnalazione> fetchSegnalazioni() {
 
 		String q = this.BASE_QUERY;
@@ -227,12 +227,13 @@ public class Reports {
 
 		}
 		if (this.getNumero() == null) {
-			query.setParameter("aperturaDa", this.aperturaDa).setParameter(
-					"aperturaA", (this.aperturaA)).setParameter("chiusuraDa",
-					(this.chiusuraDa)).setParameter("chiusuraA",
-					(this.chiusuraA)).setParameter("scadenzaDa",
-					(this.scadenzaDa)).setParameter("scadenzaA",
-					(this.scadenzaA)).setParameter("stati", this.getStati())
+			query.setParameter("aperturaDa", this.aperturaDa)
+					.setParameter("aperturaA", (this.aperturaA))
+					.setParameter("chiusuraDa", (this.chiusuraDa))
+					.setParameter("chiusuraA", (this.chiusuraA))
+					.setParameter("scadenzaDa", (this.scadenzaDa))
+					.setParameter("scadenzaA", (this.scadenzaA))
+					.setParameter("stati", this.getStati())
 					.setParameter("oggetto", "%" + this.oggetto + "%");
 
 			if (this.utenza != null) {
@@ -248,8 +249,8 @@ public class Reports {
 			}
 
 			if (this.cittadino != null) {
-				query.setParameter("cittadinos", Integer
-						.parseInt(this.cittadino));
+				query.setParameter("cittadinos",
+						Integer.parseInt(this.cittadino));
 			}
 
 			if (this.sottotipoSegnalazione != null) {
@@ -275,14 +276,14 @@ public class Reports {
 		while (it.hasNext()) {
 			Segnalazione s = it.next();
 			if (this.incaricato != null) {
-				if (!this.getCurrentTaskOwner(s).toLowerCase().startsWith(
-						this.incaricato.toLowerCase())) {
+				if (!this.getCurrentTaskOwner(s).toLowerCase()
+						.startsWith(this.incaricato.toLowerCase())) {
 					it.remove();
 				}
 			}
 			if (this.ufficio != null) {
-				if (!this.getCurrentTaskOffice(s).toLowerCase().startsWith(
-						this.ufficio.toLowerCase())) {
+				if (!this.getCurrentTaskOffice(s).toLowerCase()
+						.startsWith(this.ufficio.toLowerCase())) {
 					it.remove();
 				}
 			}

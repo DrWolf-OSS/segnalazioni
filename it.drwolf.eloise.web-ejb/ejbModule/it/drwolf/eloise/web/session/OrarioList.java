@@ -1,17 +1,23 @@
 package it.drwolf.eloise.web.session;
 
-import it.drwolf.eloise.web.entity.*;
+import it.drwolf.eloise.web.entity.Orario;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Expressions.ValueExpression;
 import org.jboss.seam.framework.EntityQuery;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Arrays;
-
 @Name("orarioList")
-public class OrarioList extends EntityQuery {
+public class OrarioList extends EntityQuery<Orario> {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8286431198559706110L;
 
 	private static final String[] RESTRICTIONS = { "lower(orario.descrizione) like concat(lower(#{orarioList.orario.descrizione}),'%')", };
 
@@ -28,28 +34,28 @@ public class OrarioList extends EntityQuery {
 	}
 
 	public Orario getOrario() {
-		return orario;
+		return this.orario;
 	}
 
-	@Override
-	public List<ValueExpression> getRestrictions()
-	{
-		List<String> expressionStrings = Arrays.asList(RESTRICTIONS);
-		
-		Expressions expressions = new Expressions();
-	      List<ValueExpression> restrictionVEs = new ArrayList<ValueExpression>(expressionStrings.size());
-	      for (String expressionString : expressionStrings)
-	      {
-	         restrictionVEs.add(expressions.createValueExpression(expressionString));
-	      }
-	      //setRestrictions(restrictionVEs);		
-	   return restrictionVEs;
-	}
-
-	
 	@Override
 	public List<String> getRestrictionExpressionStrings() {
-		return Arrays.asList(RESTRICTIONS);
+		return Arrays.asList(OrarioList.RESTRICTIONS);
+	}
+
+	@SuppressWarnings("rawtypes")
+	@Override
+	public List<ValueExpression> getRestrictions() {
+		List<String> expressionStrings = Arrays.asList(OrarioList.RESTRICTIONS);
+
+		Expressions expressions = new Expressions();
+		List<ValueExpression> restrictionVEs = new ArrayList<ValueExpression>(
+				expressionStrings.size());
+		for (String expressionString : expressionStrings) {
+			restrictionVEs.add(expressions
+					.createValueExpression(expressionString));
+		}
+		// setRestrictions(restrictionVEs);
+		return restrictionVEs;
 	}
 
 }

@@ -32,6 +32,10 @@ import org.hibernate.validator.NotNull;
 @Table(name = "`Settore`", catalog = "eloise")
 public class Area implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1077850156022903264L;
 	private Integer idsettore;
 	private Ente ente;
 	private Boolean visible;

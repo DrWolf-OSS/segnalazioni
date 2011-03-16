@@ -23,6 +23,10 @@ import javax.persistence.Table;
 @Table(name = "`Orario`", catalog = "eloise")
 public class Orario implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5506802968410829501L;
 	private Integer idorario;
 	private String descrizione;
 	private Set<People> peoples = new HashSet<People>(0);

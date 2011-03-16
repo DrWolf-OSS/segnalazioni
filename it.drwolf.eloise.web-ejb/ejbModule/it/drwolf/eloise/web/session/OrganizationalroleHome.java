@@ -8,6 +8,10 @@ import org.jboss.seam.framework.EntityHome;
 @Name("organizationalroleHome")
 public class OrganizationalroleHome extends EntityHome<Organizationalrole> {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 623025582341643725L;
 	@In(create = true)
 	RoletypeHome roletypeHome;
 	@In(create = true)

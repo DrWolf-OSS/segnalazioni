@@ -21,14 +21,14 @@ public class UfficioConverter implements Converter {
 
 	@SuppressWarnings("unchecked")
 	public Object getAsObject(FacesContext arg0, UIComponent arg1, String arg2) {
-		if (arg2 == null || arg2.equals("null") || arg2.trim().equals("")) {
+		if ((arg2 == null) || arg2.equals("null") || arg2.trim().equals("")) {
 			return null;
 		}
 		this.entityManager = (EntityManager) org.jboss.seam.Component
 				.getInstance("entityManager");
-		List l = this.entityManager.createQuery(
-				"select idufficio from Ufficio where nome=:nome").setParameter(
-				"nome", arg2).getResultList();
+		List<Number> l = this.entityManager
+				.createQuery("select idufficio from Ufficio where nome=:nome")
+				.setParameter("nome", arg2).getResultList();
 
 		if (l.size() > 0) {
 			return l.get(0);

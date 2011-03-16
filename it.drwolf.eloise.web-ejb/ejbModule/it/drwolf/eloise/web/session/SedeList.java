@@ -13,6 +13,11 @@ import java.util.Arrays;
 @Name("sedeList")
 public class SedeList extends EntityQuery {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -271967401739173242L;
+
 	private static final String[] RESTRICTIONS = { "lower(sede.descrizione) like concat(lower(#{sedeList.sede.descrizione}),'%')", };
 
 	private Sede sede = new Sede();

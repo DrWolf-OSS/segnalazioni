@@ -1,6 +1,5 @@
 package it.drwolf.alerting.lists;
 
-
 import it.drwolf.alerting.entity.Report;
 
 import java.util.Arrays;
@@ -14,9 +13,11 @@ import org.jboss.seam.framework.EntityQuery;
 @Name("reportList")
 public class ReportList extends EntityQuery<Report> {
 
+	private static final long serialVersionUID = -1247782248878580468L;
+
 	@In
 	public EntityManager entityManager;
-	
+
 	private static final String EJBQL = "select report from Report report";
 
 	private static final String[] RESTRICTIONS = {
@@ -25,21 +26,19 @@ public class ReportList extends EntityQuery<Report> {
 
 	private Report report = new Report();
 
-
-	
-	
 	public ReportList() {
-		setEjbql(EJBQL);
-		setRestrictionExpressionStrings(Arrays.asList(RESTRICTIONS));
-		setMaxResults(25);
-		setOrder("id desc");
+		this.setEjbql(ReportList.EJBQL);
+		this.setRestrictionExpressionStrings(Arrays
+				.asList(ReportList.RESTRICTIONS));
+		this.setMaxResults(25);
+		this.setOrder("id desc");
 	}
 
 	public Report getReport() {
-		return report;
+		return this.report;
 	}
-	
-	public Report getReport(String name){
+
+	public Report getReport(String name) {
 		for (Report report : this.getResultList()) {
 			if (report.getNome().equals(name)) {
 				return report;

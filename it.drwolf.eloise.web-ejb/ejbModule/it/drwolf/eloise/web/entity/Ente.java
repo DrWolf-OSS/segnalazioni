@@ -29,6 +29,10 @@ import javax.persistence.Transient;
 @Table(name = "`Ente`", catalog = "eloise")
 public class Ente implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8653408283052543567L;
 	private Integer idente;
 	private Boolean visible;
 	private String nome;

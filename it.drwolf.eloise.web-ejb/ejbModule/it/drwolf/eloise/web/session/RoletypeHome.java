@@ -9,6 +9,11 @@ import org.jboss.seam.framework.EntityHome;
 @Name("roletypeHome")
 public class RoletypeHome extends EntityHome<Roletype> {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -9065351165484534240L;
+
 	public void setRoletypeRoleTypeId(Integer id) {
 		setId(id);
 	}

@@ -23,6 +23,10 @@ import javax.persistence.Table;
 @Table(name = "`Sede`", catalog = "eloise")
 public class Sede implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3625865755909061881L;
 	private Integer idsede;
 	private String descrizione;
 	private Set<Ufficio> ufficios = new HashSet<Ufficio>(0);

@@ -18,10 +18,11 @@ public class Authenticator {
 	@SuppressWarnings("unchecked")
 	public static Cittadino findCittadino(EntityManager em, String email,
 			String codice) {
-		List l = em.createQuery("from Cittadino where idIscritto=:codice")
+		List<Cittadino> l = em
+				.createQuery("from Cittadino where idIscritto=:codice")
 				.setParameter("codice", codice).getResultList();
-		if (l != null && l.size() > 0) {
-			Cittadino c = (Cittadino) l.get(0);
+		if ((l != null) && (l.size() > 0)) {
+			Cittadino c = l.get(0);
 			if (email == null) {
 				return c;
 			}
@@ -49,21 +50,22 @@ public class Authenticator {
 
 	public boolean authenticate() {
 
-		if (sso.isLogged()) {
+		if (this.sso.isLogged()) {
 			return true;
 		}
-		EntityManager em = entityManager;
+		EntityManager em = this.entityManager;
 
-		Credentials credentials = identity.getCredentials();
+		Credentials credentials = this.identity.getCredentials();
 		Cittadino c = Authenticator.findCittadino(em,
 				credentials.getUsername(), credentials.getPassword());
 		if (c != null) {
 			credentials.setUsername(c.getIdIscritto());
 
-			actor.setId(credentials.getUsername());
-			actor.getGroupActorIds().add(Constants.CITTADINO.toString());
-			identity.addRole(Constants.CITTADINO.toString());
-			workSession.setUserFullname(c.getNome() + " " + c.getCognome());
+			this.actor.setId(credentials.getUsername());
+			this.actor.getGroupActorIds().add(Constants.CITTADINO.toString());
+			this.identity.addRole(Constants.CITTADINO.toString());
+			this.workSession
+					.setUserFullname(c.getNome() + " " + c.getCognome());
 			return true;
 		}
 
@@ -71,7 +73,7 @@ public class Authenticator {
 	}
 
 	public void impersonate(String username) throws Exception {
-		identity.getCredentials().setUsername(username);
-		sso.login();
+		this.identity.getCredentials().setUsername(username);
+		this.sso.login();
 	}
 }

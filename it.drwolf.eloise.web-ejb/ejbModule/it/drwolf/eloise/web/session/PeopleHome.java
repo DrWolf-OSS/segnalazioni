@@ -14,11 +14,13 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.framework.EntityHome;
 
-import com.arjuna.ats.internal.jdbc.drivers.modifiers.list;
-
 @Name("peopleHome")
 public class PeopleHome extends EntityHome<People> {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6217794991312353645L;
 	@In(create = true)
 	SedeHome sedeHome;
 	@In(create = true)

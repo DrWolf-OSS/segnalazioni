@@ -22,6 +22,10 @@ import javax.persistence.Table;
 @Table(name = "`RoleType`", catalog = "eloise")
 public class Roletype implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5187456259840515943L;
 	private Integer roleTypeId;
 	private String role;
 	private Set<Organizationalrole> organizationalroles = new HashSet<Organizationalrole>(

@@ -11,7 +11,6 @@ import java.util.Set;
 
 import javax.persistence.EntityManager;
 
-import org.apache.poi.hssf.record.formula.functions.Trimmean;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.In;

@@ -9,6 +9,11 @@ import java.util.Arrays;
 @Name("organizationalroleList")
 public class OrganizationalroleList extends EntityQuery {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7692757369556597185L;
+
 	private static final String[] RESTRICTIONS = {};
 
 	private Organizationalrole organizationalrole = new Organizationalrole();

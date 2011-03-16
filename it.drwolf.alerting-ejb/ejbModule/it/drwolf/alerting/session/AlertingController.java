@@ -529,7 +529,7 @@ public class AlertingController {
 							"from Segnalazione where cittadino=:cittadino order by id desc")
 					.setParameter("cittadino", c).getResultList();
 		} else {
-			List l = this.entityManager
+			List<Number> l = this.entityManager
 					.createNativeQuery(
 							"select distinct bv.id from AlertingRevisionEntity are,BPMInfo_versions bv where bv._revision=are.id and are.username=:username")
 					.setParameter("username",
