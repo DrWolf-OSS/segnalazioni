@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:application="http://java.sun.com/xml/ns/javaee/application_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/application_5.xsd" version="5">
+  <display-name>it.drwolf.alerting-ear</display-name>
+  <module>
+    <web>
+      <web-uri>it.drwolf.alerting.war</web-uri>
+      <context-root>/sign</context-root>
+    </web>
+  </module>
+  <module>
+    <ejb>it.drwolf.alerting-ejb.jar</ejb>
+  </module>
+  <module>
+    <ejb>it.drwolf.eloise.web-ejb.jar</ejb>
+  </module>
+  <module>
+    <ejb>it.drwolf.iscrizioni-ejb.jar</ejb>
+  </module>
+</application>

@@ -1,0 +1,46 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:rich="http://richfaces.ajax4jsf.org/rich"
+   xmlns:c="http://java.sun.com/jstl/core"
+   xmlns:s="http://jboss.com/products/seam/taglib">
+   
+   <c:set var="history" value="#{alertingController.getHistory(segnalazione)}"/>
+	
+
+		<rich:dataTable styleClass="historyTable zebra" value="#{history}" var="h">
+			<h:column>
+				<f:facet name="header">
+					Da
+				</f:facet>
+				<h:outputText value="#{h.date}">
+					<s:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
+				</h:outputText>
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					A
+				</f:facet>
+				<h:outputText value="#{h.date2}">
+					<s:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
+				</h:outputText>
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					Utente
+				</f:facet>
+				<h:outputText value="#{h.user}">
+					<f:converter converterId="usernameConverter"/>
+				</h:outputText>
+			</h:column>
+			<h:column>	
+				<f:facet name="header">
+					Azione
+				</f:facet>						
+				#{h.txt}
+			</h:column>
+		</rich:dataTable>
+	
+
+</ui:composition>

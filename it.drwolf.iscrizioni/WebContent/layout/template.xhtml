@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view contentType="text/html"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:a="http://richfaces.org/a4j"
+        xmlns:rich="http://richfaces.org/rich"
+        xmlns:s="http://jboss.com/products/seam/taglib">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Iscrizioni</title>
+    <link rel="shortcut icon" href="#{request.contextPath}/favicon.ico"/>
+    <a:loadStyle src="resource:///stylesheet/theme.xcss"/>
+    <a:loadStyle src="/stylesheet/theme.css"/>
+    <ui:insert name="head"/>
+</head>
+
+<body>
+<div id="top-navigation">
+	<a href="#{request.contextPath}">Home</a>
+	<s:fragment rendered="#{!identity.loggedIn}">
+		<s:fragment rendered="#{iscrizionisso.ssoBaseURL ne 'null'}">
+			<a style="color:#aaa" href="#{iscrizionisso.ssoBaseURL}/login.seam?s=#{iscrizionisso.ssoAppId}">Login</a>
+		</s:fragment>
+		<a style="color:#aaa" href="#{request.contextPath}/login.seam">Admin</a>
+	</s:fragment>
+</div>
+<div id="container">
+    <ui:include src="menu.xhtml">
+        <ui:param name="projectName" value="Gestione iscrizioni"/>
+    </ui:include>
+
+  <div class="body">
+ 
+   <s:div styleClass="msgPanel" rendered="#{not empty facesMessages.currentGlobalMessages}"  >
+   <s:div stylaClass="msgDiv"> 
+    <h:messages id="messages" globalOnly="true" styleClass="message"
+        errorClass="errormsg" infoClass="infomsg" warnClass="warnmsg"
+     />
+    </s:div>
+    </s:div>
+    <h1 class="mainTitle">#{iscrizioniAuthenticator.appName} </h1>
+    <ui:insert name="body"/>
+  </div>
+
+ </div>
+</body>
+</html>
+</f:view>

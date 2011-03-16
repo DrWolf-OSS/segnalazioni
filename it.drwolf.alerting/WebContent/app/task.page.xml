@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.com/products/seam/pages"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd">
+
+
+    <param name="taskId" value="#{alertingController.currentTaskId}"/>
+    <param name="processId" value="#{alertingController.currentProcessId}"/>
+    
+    
+    <action execute="#{segnalazioneHome.verificaScadenza(alertingController.segnalazione,true)}" />
+    
+    <navigation from-action="#{alertingController.endTask}">
+    <end-conversation before-redirect="true"/>
+        <redirect view-id="/app/index.xhtml" >
+	        <message>Operazione completata</message>
+        </redirect>
+    </navigation>
+    
+    <navigation from-action="#{rispostaHome.addRisposta(rispostaHome.risposta)}">
+        <end-conversation before-redirect="true"/>
+        <redirect view-id="/app/task.xhtml" >
+	    	<param name="taskId" value="#{alertingController.currentTaskId}"/>
+    		<param name="processId" value="#{alertingController.currentProcessId}"/>
+        </redirect>
+    </navigation>
+    
+    <navigation from-action="#{segnalazioneHome.update}">
+        <end-conversation before-redirect="true"/>
+        <redirect view-id="/app/task.xhtml" >
+	    	<param name="taskId" value="#{alertingController.currentTaskId}"/>
+    		<param name="processId" value="#{alertingController.currentProcessId}"/>
+        </redirect>
+    </navigation>
+    
+    <navigation from-action="#{interventoHome.genera}">
+        <end-conversation before-redirect="true"/>
+        <redirect view-id="/app/task.xhtml" >
+	    	<param name="taskId" value="#{alertingController.currentTaskId}"/>
+    		<param name="processId" value="#{alertingController.currentProcessId}"/>
+        </redirect>
+    </navigation>
+    
+    
+    <navigation from-action="#{alertingController.update}">
+    <end-conversation before-redirect="true"/>
+        <redirect view-id="/app/index.xhtml" >
+	        <param name="m" value="ok"/>
+        </redirect>
+    </navigation>
+
+    <navigation from-action="#{interventoHome.update}">
+    <end-conversation before-redirect="true"/>
+        <redirect view-id="/app/index.xhtml" >
+	        <param name="m" value="ok"/>        
+	    </redirect>
+    </navigation>
+       
+    <navigation from-action="#{alertingController.transition(transition.name)}">
+    <end-conversation before-redirect="true"/>
+        <redirect view-id="/app/index.xhtml" >
+	        <param name="m" value="ok"/>
+	    </redirect>
+    </navigation>
+
+
+    <action execute="#{alertingController.checkTaskStart()}"/>
+       
+    <begin-conversation join="true"/>
+    
+
+</page>

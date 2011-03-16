@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.com/products/seam/pages"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd"
+      no-conversation-view-id="/AreaList.xhtml"
+      login-required="true">
+   
+   <begin-conversation join="true"/>
+   
+   <action execute="#{areaHome.wire}"/>
+   
+<param name="ufficioIdufficio" value="#{ufficioHome.ufficioIdufficio}"/>
+   <param name="areaFrom"/>
+   <param name="areaIdsettore" value="#{areaHome.areaIdsettore}"/>
+   <param name="enteFrom"/>
+   <param name="enteIdente" value="#{enteHome.enteIdente}"/>
+
+
+
+   <navigation from-action="#{areaHome.persist}">
+       <end-conversation/>
+       <redirect view-id="/Area.xhtml"/>
+   </navigation>
+   
+   <navigation from-action="#{areaHome.update}">
+       <end-conversation/>
+       <redirect view-id="/Area.xhtml"/>
+   </navigation>
+   
+   <navigation from-action="#{areaHome.remove}">
+       <end-conversation/>
+       <redirect view-id="/AreaList.xhtml"/>
+   </navigation>
+   
+</page>

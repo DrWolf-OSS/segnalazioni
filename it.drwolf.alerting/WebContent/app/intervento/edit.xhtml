@@ -1,0 +1,348 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:c="http://java.sun.com/jstl/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:rich="http://richfaces.org/rich"
+                xmlns:a4j="http://richfaces.org/a4j"
+                template="/layout/template.xhtml">
+
+
+<ui:define name="title">Intervento: #{interventoHome.instance.oggetto}</ui:define>
+<ui:define name="navigation">
+ 	<ui:include src="/layout/menu.xhtml" />
+</ui:define>
+
+<ui:define name="body">
+
+<c:set var="edit" value="#{interventoHome.instance.sottotipoIntervento eq null or tipiIntervento.contains(interventoHome.instance.sottotipoIntervento.tipoIntervento.id)}"/>
+
+
+
+	<s:decorate  template="/layout/input.xhtml" id="seg" rendered="#{interventoHome.instance.segnalazione ne null}">
+      <ui:define name="label">Segnalazione</ui:define>
+      
+		#{interventoHome.instance.segnalazione.id} - #{interventoHome.instance.segnalazione.oggetto}
+	</s:decorate>
+
+	<s:decorate  template="/layout/input.xhtml" id="apertura">
+      <ui:define name="label">Data creazione</ui:define>
+      <rich:calendar disabled="#{interventoHome.managed}"
+			datePattern="dd/MM/yyyy HH:mm" rendered="#{edit}"
+			value="#{interventoHome.instance.apertura}" />
+			<h:outputText value="#{interventoHome.instance.apertura}" rendered="#{!edit}">
+				<s:convertDateTime pattern="dd/MM/yyyy"/>
+			</h:outputText>
+	</s:decorate>
+	
+	<s:decorate  template="/layout/input.xhtml">
+      <ui:define name="label">Data di chiusura</ui:define>
+      <rich:calendar 
+			datePattern="dd/MM/yyyy HH:mm" rendered="#{edit}"
+			value="#{interventoHome.instance.chiusura}" />
+			<h:outputText value="#{interventoHome.instance.chiusura}" rendered="#{!edit}">
+				<s:convertDateTime pattern="dd/MM/yyyy"/>
+			</h:outputText>
+	</s:decorate>
+	
+	<s:decorate  template="/layout/input.xhtml"
+		id="scadenza"
+		rendered="#{!interventoHome.managed}">
+    	<ui:define name="label">Priorità</ui:define>
+    	<s:fragment rendered="#{!edit}">
+	<div class="noPrint" style="background:#{interventoHome.instance.codiceTriage.colore};border:1px solid #aaa;height: 1em; width: 1em; float:left;margin-right: 1em;">&#160;</div>
+				<span class="forPrint">#{interventoHome.instance.codiceTriage.id}</span>
+				<h:outputText value="#{interventoHome.instance.formattedScadenza}" />
+</s:fragment>
+<s:fragment rendered="#{edit}">
+ <ui:include src="/layout/priority.xhtml" />
+ 	</s:fragment>
+	</s:decorate>
+
+	<s:decorate  template="/layout/input.xhtml"
+		rendered="#{interventoHome.managed}">
+    	<ui:define name="label">Scadenza</ui:define>
+
+    	<div class="noPrint" style="background:#{interventoHome.instance.codiceTriage.colore};border:1px solid #aaa;height: 1em; width: 1em; float:left;margin-right: 1em;">&#160;</div>
+				 <span class="forPrint">#{interventoHome.instance.codiceTriage.id}</span>
+				 
+				 <h:outputText value="#{interventoHome.instance.formattedScadenza}" />
+	  
+	  <rich:calendar rendered="#{!edit and (interventoHome.instance.codiceTriage.id eq 'blu' or interventoHome.instance.codiceTriage.id eq 'verde')}"
+			datePattern="#{interventoHome.datePattern}"
+			value="#{interventoHome.instance.scadenza}" />
+	</s:decorate>
+
+
+	<s:decorate  template="/layout/input.xhtml">
+    	<ui:define name="label">Oggetto</ui:define>
+		<h:inputText size="60" required="true" rendered="#{edit}" value="#{interventoHome.instance.oggetto}"/>
+		<h:outputText rendered="#{!edit}" value="#{interventoHome.instance.oggetto}"/>
+	</s:decorate>
+
+	<s:decorate  template="/layout/input.xhtml">
+    	<ui:define name="label">Descrizione</ui:define>
+		<h:inputTextarea rendered="#{edit}" value="#{interventoHome.instance.descrizione}"/>
+		<h:outputText rendered="#{!edit}" value="#{interventoHome.instance.descrizione}"/>
+	</s:decorate>
+
+	<s:decorate template="/layout/input.xhtml" rendered="#{not s:hasRole('cittadino')}">
+		<ui:define name="label">Referente</ui:define>
+	<s:fragment rendered="#{edit}">
+		<div class="elementoIndirizzo">
+		Nome: <h:inputText size="40"
+		value="#{interventoHome.instance.nomeReferente}" required="true" />
+		</div>
+		<div class="elementoIndirizzo">
+		Telefono: <h:inputText size="40"
+		value="#{interventoHome.instance.telefonoReferente}" />
+		</div>
+		</s:fragment>
+
+	<h:outputText rendered="#{!edit}" value="#{interventoHome.instance.nomeReferente} #{interventoHome.instance.telefonoReferente}"/>
+
+	</s:decorate>
+
+<s:decorate id="utenzaDecoration" template="/layout/input.xhtml" >
+	<ui:define name="label">Utenza</ui:define>
+
+ <h:outputText rendered="#{!edit}" value="#{interventoHome.instance.utenza}"/>
+
+		 <rich:dropDownMenu rendered="#{edit}" styleClass="priorityMenu">
+ <f:facet name="label">
+    	  <s:div>
+
+    	      	  <h:outputText value="#{interventoHome.instance.utenza ne null ? interventoHome.instance.utenza : 'Scegli un\'utenza'}"/>
+    	  </s:div>
+    	  </f:facet>
+		<rich:menuItem submitMode="ajax"
+									limitToList="true" ajaxSingle="true"
+									action="#{interventoHome.instance.setUtenza(null)}"
+									reRender="utenzaDecoration" value="Nessuna Utenza"
+									/>
+    	  <c:forEach items="#{categoriaUtenzaList.resultList}" var="cu">
+				<rich:menuGroup value="#{cu.nome}" rendered="#{not empty cu.sottocategorie}">
+					<c:forEach items="#{cu.sottocategorie}" var="sc">
+						<rich:menuGroup value="#{sc.nome}" rendered="#{not empty sc.utenze}">
+							<c:forEach items="#{sc.utenze}" var="u">
+								<rich:menuItem submitMode="ajax"
+									limitToList="true" ajaxSingle="true"
+									action="#{interventoHome.instance.setUtenza(u)}"
+									reRender="utenzaDecoration" value="#{u.descrizione}"
+									/>
+							</c:forEach>
+						</rich:menuGroup>
+					</c:forEach>
+				</rich:menuGroup>
+			</c:forEach>
+		 </rich:dropDownMenu>
+
+
+
+
+	</s:decorate>
+
+	<s:decorate  template="/layout/input.xhtml">
+    	<ui:define name="label">Tipologia</ui:define>
+    	<h:outputText rendered="#{!edit}" value="#{interventoHome.instance.sottotipoIntervento.descrizione}"/>
+    	
+		<h:selectOneRadio rendered="#{edit}" required="true" layout="pageDirection"
+			value="#{interventoHome.instance.sottotipoIntervento}">
+
+			<s:selectItems value="#{sottotipoInterventoList.resultList}"
+					var="tipo" label="#{tipo.descrizione}"/>
+			<s:convertEntity/>
+		</h:selectOneRadio>
+	</s:decorate>
+
+	<s:decorate rendered="#{!interventoHome.managed}" template="/layout/input.xhtml">
+    	<ui:define name="label">Squadre Intervento</ui:define>
+		<h:selectManyCheckbox layout="pageDirection"
+			value="#{interventoHome.squadre}">
+			<s:selectItems value="#{squadraInterventoList.resultList}"
+					var="s" label="#{s.nome}"/>
+			<s:convertEntity/>
+		</h:selectManyCheckbox>
+	</s:decorate>
+
+	<s:decorate rendered="#{interventoHome.managed}" template="/layout/input.xhtml">
+    	<ui:define name="label">Squadra Intervento</ui:define>
+    	
+    	<h:outputText rendered="#{!edit}" value="#{interventoHome.instance.squadraIntervento.nome}"/>
+    	
+		<h:selectOneMenu rendered="#{edit}" layout="pageDirection"
+			value="#{interventoHome.instance.squadraIntervento}">
+			<s:selectItems value="#{squadraInterventoList.resultList}"
+					var="s" label="#{s.nome}"/>
+			<s:convertEntity/>
+			
+		</h:selectOneMenu>
+	</s:decorate>
+	
+	    <s:decorate template="/layout/input.xhtml" rendered="#{!edit}">
+    	<ui:define name="label">indirizzo</ui:define>
+		#{interventoHome.instance.via}, #{interventoHome.instance.civico} - #{interventoHome.instance.localita} #{interventoHome.instance.comune}
+		
+    </s:decorate>
+	
+	
+<s:decorate id="inddec" template="/layout/input.xhtml" rendered="#{edit}">
+		<ui:define name="label">Indirizzo</ui:define>
+	<table>
+		<tr>
+			<td valign="top">
+			<a4j:region id="indreg">
+			<script type="text/javascript">
+            function fillCombo(output, sg){  
+                output.comboList.itemsText=sg.getSelectedItems().pluck('civiciString').toString().split(',');
+                output.comboList.createDefaultList();
+            }
+   			</script>
+			Indirizzo:&#160;<h:inputText id="indvia" size="40" value="#{interventoHome.instance.via}" >
+			</h:inputText>
+			
+			<div id="loading" style="width:100%;text-align:right;display:none">
+				Caricamento elenco indirizzi...
+			</div>
+			
+			<rich:suggestionbox id="suggestion" 
+				requestDelay="800"
+				immediate="true"
+				usingSuggestObjects="true"
+				for="indvia" height="128" 
+				width="256" 
+				var="result" 
+				minchars="2"
+				eventsQueue="suggestion"
+				onselect="fillCombo(#{rich:component('civcombo')}, #{rich:component('suggestion')});"
+				suggestionAction="#{segnalazioneHome.indirizzi}">
+				<h:column>
+					#{result.strada}
+				</h:column>	
+				
+			</rich:suggestionbox>
+			<a4j:status for="indreg" onstart="document.getElementById('loading').style.display='block'"
+			onstop="document.getElementById('loading').style.display='none'"/>
+			</a4j:region>
+			</td>
+			<td valign="top">
+			
+				Civico:&#160;
+				</td><td>
+				
+				<rich:comboBox  id="civcombo" width="70" value="#{interventoHome.instance.civico}"/>
+			
+			</td>
+			<td valign="top">
+			Localit&#224;:&#160;<h:inputText value="#{interventoHome.instance.localita}" />
+			</td>
+			<td valign="top">
+			Comune:&#160;<h:inputText value="#{interventoHome.instance.comune}" />
+			</td>
+		</tr>
+	</table>
+		
+	</s:decorate>
+
+
+	<s:decorate  template="/layout/input.xhtml">
+    	<ui:define name="label">Stato avanzamento</ui:define>
+    	
+    	<h:outputText value="#{interventoHome.instance.stato.descrizione}" rendered="#{!edit}"/>
+    	
+		<h:selectOneRadio required="true" rendered="#{edit}" layout="pageDirection"
+			value="#{interventoHome.instance.stato}">
+
+			<s:selectItems value="#{statoList.resultList}"
+					var="stato" label="#{stato.descrizione}"/>
+			<s:convertEntity/>
+		</h:selectOneRadio>
+	</s:decorate>
+
+	<s:decorate  template="/layout/input.xhtml">
+    	<ui:define name="label">Esito intervento</ui:define>
+		<h:inputTextarea value="#{interventoHome.instance.esito}" rendered="#{edit}" />
+		<h:outputText value="#{interventoHome.instance.esito}" rendered="#{!edit}" />
+	</s:decorate>
+
+	<s:decorate rendered="#{edit}" template="/layout/input.xhtml" id="orelavorate">
+		<ui:define name="label">Ore Lavorate</ui:define>
+
+		<rich:dataTable value="#{interventoHome.instance.oreLavorate}"
+			rendered="#{not empty interventoHome.instance.oreLavorate}"
+			rows="5"
+			var="ore">
+			<rich:column>
+				<f:facet name="header">
+					Data
+				</f:facet>
+				<h:outputText value="#{ore.data}">
+					<s:convertDateTime pattern="dd/MM/yyyy"/>
+				</h:outputText>
+			</rich:column>
+			<rich:column>
+				<f:facet name="header">
+					Ore
+				</f:facet>
+				<h:outputText value="#{ore.ore}"/>
+			</rich:column>
+			<rich:column>
+				<f:facet name="header">
+					Componenti
+				</f:facet>
+				<ui:repeat value="#{ore.componenti}" var="p">
+            		&#8227;&#160;<h:outputText value="#{peopleConverter.getAsString(null,null,p)}"/>&#160;&#160;
+            	</ui:repeat>
+
+			</rich:column>
+			<rich:column>
+				<f:facet name="header">
+					Elimina
+				</f:facet>
+				<s:decorate template="/layout/actions.xhtml">
+					<a4j:commandButton style="clear:both;" value="Elimina ore" reRender="orelavorate" action="#{interventoHome.delOre(ore)}" />
+				</s:decorate>
+			</rich:column>
+			<f:facet name="footer"><rich:datascroller renderIfSinglePage="false"/></f:facet>
+		</rich:dataTable>
+		<rich:simpleTogglePanel rendered="#{edit}" styleClass="noPrint"  opened="false" ajaxSingle="true" switchType="ajax" label="Inserisci Ore">
+		<div class="elementoIndirizzo">
+		Ore: <h:inputText  value="#{oreLavorate.ore}" />
+		</div>
+		<div class="elementoIndirizzo">
+		Componenti: <rich:pickList 
+			sourceListWidth="250px"
+			targetListWidth="250px"
+						value="#{oreLavorate.componenti}" >
+							<s:selectItems value="#{interventoHome.componentiSquadre}" var="p" label="#{peopleConverter.getAsString(null,null,p)}"/>
+						</rich:pickList>
+		</div>
+		<div class="elementoIndirizzo">
+		Data: <rich:calendar required="true" value="#{oreLavorate.data}" datePattern="dd/MM/yyyy"/>
+		</div>
+
+		<s:decorate template="/layout/actions.xhtml">
+			<a4j:commandButton style="clear:both;" value="Inserisci ore" reRender="orelavorate" action="#{interventoHome.addOre(oreLavorate)}" />
+		</s:decorate>
+
+		</rich:simpleTogglePanel>
+	</s:decorate>
+
+	<s:decorate rendered="#{edit}" id="buttons" template="/layout/actions.xhtml">
+             <h:commandButton rendered="#{interventoHome.managed}"
+             	value="Aggiorna Intervento"
+                    action="#{interventoHome.update}" />
+
+
+             <h:commandButton disabled="#{interventoHome.instance.codiceTriage eq null}" rendered="#{!interventoHome.managed}"
+             	value="Crea Intervento"
+                    action="#{interventoHome.genera}" />
+	</s:decorate>
+
+	 <a4j:status onstart="#{rich:component('wait')}.show()" onstop="#{rich:component('wait')}.hide()"/>
+
+</ui:define>
+</ui:composition>

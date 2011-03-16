@@ -1,0 +1,79 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:rich="http://richfaces.org/rich"
+                template="/layout/template.xhtml">
+
+<ui:define name="title">Utenze</ui:define>
+
+<ui:define name="navigation">
+ 	<ui:include src="/layout/menu.xhtml" />
+</ui:define>
+
+<ui:define name="body">
+
+    <h:form >
+
+
+    <rich:panel>
+
+
+    <rich:dataTable id="utenzaList"
+                var="utenza"
+              value="#{utenzaList.resultList}"
+           rendered="#{not empty utenzaList.resultList}">
+
+        <h:column>
+            <f:facet name="header">
+              Descrizione
+            </f:facet>
+            <h:outputText value="#{utenza.descrizione}" />
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+              Sottocategoria
+            </f:facet>
+            <h:outputText value="#{utenza.sottocategoriaUtenza.nome}" />
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+              Categoria
+            </f:facet>
+            <h:outputText value="#{utenza.sottocategoriaUtenza.categoriaUtenza}" />
+        </h:column>
+
+
+
+        <h:column>
+            <f:facet name="header">Azioni</f:facet>
+            <s:link view="/app/parametri/UtenzaEdit.xhtml"
+                   value="Modifica"
+                      id="utenza">
+                <f:param name="utenzaId"
+                        value="#{utenza.id}"/>
+            </s:link>
+        </h:column>
+    </rich:dataTable>
+
+
+    </rich:panel>
+
+     <s:decorate template="/layout/actions.xhtml">
+        <s:button view="/app/parametri/UtenzaEdit.xhtml"
+                    id="create"
+                 value="Nuova utenza">
+            <f:param name="utenzaId"/>
+        </s:button>
+    </s:decorate>
+
+     </h:form>
+</ui:define>
+
+</ui:composition>
+

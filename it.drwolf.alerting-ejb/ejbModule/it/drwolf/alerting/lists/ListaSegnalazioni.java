@@ -1,0 +1,219 @@
+package it.drwolf.alerting.lists;
+
+import it.drwolf.alerting.entity.AppParam;
+import it.drwolf.alerting.entity.Intervento;
+import it.drwolf.alerting.entity.Segnalazione;
+import it.drwolf.alerting.entity.Stato;
+import it.drwolf.alerting.session.AlertingController;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+
+import org.apache.commons.lang.StringUtils;
+import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.Factory;
+import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.security.Identity;
+
+@Name("listaSegnalazioni")
+@Scope(ScopeType.CONVERSATION)
+public class ListaSegnalazioni {
+	private Long inizio;
+	private Long fine;
+
+	private List<Stato> stati = new ArrayList<Stato>(0);
+
+	private Stato cambiaStato;
+
+	private List<Integer> segnalazioniAperte = new ArrayList<Integer>();
+
+	@In(create = true)
+	private AlertingController alertingController;
+
+	@In
+	private EntityManager entityManager;
+
+	@In
+	private Identity identity;
+
+	public void clean() {
+
+	}
+
+	public Stato getCambiaStato() {
+		return this.cambiaStato;
+	}
+
+	public Date getDataFine() {
+
+		return this.inizio == null ? null : new Date(this.inizio);
+	}
+
+	public Date getDataInizio() {
+
+		return this.inizio == null ? null : new Date(this.inizio);
+	}
+
+	public Long getFine() {
+		return this.fine;
+	}
+
+	public Long getInizio() {
+		return this.inizio;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Factory("interventi")
+	public List<Intervento> getInterventi() {
+
+		Query query = this.entityManager
+				.createQuery(
+						"from Intervento where sottotipoIntervento.tipoIntervento.id in (:ids) "
+								+ (this.inizio != null ? "and scadenza >=:inizio "
+										: "")
+								+ (this.fine != null ? "and scadenza <=:fine "
+										: "")
+								+ "and stato in (:stati) order by scadenza desc")
+				.setParameter(
+						"ids",
+						this.alertingController
+								.getIdTipiIntervento(this.identity
+										.getCredentials().getUsername()))
+				.setParameter("stati", this.getStati());
+		if (this.inizio != null) {
+			query.setParameter("inizio", new Date(this.inizio));
+		}
+		if (this.fine != null) {
+			query.setParameter("fine", new Date(this.fine));
+		}
+		return query.getResultList();
+
+	}
+
+	@SuppressWarnings("unchecked")
+	@Factory("mie")
+	public List<Segnalazione> getMieSegnalazioni() {
+		Query query = this.entityManager.createQuery(
+				"from Segnalazione where idutenteInseritore =:userid "
+						+ (this.inizio != null ? "and data >=:inizio " : "")
+						+ (this.fine != null ? "and data <=:fine " : "")
+						+ "and stato in (:stati)").setParameter("userid",
+				this.identity.getCredentials().getUsername()).setParameter(
+				"stati", this.getStati());
+
+		if (this.inizio != null) {
+			query.setParameter("inizio", new Date(this.inizio));
+		}
+		if (this.fine != null) {
+			query.setParameter("fine", new Date(this.fine));
+		}
+
+		return query.getResultList();
+	}
+
+	public List<Integer> getSegnalazioniAperte() {
+		return this.segnalazioniAperte;
+	}
+
+	public List<Stato> getStati() {
+		if (this.stati.size() == 0) {
+			this.setStringStati(null);
+		}
+		return this.stati;
+	}
+
+	public String getStringStati() {
+		List<String> sk = new ArrayList<String>();
+		for (Stato s : this.getStati()) {
+			sk.add(s.getNome());
+		}
+		return StringUtils.join(sk, ",");
+	}
+
+	@SuppressWarnings("unchecked")
+	@Factory("ultimiAggiornamenti")
+	public List<Object[]> getUltimiAggiornamenti() {
+		return this.entityManager
+				.createNativeQuery(
+						"SELECT S.id, S.Oggetto,FROM_UNIXTIME(vt.t/1000) FROM Segnalazione S, "
+								+ "	(SELECT v.id rsid,v._revision rev, are.timestamp t, are.id i "
+								+ "		FROM Segnalazione_versions v, AlertingRevisionEntity are where are.id = v._revision and v._revision_type!=0 and v._revision="
+								+ "		(select max(v2._revision) from Segnalazione_versions v2 where v2.id = v.id)"
+								+ "	)" + "vt where S.id=rsid order by rev desc")
+				.setMaxResults(100).getResultList();
+
+	}
+
+	public void massUpdate() {
+		for (Intervento i : this.getInterventi()) {
+			if (i.isCambiaStato()) {
+				i.setStato(this.cambiaStato);
+				this.entityManager.merge(i);
+			}
+		}
+
+	}
+
+	public void setCambiaStato(Stato cambiaStato) {
+		this.cambiaStato = cambiaStato;
+	}
+
+	public void setDataFine(Date fine) {
+		if (fine == null) {
+			this.fine = null;
+		} else {
+			this.fine = fine.getTime();
+		}
+
+	}
+
+	public void setDataInizio(Date inizio) {
+		if (inizio == null) {
+			this.inizio = null;
+		} else {
+			this.inizio = inizio.getTime();
+		}
+
+	}
+
+	public void setFine(Long fine) {
+		this.fine = fine;
+	}
+
+	public void setInizio(Long inizio) {
+		this.inizio = inizio;
+	}
+
+	public void setSegnalazioniAperte(List<Integer> segnalazioniAperte) {
+		this.segnalazioniAperte = segnalazioniAperte;
+	}
+
+	public void setStati(List<Stato> stati) {
+		this.stati = stati;
+	}
+
+	@SuppressWarnings("unchecked")
+	public void setStringStati(String stringStati) {
+		List<String> stati = new ArrayList<String>(0);
+		if (stringStati != null) {
+			stati = Arrays.asList(stringStati.split(","));
+		}
+		if (stati.size() == 0) {
+			stati.addAll(Arrays.asList(this.entityManager.find(AppParam.class,
+					AppParam.APP_FILTRO_STATI_DEFAULT.getKey()).getValue()
+					.split(",")));
+		}
+		this.stati = this.entityManager.createQuery(
+				"from Stato where nome in (:s)").setParameter("s", stati)
+				.getResultList();
+
+	}
+
+}

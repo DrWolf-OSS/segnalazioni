@@ -1,0 +1,204 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:s="http://jboss.com/products/seam/taglib">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>#{starter.applicationName}:  <ui:insert name="title" /></title>
+
+<!--[if IE 6]>
+<script src="/sign/scripts/belatedpng.js"></script>
+<script>
+  DD_belatedPNG.fix('.messageIcon, .pageAction img');
+</script>
+<![endif]--> 
+
+
+<a4j:loadStyle src="resource:///it/drwolf/alerting/style/alerting.xcss" />
+<a4j:loadStyle src="/css/alerting.css" />
+<a4j:loadStyle src="/css/print.css" media="print" />
+<c:if test="#{workSession.getParam('banner_calenzano') eq 'true' and s:hasRole('impiegato')}">
+<script type="text/javascript" src="http://web.comune.calenzano.fi.it/portale/banner/swfobject.js"></script>
+<script type="text/javascript">
+swfobject.embedSWF("http://web.comune.calenzano.fi.it/portale/banner/banner.swf", "banner", "100%", "116", "8.0.0", "http://web.comune.calenzano.fi.it/portale/banner/expressInstall.swf", {t:"Segnalazioni",l:"i"});
+</script>
+</c:if>
+<c:if test="#{workSession.getParam('banner_calenzano') eq 'true' and not s:hasRole('impiegato')}">
+<iframe style="border:0" border="0" height="176" width="100%" src="http://web.comune.calenzano.fi.it/portale/honly"></iframe>
+</c:if>
+</head>
+
+<body style="#{workSession.getParam('body.style')}">
+ 
+  <script type="text/javascript">
+	var nd = document.createElement('div');
+    nd.innerHTML = 'Premi TAB per iniziare la ricerca';
+  </script>
+  
+<c:if test="#{workSession.getParam('banner_calenzano') eq 'true' and s:hasRole('impiegato')}">
+<div id="banner">
+<h1>Segnalazioni</h1>
+</div>
+</c:if>
+
+<rich:toolBar styleClass="noPrint" itemSeparator="disc" rendered="#{identity.loggedIn}">
+	<rich:toolBarGroup itemSeparator="line" location="left">
+		
+		
+		<s:div rendered="#{identity.loggedIn}" styleClass="user">
+		
+		<h:outputText rendered="#{empty sostitutoList.inverseList and identity.username eq sso.originalUser}">#{workSession.userFullname}</h:outputText>
+		<h:form rendered="#{not empty sostitutoList.inverseList or identity.username ne sso.originalUser}">
+		 <rich:dropDownMenu  styleClass="userMenu">
+    	  <f:facet name="label">
+    	  <s:div>
+			#{workSession.userFullname}				
+    	  </s:div>
+    	  </f:facet>
+    	  <c:if test="#{identity.username eq sso.originalUser}">
+    	  <c:forEach items="#{sostitutoList.inverseList}" var="s">
+    	   <rich:menuItem  
+                    action="#{authenticator.impersonate(s.username)}" >
+                    <h:outputText value="#{s.username}" converter="usernameConverter" />
+                    </rich:menuItem>
+          </c:forEach>
+          </c:if>
+          <c:if  test="#{identity.username ne sso.originalUser}">
+    	   <rich:menuItem  
+                    action="#{authenticator.impersonate(sso.originalUser)}" >
+                    <h:outputText value="#{sso.originalUser}" converter="usernameConverter" />
+                    </rich:menuItem>
+    	  
+    	  </c:if>
+    	 </rich:dropDownMenu>
+    	 </h:form>
+		
+		</s:div>
+		
+		
+		<s:link styleClass="home" view="/app/index.xhtml" propagation="none" >Home Segnalazioni</s:link>
+	</rich:toolBarGroup>
+	<rich:toolBarGroup itemSeparator="line" location="right">
+
+		<s:link view="/logout.xhtml">Logout</s:link>
+	</rich:toolBarGroup>
+</rich:toolBar>
+
+ <rich:modalPanel id="wait" autosized="true" width="200" height="40" moveable="false" resizeable="false">
+    	<center>
+            <h:outputText value="Attendere prego..."/>
+           </center>
+    </rich:modalPanel>
+    
+
+	
+		<rich:panel styleClass="bodyPanel">
+			<f:facet name="header">
+				<s:div styleClass="title">
+
+					<div class="pageAction noPrint">
+					<s:div rendered="#{!identity.loggedIn}" style="display:inline;">
+<a id="ssologinurl" href="#{sso.ssoLoginURL}">Area riservata &#9658;</a>
+</s:div>
+					</div>
+					<div class="pageAction noPrint" >
+						<ui:insert name="pageactions" />
+						<a href="javascript:this.print()">
+							<img height="16" width="16" alt="Stampa" style="border:0" src="/sign/img/printer.png" />
+						</a>
+					</div>
+
+					<ui:insert name="title" />
+				</s:div>
+			</f:facet>
+
+
+		
+			<table class="main">
+			
+				<tr>
+					<td class="navigation noPrint"><ui:insert name="navigation" /></td>
+					<td class="content">
+						
+						 <rich:messages showSummary="true">
+
+					<f:facet name="passedMarker">
+						<img  class="messageIcon"
+							src="/sign/img/information-big.png" />
+					</f:facet>
+					<f:facet name="infoMarker">
+						<img  class="messageIcon"
+							src="/sign//img/information-big.png" />
+					</f:facet>
+					<f:facet name="errorMarker">
+						<img  class="messageIcon"
+							src="/sign/img/error-big.png" />
+					</f:facet>
+					<f:facet name="fatalMarker">
+						<img  class="messageIcon"
+							src="/sign/img/error-big.png" />
+					</f:facet>
+					<f:facet name="warnMarker">
+						<img  class="messageIcon" 
+							src="/sign/img/warning-big.png" />
+					</f:facet>
+				</rich:messages>
+				<br style="font-size:1%;clear:both;"/>
+					
+						<ui:insert name="overbody" />
+					
+						<h:form styleClass="flat" id="mainform">
+							<s:validateAll>
+								<ui:insert name="body" />
+							</s:validateAll>
+						</h:form>
+						
+						<ui:insert name="underbody" />
+					</td>
+				</tr>
+			</table>
+
+			<br style="clear: both;height: 0px;" />
+		</rich:panel>
+
+
+<rich:toolBar styleClass="footer noPrint">
+	<rich:toolBarGroup location="right">
+		<s:div>
+			<em>#{starter.applicationName}</em> v.1.2.0.0 - <a href="http://www.drwolf.it">by DrWolf</a>
+		</s:div>
+	</rich:toolBarGroup>
+
+</rich:toolBar>
+
+
+<ui:insert name="panels" />   
+
+<rich:jQuery selector=".rich-table>tbody>tr:odd" query="addClass('odd-row')" />
+<rich:jQuery selector=".rich-table>tbody>tr:even" query="addClass('even-row')" />
+<rich:jQuery selector=".rich-table>tbody>tr"
+             query="mouseover(function(){jQuery(this).addClass('active-row')})"/>
+<rich:jQuery selector=".rich-table>tbody>tr"
+             query="mouseout(function(){jQuery(this).removeClass('active-row')})"/>
+
+
+        <s:span id="tt">
+        <script type="text/javascript">
+        jQuery('.rich-filter-input').focus(function() {
+            nd.style.display='block';
+        	this.parentNode.appendChild(nd);
+         });
+        jQuery('.rich-filter-input').blur(function() {
+            nd.style.display='none';
+         });
+        </script>
+        </s:span>
+
+</body>
+</html>

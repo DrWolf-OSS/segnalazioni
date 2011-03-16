@@ -1,0 +1,60 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:mr="http://metawidget.org/faces/richfaces"
+	xmlns:rich="http://richfaces.org/rich"
+	template="/layout/template.xhtml">
+
+	<ui:define name="title">#{sottotipoInterventoHome.managed ? 'Modifica' : 'Nuova'} Sottotipologia Intervento</ui:define>
+
+	<ui:define name="navigation">
+		<ui:include src="/layout/menu.xhtml" />
+	</ui:define>
+	<ui:define name="body">
+    
+   
+    <h:form id="sottotipoSegnalazione" styleClass="edit">
+    
+    
+    
+    
+        <rich:panel>
+          
+
+            <s:decorate  template="/layout/input.xhtml">
+                <ui:define name="label">Tipologia</ui:define>
+				<h:selectOneMenu value="#{sottotipoInterventoHome.instance.tipoIntervento}">
+					<s:selectItems value="#{tipoInterventoList.resultList}" var="tipo" label="#{tipo.descrizione}"/>
+					<s:convertEntity/>
+				</h:selectOneMenu>
+			</s:decorate>			
+
+
+            <s:decorate id="descrizioneDecoration" template="/layout/input.xhtml">
+                <ui:define name="label">Descrizione</ui:define>
+                <h:inputText id="descrizione"
+                              required="true"
+                              value="#{sottotipoInterventoHome.instance.descrizione}"/>
+            </s:decorate>
+
+        
+           
+            
+        </rich:panel>
+                
+                <ui:include src="/layout/default/actions.xhtml" >
+						<ui:param name="home" value="#{sottotipoInterventoHome}"/>
+						<ui:param name="base" value="parametri/SottotipoIntervento"/>
+				</ui:include>
+		
+       </h:form>
+       </ui:define>
+
+
+</ui:composition>

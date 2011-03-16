@@ -1,0 +1,358 @@
+html {
+	overflow-y: scroll;
+}
+
+body {
+	font-size: 69%;
+	margin: 0px;
+	text-align:center;
+}
+.body{
+margin:0;
+padding:0;
+}
+#container{
+        margin-top:0;
+        padding-top:0;
+	margin:auto;
+	width: 700px;
+	text-align:left;
+}
+
+a img {
+	border: none;
+}
+
+h1 {
+	font-size: 2.5em;
+	margin-top: 0;
+}
+
+input[type=submit], input[type=button] {
+	
+	margin: 5px 5px 5px 0;
+	cursor: pointer;
+}
+
+input[type=text], input[type=password], textarea {
+	
+	padding-left: 1px;
+}
+
+.tableControl, .actionButtons {
+	width: 100%;
+}
+
+.tableControl a {
+	padding-left: 10px;
+}
+
+.tableControl {
+	text-align: right;
+}
+
+.footer {
+	text-align: center;
+	font-size: 11px;
+	margin-bottom: 10px;
+}
+
+.rich-table {
+	width: 100%;
+}
+
+.body {
+	padding-top: 5px;
+}
+
+.columnHeader:hover {
+	color: #FF6600;
+}
+
+.message {
+	padding: 5px;
+	list-style: none;
+	border: 0;
+	background: none;
+	padding: 0;
+	margin: 5px 0 8px 0;
+	
+}
+
+.message li {
+	background: no-repeat left center;
+	padding-top: 1px;
+	padding-left: 24px;
+	margin-left: 3px;
+}
+
+.message li.infomsg {
+	background-image: url(../img/msginfo.png);
+}
+
+.message li.errormsg {
+	background-image: url(../img/msgerror.png);
+}
+
+.message li.warnmsg {
+	background-image: url(../img/msgwarn.png);
+}
+
+.name {
+	vertical-align: top;
+	font-weight: bold;
+	width: 115px;
+	float: left;
+	padding: 5px;
+	margin-top: 3px;
+	clear: left;
+}
+
+.value {
+	float: left;
+	padding: 5px;
+}
+
+.error {
+	float: left;
+	padding: 5px;
+}
+
+.errors {
+	color: red;
+	vertical-align: middle;
+}
+
+img.errors {
+	padding-right: 5px;
+}
+
+.errors input, .errors textarea {
+	border: 1px solid red !important;
+}
+
+.required {
+	color: red;
+	padding-left: 2px;
+}
+
+.rich-stglpanel-body {
+	overflow: auto;
+} 
+
+/* the specificity here is necessary to override the defaults */
+.rich-panel .rich-panel-header,
+.rich-stglpanel .rich-stglpanel-header {
+	padding: 2px 3px;
+}
+
+
+select {
+	
+}
+
+.rich-panel input[type=submit], .rich-panel input[type=button],
+.rich-tabpanel input[type=submit], .rich-tabpanel input[type=button] {
+	margin-bottom: 0;
+}
+
+.tableControl input[type=submit], .tableControl input[type=button], .tableControl select {
+	margin: 5px 0 5px 5px;
+}
+
+/* I don't know why this is necessary, but the select is off by a pixel on the top and is padding too much on the left */
+.tableControl select {
+	margin-left: 2px;
+	position: relative;
+	top: 1px;
+}
+
+.actionButtons {
+	padding-left: 1px;
+}
+
+.actionButtons select {
+	margin: 5px 5px 5px 0;
+	vertical-align: bottom;
+}
+
+.rich-datalist {
+	list-style: square;
+	margin: 6px 0 1px 0;
+	padding-left: 18px;
+}
+
+.rich-list-item {
+	padding-bottom: 4px;
+}
+
+div.info {
+	font-size: 120%;
+	
+}
+
+ul.bullets {
+	list-style: square;
+}
+
+ul.bullets li {
+	padding-bottom: 2px;
+}
+
+td.action {
+	text-align: center;
+	width: 8em;
+	white-space: nowrap;
+}
+
+td.action a {
+	padding-left: 1px;
+	padding-right: 1px;
+}
+
+.mainTitle{
+text-align:center;
+padding:0;
+margin:0;
+margin-bottom: 10px;
+}
+
+
+.homeForm .user{
+margin-top: .5em;
+padding-top: .5em;
+}
+
+.homeForm,
+.homeForm .rich-panel-body{
+background: white;
+text-align:center;
+border:0;
+padding:0;
+margin:0;
+}
+
+.homeForm .required{
+display: none;
+}
+
+
+
+.homeForm label,
+.homeForm .value,
+.homeForm .error{
+display: block;
+width: 100%;
+}
+
+.homeForm input, .homeForm label{
+font-size: 150%;
+}
+.msgPanel{
+border:0;
+margin-bottom: 1em;
+}
+
+.entityEdit .rich-panel-body,
+.entityEdit .rich-panel-header{
+font-size: 150%;
+}
+
+.entityEdit .prop > label{
+display:block;
+width: 100%;
+}
+
+.entityEdit .value{
+margin-bottom: .5em;
+width: 100%;
+}
+.entityEdit .value {
+width: 100%;
+}
+
+
+.msgPanel{
+padding: 2px;
+}
+
+
+.msgPanel{
+width: 700px ! important;
+}
+
+.msgPanel .message{
+font-size: 125%;
+}
+
+
+#top-navigation{
+position:absolute;
+top:1em;
+right: 1em;
+text-align: right;
+}
+
+#top-navigation a{
+margin-bottom: .5em;
+text-decoration:none;
+display:block;
+}
+
+#top-navigation a:hover{
+text-decoration:underline;
+}
+
+.categoriaOpzioni{
+padding: .5em;
+margin-left: 24px;
+font-size:90%;
+}
+
+.rimuoviServizio{
+float:left;
+display:block;
+width: 16px;
+height: 16px;
+padding-top: 40px!important;
+overflow:hidden;
+margin:0!important;
+border:0!important;
+margin-right: 5px ! important;
+background: url(/iscrizioni/img/cross_circle.png) top left no-repeat!important;
+}
+.aggiungiServizio{
+float:left;
+display:block;
+width: 16px;
+height: 16px;
+padding-top: 40px!important;
+overflow:hidden;
+margin:0!important;
+border:0!important;
+margin-right: 5px ! important;
+background: url(/iscrizioni/img/plus_circle.png) top left no-repeat!important;
+}
+
+.servizio{
+clear:both;
+margin-bottom: .5em;
+}
+
+.optsize1{
+float:left;
+margin-top:.25em;
+}
+
+.checksize1 label{
+display:none;
+}
+.formHelp{
+color:#aaa;
+font-size: 90%;
+margin-bottom:1em;
+}
+
+.rich-filter-input{
+width: 8em;
+}

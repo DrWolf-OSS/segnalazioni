@@ -1,0 +1,334 @@
+html {
+	overflow-y: scroll;
+}
+
+body {
+	font-size: 12px;
+	margin: 0px;
+}
+
+a img {
+	border: none;
+}
+
+h1 {
+	font-size: 1.6em;
+	margin-top: 0;
+}
+
+input[type=submit], input[type=button] {
+	font-size: 11px;
+	margin: 5px 5px 5px 0;
+	cursor: pointer;
+}
+
+input[type=text], input[type=password], textarea {
+	font-size: 12px;
+	padding-left: 1px;
+}
+
+select {
+	font-size: 13px;
+}
+
+.tableControl, .actionButtons {
+	width: 100%;
+	
+}
+
+.tableControl a {
+	padding-left: 10px;
+}
+
+.tableControl {
+	text-align: right;
+	margin-bottom: 20px;
+}
+
+.footer {
+	text-align: center;
+	font-size: 11px;
+	margin-bottom: 10px;
+}
+
+.rich-table {
+	width: 100%;
+}
+
+.body {
+	padding: 30px;
+}
+.message {
+	padding: 5px;
+	list-style: none;
+	border: 0;
+	background: none;
+	padding: 0;
+	color: #000000;
+	margin: 5px 0 8px 0;
+	font-size: 12px;
+}
+
+.message li {
+	background: no-repeat left center;
+	padding-top: 1px;
+	padding-left: 20px;
+	margin-left: 3px;
+}
+
+.message li.infomsg {
+	background-image: url(../img/msginfo.png);
+}
+
+.message li.errormsg .rich-messages-marker {
+	background-image: url(/img/msgerror.png);
+}
+
+.message li.warnmsg {
+	background-image: url(../img/msgwarn.png);
+}
+
+.name {
+	vertical-align: top;
+	font-weight: bold;
+	width: 115px;
+	float: left;
+	padding: 5px;
+	margin-top: 3px;
+	clear: left;
+}
+
+.value {
+	float: left;
+	padding: 5px;
+}
+
+.error {
+	float: left;
+	padding: 5px;
+}
+
+.errors {
+	color: #FF0000;
+	vertical-align: middle;
+}
+
+img.errors {
+	padding-right: 5px;
+}
+
+.errors input, .errors textarea, .errors select {
+	border: 1px solid red !important;
+}
+
+.required {
+	color: #FF0000;
+	padding-left: 2px;
+}
+
+.rich-stglpanel-body {
+	overflow: auto;
+} 
+
+/* the specificity here is necessary to override the defaults */
+/*
+.rich-panel .rich-panel-header,
+.rich-stglpanel .rich-stglpanel-header {
+	padding: 2px 3px;
+}*/
+
+.rich-panel input[type=submit], .rich-panel input[type=button],
+.rich-tabpanel input[type=submit], .rich-tabpanel input[type=button] {
+	margin-bottom: 0;
+}
+
+.tableControl input[type=submit], .tableControl input[type=button], .tableControl select {
+	margin: 5px 0 5px 5px;
+}
+
+/* I don't know why this is necessary, but the select is off by a pixel on the top and is padding too much on the left */
+.tableControl select {
+	margin-left: 2px;
+	position: relative;
+	top: 1px;
+}
+
+.actionButtons {
+	padding-left: 1px;
+}
+
+.actionButtons select {
+	margin: 5px 5px 5px 0;
+	vertical-align: bottom;
+}
+
+.rich-toolbar-item a {
+	text-decoration: none;
+}
+
+.rich-toolbar-item a:hover, .rich-ddmenu-label-select {
+	text-decoration: underline;
+}
+
+.rich-toolbar-item .rich-menu-item a:hover {
+	text-decoration: none;
+}
+
+.rich-datalist {
+	list-style: square;
+	margin: 6px 0 1px 0;
+	padding-left: 18px;
+}
+
+.rich-list-item {
+	padding-bottom: 4px;
+}
+
+div.info {
+	font-size: 1.2em;
+	position: relative;
+	float: left;
+}
+
+
+ul.bullets {
+	list-style: square;
+}
+
+ul.bullets li {
+	padding-bottom: 2px;
+}
+
+td.action {
+	text-align: center;
+	width: 8em;
+	white-space: nowrap;
+}
+
+td.action a {
+	padding-left: 1px;
+	padding-right: 1px;
+}
+
+table.radio {
+   border: 0;
+}
+
+table.radio td {
+   padding: 0 2px;
+}
+
+table.radio input[type=radio] {
+   vertical-align: bottom;
+}
+
+.rich-tab-active{
+	font-size: 120%;
+	font-weight: bold;
+}
+
+table.main {
+	width: 100%;
+}
+
+.main .navigation {
+	width: 15%;
+}
+
+.main .content {
+	width: 80%;
+}
+
+.menuItem{
+	text-decoration: none;
+	color: #BA2B31;
+	font-weight: bolder;
+	text-align: left;
+	vertical-align: top;
+}
+
+
+.homeTable{
+	width: 100%; 
+}
+
+.homeTitle{
+	text-align: center;
+	color: #BA2B31;
+	vertical-align:middle;
+	font-size: large;
+	float: none;
+}
+
+.TitleLarge{
+	text-align: center;
+	font-size: x-large;
+}
+
+.TitleLargeXX{
+	font-size: xx-large;
+}
+
+
+.SDListTable{
+	text-decoration: none;
+}
+
+.ResListPNL{
+	margin-top:20px; 
+}
+
+.loaderImg {
+	padding-top: 20px;
+	border: none;
+	 display: block;
+	 margin-left: auto;
+	 margin-right: auto
+
+
+}
+
+.divWidgetError{
+	border: 1px solid red;
+	padding: 5px; 
+}
+
+.divWidgetErrorImg{
+	margin-left: 20px;
+	margin-right: 10px;
+}
+
+.panelView{
+	margin-top: 10px;  
+}
+
+.clmnCenter{
+	width: 70%;
+	padding-right: 10px;
+}
+
+.clmnRight{
+	width: 30%;
+	vertical-align: top; 
+
+
+}
+ 
+.panelThumb{
+	margin-bottom: 10px;
+}
+
+.imgThumb{
+	display:block;
+ 	margin-left: auto;
+ 	margin-right: auto;	
+}
+
+.resultPnl{
+	margin-top: 20px;
+}
+
+.editField{
+	margin-right: 10px;
+}
+

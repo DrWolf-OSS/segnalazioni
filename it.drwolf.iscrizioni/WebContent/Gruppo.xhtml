@@ -1,0 +1,74 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Gruppo</f:facet>
+
+        <s:decorate id="id" template="layout/display.xhtml">
+            <ui:define name="label">Id</ui:define>
+            <h:outputText value="#{gruppoHome.instance.id}"/>
+        </s:decorate>
+
+        <s:decorate id="nome" template="layout/display.xhtml">
+            <ui:define name="label">Nome</ui:define>
+            <h:outputText value="#{gruppoHome.instance.nome}"/>
+        </s:decorate>
+
+		<h:form>
+		<rich:dataTable style="clear:both;" value="#{gruppoHome.instance.iscritti}" var="i" rows="15" reRender="ds">
+			<f:facet name="header">Iscritti al gruppo (#{gruppoHome.instance.iscritti.size()})</f:facet>
+			<rich:column sortBy="#{i.cognome}" filterBy="#{i.cognome}">
+				<f:facet name="header">Cognome</f:facet>
+				#{i.cognome}
+			</rich:column>
+			<rich:column sortBy="#{i.nome}" filterBy="#{i.nome}">
+				<f:facet name="header">Nome</f:facet>
+				#{i.nome}
+			</rich:column>
+			<rich:column sortBy="#{i.email}" filterBy="#{i.email}">
+				<f:facet name="header">Email</f:facet>
+				#{i.email}
+			</rich:column>
+			<rich:column sortBy="#{i.cellulare}" filterBy="#{i.cellulare}">
+				<f:facet name="header">Cellulare</f:facet>
+				#{i.cellulare}
+			</rich:column>
+			<f:facet name="footer">
+				<rich:datascroller renderIfSinglePage="false" id="ds"/>
+			</f:facet>		
+		</rich:dataTable>
+		
+		</h:form>
+		
+		<rich:simpleTogglePanel label="Elenco per invio diretto" opened="false" switchType="client">
+			<ui:repeat value="#{gruppoHome.instance.iscritti}" var="i"><h:outputText value="#{i.email}"/>, </ui:repeat>
+		</rich:simpleTogglePanel>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/GruppoEdit.xhtml"
+                    id="edit"
+                 value="Modifica"/>
+
+        <s:button view="/#{empty gruppoFrom ? 'GruppoList' : gruppoFrom}.xhtml"
+                    id="done"
+                 value="Torna all'elenco"/>
+
+    </div>
+
+</ui:define>
+
+</ui:composition>

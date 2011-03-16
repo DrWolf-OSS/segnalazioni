@@ -1,0 +1,148 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="opzioneServizioSearch" styleClass="edit">
+
+        <rich:simpleTogglePanel label="OpzioneServizio Search Filter" switchType="ajax">
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Id</ui:define>
+                <h:inputText id="id" value="#{opzioneServizioList.opzioneServizio.id}"/>
+            </s:decorate>
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Nome</ui:define>
+                <h:inputText id="nome" value="#{opzioneServizioList.opzioneServizio.nome}"/>
+            </s:decorate>
+
+
+        </rich:simpleTogglePanel>
+
+        <div class="actionButtons">
+            <h:commandButton id="search" value="Search" action="/OpzioneServizioList.xhtml"/>
+            <s:button id="reset" value="Reset" includePageParams="false"/>
+        </div>
+
+    </h:form>
+
+    <rich:panel>
+        <f:facet name="header">OpzioneServizio Search Results</f:facet>
+    <div class="results" id="opzioneServizioList">
+
+    <h:outputText value="The opzioneServizio search returned no results."
+               rendered="#{empty opzioneServizioList.resultList}"/>
+
+    <rich:dataTable id="opzioneServizioList"
+                var="_opzioneServizio"
+              value="#{opzioneServizioList.resultList}"
+           rendered="#{not empty opzioneServizioList.resultList}">
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{opzioneServizioList}"/>
+                    <ui:param name="propertyLabel" value="Id"/>
+                    <ui:param name="propertyPath" value="opzioneServizio.id"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_opzioneServizio.id}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{opzioneServizioList}"/>
+                    <ui:param name="propertyLabel" value="Categoria opzioni servizio id"/>
+                    <ui:param name="propertyPath" value="opzioneServizio.categoriaOpzioniServizio.id"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_opzioneServizio.categoriaOpzioniServizio.id}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{opzioneServizioList}"/>
+                    <ui:param name="propertyLabel" value="Nome"/>
+                    <ui:param name="propertyPath" value="opzioneServizio.nome"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_opzioneServizio.nome}"/>
+        </h:column>
+        <rich:column styleClass="action">
+            <f:facet name="header">Action</f:facet>
+            <s:link view="/#{empty from ? 'OpzioneServizio' : from}.xhtml"
+                   value="#{empty from ? 'View' : 'Select'}"
+             propagation="#{empty from ? 'none' : 'default'}"
+                      id="opzioneServizio">
+                <f:param name="opzioneServizioId"
+                        value="#{_opzioneServizio.id}"/>
+            </s:link>
+            #{' '}
+            <s:link view="/OpzioneServizioEdit.xhtml"
+                   value="Edit"
+             propagation="none"
+                      id="opzioneServizioEdit"
+                rendered="#{empty from}">
+                <f:param name="opzioneServizioId"
+                        value="#{_opzioneServizio.id}"/>
+            </s:link>
+        </rich:column>
+    </rich:dataTable>
+
+    </div>
+    </rich:panel>
+
+    <div class="tableControl">
+
+        <s:link view="/OpzioneServizioList.xhtml"
+            rendered="#{opzioneServizioList.previousExists}"
+               value="#{messages.left}#{messages.left} First Page"
+                  id="firstPage">
+          <f:param name="firstResult" value="0"/>
+        </s:link>
+
+        <s:link view="/OpzioneServizioList.xhtml"
+            rendered="#{opzioneServizioList.previousExists}"
+               value="#{messages.left} Previous Page"
+                  id="previousPage">
+            <f:param name="firstResult"
+                    value="#{opzioneServizioList.previousFirstResult}"/>
+        </s:link>
+
+        <s:link view="/OpzioneServizioList.xhtml"
+            rendered="#{opzioneServizioList.nextExists}"
+               value="Next Page #{messages.right}"
+                  id="nextPage">
+            <f:param name="firstResult"
+                    value="#{opzioneServizioList.nextFirstResult}"/>
+        </s:link>
+
+        <s:link view="/OpzioneServizioList.xhtml"
+            rendered="#{opzioneServizioList.nextExists}"
+               value="Last Page #{messages.right}#{messages.right}"
+                  id="lastPage">
+            <f:param name="firstResult"
+                    value="#{opzioneServizioList.lastFirstResult}"/>
+        </s:link>
+
+    </div>
+
+    <s:div styleClass="actionButtons" rendered="#{empty from}">
+        <s:button view="/OpzioneServizioEdit.xhtml"
+                    id="create"
+           propagation="none"
+                 value="Create opzioneServizio">
+            <f:param name="opzioneServizioId"/>
+        </s:button>
+    </s:div>
+
+</ui:define>
+
+</ui:composition>

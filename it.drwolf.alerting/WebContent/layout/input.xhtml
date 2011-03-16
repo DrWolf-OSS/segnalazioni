@@ -1,0 +1,21 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:rich="http://richfaces.ajax4jsf.org/rich"
+   xmlns:s="http://jboss.com/products/seam/taglib">
+   
+	<fieldset>
+		<legend class="inputLabel #{invalid?'errors':''} #{required?'required':''}">
+   		    <h:outputText title="Valore Richiesto" styleClass="requiredLabel" rendered="#{required}" value="(Valore Richiesto)"/>
+   		    
+   		    <ui:insert name="label"/>
+   		</legend>
+        <s:div styleClass="error" rendered="#{invalid}">
+            <s:message />
+        </s:div>
+   		<s:div styleClass="inputControls #{invalid?'errors':''}" >
+			<ui:insert/>
+		</s:div>
+	</fieldset>
+</ui:composition>

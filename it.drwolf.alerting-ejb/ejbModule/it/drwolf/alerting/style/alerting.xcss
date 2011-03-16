@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<f:template xmlns:f='http:/jsf.exadel.com/template'
+   xmlns:u='http:/jsf.exadel.com/template/util' 
+   xmlns="http://www.w3.org/1999/xhtml" >
+   
+
+<u:selector name=".dialog">
+    <u:style name="border-color" skin="panelBorderColor" />
+    <u:style name="background-color" skin="headerBackgroundColor" />
+    <u:style name="background-image" >
+           <f:resource f:key="org.richfaces.renderkit.html.GradientA"/>
+     </u:style>
+</u:selector>
+
+<u:selector name=".inputControls input, .inputControls select">
+    <u:style name="background-color" skin="additionalBackgroundColor" />
+    <u:style name="border-color" skin="panelBorderColor" />
+</u:selector>
+<u:selector name=".inputControls select">
+    <u:style name="background-image" >
+           <f:resource f:key="org.richfaces.renderkit.html.GradientA"/>
+     </u:style>
+</u:selector>
+
+<u:selector name=".actions input,.action">
+    <u:style name="color" skin="headerTextColor" />
+    <u:style name="border-color" skin="panelBorderColor" />
+    <u:style name="background-color" skin="headerBackgroundColor" />
+    <u:style name="background-image" >
+           <f:resource f:key="org.richfaces.renderkit.html.GradientA"/>
+     </u:style>
+</u:selector>
+
+<u:selector name=".error">
+<u:style name="background-image" value="url(#{facesContext.externalContext.requestContextPath}/img/exclamation.png)">
+</u:style>
+</u:selector>
+
+<u:selector name=".inputLabel">
+    <u:style name="color" skin="generalTextColor" />
+</u:selector>
+
+<u:selector name=".dialog .inputLabel, .rich-toolbar a, .rich-panel-header a, .rich-table-headercell a">
+    <u:style name="color" skin="headerTextColor" />
+</u:selector>
+
+
+<u:selector name="a, .rich-pmenu-item-label a">
+	 <u:style name="color" skin="generalLinkColor" />
+</u:selector>
+
+<u:selector name="a:hover, .rich-pmenu-item-label a:hover">
+	 <u:style name="color" skin="hoverlLinkColor" />
+</u:selector>
+
+<u:selector name="a:visited, .rich-pmenu-item-label a:visited">
+	 <u:style name="color" skin="visitedlLinkColor" />
+</u:selector>
+
+
+
+
+
+</f:template>

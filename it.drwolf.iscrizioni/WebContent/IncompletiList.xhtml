@@ -1,0 +1,54 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+   
+	<h:form>
+    <rich:dataTable id="iscrittoList"
+                var="i" 
+                reRender="ds"
+                rows="15"
+              value="#{incompletiList}">
+              <f:facet name="header">
+              Iscrizioni incomplete (#{incompletiList.size()})
+              </f:facet>
+       
+       		<rich:column sortBy="#{i[1]}" filterBy="#{i[1]}">
+			<f:facet name="header">Cognome</f:facet>
+				#{i[1]}
+			</rich:column>
+			<rich:column sortBy="#{i[2]}" filterBy="#{i[2]}">
+				<f:facet name="header">Nome</f:facet>
+				#{i[2]}
+			</rich:column>
+			<rich:column sortBy="#{i[3]}" filterBy="#{i[3]}">
+				<f:facet name="header">Email</f:facet>
+				#{i[3]}
+			</rich:column>
+			<rich:column sortBy="#{i[4]}" filterBy="#{i[4]}">
+				<f:facet name="header">Cellulare</f:facet>
+				#{i[4]}
+			</rich:column>
+	        <rich:column >
+				<f:facet name="header">Azioni</f:facet>
+				<s:link view="/Iscritto.xhtml">
+				<f:param name="iscrittoId" value="#{i[0]}"/>
+				Mostra
+				</s:link>
+			</rich:column>
+
+			<f:facet name="footer">
+				<rich:datascroller renderIfSinglePage="false" id="ds"/>
+			</f:facet>		
+    </rich:dataTable>
+    </h:form>
+</ui:define>
+
+</ui:composition>

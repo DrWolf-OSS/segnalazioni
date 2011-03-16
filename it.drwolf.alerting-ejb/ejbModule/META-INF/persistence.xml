@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Persistence deployment descriptor for dev profile -->
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"
+             version="1.0">
+
+   <persistence-unit name="it.drwolf.alerting">
+      <provider>org.hibernate.ejb.HibernatePersistence</provider>
+      <jta-data-source>java:/it.drwolf.alertingDatasource</jta-data-source>
+      <class>it.drwolf.eloise.web.entity.Area</class>
+	  <class>it.drwolf.eloise.web.entity.Ente</class>
+	  <class>it.drwolf.eloise.web.entity.Orario</class>
+	  <class>it.drwolf.eloise.web.entity.Organizationalrole</class>
+	  <class>it.drwolf.eloise.web.entity.People</class>
+	  <class>it.drwolf.eloise.web.entity.AppParamWeb</class>
+	  <class>it.drwolf.eloise.web.entity.Roletype</class>
+	  <class>it.drwolf.eloise.web.entity.Sede</class>
+	  <class>it.drwolf.eloise.web.entity.Ufficio</class>
+	  <class>it.drwolf.iscrizioni.entity.Iscritto</class>
+	  <class>it.drwolf.iscrizioni.entity.Gruppo</class>
+	  <class>it.drwolf.iscrizioni.entity.Servizio</class>
+	  <class>it.drwolf.iscrizioni.entity.CategoriaOpzioniServizio</class>
+	  <class>it.drwolf.iscrizioni.entity.OpzioneServizio</class>
+      <properties>
+         <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+         <property name="hibernate.hbm2ddl.auto" value="update"/>
+         <property name="hibernate.show_sql" value="false"/>
+         <property name="hibernate.format_sql" value="true"/>
+         <property name="jboss.entity.manager.factory.jndi.name" value="java:/it.drwolf.alertingEntityManagerFactory"/>
+		 <property name="hibernate.ejb.event.post-insert"   
+             value="org.jboss.envers.event.VersionsEventListener" />  
+         <property name="hibernate.ejb.event.post-update"   
+             value="org.jboss.envers.event.VersionsEventListener" />  
+         <property name="hibernate.ejb.event.post-delete"   
+             value="org.jboss.envers.event.VersionsEventListener" />  
+      </properties>
+   </persistence-unit>
+
+</persistence>

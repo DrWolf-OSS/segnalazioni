@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.com/products/seam/pages" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd">
+
+	<begin-conversation join="true" />
+
+	<param name="entityId" value="#{interventoHome.interventoId}" />
+
+	<restrict>#{s:hasRole('impiegato')}</restrict>
+
+	<navigation from-action="#{interventoHome.genera}">
+		<end-conversation before-redirect="true" />
+			<redirect view-id="/app/index.xhtml"></redirect>
+	</navigation>
+	<navigation from-action="#{interventoHome.update}">
+		<end-conversation before-redirect="true" />
+		<rule if-outcome="INDEX">
+			<redirect view-id="/app/index.xhtml"/>
+		</rule>
+		<rule if-outcome="CLOSE">
+			<redirect view-id="/app/intervento/close.xhtml">
+				<param name="taskId" value="#{alertingController.currentTaskId}" />
+				<param name="processId" value="#{alertingController.currentProcessId}" />
+			</redirect>
+		</rule>
+	</navigation>
+
+
+</page>

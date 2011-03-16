@@ -1,0 +1,52 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	template="/layout/template.xhtml">
+
+	<ui:define name="title">#{statoHome.managed ? 'Modifica' : 'Nuovo'} Stato</ui:define>
+
+	<ui:define name="navigation">
+		<ui:include src="/layout/menu.xhtml" />
+	</ui:define>
+	
+		<ui:define name="body">
+
+		<h:form id="stato" styleClass="edit">
+
+			<rich:panel>
+			
+				<s:decorate id="nomeDecoration"
+					template="/layout/input.xhtml">
+					<ui:define name="label">Nome</ui:define>
+					<h:inputText id="nome" disabled="#{statoHome.managed}" required="true"
+						value="#{statoHome.instance.nome}" />
+				</s:decorate>
+				
+				<s:decorate id="descrizioneDecoration"
+					template="/layout/input.xhtml">
+					<ui:define name="label">Descrizione</ui:define>
+					<h:inputText id="descrizione" required="true"
+						value="#{statoHome.instance.descrizione}" />
+				</s:decorate>
+
+			</rich:panel>
+			
+				<ui:include src="/layout/default/actions.xhtml" >
+						<ui:param name="home" value="#{statoHome}"/>
+						<ui:param name="base" value="parametri/Stato"/>
+				</ui:include>
+		
+		</h:form>
+		
+	</ui:define>
+	
+	
+
+</ui:composition>

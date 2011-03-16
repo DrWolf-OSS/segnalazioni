@@ -1,0 +1,78 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:rich="http://richfaces.org/rich"
+                template="/layout/template.xhtml">
+
+<ui:define name="title">Sottotipologie Segnalazioni</ui:define>
+
+<ui:define name="navigation">
+ 	<ui:include src="/layout/menu.xhtml" />
+</ui:define>
+                       
+<ui:define name="body">
+    
+    
+    
+    <h:form id="sottotipoSegnalazioneSearch" styleClass="edit">
+    
+       
+    
+    <rich:panel>
+        
+    <rich:dataTable id="sottotipoSegnalazioneList" 
+                var="sottotipoSegnalazione"
+              value="#{sottotipoSegnalazioneList.resultList}" 
+           rendered="#{not empty sottotipoSegnalazioneList.resultList}">
+        
+        <h:column>
+            <f:facet name="header">
+                <s:link styleClass="columnHeader"
+                             value="Tipologia Segnalzione #{sottotipoSegnalazioneList.order=='tipoSegnalazione.descrizione asc' ? messages.down : ( sottotipoSegnalazioneList.order=='tipoSegnalazione.descrizione desc' ? messages.up : '' )}">
+                    <f:param name="order" value="#{sottotipoSegnalazioneList.order=='tipoSegnalazione.descrizione asc' ? 'tipoSegnalazione.descrizione desc' : 'tipoSegnalazione.descrizione asc'}"/>
+                </s:link>
+            </f:facet>
+            #{sottotipoSegnalazione.tipoSegnalazione.descrizione}
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <s:link styleClass="columnHeader"
+                             value="Descrizione #{sottotipoSegnalazioneList.order=='descrizione asc' ? messages.down : ( sottotipoSegnalazioneList.order=='descrizione desc' ? messages.up : '' )}">
+                    <f:param name="order" value="#{sottotipoSegnalazioneList.order=='descrizione asc' ? 'descrizione desc' : 'descrizione asc'}"/>
+                </s:link>
+            </f:facet>
+            #{sottotipoSegnalazione.descrizione}
+        </h:column>
+        <h:column>
+            <f:facet name="header">Azioni</f:facet>
+            <s:link view="/app/parametri/SottotipoSegnalazioneEdit.xhtml" 
+                   value="Modifica" 
+                      id="sottotipoSegnalazione">
+                <f:param name="sottotipoSegnalazioneId" 
+                        value="#{sottotipoSegnalazione.id}"/>
+            </s:link>
+        </h:column>
+    </rich:dataTable>
+
+
+    </rich:panel>
+    
+      <s:decorate template="/layout/actions.xhtml">
+        <s:button view="/app/parametri/SottotipoSegnalazioneEdit.xhtml"
+                    id="create" 
+                 value="Nuova sottotipologia segnalazione">
+            <f:param name="sottotipoSegnalazioneId"/>
+        </s:button>
+    </s:decorate>
+    </h:form>  
+    
+</ui:define>
+
+</ui:composition>
+

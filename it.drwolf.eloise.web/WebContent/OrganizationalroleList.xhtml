@@ -1,0 +1,146 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:rich="http://richfaces.org/rich"
+                template="layout/template.xhtml">
+                       
+<ui:define name="body">
+    
+    <h:messages globalOnly="true" styleClass="message" id="globalMessages"/>
+    
+    <h:form id="organizationalroleSearch" styleClass="edit">
+    
+        <rich:simpleTogglePanel label="Organizationalrole search parameters" switchType="ajax">
+        
+        
+        </rich:simpleTogglePanel>
+        
+        <div class="actionButtons">
+            <h:commandButton id="search" value="Search" action="/OrganizationalroleList.xhtml"/>
+        </div>
+        
+    </h:form>
+    
+    <rich:panel>
+        <f:facet name="header">Organizationalrole search results</f:facet>
+    <div class="results" id="organizationalroleList">
+
+    <h:outputText value="The organizationalrole search returned no results." 
+               rendered="#{empty organizationalroleList.resultList}"/>
+               
+    <rich:dataTable id="organizationalroleList" 
+                var="organizationalrole"
+              value="#{organizationalroleList.resultList}" 
+           rendered="#{not empty organizationalroleList.resultList}">
+        <h:column>
+            <f:facet name="header">
+                <s:link styleClass="columnHeader"
+                             value="organizationalRoleId #{organizationalroleList.order=='organizationalRoleId asc' ? messages.down : ( organizationalroleList.order=='organizationalRoleId desc' ? messages.up : '' )}">
+                    <f:param name="order" value="#{organizationalroleList.order=='organizationalRoleId asc' ? 'organizationalRoleId desc' : 'organizationalRoleId asc'}"/>
+                </s:link>
+            </f:facet>
+            #{organizationalrole.organizationalRoleId}
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <s:link styleClass="columnHeader"
+                             value="roletype roleTypeId #{organizationalroleList.order=='roletype.roleTypeId asc' ? messages.down : ( organizationalroleList.order=='roletype.roleTypeId desc' ? messages.up : '' )}">
+                    <f:param name="order" value="#{organizationalroleList.order=='roletype.roleTypeId asc' ? 'roletype.roleTypeId desc' : 'roletype.roleTypeId asc'}"/>
+                </s:link>
+            </f:facet>
+            #{organizationalrole.roletype.roleTypeId}
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <s:link styleClass="columnHeader"
+                             value="ufficio idufficio #{organizationalroleList.order=='ufficio.idufficio asc' ? messages.down : ( organizationalroleList.order=='ufficio.idufficio desc' ? messages.up : '' )}">
+                    <f:param name="order" value="#{organizationalroleList.order=='ufficio.idufficio asc' ? 'ufficio.idufficio desc' : 'ufficio.idufficio asc'}"/>
+                </s:link>
+            </f:facet>
+            #{organizationalrole.ufficio.idufficio}
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <s:link styleClass="columnHeader"
+                             value="ente idente #{organizationalroleList.order=='ente.idente asc' ? messages.down : ( organizationalroleList.order=='ente.idente desc' ? messages.up : '' )}">
+                    <f:param name="order" value="#{organizationalroleList.order=='ente.idente asc' ? 'ente.idente desc' : 'ente.idente asc'}"/>
+                </s:link>
+            </f:facet>
+            #{organizationalrole.ente.idente}
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <s:link styleClass="columnHeader"
+                             value="area idsettore #{organizationalroleList.order=='area.idsettore asc' ? messages.down : ( organizationalroleList.order=='area.idsettore desc' ? messages.up : '' )}">
+                    <f:param name="order" value="#{organizationalroleList.order=='area.idsettore asc' ? 'area.idsettore desc' : 'area.idsettore asc'}"/>
+                </s:link>
+            </f:facet>
+            #{organizationalrole.area.idsettore}
+        </h:column>
+        <h:column>
+            <f:facet name="header">action</f:facet>
+            <s:link view="/#{empty from ? 'Organizationalrole' : from}.xhtml" 
+                   value="Select" 
+                      id="organizationalrole">
+                <f:param name="organizationalroleOrganizationalRoleId" 
+                        value="#{organizationalrole.organizationalRoleId}"/>
+            </s:link>
+        </h:column>
+    </rich:dataTable>
+
+    </div>
+    </rich:panel>
+    
+    <div class="tableControl">
+      
+        <s:link view="/OrganizationalroleList.xhtml" 
+            rendered="#{organizationalroleList.previousExists}" 
+               value="#{messages.left}#{messages.left} First Page"
+                  id="firstPage">
+          <f:param name="firstResult" value="0"/>
+        </s:link>
+        
+        <s:link view="/OrganizationalroleList.xhtml" 
+            rendered="#{organizationalroleList.previousExists}" 
+               value="#{messages.left} Previous Page"
+                  id="previousPage">
+            <f:param name="firstResult" 
+                    value="#{organizationalroleList.previousFirstResult}"/>
+        </s:link>
+        
+        <s:link view="/OrganizationalroleList.xhtml" 
+            rendered="#{organizationalroleList.nextExists}" 
+               value="Next Page #{messages.right}"
+                  id="nextPage">
+            <f:param name="firstResult" 
+                    value="#{organizationalroleList.nextFirstResult}"/>
+        </s:link>
+        
+        <s:link view="/OrganizationalroleList.xhtml" 
+            rendered="#{organizationalroleList.nextExists}" 
+               value="Last Page #{messages.right}#{messages.right}"
+                  id="lastPage">
+            <f:param name="firstResult" 
+                    value="#{organizationalroleList.lastFirstResult}"/>
+        </s:link>
+        
+    </div>
+    
+    <s:div styleClass="actionButtons" rendered="#{empty from}">
+        <s:button view="/OrganizationalroleEdit.xhtml"
+                    id="create" 
+                 value="Create organizationalrole">
+            <f:param name="organizationalroleOrganizationalRoleId"/>
+        </s:button>
+    </s:div>
+    
+</ui:define>
+
+</ui:composition>
+

@@ -1,0 +1,118 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="gruppo" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{gruppoHome.managed ? 'Modifica' : 'Nuovo'} Gruppo</f:facet>
+
+
+            <s:decorate id="idField" template="layout/edit.xhtml">
+                <ui:define name="label">Id</ui:define>
+                <h:inputText id="id"
+                               
+                           disabled="#{gruppoHome.managed}"
+                           required="true"
+                              value="#{gruppoHome.instance.id}"/>
+            </s:decorate>
+
+
+
+            <s:decorate id="nomeField" template="layout/edit.xhtml">
+                <ui:define name="label">Nome</ui:define>
+                <h:inputText id="nome"
+                              
+                              value="#{gruppoHome.instance.nome}"/>
+            </s:decorate>
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                campi obbligatori
+            </div>
+
+		<rich:dataTable value="#{iscrittoList.allResults}" var="i" rows="15">
+			<f:facet name="header">Iscritti al gruppo (premi Tab iniziare la ricerca)</f:facet>
+			<rich:column sortBy="#{i.cognome}" filterBy="#{i.cognome}">
+				<f:facet name="header">Cognome</f:facet>
+				#{i.cognome}
+			</rich:column>
+			<rich:column sortBy="#{i.nome}" filterBy="#{i.nome}">
+				<f:facet name="header">Nome</f:facet>
+				#{i.nome}
+			</rich:column>
+			<rich:column sortBy="#{i.email}" filterBy="#{i.email}">
+				<f:facet name="header">Email</f:facet>
+				#{i.email}
+			</rich:column>
+			<rich:column sortBy="#{i.cellulare}" filterBy="#{i.cellulare}">
+				<f:facet name="header">Cellulare</f:facet>
+				#{i.cellulare}
+			</rich:column>
+			<rich:column>
+				<f:facet name="header">Azioni</f:facet>
+				<h:commandButton rendered="#{i.gruppi.contains(gruppoHome.instance)}" 
+					value="Rimuovi"
+					action="#{gruppoHome.removeIscritto(i)}"
+				/>
+				
+				<h:commandButton rendered="#{!i.gruppi.contains(gruppoHome.instance)}" 
+									value="Aggiungi"
+					action="#{gruppoHome.addIscritto(i)}"
+				/>
+
+			</rich:column>
+			<f:facet name="footer">
+				<rich:datascroller renderIfSinglePage="false"/>
+			</f:facet>		
+		</rich:dataTable>
+
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Salva le modifiche"
+                         action="#{gruppoHome.persist}"
+                       disabled="#{!gruppoHome.wired}"
+                       rendered="#{!gruppoHome.managed}"/>
+
+            <h:commandButton id="update"
+                          value="Salva le modifiche"
+                         action="#{gruppoHome.update}"
+                       rendered="#{gruppoHome.managed}"/>
+
+            <h:commandButton id="delete"
+                          value="Elimina"
+                         action="#{gruppoHome.remove}"
+                      immediate="true"
+                       rendered="#{gruppoHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Annulla"
+             propagation="end"
+                    view="/Gruppo.xhtml"
+                rendered="#{gruppoHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Annulla"
+             propagation="end"
+                    view="/#{empty gruppoFrom ? 'GruppoList' : gruppoFrom}.xhtml"
+                rendered="#{!gruppoHome.managed}"/>
+
+        </div>
+    </h:form>
+
+</ui:define>
+
+</ui:composition>

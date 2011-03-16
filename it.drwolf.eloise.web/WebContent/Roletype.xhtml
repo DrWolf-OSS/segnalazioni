@@ -1,0 +1,99 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:rich="http://richfaces.org/rich"
+                template="layout/template.xhtml">
+                       
+<ui:define name="body">
+    
+    <h:messages globalOnly="true" styleClass="message" id="globalMessages"/>
+    
+    <rich:panel styleClass="PNLGeneric">
+        <f:facet name="header">Tipo ruolo</f:facet>
+
+
+
+        <s:decorate id="role" template="layout/display.xhtml">
+            <ui:define name="label">Tipo ruolo</ui:define>
+            #{roletypeHome.instance.role}
+        </s:decorate>
+
+        <div style="clear:both"/>
+        
+    </rich:panel>
+    
+
+
+    <rich:tabPanel switchType="client" styleClass="PNLGeneric">
+
+    <rich:tab label="Ruoli organizzativi">
+    <div class="association" id="organizationalrolesChildren">
+        
+        <h:outputText value="Non ci sono ruoli organizzativi associati a questo tipo."
+                   rendered="#{empty roletypeHome.organizationalroles}"/>
+        
+        <rich:dataTable value="#{roletypeHome.organizationalroles}" 
+                       var="organizationalrole" 
+                  rendered="#{not empty roletypeHome.organizationalroles}" 
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="organizationalrolesTable">
+            <h:column>
+                <f:facet name="header">Ente</f:facet>
+                <h:outputText value="#{organizationalrole.area}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Area</f:facet>
+                <h:outputText value="#{organizationalrole.ente}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Ufficio</f:facet>
+                <h:outputText value="#{organizationalrole.ufficio}"/>
+            </h:column>     
+            <h:column>
+                <f:facet name="header">Persone</f:facet>
+                <h:outputText value="#{organizationalrole.peopleAsString}"/>
+            </h:column>  
+<!--            <h:column>-->
+<!--                <f:facet name="header">Azione</f:facet>-->
+<!--                <s:link id="selectorganizationalrole" -->
+<!--                     value="Seleziona" -->
+<!--                      view="/Organizationalrole.xhtml">-->
+<!--                    <f:param name="organizationalroleOrganizationalRoleId" -->
+<!--                            value="#{organizationalrole.organizationalRoleId}"/>-->
+<!--                    <f:param name="organizationalroleFrom" value="Roletype"/>-->
+<!--                </s:link>-->
+<!--            </h:column>-->
+        </rich:dataTable>
+        
+    </div>
+    
+<!--    <div class="actionButtons">-->
+<!--        <s:button -->
+<!--               value="Add organizationalrole"-->
+<!--                view="/OrganizationalroleEdit.xhtml">-->
+<!--            <f:param name="roletypeRoleTypeId" -->
+<!--                    value="#{roletypeHome.instance.roleTypeId}"/>-->
+<!--            <f:param name="organizationalroleFrom" value="Roletype"/>-->
+<!--        </s:button>-->
+<!--    </div>        -->
+    </rich:tab>
+</rich:tabPanel>
+    <div class="actionButtons">      
+
+        <s:button view="/RoletypeEdit.xhtml" 
+                    id="edit" 
+                 value="Modifica"/>
+
+        <s:button view="/#{empty roletypeFrom ? 'RoletypeList' : roletypeFrom}.xhtml"
+                    id="done"
+                 value="Finito"/>
+
+    </div>
+</ui:define>
+
+</ui:composition>

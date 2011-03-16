@@ -1,0 +1,39 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:c="http://java.sun.com/jstl/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:rich="http://richfaces.ajax4jsf.org/rich"
+   xmlns:s="http://jboss.com/products/seam/taglib">
+		
+		<h:form styleClass="flat">
+			<s:validateAll>
+				<rich:tabPanel rendered="#{segnalazione.id ne null}" switchType="client">
+					<rich:tab label="messaggi" rendered="#{!s:hasRole('cittadino')}">
+						<ui:include src="/layout/messages.xhtml"  >
+	 						<ui:param name="segnalazione" value="#{segnalazione}"/>	
+						</ui:include>
+					</rich:tab>	
+					<rich:tab label="interventi" rendered="#{!s:hasRole('cittadino')}">
+						<ui:include src="/layout/interventi.xhtml" >
+	 						<ui:param name="segnalazione" value="#{segnalazione}"/>
+	 						<ui:param name="interventi" value="#{segnalazione.interventos}"/>
+						</ui:include>
+					</rich:tab>
+					<rich:tab label="storia" >
+						<ui:include src="/layout/history.xhtml">
+							<ui:param name="segnalazione" value="#{segnalazione}"/>
+						</ui:include>
+					</rich:tab>
+					<rich:tab label="risposte">
+						<ui:include src="/layout/risposte.xhtml">
+							<ui:param name="segnalazione" value="#{segnalazione}"/>
+						</ui:include>
+					</rich:tab>
+				</rich:tabPanel>
+			</s:validateAll>
+		</h:form>
+
+    
+    
+</ui:composition>

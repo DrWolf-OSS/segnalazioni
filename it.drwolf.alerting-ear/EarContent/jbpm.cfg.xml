@@ -1,0 +1,31 @@
+<jbpm-configuration>
+
+  <jbpm-context>
+    <service name="persistence">
+       <factory>
+          <bean class="org.jbpm.persistence.db.DbPersistenceServiceFactory">
+             <field name="isTransactionEnabled"><false/></field>
+          </bean>
+       </factory>
+    </service>
+
+    <service name="tx" factory="org.jbpm.tx.TxServiceFactory" />
+    <service name="message" factory="org.jbpm.msg.db.DbMessageServiceFactory" />
+    <service name="scheduler" factory="org.jbpm.scheduler.db.DbSchedulerServiceFactory" />
+    <service name="logging" factory="org.jbpm.logging.db.DbLoggingServiceFactory" />
+    <service name="authentication" factory="org.jbpm.security.authentication.DefaultAuthenticationServiceFactory" />
+
+  </jbpm-context>
+<!--
+  <bean name='jbpm.mail.address.resolver'
+  	class='it.drwolf.alerting.util.MailResolver' singleton='true' />
+
+
+  <string name="jbpm.mail.smtp.host" value="mail.drwolf.it"/>
+  <string name="jbpm.mail.smtp.auth" value="true"/>
+  <string name="jbpm.mail.smtp.user" value="mailtester@drwolf.it"/>
+  <string name="jbpm.mail.smtp.pass" value="testmail4jboss"/>
+  <string name="jbpm.mail.from.address" value="jboss@drwolf.it"/>
+-->
+
+</jbpm-configuration>

@@ -1,0 +1,124 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:rich="http://richfaces.org/rich"
+                template="layout/template.xhtml">
+                       
+<ui:define name="body">
+    
+    <h:messages globalOnly="true" styleClass="message" id="globalMessages"/>
+    
+    <h:form id="orarioSearch" styleClass="edit">
+    
+        <rich:simpleTogglePanel label="Parametri ricerca orario" switchType="ajax" styleClass="PNLGeneric">
+        
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Descrizione</ui:define>
+                <h:inputText id="descrizione" value="#{orarioList.orario.descrizione}"/>
+            </s:decorate>
+			<s:div style="clear:both;" />
+           <div class="actionButtons">
+            <h:commandButton id="search" value="Cerca" action="/OrarioList.xhtml"/>
+        </div>     
+        </rich:simpleTogglePanel>
+        
+
+        
+    </h:form>
+    
+    <rich:panel styleClass="PNLGeneric">
+        <f:facet name="header">Risultati ricerca</f:facet>
+    <div class="results" id="orarioList">
+
+    <h:outputText value="Non ci sono orari che soddisfano i paramteri di ricerca." 
+               rendered="#{empty orarioList.resultList}"/>
+               
+    <rich:dataTable id="orarioList" 
+                var="orario"
+              value="#{orarioList.resultList}" 
+           rendered="#{not empty orarioList.resultList}">
+<!--        <h:column>-->
+<!--            <f:facet name="header">-->
+<!--                <s:link styleClass="columnHeader"-->
+<!--                             value="idorario #{orarioList.order=='idorario asc' ? messages.down : ( orarioList.order=='idorario desc' ? messages.up : '' )}">-->
+<!--                    <f:param name="order" value="#{orarioList.order=='idorario asc' ? 'idorario desc' : 'idorario asc'}"/>-->
+<!--                </s:link>-->
+<!--            </f:facet>-->
+<!--            #{orario.idorario}-->
+<!--        </h:column>-->
+        <h:column>
+            <f:facet name="header">
+                <s:link styleClass="columnHeader"
+                             value="Descrizione #{orarioList.order=='descrizione asc' ? messages.down : ( orarioList.order=='descrizione desc' ? messages.up : '' )}">
+                    <f:param name="order" value="#{orarioList.order=='descrizione asc' ? 'descrizione desc' : 'descrizione asc'}"/>
+                </s:link>
+            </f:facet>
+            #{orario.descrizione}
+        </h:column>
+        <h:column>
+            <f:facet name="header">Azione</f:facet>
+            <s:link view="/#{empty from ? 'Orario' : from}.xhtml" 
+                   value="Seleziona" 
+                      id="orario">
+                <f:param name="orarioIdorario" 
+                        value="#{orario.idorario}"/>
+            </s:link>
+        </h:column>
+    </rich:dataTable>
+
+    </div>
+    </rich:panel>
+    
+    <div class="tableControl">
+      
+        <s:link view="/OrarioList.xhtml" 
+            rendered="#{orarioList.previousExists}" 
+               value="#{messages.left}#{messages.left} prima"
+                  id="firstPage">
+          <f:param name="firstResult" value="0"/>
+        </s:link>
+        
+        <s:link view="/OrarioList.xhtml" 
+            rendered="#{orarioList.previousExists}" 
+               value="#{messages.left} precedente"
+                  id="previousPage">
+            <f:param name="firstResult" 
+                    value="#{orarioList.previousFirstResult}"/>
+        </s:link>
+        
+        <s:link view="/OrarioList.xhtml" 
+            rendered="#{orarioList.nextExists}" 
+               value="prossima #{messages.right}"
+                  id="nextPage">
+            <f:param name="firstResult" 
+                    value="#{orarioList.nextFirstResult}"/>
+        </s:link>
+        
+        <s:link view="/OrarioList.xhtml" 
+            rendered="#{orarioList.nextExists}" 
+               value="ultima #{messages.right}#{messages.right}"
+                  id="lastPage">
+            <f:param name="firstResult" 
+                    value="#{orarioList.lastFirstResult}"/>
+        </s:link>
+        
+    </div>
+    
+    <s:div styleClass="actionButtons" rendered="#{empty from}">
+        <s:button view="/OrarioEdit.xhtml"
+                    id="create" 
+                 value="Crea nuovo orario">
+            <f:param name="orarioIdorario"/>
+        </s:button>
+    </s:div>
+    
+</ui:define>
+
+</ui:composition>
+

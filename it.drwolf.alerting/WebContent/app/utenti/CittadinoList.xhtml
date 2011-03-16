@@ -1,0 +1,133 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:c="http://java.sun.com/jstl/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:rich="http://richfaces.org/rich"
+                xmlns:a4j="http://richfaces.org/a4j"
+                template="/layout/template.xhtml">
+                       
+                       
+<ui:define name="title">Cittadini</ui:define>
+
+<ui:define name="navigation">
+ 	<ui:include src="/layout/menu.xhtml" />
+</ui:define>
+                        
+<ui:define name="body">
+    <c:set var="cittadini" value="#{cittadinoList.resultList}"/>
+    <rich:panel>
+       
+    <div class="results" id="cittadinoList">
+
+
+               
+    <rich:dataTable id="cittadinoList" 
+                var="cittadino"
+                reRender="datascroller,tt"
+              value="#{cittadini}"
+              rows="25"       >
+        <f:facet name="header">
+        <a href="#{workSession.getParam('app.iscrizioni.url')}">Vai alla gestione iscrizioni</a>
+        </f:facet>
+        <rich:column  sortBy="#{cittadino.nome}" filterBy="#{cittadino.nome}">
+            <f:facet name="header" styleClass="filter">
+                <s:span>Nome
+                <rich:toolTip>
+                	Fai click per ordinare per nome.<br/>
+                	Scrivi nel box per cercare per nome,<br/>
+                	quando hai scritto, premi Tab per iniziare la ricerca
+                </rich:toolTip>
+                </s:span>
+            </f:facet>
+            #{cittadino.nome}
+        </rich:column>
+        <rich:column  sortBy="#{cittadino.cognome}" filterBy="#{cittadino.cognome}">
+            <f:facet name="header">
+                <s:span>Cognome
+                <rich:toolTip>
+                	Fai click per ordinare per cognome.<br/>
+                	Scrivi nel box per cercare per cognome,<br/>
+                	quando hai scritto, premi Tab per iniziare la ricerca
+                </rich:toolTip>
+                </s:span>
+            </f:facet>
+            #{cittadino.cognome}
+        </rich:column>
+
+        <rich:column  sortBy="#{cittadino.email}" filterBy="#{cittadino.email}">
+            <f:facet name="header">
+               <s:span>Email
+                <rich:toolTip>
+                	Fai click per ordinare per email.<br/>
+                	Scrivi nel box per cercare per email,<br/>
+                	quando hai scritto, premi Tab per iniziare la ricerca
+                </rich:toolTip>
+                </s:span>
+
+            </f:facet>
+            #{cittadino.email}
+        </rich:column>
+       
+        
+        <rich:column>
+            <f:facet name="header">
+               Cellulare
+            </f:facet>
+            #{cittadino.cellulare}
+        </rich:column>
+        
+        <rich:column>
+            <f:facet name="header">
+               Indirizzo
+            </f:facet>
+            #{cittadino.indirizzo}
+        </rich:column>
+        <rich:column>
+            <f:facet name="header">
+               Confermato
+            </f:facet>
+            #{cittadino.confermato}
+        </rich:column>
+                
+        <rich:column>
+            <f:facet name="header">Azioni</f:facet>
+            <s:button view="/app/utenti/Cittadino.xhtml" 
+                   value="Dettagli" 
+                      id="cittadino">
+                <f:param name="cittadinoId" 
+                        value="#{cittadino.id}"/>
+            </s:button>
+             <s:button view="/app/segnalazione/crea.xhtml" value="Crea segnalazione">
+            	
+            	  <f:param name="cittadinoId" 
+                        value="#{cittadino.id}"/>
+            </s:button>
+        </rich:column>
+        <f:facet name="footer">
+        	<rich:datascroller id="datascroller"/>
+        </f:facet>
+        
+    </rich:dataTable>
+    
+    <a4j:status onstart="#{rich:component('wait')}.show()" onstop="#{rich:component('wait')}.hide()"/>
+    
+    <rich:modalPanel id="wait" autosized="true" width="200" height="120" moveable="false" resizeable="false">  
+        <h:outputText value="Attendere prego..."/>
+    </rich:modalPanel>
+
+    </div>
+    </rich:panel>
+    
+    
+  
+    
+</ui:define>
+
+</ui:composition>
+

@@ -1,0 +1,78 @@
+<p:document xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:p="http://jboss.com/products/seam/pdf"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	fileName="risposta.pdf"
+	title="#{rispostaHome.instance.oggetto}"
+	creator="DrClear" pageSize="A4" type="pdf">
+
+
+<f:facet name="header">
+    <p:font size="10">
+        <p:header borderWidth="0">
+        	<p:paragraph spacingBefore="100">
+        	
+        
+        		<p:html>
+        		<br/><br/><br/><br/><br/><br/>
+                   <img src="#{risposteUtils.header}" 
+                   	alt=" " 
+                   	border="0" 
+                   	width="520" 
+                   	height="116"/>
+                    
+        	</p:html>
+       		</p:paragraph>
+        </p:header> 
+        
+        <p:footer borderWidth="0">
+        	<p:paragraph>
+        		<p:html>
+        		
+                   <img src="#{risposteUtils.footer}" 
+                   	alt=" " 
+                   	border="0" 
+                   	width="520" 
+                   	height="63"/>  
+        	</p:html>
+        </p:paragraph>
+        </p:footer>
+  </p:font>
+</f:facet>
+
+
+
+
+	<p:font size="16">
+		<p:paragraph indentationLeft="20" indentationRight="20" alignment="center" style="bold">#{rispostaHome.instance.oggetto}</p:paragraph>
+	</p:font>
+	
+	<p:font size="12">
+
+	<p:paragraph indentationLeft="60" indentationRight="60" spacingAfter="10"  spacingBefore="10"  alignment="right">#{workSession.getParam('app.comune')}, #{giornalieroHome.convertData(rispostaHome.instance.data)}</p:paragraph>
+	<p:paragraph indentationLeft="60" indentationRight="60" spacingAfter="10"  spacingBefore="10"  alignment="right">
+		<p:html>
+		<b>Gent.mo/a Sig./Sig.ra</b><br/>
+		#{rispostaHome.instance.segnalazione.cittadino.cognome} #{rispostaHome.instance.segnalazione.cittadino.nome}<br/>
+		#{rispostaHome.instance.segnalazione.cittadino.indirizzo}<br/>
+		#{rispostaHome.instance.segnalazione.cittadino.cap} #{rispostaHome.instance.segnalazione.cittadino.localita}<br/>
+		</p:html>
+	</p:paragraph>
+	
+	<p:paragraph indentationLeft="60" indentationRight="60" alignment="justify">
+		<p:html>
+			<h:outputText value="#{rispostaHome.instance.testoPdf}" escape="false"/>
+ 		</p:html>
+	</p:paragraph>
+
+	<p:paragraph indentationLeft="60" indentationRight="60" spacingBefore="10"  alignment="right">#{workSession.getParam('app.risposte.saluti')} #{giornalieroHome.convertPeople(rispostaHome.instance.mittente)}</p:paragraph>
+	<p:paragraph indentationLeft="60" indentationRight="60"  alignment="right">#{workSession.getParam('app.risposte.salutips')}</p:paragraph>
+
+
+	</p:font>
+	
+
+</p:document>

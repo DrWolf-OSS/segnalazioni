@@ -1,0 +1,220 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:rich="http://richfaces.org/rich"
+                template="layout/template.xhtml">
+                       
+<ui:define name="body">
+    
+    <h:messages globalOnly="true" styleClass="message" id="globalMessages"/>
+    
+    <rich:panel>
+        <f:facet name="header">Organizationalrole</f:facet>
+
+
+        <div style="clear:both"/>
+        
+    </rich:panel>
+    
+    <div class="actionButtons">      
+
+        <s:button view="/OrganizationalroleEdit.xhtml" 
+                    id="edit" 
+                 value="Edit"/>
+
+        <s:button view="/#{empty organizationalroleFrom ? 'OrganizationalroleList' : organizationalroleFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="client">
+
+    <rich:tab label="roletype">
+    <div class="association" id="roletypeParent">
+        
+        <h:outputText value="There is no roletype associated with this organizationalrole." 
+                   rendered="#{organizationalroleHome.instance.roletype == null}"/>
+        
+        <rich:dataTable var="roletype" 
+                   value="#{organizationalroleHome.instance.roletype}" 
+                rendered="#{organizationalroleHome.instance.roletype != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="roletypeTable">
+            <h:column>
+                <f:facet name="header">roleTypeId</f:facet>
+                #{roletype.roleTypeId}
+            </h:column>
+            <h:column>
+                <f:facet name="header">role</f:facet>
+                #{roletype.role}
+            </h:column>
+            <h:column>
+                <f:facet name="header">action</f:facet>
+                <s:link id="viewroletype" 
+                     value="View" 
+                      view="/Roletype.xhtml">
+                    <f:param name="roletypeRoleTypeId" 
+                           value="#{roletype.roleTypeId}"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+        
+    </div>
+    </rich:tab>
+
+    <rich:tab label="ufficio">
+    <div class="association" id="ufficioParent">
+        
+        <h:outputText value="There is no ufficio associated with this organizationalrole." 
+                   rendered="#{organizationalroleHome.instance.ufficio == null}"/>
+        
+        <rich:dataTable var="ufficio" 
+                   value="#{organizationalroleHome.instance.ufficio}" 
+                rendered="#{organizationalroleHome.instance.ufficio != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="ufficioTable">
+            <h:column>
+                <f:facet name="header">idufficio</f:facet>
+                #{ufficio.idufficio}
+            </h:column>
+            <h:column>
+	    	    <f:facet name="header">area idsettore</f:facet>
+		    	#{ufficio.area.idsettore}
+            </h:column>
+            <h:column>
+	    	    <f:facet name="header">sede idsede</f:facet>
+		    	#{ufficio.sede.idsede}
+            </h:column>
+            <h:column>
+	    	    <f:facet name="header">orario idorario</f:facet>
+		    	#{ufficio.orario.idorario}
+            </h:column>
+            <h:column>
+                <f:facet name="header">visible</f:facet>
+                #{ufficio.visible}
+            </h:column>
+            <h:column>
+                <f:facet name="header">descrizione</f:facet>
+                #{ufficio.descrizione}
+            </h:column>
+            <h:column>
+                <f:facet name="header">telefono</f:facet>
+                #{ufficio.telefono}
+            </h:column>
+            <h:column>
+                <f:facet name="header">fax</f:facet>
+                #{ufficio.fax}
+            </h:column>
+            <h:column>
+                <f:facet name="header">email</f:facet>
+                #{ufficio.email}
+            </h:column>
+            <h:column>
+                <f:facet name="header">nome</f:facet>
+                #{ufficio.nome}
+            </h:column>
+            <h:column>
+                <f:facet name="header">fax1</f:facet>
+                #{ufficio.fax1}
+            </h:column>
+            <h:column>
+                <f:facet name="header">action</f:facet>
+                <s:link id="viewufficio" 
+                     value="View" 
+                      view="/Ufficio.xhtml">
+                    <f:param name="ufficioIdufficio" 
+                           value="#{ufficio.idufficio}"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+        
+    </div>
+    </rich:tab>
+
+    <rich:tab label="ente">
+    <div class="association" id="enteParent">
+        
+        <h:outputText value="There is no ente associated with this organizationalrole." 
+                   rendered="#{organizationalroleHome.instance.ente == null}"/>
+        
+        <rich:dataTable var="ente" 
+                   value="#{organizationalroleHome.instance.ente}" 
+                rendered="#{organizationalroleHome.instance.ente != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="enteTable">
+            <h:column>
+                <f:facet name="header">idente</f:facet>
+                #{ente.idente}
+            </h:column>
+            <h:column>
+                <f:facet name="header">visible</f:facet>
+                #{ente.visible}
+            </h:column>
+            <h:column>
+                <f:facet name="header">nome</f:facet>
+                #{ente.nome}
+            </h:column>
+            <h:column>
+                <f:facet name="header">action</f:facet>
+                <s:link id="viewente" 
+                     value="View" 
+                      view="/Ente.xhtml">
+                    <f:param name="enteIdente" 
+                           value="#{ente.idente}"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+        
+    </div>
+    </rich:tab>
+
+    <rich:tab label="area">
+    <div class="association" id="areaParent">
+        
+        <h:outputText value="There is no area associated with this organizationalrole." 
+                   rendered="#{organizationalroleHome.instance.area == null}"/>
+        
+        <rich:dataTable var="area" 
+                   value="#{organizationalroleHome.instance.area}" 
+                rendered="#{organizationalroleHome.instance.area != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="areaTable">
+            <h:column>
+                <f:facet name="header">idsettore</f:facet>
+                #{area.idsettore}
+            </h:column>
+            <h:column>
+	    	    <f:facet name="header">ente idente</f:facet>
+		    	#{area.ente.idente}
+            </h:column>
+            <h:column>
+                <f:facet name="header">visible</f:facet>
+                #{area.visible}
+            </h:column>
+            <h:column>
+                <f:facet name="header">nome</f:facet>
+                #{area.nome}
+            </h:column>
+            <h:column>
+                <f:facet name="header">action</f:facet>
+                <s:link id="viewarea" 
+                     value="View" 
+                      view="/Area.xhtml">
+                    <f:param name="areaIdsettore" 
+                           value="#{area.idsettore}"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+        
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

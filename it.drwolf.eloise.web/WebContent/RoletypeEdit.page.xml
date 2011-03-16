@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.com/products/seam/pages"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd"
+      no-conversation-view-id="/RoletypeList.xhtml"
+      login-required="true">
+   
+   <begin-conversation join="true"/>
+   
+   <action execute="#{roletypeHome.wire}"/>
+   
+   <param name="roletypeFrom"/>
+   <param name="roletypeRoleTypeId" value="#{roletypeHome.roletypeRoleTypeId}"/>
+
+
+   <navigation from-action="#{roletypeHome.persist}">
+       <end-conversation/>
+       <redirect view-id="/Roletype.xhtml"/>
+   </navigation>
+   
+   <navigation from-action="#{roletypeHome.update}">
+       <end-conversation/>
+       <redirect view-id="/Roletype.xhtml"/>
+   </navigation>
+   
+   <navigation from-action="#{roletypeHome.remove}">
+       <end-conversation/>
+       <redirect view-id="/RoletypeList.xhtml"/>
+   </navigation>
+   
+</page>

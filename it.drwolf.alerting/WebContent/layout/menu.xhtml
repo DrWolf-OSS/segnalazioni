@@ -1,0 +1,129 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:rich="http://richfaces.ajax4jsf.org/rich"
+   xmlns:s="http://jboss.com/products/seam/taglib">
+
+    <rich:panelMenu style="width:200px"
+    	mode="client"
+        iconExpandedGroup="disc"
+        iconCollapsedGroup="disc"
+        iconExpandedTopGroup="chevronUp"
+        iconGroupTopPosition="right"
+        iconCollapsedTopGroup="chevronDown"
+        iconCollapsedTopPosition="right" >
+
+        <rich:panelMenuGroup label="Navigazione" expanded="true" expandMode="none" >
+            <rich:panelMenuItem >
+	        	<s:link value="Homepage Segnalazioni" 
+        		propagation="none"
+        		view="/app/index.xhtml">
+			    </s:link>
+            </rich:panelMenuItem>
+            <rich:panelMenuItem rendered="#{alertingController.isGestore(identity.username)}" >
+        		<s:link value="Gestione fogli di lavoro"
+        		propagation="none"
+        		view="/app/daily/list.xhtml">
+		    	</s:link>
+
+            </rich:panelMenuItem>
+
+
+            <rich:panelMenuItem >
+        	<s:link propagation="none"
+        		value="Crea nuova segnalazione"
+        		view="/app/segnalazione/crea.xhtml">
+				<f:param name="entityId"/>
+		    </s:link>
+ 			</rich:panelMenuItem>
+  			<rich:panelMenuItem rendered="#{alertingController.isGestore(identity.username)}">
+        	<s:link propagation="none"
+        		value="Crea intervento senza segnalazione"
+        		view="/app/intervento/edit.xhtml">
+				<f:param name="entityId"/>
+		    </s:link>
+            </rich:panelMenuItem>
+            
+             <rich:panelMenuItem>
+            	<s:link view="/app/reports/StatoSegnalazioni.xhtml" propagation="join">Ricerca Segnalazioni</s:link>
+            </rich:panelMenuItem>
+             <rich:panelMenuItem rendered="#{s:hasRole('admin') or s:hasRole('supervisor')}">
+            	<s:link view="/app/reports/ReportListV.xhtml" propagation="none">Report Segnalazioni</s:link>
+            </rich:panelMenuItem>
+            
+            <rich:panelMenuItem rendered="#{s:hasRole('impiegato')}" >
+            	<s:link view="/app/parametri/SostitutoList.xhtml" propagation="none">Sostituti</s:link>
+            </rich:panelMenuItem>
+        </rich:panelMenuGroup>
+        <rich:panelMenuGroup rendered="#{s:hasRole('impiegato')}" label="Cittadini" expanded="true" expandMode="none" >
+            <rich:panelMenuItem>
+            	<s:link view="/app/utenti/CittadinoList.xhtml" propagation="none">Cittadini</s:link>
+            </rich:panelMenuItem>
+        </rich:panelMenuGroup>
+
+        <rich:panelMenuGroup rendered="#{false}" label="Report" expanded="true" expandMode="none" >
+           
+            <rich:panelMenuItem rendered="#{s:hasRole('admin')}">
+            	<s:link view="/app/reports/ReportSegnalazioni.xhtml" propagation="none">Report Segnalazioni</s:link>
+            </rich:panelMenuItem>
+            <rich:panelMenuItem rendered="#{s:hasRole('admin') or alertingController.isGestore(identity.username)}">
+            	<s:link view="/app/reports/StatoInterventi.xhtml" propagation="none">Stato Interventi</s:link>
+            </rich:panelMenuItem>
+            
+            <rich:panelMenuItem rendered="#{s:hasRole('admin') or alertingController.isGestore(identity.username)}">
+            	<s:link view="/app/reports/ReportInterventii.xhtml" propagation="none">Report Interventi</s:link>
+            </rich:panelMenuItem>
+		</rich:panelMenuGroup>
+		
+        <rich:panelMenuGroup rendered="#{s:hasRole('admin')}" label="Gestione Tipologie" expanded="true" expandMode="none" >
+            <rich:panelMenuItem>
+            	<s:link view="/app/parametri/UfficioCompetenteList.xhtml" propagation="none">Uffici Competenti Segnalazioni</s:link>
+            </rich:panelMenuItem>
+            <rich:panelMenuItem>
+            	<s:link view="/app/parametri/SquadraInterventoList.xhtml" propagation="none">Squadre Intervento</s:link>
+            </rich:panelMenuItem>
+            <rich:panelMenuItem>
+            	<s:link view="/app/parametri/CategoriaUtenzaList.xhtml" propagation="none">Categorie Utenze</s:link>
+            </rich:panelMenuItem>
+            <rich:panelMenuItem>
+            	<s:link view="/app/parametri/SottocategoriaUtenzaList.xhtml" propagation="none">Sottocategorie Utenze</s:link>
+            </rich:panelMenuItem>
+            <rich:panelMenuItem>
+            	<s:link view="/app/parametri/UtenzaList.xhtml" propagation="none">Utenze</s:link>
+            </rich:panelMenuItem>
+            <rich:panelMenuItem>
+            	<s:link view="/app/parametri/TipoSegnalazioneList.xhtml" propagation="none">Tipologie Segnalazioni</s:link>
+            </rich:panelMenuItem>
+            <rich:panelMenuItem>
+            	<s:link view="/app/parametri/SottotipoSegnalazioneList.xhtml" propagation="none">Sottotipologie Segnalazioni</s:link>
+            </rich:panelMenuItem>
+            <rich:panelMenuItem>
+            	<s:link view="/app/parametri/TipoInterventoList.xhtml" propagation="none">Tipologie Interventi</s:link>
+            </rich:panelMenuItem>
+            <rich:panelMenuItem>
+            	<s:link view="/app/parametri/SottotipoInterventoList.xhtml" propagation="none">Sottotipologie Interventi</s:link>
+            </rich:panelMenuItem>
+            <rich:panelMenuItem>
+            	<s:link view="/app/parametri/StatoList.xhtml" propagation="none">Stati</s:link>
+            </rich:panelMenuItem>
+            <rich:panelMenuItem>
+            	<s:link view="/app/parametri/ReportList.xhtml" propagation="none">Report</s:link>
+            </rich:panelMenuItem>            
+            <rich:panelMenuItem>
+            	<s:link view="/app/parametri/CanaleSegnalazioneList.xhtml" propagation="none">Canali di segnalazione</s:link>
+            </rich:panelMenuItem>
+            <rich:panelMenuItem>
+            	<s:link view="/app/parametri/EsitoSegnalazioneList.xhtml" propagation="none">Esiti segnalazione</s:link>
+            </rich:panelMenuItem>
+            <rich:panelMenuItem>
+            	<s:link view="/app/parametri/GlobalRoleList.xhtml" propagation="none">Ruoli globali</s:link>
+            </rich:panelMenuItem>
+        </rich:panelMenuGroup>
+
+
+
+    </rich:panelMenu>
+
+
+</ui:composition>

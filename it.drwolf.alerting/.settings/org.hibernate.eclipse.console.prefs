@@ -1,0 +1,4 @@
+#Tue Jun 17 14:51:40 CEST 2008
+default.configuration=it.drwolf.alerting-ejb
+eclipse.preferences.version=1
+hibernate3.enabled=true

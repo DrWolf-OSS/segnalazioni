@@ -1,0 +1,285 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:rich="http://richfaces.org/rich"
+                template="layout/template.xhtml">
+                       
+<ui:define name="body">
+    
+    <h:messages globalOnly="true" styleClass="message" id="globalMessages"/>
+    
+    <rich:panel styleClass="PNLGeneric">
+        <f:facet name="header">Ufficio</f:facet>
+
+
+
+        <s:decorate id="visible" template="layout/display.xhtml">
+            <ui:define name="label">visible</ui:define>
+            <h:outputText value="#{ufficioHome.instance.visible ? 'si' : 'no'}" />
+        </s:decorate>
+
+
+        <s:decorate id="descrizione" template="layout/display.xhtml">
+            <ui:define name="label">descrizione</ui:define>
+            #{ufficioHome.instance.descrizione}
+        </s:decorate>
+
+
+        <s:decorate id="telefono" template="layout/display.xhtml">
+            <ui:define name="label">telefono</ui:define>
+            #{ufficioHome.instance.telefono}
+        </s:decorate>
+
+
+        <s:decorate id="fax" template="layout/display.xhtml">
+            <ui:define name="label">fax</ui:define>
+            #{ufficioHome.instance.fax}
+        </s:decorate>
+
+
+        <s:decorate id="email" template="layout/display.xhtml">
+            <ui:define name="label">email</ui:define>
+            #{ufficioHome.instance.email}
+        </s:decorate>
+
+
+        <s:decorate id="PEC" template="layout/display.xhtml">
+            <ui:define name="label">PEC</ui:define>
+            #{ufficioHome.instance.PEC}
+        </s:decorate>
+        
+        
+        <s:decorate id="nome" template="layout/display.xhtml">
+            <ui:define name="label">nome</ui:define>
+            #{ufficioHome.instance.nome}
+        </s:decorate>
+
+
+        <s:decorate id="fax1" template="layout/display.xhtml">
+            <ui:define name="label">fax1</ui:define>
+            #{ufficioHome.instance.fax1}
+        </s:decorate>
+
+        <div style="clear:both"/>
+        
+    </rich:panel>
+
+
+    <rich:tabPanel switchType="client" styleClass="PNLGeneric">
+
+    <rich:tab label="Settore">
+    <div class="association" id="areaParent">
+        
+        <h:outputText value="Non ci sono settori associati a questo ufficio." 
+                   rendered="#{ufficioHome.instance.area == null}"/>
+        
+        <rich:dataTable var="area" 
+                   value="#{ufficioHome.instance.area}" 
+                rendered="#{ufficioHome.instance.area != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="areaTable">
+<!--            <h:column>-->
+<!--                <f:facet name="header">Settore</f:facet>-->
+<!--                #{area.idsettore}-->
+<!--            </h:column>-->
+            <h:column>
+	    	    <f:facet name="header">Ente </f:facet>
+		    	#{area.ente}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Visible</f:facet>
+                <h:outputText value="#{area.visible ? 'si' : 'no'}" />
+                
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nome</f:facet>
+                #{area.nome}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Azione</f:facet>
+                <s:link id="viewarea" 
+                     value="Seleziona" 
+                      view="/Area.xhtml">
+                    <f:param name="areaIdsettore" 
+                           value="#{area.idsettore}"/>
+              		<f:param name="areaFrom" 
+                           value="Ufficio"/>   
+                    <f:param name="ufficioIdufficio" 
+                           value="#{ufficioHome.instance.idufficio}"/>                          
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+        
+    </div>
+    </rich:tab>
+
+    <rich:tab label="Sede">
+    <div class="association" id="sedeParent">
+        
+        <h:outputText value="Non ci sono sedi associate a questo ufficio." 
+                   rendered="#{ufficioHome.instance.sede == null}"/>
+        
+        <rich:dataTable var="sede" 
+                   value="#{ufficioHome.instance.sede}" 
+                rendered="#{ufficioHome.instance.sede != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="sedeTable">
+<!--            <h:column>-->
+<!--                <f:facet name="header">idsede</f:facet>-->
+<!--                #{sede.idsede}-->
+<!--            </h:column>-->
+            <h:column>
+                <f:facet name="header">Descrizione</f:facet>
+                #{sede.descrizione}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Azione</f:facet>
+                <s:link id="viewsede" 
+                     value="Seleziona" 
+                      view="/Sede.xhtml">
+                    <f:param name="sedeIdsede" 
+                           value="#{sede.idsede}"/>
+              		<f:param name="sedeFrom" 
+                           value="Ufficio"/> 
+                    <f:param name="ufficioIdufficio" 
+                           value="#{ufficioHome.instance.idufficio}"/>                                  
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+        
+    </div>
+    </rich:tab>
+
+    <rich:tab label="Orario">
+    <div class="association" id="orarioParent">
+        
+        <h:outputText value="Non ci sono orari associate a questo ufficio." 
+                   rendered="#{ufficioHome.instance.orario == null}"/>
+        
+        <rich:dataTable var="orario" 
+                   value="#{ufficioHome.instance.orario}" 
+                rendered="#{ufficioHome.instance.orario != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="orarioTable">
+<!--            <h:column>-->
+<!--                <f:facet name="header">idorario</f:facet>-->
+<!--                #{orario.idorario}-->
+<!--            </h:column>-->
+            <h:column>
+                <f:facet name="header">Descrizione</f:facet>
+                #{orario.descrizione}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Azione</f:facet>
+                <s:link id="vieworario" 
+                     value="Seleziona" 
+                      view="/Orario.xhtml">
+                    <f:param name="orarioIdorario" 
+                           value="#{orario.idorario}"/>
+              		<f:param name="orarioFrom" 
+                           value="Ufficio"/>
+                    <f:param name="ufficioIdufficio" 
+                           value="#{ufficioHome.instance.idufficio}"/>                              
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+        
+    </div>
+    </rich:tab>
+
+<!--    <rich:tab label="organizationalroles">-->
+<!--    <div class="association" id="organizationalrolesChildren">-->
+<!--        -->
+<!--        <h:outputText value="There are no organizationalroles associated with this ufficio."-->
+<!--                   rendered="#{empty ufficioHome.organizationalroles}"/>-->
+<!--        -->
+<!--        <rich:dataTable value="#{ufficioHome.organizationalroles}" -->
+<!--                       var="organizationalrole" -->
+<!--                  rendered="#{not empty ufficioHome.organizationalroles}" -->
+<!--                rowClasses="rvgRowOne,rvgRowTwo"-->
+<!--                        id="organizationalrolesTable">-->
+<!--            <h:column>-->
+<!--                <f:facet name="header">organizationalRoleId</f:facet>-->
+<!--                <h:outputText value="#{organizationalrole.organizationalRoleId}"/>-->
+<!--            </h:column>-->
+<!--            <h:column>-->
+<!--                <f:facet name="header">action</f:facet>-->
+<!--                <s:link id="selectorganizationalrole" -->
+<!--                     value="Select" -->
+<!--                      view="/Organizationalrole.xhtml">-->
+<!--                    <f:param name="organizationalroleOrganizationalRoleId" -->
+<!--                            value="#{organizationalrole.organizationalRoleId}"/>-->
+<!--                    <f:param name="organizationalroleFrom" value="Ufficio"/>-->
+<!--                </s:link>-->
+<!--            </h:column>-->
+<!--        </rich:dataTable>-->
+<!--        -->
+<!--    </div>-->
+<!--    -->
+<!--    <div class="actionButtons">-->
+<!--        <s:button -->
+<!--               value="Add organizationalrole"-->
+<!--                view="/OrganizationalroleEdit.xhtml">-->
+<!--            <f:param name="ufficioIdufficio" -->
+<!--                    value="#{ufficioHome.instance.idufficio}"/>-->
+<!--            <f:param name="organizationalroleFrom" value="Ufficio"/>-->
+<!--        </s:button>-->
+<!--    </div>        -->
+<!--    </rich:tab>-->
+    <rich:tab label="Persone">
+    <div class="association" id="peoplesChildren"> 
+        
+        <h:outputText value="Non ci sono persone associate a questo ufficio."
+                   rendered="#{empty ufficioHome.instance.peoplesAsList}"/> 
+        
+        
+        <rich:dataTable value="#{ufficioHome.instance.peoplesAsList}" 
+                       var="people" 
+                  rendered="#{not empty ufficioHome.instance.peoplesAsList}" 
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="peoplesTable"> 
+            <h:column>
+                <f:facet name="header">Nome</f:facet>
+                <h:outputText value="#{people.nome}" />
+            </h:column>
+            <h:column>
+                <f:facet name="header">Cognome</f:facet>
+                <h:outputText value="#{people.cognome}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Azione</f:facet> 
+                <s:link id="selectpeople" 
+                     value="Seleziona" 
+                      view="/People.xhtml">
+                    <f:param name="peopleIdpeople" 
+                            value="#{people.idpeople}"/>
+                    <f:param name="peopleFrom" value="Ufficio"/>
+                    <f:param name="ufficioIdufficio" value="#{ufficioHome.instance.idufficio}"/>
+                    
+                </s:link>
+            </h:column> 
+        </rich:dataTable>
+    </div>        
+    </rich:tab>
+
+</rich:tabPanel>
+    
+    <div class="actionButtons">      
+
+        <s:button view="/UfficioEdit.xhtml" 
+                    id="edit" 
+                 value="Modifica"/>
+
+        <s:button view="/#{empty ufficioFrom ? 'UfficioList' : ufficioFrom}.xhtml"
+                    id="done"
+                 value="Finito"/>
+
+    </div>
+</ui:define>
+
+</ui:composition>

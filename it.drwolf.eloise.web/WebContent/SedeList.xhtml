@@ -1,0 +1,95 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich" template="layout/template.xhtml">
+
+	<ui:define name="body">
+
+		<h:messages globalOnly="true" styleClass="message" id="globalMessages" />
+
+		<h:form id="sedeSearch" styleClass="edit">
+
+			<rich:simpleTogglePanel label="Parametri ricerca sedi"
+				switchType="ajax" styleClass="PNLGeneric">
+
+				<s:decorate template="layout/display.xhtml">
+					<ui:define name="label">Descrizione</ui:define>
+					<h:inputText id="descrizione" value="#{sedeList.sede.descrizione}" />
+				</s:decorate>
+				<s:div style="clear:both;" />
+				<div class="actionButtons"><h:commandButton id="search"
+					value="Cerca" action="/SedeList.xhtml" /></div>
+			</rich:simpleTogglePanel>
+
+
+
+
+		</h:form>
+
+		<rich:panel styleClass="PNLGeneric">
+			<f:facet name="header">Risultati ricerca</f:facet>
+			<div class="results" id="sedeList"><h:outputText
+				value="Non ci sono sedi che soddisfano i paramteri di ricerca."
+				rendered="#{empty sedeList.resultList}" /> <rich:dataTable
+				id="sedeList" var="sede" value="#{sedeList.resultList}"
+				rendered="#{not empty sedeList.resultList}">
+				<!--        <h:column>-->
+				<!--            <f:facet name="header">-->
+				<!--                <s:link styleClass="columnHeader"-->
+				<!--                             value="idsede #{sedeList.order=='idsede asc' ? messages.down : ( sedeList.order=='idsede desc' ? messages.up : '' )}">-->
+				<!--                    <f:param name="order" value="#{sedeList.order=='idsede asc' ? 'idsede desc' : 'idsede asc'}"/>-->
+				<!--                </s:link>-->
+				<!--            </f:facet>-->
+				<!--            #{sede.idsede}-->
+				<!--        </h:column>-->
+				<h:column>
+					<f:facet name="header">
+						<s:link styleClass="columnHeader"
+							value="Descrizione #{sedeList.order=='descrizione asc' ? messages.down : ( sedeList.order=='descrizione desc' ? messages.up : '' )}">
+							<f:param name="order"
+								value="#{sedeList.order=='descrizione asc' ? 'descrizione desc' : 'descrizione asc'}" />
+						</s:link>
+					</f:facet>
+            #{sede.descrizione}
+        </h:column>
+				<h:column>
+					<f:facet name="header">Azione</f:facet>
+					<s:link view="/#{empty from ? 'Sede' : from}.xhtml" value="Seleziona"
+						id="sede">
+						<f:param name="sedeIdsede" value="#{sede.idsede}" />
+					</s:link>
+				</h:column>
+			</rich:dataTable></div>
+		</rich:panel>
+
+		<div class="tableControl"><s:link view="/SedeList.xhtml"
+			rendered="#{sedeList.previousExists}"
+			value="#{messages.left}#{messages.left} Prima" id="firstPage">
+			<f:param name="firstResult" value="0" />
+		</s:link> <s:link view="/SedeList.xhtml" rendered="#{sedeList.previousExists}"
+			value="#{messages.left} precedente" id="previousPage">
+			<f:param name="firstResult" value="#{sedeList.previousFirstResult}" />
+		</s:link> <s:link view="/SedeList.xhtml" rendered="#{sedeList.nextExists}"
+			value="prossima #{messages.right}" id="nextPage">
+			<f:param name="firstResult" value="#{sedeList.nextFirstResult}" />
+		</s:link> <s:link view="/SedeList.xhtml" rendered="#{sedeList.nextExists}"
+			value="ultima #{messages.right}#{messages.right}" id="lastPage">
+			<f:param name="firstResult" value="#{sedeList.lastFirstResult}" />
+		</s:link></div>
+
+		<s:div styleClass="actionButtons" rendered="#{empty from}">
+			<s:button view="/SedeEdit.xhtml" id="create" value="Crea nuova sede">
+				<f:param name="sedeIdsede" />
+			</s:button>
+		</s:div>
+
+	</ui:define>
+
+</ui:composition>
+

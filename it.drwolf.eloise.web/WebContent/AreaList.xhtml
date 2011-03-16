@@ -1,0 +1,117 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich" template="layout/template.xhtml">
+
+	<ui:define name="body">
+
+		<h:messages globalOnly="true" styleClass="message" id="globalMessages" />
+
+		<h:form id="areaSearch" styleClass="edit" >
+
+			<rich:simpleTogglePanel label="Parametri ricerca settori"
+				switchType="ajax" styleClass="PNLGeneric">
+
+				<s:decorate template="layout/display.xhtml">
+					<ui:define name="label">nome</ui:define>
+					<h:inputText id="nome" value="#{areaList.area.nome}" />
+				</s:decorate>
+
+				<s:div style="clear:both;" />
+				<div class="actionButtons"><h:commandButton id="search"
+					value="Cerca" action="/AreaList.xhtml" /></div>
+			</rich:simpleTogglePanel> 
+
+
+
+		</h:form>
+
+		<rich:panel styleClass="PNLGeneric">
+			<f:facet name="header">Risultati ricerca</f:facet>
+			<div class="results" id="areaList"><h:outputText
+				value="Non ci sono aree che soddisfano i paramteri di ricerca."
+				rendered="#{empty areaList.resultList}" /> <rich:dataTable
+				id="areaList" var="area" value="#{areaList.resultList}"
+				rendered="#{not empty areaList.resultList}">
+<!--				<h:column>-->
+<!--					<f:facet name="header">-->
+<!--						<s:link styleClass="columnHeader"-->
+<!--							value="idsettore #{areaList.order=='idsettore asc' ? messages.down : ( areaList.order=='idsettore desc' ? messages.up : '' )}">-->
+<!--							<f:param name="order"-->
+<!--								value="#{areaList.order=='idsettore asc' ? 'idsettore desc' : 'idsettore asc'}" />-->
+<!--						</s:link>-->
+<!--					</f:facet>-->
+<!--            #{area.idsettore}-->
+<!--        </h:column>-->
+				<h:column>
+					<f:facet name="header">
+						<s:link styleClass="columnHeader"
+							value="Nome #{areaList.order=='nome asc' ? messages.down : ( areaList.order=='nome desc' ? messages.up : '' )}">
+							<f:param name="order"
+								value="#{areaList.order=='nome asc' ? 'nome desc' : 'nome asc'}" />
+						</s:link>
+					</f:facet>
+            #{area.nome}
+        </h:column>
+				<h:column>
+					<f:facet name="header">
+						<s:link styleClass="columnHeader"
+							value="Ente #{areaList.order=='ente asc' ? messages.down : ( areaList.order=='ente desc' ? messages.up : '' )}">
+							<f:param name="order"
+								value="#{areaList.order=='ente asc' ? 'ente desc' : 'ente asc'}" />
+						</s:link>
+					</f:facet>
+            #{area.ente}
+        </h:column>
+				<h:column>
+					<f:facet name="header">
+						<s:link styleClass="columnHeader"
+							value="Visible #{areaList.order=='visible asc' ? messages.down : ( areaList.order=='visible desc' ? messages.up : '' )}">
+							<f:param name="order"
+								value="#{areaList.order=='visible asc' ? 'visible desc' : 'visible asc'}" />
+						</s:link>
+					</f:facet>
+					<h:outputText value="#{area.visible ? 'si' : 'no'}" />
+        </h:column>
+
+				<h:column>
+					<f:facet name="header">Azione</f:facet>
+					<s:link view="/#{empty from ? 'Area' : from}.xhtml" value="Seleziona"
+						id="area">
+						<f:param name="areaIdsettore" value="#{area.idsettore}" />
+					</s:link>
+				</h:column>
+			</rich:dataTable></div>
+		</rich:panel>
+
+		<div class="tableControl"><s:link view="/AreaList.xhtml"
+			rendered="#{areaList.previousExists}"
+			value="#{messages.left}#{messages.left} prima" id="firstPage">
+			<f:param name="firstResult" value="0" />
+		</s:link> <s:link view="/AreaList.xhtml" rendered="#{areaList.previousExists}"
+			value="#{messages.left} precedente" id="previousPage">
+			<f:param name="firstResult" value="#{areaList.previousFirstResult}" />
+		</s:link> <s:link view="/AreaList.xhtml" rendered="#{areaList.nextExists}"
+			value="prossima #{messages.right}" id="nextPage">
+			<f:param name="firstResult" value="#{areaList.nextFirstResult}" />
+		</s:link> <s:link view="/AreaList.xhtml" rendered="#{areaList.nextExists}"
+			value="ultima #{messages.right}#{messages.right}" id="lastPage">
+			<f:param name="firstResult" value="#{areaList.lastFirstResult}" />
+		</s:link></div>
+
+		<s:div styleClass="actionButtons" rendered="#{empty from}">
+			<s:button view="/AreaEdit.xhtml" id="create" value="Crea nuovo settore">
+				<f:param name="areaIdsettore" />
+			</s:button>
+		</s:div>
+
+	</ui:define>
+
+</ui:composition>
+

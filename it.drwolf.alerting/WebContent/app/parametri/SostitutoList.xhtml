@@ -1,0 +1,64 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:rich="http://richfaces.org/rich"
+                template="/layout/template.xhtml">
+
+<ui:define name="title">Sostituti per #{sso.originalUser}</ui:define>
+
+<ui:define name="navigation">
+ 	<ui:include src="/layout/menu.xhtml" />
+</ui:define>
+                       
+<ui:define name="body">
+    
+   
+	<h:form>
+    
+    <rich:panel>
+               
+    <rich:dataTable id="sostitutoList" 
+                var="sostituto"
+              value="#{sostitutoList.resultList}" 
+           rendered="#{not empty sostitutoList.resultList}">
+        
+        <h:column>
+            <f:facet name="header">
+				Sostituto
+            </f:facet>
+            <h:outputText value="#{sostituto.sostituto}" converter="#{peopleConverter}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">Azioni</f:facet>
+            <s:link view="/app/parametri/SostitutoEdit.xhtml"
+                   value="Modifica" 
+                      id="sostituto">
+                <f:param name="sostitutoId" 
+                        value="#{sostituto.id}"/>
+            </s:link>
+        </h:column>
+    </rich:dataTable>
+
+    
+    </rich:panel>
+    
+    <s:decorate template="/layout/actions.xhtml">
+        <s:button view="/app/parametri/SostitutoEdit.xhtml"
+                    id="create" 
+                 value="Nuovo sostituto">
+            <f:param name="sostitutoId"/>
+        </s:button>
+    </s:decorate>
+    
+    </h:form>
+  
+</ui:define>
+
+</ui:composition>
+

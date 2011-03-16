@@ -1,0 +1,73 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	template="/layout/template.xhtml">
+
+	<ui:define name="title">Reports</ui:define>
+
+	<ui:define name="navigation">
+		<ui:include src="/layout/menu.xhtml" />
+	</ui:define>
+
+	<ui:define name="body">
+
+
+
+    <rich:panel>
+			<f:facet name="header">Report Risultati Ricerca</f:facet>
+			<div class="results" id="reportList"><h:outputText
+				value="La ricerca non ha prodotto risultati."
+				rendered="#{empty reportList.resultList}" /> <rich:dataTable
+				id="reportList" var="_report" value="#{reportList.resultList}"
+				rendered="#{not empty reportList.resultList}">
+
+				<rich:column>
+					<f:facet name="header">
+				Nome
+            </f:facet>
+					<h:outputText value="#{_report.nome}" />
+				</rich:column>
+				<rich:column>
+					<f:facet name="header">
+				Descrizione
+            </f:facet>
+					<h:outputText value="#{_report.descrizione}" />
+				</rich:column>
+				<rich:column >
+					<f:facet name="header">
+				Colonne
+
+            </f:facet>
+					<h:outputText value="#{_report.columnsAsString}" />
+				</rich:column>
+
+
+				<rich:column>
+					<f:facet name="header">Azioni</f:facet>
+					<s:link view="/app/parametri/ReportEdit.xhtml" value="Modifica"
+						id="reportModifica">
+						<f:param name="reportId" value="#{_report.id}" />
+					</s:link>
+
+				</rich:column>
+
+			</rich:dataTable></div>
+		</rich:panel>
+
+
+
+		<s:div styleClass="actionButtons" rendered="#{empty from}">
+			<s:button view="/app/parametri/ReportEdit.xhtml" id="create"
+				 propagation="none" value="Crea report">
+				<f:param name="reportId" />
+			</s:button>
+		</s:div>
+
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,52 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	template="/layout/template.xhtml">
+
+	<ui:define name="title">#{utenzaHome.managed ? 'Modifica' : 'Nuova'} Utenza </ui:define>
+
+	<ui:define name="navigation">
+		<ui:include src="/layout/menu.xhtml" />
+	</ui:define>
+	<ui:define name="body">
+
+		<h:form id="utenza" styleClass="edit">
+
+			<rich:panel>
+
+ <s:decorate  template="/layout/input.xhtml">
+                <ui:define name="label">Sottocategoria</ui:define>
+				<h:selectOneMenu required="true" value="#{utenzaHome.instance.sottocategoriaUtenza}">
+					<s:selectItems value="#{sottocategoriaUtenzaList.resultList}" var="tipo" label="#{tipo}"/>
+					<s:convertEntity/>
+				</h:selectOneMenu>
+			</s:decorate>
+
+
+				<s:decorate	template="/layout/input.xhtml">
+					<ui:define name="label">Descrizione</ui:define>
+					<h:inputText value="#{utenzaHome.instance.descrizione}" />
+
+				</s:decorate>
+
+
+
+
+			</rich:panel>
+
+				<ui:include src="/layout/default/actions.xhtml" >
+						<ui:param name="home" value="#{utenzaHome}"/>
+						<ui:param name="base" value="parametri/Utenza"/>
+				</ui:include>
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>

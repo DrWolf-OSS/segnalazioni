@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Class-Path:  drools-compiler.jar 
+ antlr-runtime.jar 
+ drools-core.jar 
+ jboss-el.jar 
+ mvel14.jar 
+ jbpm-jpdl.jar 
+ jboss-seam.jar 
+ richfaces-api.jar 
+

@@ -1,0 +1,84 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:rich="http://richfaces.org/rich"
+                template="/layout/template.xhtml">
+
+<ui:define name="title">Tipologie Interventi</ui:define>
+
+<ui:define name="navigation">
+ 	<ui:include src="/layout/menu.xhtml" />
+</ui:define>
+                       
+<ui:define name="body">
+    
+   
+	<h:form>
+    
+    <rich:panel>
+               
+    <rich:dataTable id="tipoInterventoList" 
+                var="tipoIntervento"
+              value="#{tipoInterventoList.resultList}" 
+           rendered="#{not empty tipoInterventoList.resultList}">
+        
+        <h:column>
+            <f:facet name="header">
+                <s:link styleClass="columnHeader"
+                             value="descrizione #{tipoInterventoList.order=='descrizione asc' ? messages.down : ( tipoInterventoList.order=='descrizione desc' ? messages.up : '' )}">
+                    <f:param name="order" value="#{tipoInterventoList.order=='descrizione asc' ? 'descrizione desc' : 'descrizione asc'}"/>
+                </s:link>
+            </f:facet>
+            #{tipoIntervento.descrizione}
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                Gestori Interventi
+            </f:facet>
+            <ui:repeat value="#{tipoIntervento.gestoriIntervento}" var="ufficio">
+            	&#8227;&#160;<h:outputText value="#{ufficio}" converter="#{peopleConverter}"/>&#160;&#160;
+            </ui:repeat>
+        </h:column>
+       
+        <h:column>
+            <f:facet name="header">
+                Stati Possibili
+            </f:facet>
+            <ui:repeat value="#{tipoIntervento.statiPossibili}" var="ufficio">
+            	&#8227;&#160;<h:outputText value="#{ufficio.descrizione}" />&#160;&#160;
+            </ui:repeat>
+        </h:column>
+        <h:column>
+            <f:facet name="header">Azioni</f:facet>
+            <s:link view="/app/parametri/TipoInterventoEdit.xhtml"
+                   value="Modifica" 
+                      id="tipoIntervento">
+                <f:param name="tipoInterventoId" 
+                        value="#{tipoIntervento.id}"/>
+            </s:link>
+        </h:column>
+    </rich:dataTable>
+
+    
+    </rich:panel>
+    
+    <s:decorate template="/layout/actions.xhtml">
+        <s:button view="/app/parametri/TipoInterventoEdit.xhtml"
+                    id="create" 
+                 value="Nuova tipologia intervento">
+            <f:param name="tipoInterventoId"/>
+        </s:button>
+    </s:decorate>
+    
+    </h:form>
+  
+</ui:define>
+
+</ui:composition>
+

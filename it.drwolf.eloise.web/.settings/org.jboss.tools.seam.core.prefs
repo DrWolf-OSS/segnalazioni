@@ -1,0 +1,18 @@
+#Fri Oct 30 10:36:28 CET 2009
+action.package=it.drwolf.eloise.web.session
+action.sources=/it.drwolf.eloise.web-ejb/ejbModule
+eclipse.preferences.version=1
+model.package=it.drwolf.eloise.web.entity
+model.sources=/it.drwolf.eloise.web-ejb/ejbModule
+seam.ear.project=it.drwolf.eloise.web-ear
+seam.ejb.project=it.drwolf.eloise.web-ejb
+seam.project.connection.profile=New MySQL
+seam.project.deployment.type=ear
+seam.project.settings.version=1.1
+seam.project.web.root.folder=/it.drwolf.eloise.web/WebContent
+seam.runtime.name=jboss-seam-2.2.0.GA
+seam.settings.changed.by.user=true
+seam.test.creating=false
+seam.test.project=it.drwolf.eloise.web-test
+test.package=it.drwolf.eloise.web.test
+test.sources=/it.drwolf.eloise.web

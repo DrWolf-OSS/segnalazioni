@@ -1,0 +1,64 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+    xmlns:a4j="http://richfaces.org/a4j"
+	template="/layout/template.xhtml">
+
+	
+	<ui:define name="title">#{reportHome.instance.nome}</ui:define>
+
+	<ui:define name="navigation">
+		<ui:include src="/layout/menu.xhtml" rendered="#{identity.loggedIn}"/>
+	</ui:define>
+
+	<ui:define name="body">
+	
+
+		<h:form id="stato" styleClass="edit">
+
+			 <rich:simpleTogglePanel switchType="client" label="Dal #{formatter.formatDate(reportHome.dataInizioRicerca)} al #{formatter.formatDate(reportHome.dataFineRicerca) } (cambia)" opened = "false" styleClass="stdPnl">
+
+				<s:decorate id="inizioDecoration" template="/layout/input.xhtml">
+					<ui:define name="label">Data inizio ricerca </ui:define>
+					<rich:calendar value="#{reportHome.dataInizioRicerca}" enableManualInput="true" datePattern="dd/MM/yyyy"/>
+				</s:decorate>
+
+				<s:decorate id="fineDecoration" template="/layout/input.xhtml">
+					<ui:define name="label">Data fine ricerca </ui:define>
+					<rich:calendar value="#{reportHome.dataFineRicerca}" enableManualInput="true" datePattern="dd/MM/yyyy"/>
+				</s:decorate>
+				
+            <h:commandButton id="view" 
+                          value="Aggiorna" 
+                         action="#{reportHome.refreshView()}" /> 
+
+			</rich:simpleTogglePanel>
+ <a4j:status onstart="#{rich:component('wait')}.show()" onstop="#{rich:component('wait')}.hide()"/>
+		</h:form>
+	
+
+		<rich:dataTable cellpadding="0" cellspacing="0" border="0" var="row"
+			value="#{reportHome.getResults()}">
+			
+
+				<c:forEach var="column" items="#{reportHome.instance.columns}" varStatus="status">
+				
+					<rich:column sortBy="#{row[status.index]}" >   
+					<f:facet name="header">
+						<h:outputText value="#{column}"  />
+						</f:facet>
+						<h:outputText value="#{row[status.index]}" escape="false"/>
+					</rich:column>
+					</c:forEach>
+
+
+	
+		</rich:dataTable>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,14 @@
+<m:message xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:m="http://jboss.com/products/seam/mail"
+  importance="normal">
+
+  <m:header name="X-Composed-By" value="Eloise - DrWolf"/>
+
+  <m:from name="Account manager" address="noreply@noaddress.com"/>
+
+    <m:to name="#{people.cognome} #{people.nome}">#{people.email}</m:to>
+    <m:subject>Richiesta password</m:subject>
+    <m:body type="plain">Username: #{people.idpeople}
+    Password: #{people.password}
+    </m:body>
+</m:message>

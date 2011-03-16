@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page  login-required="true" xmlns="http://jboss.com/products/seam/pages"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd">
+      
+   <param name="firstResult" value="#{peopleList.firstResult}"/>
+   <param name="order" value="#{peopleList.order}"/>
+   <param name="from"/>
+   <param name="idpeople" value="#{peopleList.people.idpeople}"/>
+   <param name="nome" value="#{peopleList.people.nome}"/>
+   <param name="cognome" value="#{peopleList.people.cognome}"/>
+   <param name="password" value="#{peopleList.people.password}"/>
+   <param name="telefono" value="#{peopleList.people.telefono}"/>
+   <param name="fax" value="#{peopleList.people.fax}"/>
+   <param name="email" value="#{peopleList.people.email}"/>
+   <param name="profiloProfessionale" value="#{peopleList.people.profiloProfessionale}"/>
+   <param name="telefonoPrivato" value="#{peopleList.people.telefonoPrivato}"/>
+   <param name="fax1" value="#{peopleList.people.fax1}"/>
+   <param name="email1" value="#{peopleList.people.email1}"/>
+   <param name="cellulare" value="#{peopleList.people.cellulare}"/>
+   <param name="numeroBreve" value="#{peopleList.people.numeroBreve}"/>
+
+</page>

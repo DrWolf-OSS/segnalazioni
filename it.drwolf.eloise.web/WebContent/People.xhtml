@@ -1,0 +1,156 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:rich="http://richfaces.org/rich"
+                template="layout/template.xhtml">
+                       
+<ui:define name="body">
+    
+    <h:messages globalOnly="true" styleClass="message" id="globalMessages"/>
+    
+    <rich:panel styleClass="PNLGeneric">
+        <f:facet name="header">Persona</f:facet>
+
+
+        <s:decorate id="idpeople" template="layout/display.xhtml">
+            <ui:define name="label">Username</ui:define>
+            #{peopleHome.instance.idpeople}
+        </s:decorate>
+
+
+        <s:decorate id="nome" template="layout/display.xhtml">
+            <ui:define name="label">Nome</ui:define>
+            #{peopleHome.instance.nome}
+        </s:decorate>
+
+
+        <s:decorate id="cognome" template="layout/display.xhtml">
+            <ui:define name="label">Cognome</ui:define>
+            #{peopleHome.instance.cognome}
+        </s:decorate>
+
+
+        
+
+        <s:decorate id="telefono" template="layout/display.xhtml">
+            <ui:define name="label">Telefono</ui:define>
+            #{peopleHome.instance.telefono}
+        </s:decorate>
+
+
+        <s:decorate id="fax" template="layout/display.xhtml">
+            <ui:define name="label">Fax</ui:define>
+            #{peopleHome.instance.fax}
+        </s:decorate>
+
+
+        <s:decorate id="email" template="layout/display.xhtml">
+            <ui:define name="label">Email</ui:define>
+            #{peopleHome.instance.email}
+        </s:decorate>
+
+
+<!--        <s:decorate id="sede" template="layout/display.xhtml">-->
+<!--            <ui:define name="label">Sede</ui:define>-->
+<!--            #{peopleHome.instance.sede}-->
+<!--        </s:decorate>      -->
+
+        <s:decorate id="orario" template="layout/display.xhtml">
+            <ui:define name="label">Orario</ui:define>
+            #{peopleHome.instance.orario}
+        </s:decorate>
+
+        <div style="clear:both"/>
+        
+    </rich:panel>
+    
+
+
+    <rich:tabPanel switchType="client" styleClass="PNLGeneric"> 
+
+    <rich:tab label="sede">
+    <div class="association" id="sedeParent">
+        
+        <h:outputText value="Non ci sono sedi associate a questa persona." 
+                   rendered="#{peopleHome.instance.sede == null}"/>
+        
+        <rich:dataTable var="sede" 
+                   value="#{peopleHome.instance.sede}" 
+                rendered="#{peopleHome.instance.sede != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="sedeTable">
+            <h:column>
+                <f:facet name="header">Descrizione</f:facet>
+                #{sede.descrizione}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Azione</f:facet>
+                <s:link id="viewsede" 
+                     value="Seleziona" 
+                      view="/Sede.xhtml">
+                    <f:param name="sedeIdsede" 
+                           value="#{sede.idsede}"/>
+              		<f:param name="sedeFrom" 
+                           value="People"/>
+                    <f:param name="peopleIdpeople" 
+                           value="#{peopleHome.instance.idpeople}"/>                                  
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+        
+    </div>
+    </rich:tab>
+
+    <rich:tab label="orario">
+    <div class="association" id="orarioParent">
+        
+        <h:outputText value="Non ci sono orari associati a questa persona."   
+                   rendered="#{peopleHome.instance.orario == null}"/>
+        
+        <rich:dataTable var="orario" 
+                   value="#{peopleHome.instance.orario}" 
+                rendered="#{peopleHome.instance.orario != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="orarioTable">
+            <h:column>
+                <f:facet name="header">Descrizione</f:facet>
+                #{orario.descrizione}
+            </h:column>
+            <h:column> 
+                <f:facet name="header">Azione</f:facet>
+                <s:link id="vieworario" 
+                     value="Seleziona" 
+                      view="/Orario.xhtml">
+                    <f:param name="orarioIdorario" 
+                           value="#{orario.idorario}"/>
+              		<f:param name="orarioFrom" 
+                           value="People"/>
+                    <f:param name="peopleIdpeople" 
+                           value="#{peopleHome.instance.idpeople}"/>                             
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+        
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+
+    <div class="actionButtons">      
+
+        <s:button view="/PeopleEdit.xhtml" 
+                    id="edit" 
+                 value="Modifica"/>
+
+        <s:button view="/#{empty peopleFrom ? 'PeopleList' : peopleFrom}.xhtml"
+                    id="done"
+                 value="Finito"/>
+ 
+    </div>
+</ui:define>
+
+</ui:composition>

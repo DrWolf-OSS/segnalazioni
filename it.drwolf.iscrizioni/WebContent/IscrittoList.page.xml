@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.com/products/seam/pages"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.1.xsd"
+      login-required="true">
+
+   <param name="firstResult" value="#{iscrittoList.firstResult}"/>
+   <param name="sort" value="#{iscrittoList.orderColumn}"/>
+   <param name="dir" value="#{iscrittoList.orderDirection}"/>
+   <param name="servizio" value="#{iscrittoList.idServizio}"/>
+
+   <param name="from"/>
+   <param name="id" value="#{iscrittoList.iscritto.id}"/>
+   <param name="cognome" value="#{iscrittoList.iscritto.cognome}"/>
+   <param name="cell" value="#{iscrittoList.iscritto.cellulare}"/>
+   <param name="email" value="#{iscrittoList.iscritto.email}"/>
+   <param name="nome" value="#{iscrittoList.iscritto.nome}"/>
+
+	<navigation from-action="#{iscrittoHome.importa}">
+		<end-conversation/>
+		<redirect view-id="/IscrittoList.xhtml"></redirect>
+	</navigation>
+
+
+</page>

@@ -1,0 +1,203 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="iscrittoSearch" styleClass="edit">
+
+        <rich:simpleTogglePanel label="Ricerca Iscritti" switchType="ajax">
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Email</ui:define>
+                <h:inputText id="email" value="#{iscrittoList.iscritto.email}"/>
+            </s:decorate>
+            
+              <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Nome</ui:define>
+                <h:inputText id="nome" value="#{iscrittoList.iscritto.nome}"/>
+            </s:decorate>
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Cognome</ui:define>
+                <h:inputText id="cognome" value="#{iscrittoList.iscritto.cognome}"/>
+            </s:decorate>
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Cellulare</ui:define>
+                <h:inputText id="cell" value="#{iscrittoList.iscritto.cellulare}"/>
+            </s:decorate>
+            
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Servizi</ui:define>
+                <h:selectOneMenu id="servizi" value="#{iscrittoList.servizio}">
+                	<s:selectItems var="s" value="#{servizioList.resultList}" label="#{s.nome}" noSelectionLabel="Tutti i servizi"/>
+                	<s:convertEntity />
+                </h:selectOneMenu>
+            </s:decorate>
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Iscrizioni non completate</ui:define>
+                <s:link view="/IncompletiList.xhtml">Mostra</s:link>
+            </s:decorate>
+            
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Iscrizioni cancellate</ui:define>
+                <s:link view="/EliminatiList.xhtml">Mostra</s:link>
+            </s:decorate>
+
+        </rich:simpleTogglePanel>
+
+        <div class="actionButtons">
+            <h:commandButton id="search" value="Cerca" action="/IscrittoList.xhtml"/>
+            <s:button id="reset" value="Reset" includePageParams="false"/>
+        </div>
+
+    </h:form>
+
+    <rich:panel>
+        <f:facet name="header">Elenco Iscritti (#{iscrittoList.resultCount})</f:facet>
+    <div class="results" id="iscrittoList">
+
+    <h:outputText value="The iscritto search returned no results."
+               rendered="#{empty iscrittoList.resultList}"/>
+
+    <rich:dataTable id="iscrittoList"
+                var="_iscritto"
+              value="#{iscrittoList.resultList}"
+           rendered="#{not empty iscrittoList.resultList}">
+       
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{iscrittoList}"/>
+                    <ui:param name="propertyLabel" value="Email"/>
+                    <ui:param name="propertyPath" value="iscritto.email"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_iscritto.email}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{iscrittoList}"/>
+                    <ui:param name="propertyLabel" value="Cognome"/>
+                    <ui:param name="propertyPath" value="iscritto.cognome"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_iscritto.cognome}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{iscrittoList}"/>
+                    <ui:param name="propertyLabel" value="Nome"/>
+                    <ui:param name="propertyPath" value="iscritto.nome"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_iscritto.nome}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{iscrittoList}"/>
+                    <ui:param name="propertyLabel" value="Cell"/>
+                    <ui:param name="propertyPath" value="iscritto.cellulare"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_iscritto.cellulare}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{iscrittoList}"/>
+                    <ui:param name="propertyLabel" value="Servizi"/>
+                    <ui:param name="propertyPath" value="iscritto.servizi"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_iscritto.servizi}"/>
+        </h:column>
+        <rich:column styleClass="action">
+            <f:facet name="header">Azioni</f:facet>
+            <s:link view="/Iscritto.xhtml"
+                   value="Mostra"
+             propagation="none"
+                     
+                >
+                <f:param name="iscrittoId"
+                        value="#{_iscritto.id}"/>
+            </s:link>
+            <s:link view="/IscrittoEdit.xhtml"
+                   value="Modifica"
+             propagation="none"
+                      id="iscrittoEdit"
+                >
+                <f:param name="iscrittoId"
+                        value="#{_iscritto.id}"/>
+            </s:link>
+        </rich:column>
+    </rich:dataTable>
+    
+	
+    </div>
+    </rich:panel>
+    <h:form  rendered="#{s:hasRole('admin')}">
+		<rich:simpleTogglePanel label="importazione" opened="false" switchType="ajax">
+			<h:inputTextarea cols="80" rows="10" value="#{iscrittoHome.importData}" />
+			<h:commandButton value="importa" action="#{iscrittoHome.importa}" />
+		</rich:simpleTogglePanel>
+	</h:form>
+
+    <div class="tableControl">
+
+        <s:link view="/IscrittoList.xhtml"
+            rendered="#{iscrittoList.previousExists}"
+               value="#{messages.left}#{messages.left} Prima Pagina"
+                  id="firstPage">
+          <f:param name="firstResult" value="0"/>
+        </s:link>
+
+        <s:link view="/IscrittoList.xhtml"
+            rendered="#{iscrittoList.previousExists}"
+               value="#{messages.left} Pagina Precedente"
+                  id="previousPage">
+            <f:param name="firstResult"
+                    value="#{iscrittoList.previousFirstResult}"/>
+        </s:link>
+
+        <s:link view="/IscrittoList.xhtml"
+            rendered="#{iscrittoList.nextExists}"
+               value="Prossima Pagina #{messages.right}"
+                  id="nextPage">
+            <f:param name="firstResult"
+                    value="#{iscrittoList.nextFirstResult}"/>
+        </s:link>
+
+        <s:link view="/IscrittoList.xhtml"
+            rendered="#{iscrittoList.nextExists}"
+               value="Ultima Pagina #{messages.right}#{messages.right}"
+                  id="lastPage">
+            <f:param name="firstResult"
+                    value="#{iscrittoList.lastFirstResult}"/>
+        </s:link>
+
+    </div>
+
+    <s:div styleClass="actionButtons" rendered="#{empty from}">
+        <s:button view="/IscrittoEdit.xhtml"
+                    id="create"
+           propagation="none"
+                 value="Crea nuova iscrizione">
+            <f:param name="iscrittoId"/>
+        </s:button>
+    </s:div>
+
+</ui:define>
+
+</ui:composition>

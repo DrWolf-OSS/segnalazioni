@@ -1,0 +1,182 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="iscritto" styleClass="edit">
+
+        <rich:panel styleClass="entityEdit">
+            <f:facet name="header">#{iscrittoHome.managed ? 'Modifica' : 'Nuova'} Iscrizione</f:facet>
+
+			 <s:decorate styleClass="codiceUtente" id="idField" template="layout/edit.xhtml">
+                <ui:define name="label">Codice Utente</ui:define>
+               
+               <code> <h:outputText 
+                              value="#{iscrittoHome.instance.id}"/></code>
+            </s:decorate>
+            
+           <s:decorate id="nomeField" template="layout/edit.xhtml">
+                <ui:define name="label">Nome</ui:define>
+                <h:inputText id="nome" rendered="#{!iscrittoHome.instance.confermato}" 
+                              value="#{iscrittoHome.instance.nome}"/>
+                <h:outputText rendered="#{iscrittoHome.instance.confermato}" 
+                              value="#{iscrittoHome.instance.nome}"/>
+            </s:decorate>
+            
+            <s:decorate id="cognomeField" template="layout/edit.xhtml">
+                <ui:define name="label">Cognome</ui:define>
+                <h:inputText id="nome" rendered="#{!iscrittoHome.instance.confermato}" 
+                              value="#{iscrittoHome.instance.cognome}"/>
+                <h:outputText rendered="#{iscrittoHome.instance.confermato}" 
+                              value="#{iscrittoHome.instance.cognome}"/>
+            </s:decorate>
+
+			 <s:decorate id="emailField" template="layout/edit.xhtml">
+                <ui:define name="label">Email</ui:define>
+                <h:inputText rendered="#{identity.loggedIn}" id="email" required="#{not identity.loggedIn}"
+                              value="#{iscrittoHome.instance.email}"/>
+                <h:outputText rendered="#{not identity.loggedIn}" 
+                              value="#{iscrittoHome.instance.email}"/>
+            </s:decorate>
+
+			 <s:decorate id="txtemailField" template="layout/edit.xhtml">
+                <ui:define name="label">Formato Email</ui:define>
+                
+				<h:selectBooleanCheckbox value="#{iscrittoHome.instance.textMail}" />Desidero ricevere le e-mail in formato testuale
+            </s:decorate>
+
+
+            
+            <s:decorate  template="layout/edit.xhtml">
+                <ui:define name="label">Ragione Sociale</ui:define>
+                <h:inputText rendered="#{!iscrittoHome.instance.confermato}" 
+                              value="#{iscrittoHome.instance.ragioneSociale}"/>
+                <h:outputText rendered="#{iscrittoHome.instance.confermato}" 
+                              value="#{iscrittoHome.instance.ragioneSociale}"/>
+            </s:decorate>
+            
+            <s:decorate  template="layout/edit.xhtml">
+                <ui:define name="label">Telefono</ui:define>
+                <h:inputText value="#{iscrittoHome.instance.telefono}"/>
+            </s:decorate>
+
+            <s:decorate id="cellField" template="layout/edit.xhtml">
+                <ui:define name="label">Cellulare</ui:define>
+                <h:inputText id="cell" 
+                              value="#{iscrittoHome.instance.cellulare}"/>
+            </s:decorate>
+
+            <s:decorate  template="layout/edit.xhtml">
+                <ui:define name="label">Fax</ui:define>
+                <h:inputText value="#{iscrittoHome.instance.fax}"/>
+            </s:decorate>
+
+
+            <s:decorate id="indField" template="layout/edit.xhtml">
+                <ui:define name="label">Indirizzo</ui:define>
+                <h:inputText id="ind" size="50"
+                              value="#{iscrittoHome.instance.indirizzo}"/>
+                
+            </s:decorate>
+            <s:decorate  template="layout/edit.xhtml">
+                <ui:define name="label">CAP</ui:define>
+                <h:inputText
+                              value="#{iscrittoHome.instance.cap}"/>
+                
+            </s:decorate>
+            <s:decorate template="layout/edit.xhtml">
+                <ui:define name="label">Località</ui:define>
+                <h:inputText 
+                              value="#{iscrittoHome.instance.localita}"/>
+                
+            </s:decorate>
+
+
+            <s:decorate id="serviziField" template="layout/edit.xhtml">
+                <ui:define name="label">Servizi sottoscritti</ui:define>
+                <s:div styleClass="formHelp"  rendered="#{iscrittoHome.serviziDisponibili.size()>0}">
+                Seleziona i servizi ai quali vuoi essere iscritto dall'elenco dei servizi disponibili
+                </s:div>
+				<ui:repeat var="s" value="#{iscrittoHome.loadServizi()}">
+					<s:div styleClass="servizio">
+					    
+						<h:outputText styleClass="nomeServizio" value="#{s.nome}"/>
+							<ui:repeat var="cat" value="#{s.categorieOpzioni}">
+								<s:div styleClass="categoriaOpzioni" rendered="#{cat.opzioniServizio.size() gt 0}">
+									<h:outputText styleClass="nomeCategoriaOpzioni  optsize#{cat.opzioniServizio.size()}" value="#{cat.nome}" />
+									<s:fragment rendered="#{cat.multiple}">
+										<h:selectManyCheckbox styleClass="checksize#{cat.opzioniServizio.size()}" value="#{cat.opzioniServizio4Iscritto}"
+											layout="pageDirection">
+											<s:selectItems value="#{cat.opzioniServizio}" var="o" label="#{o.nome}" />
+											<s:convertEntity/>
+										</h:selectManyCheckbox>
+									</s:fragment>									
+									<s:fragment rendered="#{!cat.multiple}">
+										<h:selectOneRadio   value="#{cat.opzioneServizio4Iscritto}"
+											layout="pageDirection">
+											<s:selectItems value="#{cat.opzioniServizio}" var="o" label="#{o.nome}" />
+											<s:convertEntity/>
+										</h:selectOneRadio>
+									</s:fragment>									
+								</s:div>
+							</ui:repeat>	
+					</s:div>
+				</ui:repeat>
+            </s:decorate>
+            
+            
+            <s:decorate id="consensoField" template="layout/edit.xhtml">
+                <ui:define name="label">Consenso al trattamento dei dati personali</ui:define>
+                 Iscrivendomi a questo servizio presto il consenso al trattamento dei dati personali
+                 <p><a href="#{iscrittoHome.privacyUrl}">Informativa sulla privacy</a></p>
+                   
+            </s:decorate>
+            
+
+  <div class="actionButtons" style="clear:both">
+
+            <h:commandButton id="save"
+                          value="Conferma le modifiche"
+                         action="#{iscrittoHome.persist}"
+                       disabled="#{!iscrittoHome.wired}"
+                       rendered="#{!iscrittoHome.managed}"/>
+
+            <h:commandButton id="update"
+                          value="Conferma le modifiche"
+                         action="#{iscrittoHome.update}"
+                       rendered="#{iscrittoHome.managed}"/>
+
+            <h:commandButton id="delete"
+                          value="Cancella l'iscrizione"
+                         action="#{iscrittoHome.remove}"
+                      immediate="true"
+                      onclick="return confirm('Vuoi cancellare l\'iscrizione?');"
+                       rendered="#{iscrittoHome.managed}"/>
+
+           
+            <s:button id="cancelAdd"
+                   value="Annulla"
+             propagation="end"
+                    view="/#{empty iscrittoFrom ? 'IscrittoList' : iscrittoFrom}.xhtml"
+                rendered="#{!iscrittoHome.managed}"/>
+
+        </div>
+
+           
+
+        </rich:panel>
+
+      
+    </h:form>
+
+</ui:define>
+
+</ui:composition>

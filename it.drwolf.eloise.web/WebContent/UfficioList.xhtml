@@ -1,0 +1,218 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich" template="layout/template.xhtml">
+
+	<ui:define name="body">
+
+		<h:messages globalOnly="true" styleClass="message" id="globalMessages" />
+
+		<h:form id="ufficioSearch" styleClass="edit">
+
+			<rich:simpleTogglePanel label="Parametri ricerca uffici"
+				switchType="ajax" styleClass="PNLGeneric">
+				<s:decorate template="layout/display.xhtml">
+					<ui:define name="label">nome</ui:define>
+					<h:inputText id="nome" value="#{ufficioList.ufficio.nome}" />
+				</s:decorate>
+				
+				<s:decorate template="layout/display.xhtml">
+					<ui:define name="label">descrizione</ui:define>
+					<h:inputText id="descrizione"
+						value="#{ufficioList.ufficio.descrizione}" />
+				</s:decorate>
+<!---->
+<!--				<s:decorate template="layout/display.xhtml">-->
+<!--					<ui:define name="label">telefono</ui:define>-->
+<!--					<h:inputText id="telefono" value="#{ufficioList.ufficio.telefono}" />-->
+<!--				</s:decorate>-->
+<!---->
+<!--				<s:decorate template="layout/display.xhtml">-->
+<!--					<ui:define name="label">fax</ui:define>-->
+<!--					<h:inputText id="fax" value="#{ufficioList.ufficio.fax}" />-->
+<!--				</s:decorate>-->
+<!---->
+<!--				<s:decorate template="layout/display.xhtml">-->
+<!--					<ui:define name="label">email</ui:define>-->
+<!--					<h:inputText id="email" value="#{ufficioList.ufficio.email}" />-->
+<!--				</s:decorate>-->
+
+
+
+<!--				<s:decorate template="layout/display.xhtml">-->
+<!--					<ui:define name="label">fax1</ui:define>-->
+<!--					<h:inputText id="fax1" value="#{ufficioList.ufficio.fax1}" />-->
+<!--				</s:decorate>-->
+				<s:div style="clear:both;" />
+				<div class="actionButtons"><h:commandButton id="search"
+					value="Cerca" action="/UfficioList.xhtml" /></div>
+			</rich:simpleTogglePanel>
+
+
+
+		</h:form>
+
+		<rich:panel>
+			<f:facet name="header">Risultati ricerca</f:facet>
+			<div class="results" id="ufficioList"><h:outputText
+				value="Non ci sono uffici che soddisfano i paramteri di ricerca."
+				rendered="#{empty ufficioList.resultList}" /> <rich:dataTable
+				id="ufficioList" var="ufficio" value="#{ufficioList.resultList}"
+				rendered="#{not empty ufficioList.resultList}">
+<!--				<h:column>-->
+<!--					<f:facet name="header">-->
+<!--						<s:link styleClass="columnHeader"-->
+<!--							value="idufficio #{ufficioList.order=='idufficio asc' ? messages.down : ( ufficioList.order=='idufficio desc' ? messages.up : '' )}">-->
+<!--							<f:param name="order"-->
+<!--								value="#{ufficioList.order=='idufficio asc' ? 'idufficio desc' : 'idufficio asc'}" />-->
+<!--						</s:link>-->
+<!--					</f:facet>-->
+<!--            #{ufficio.idufficio}-->
+<!--        </h:column>-->
+				<h:column>
+					<f:facet name="header">
+						<s:link styleClass="columnHeader"
+							value="Nome #{ufficioList.order=='nome asc' ? messages.down : ( ufficioList.order=='nome desc' ? messages.up : '' )}">
+							<f:param name="order"
+								value="#{ufficioList.order=='nome asc' ? 'nome desc' : 'nome asc'}" />
+						</s:link>
+					</f:facet>
+            #{ufficio.nome}
+        </h:column> 
+				<h:column>
+					<f:facet name="header">
+						<s:link styleClass="columnHeader"
+							value="Settore #{ufficioList.order=='area.idsettore asc' ? messages.down : ( ufficioList.order=='area.idsettore desc' ? messages.up : '' )}">
+							<f:param name="order"
+								value="#{ufficioList.order=='area.idsettore asc' ? 'area.idsettore desc' : 'area.idsettore asc'}" />
+						</s:link>
+					</f:facet>
+            #{ufficio.area}
+        </h:column>
+				<h:column>
+					<f:facet name="header">
+						<s:link styleClass="columnHeader"
+							value="Sede #{ufficioList.order=='sede.idsede asc' ? messages.down : ( ufficioList.order=='sede.idsede desc' ? messages.up : '' )}">
+							<f:param name="order"
+								value="#{ufficioList.order=='sede.idsede asc' ? 'sede.idsede desc' : 'sede.idsede asc'}" />
+						</s:link>
+					</f:facet>
+            #{ufficio.sede}
+        </h:column>
+				<h:column>
+					<f:facet name="header">
+						<s:link styleClass="columnHeader"
+							value="Orario #{ufficioList.order=='orario.idorario asc' ? messages.down : ( ufficioList.order=='orario.idorario desc' ? messages.up : '' )}">
+							<f:param name="order"
+								value="#{ufficioList.order=='orario.idorario asc' ? 'orario.idorario desc' : 'orario.idorario asc'}" />
+						</s:link>
+					</f:facet>
+            #{ufficio.orario}
+        </h:column>
+				<h:column>
+					<f:facet name="header">
+						<s:link styleClass="columnHeader"
+							value="Visible #{ufficioList.order=='visible asc' ? messages.down : ( ufficioList.order=='visible desc' ? messages.up : '' )}">
+							<f:param name="order"
+								value="#{ufficioList.order=='visible asc' ? 'visible desc' : 'visible asc'}" />
+						</s:link>
+					</f:facet>
+					<h:outputText value="#{ufficio.visible ? 'si' : 'no'}" />
+        </h:column>
+				<h:column>
+					<f:facet name="header">
+						<s:link styleClass="columnHeader"
+							value="Descrizione #{ufficioList.order=='descrizione asc' ? messages.down : ( ufficioList.order=='descrizione desc' ? messages.up : '' )}">
+							<f:param name="order"
+								value="#{ufficioList.order=='descrizione asc' ? 'descrizione desc' : 'descrizione asc'}" />
+						</s:link>
+					</f:facet>
+            #{ufficio.descrizione}
+        </h:column>
+<!--				<h:column>-->
+<!--					<f:facet name="header">-->
+<!--						<s:link styleClass="columnHeader"-->
+<!--							value="telefono #{ufficioList.order=='telefono asc' ? messages.down : ( ufficioList.order=='telefono desc' ? messages.up : '' )}">-->
+<!--							<f:param name="order"-->
+<!--								value="#{ufficioList.order=='telefono asc' ? 'telefono desc' : 'telefono asc'}" />-->
+<!--						</s:link>-->
+<!--					</f:facet>-->
+<!--            #{ufficio.telefono}-->
+<!--        </h:column>-->
+<!--				<h:column>-->
+<!--					<f:facet name="header">-->
+<!--						<s:link styleClass="columnHeader"-->
+<!--							value="fax #{ufficioList.order=='fax asc' ? messages.down : ( ufficioList.order=='fax desc' ? messages.up : '' )}">-->
+<!--							<f:param name="order"-->
+<!--								value="#{ufficioList.order=='fax asc' ? 'fax desc' : 'fax asc'}" />-->
+<!--						</s:link>-->
+<!--					</f:facet>-->
+<!--            #{ufficio.fax}-->
+<!--        </h:column>-->
+<!--				<h:column>-->
+<!--					<f:facet name="header">-->
+<!--						<s:link styleClass="columnHeader"-->
+<!--							value="email #{ufficioList.order=='email asc' ? messages.down : ( ufficioList.order=='email desc' ? messages.up : '' )}">-->
+<!--							<f:param name="order"-->
+<!--								value="#{ufficioList.order=='email asc' ? 'email desc' : 'email asc'}" />-->
+<!--						</s:link>-->
+<!--					</f:facet>-->
+<!--            #{ufficio.email}-->
+<!--        </h:column>-->
+
+<!--				<h:column>-->
+<!--					<f:facet name="header">-->
+<!--						<s:link styleClass="columnHeader"-->
+<!--							value="fax1 #{ufficioList.order=='fax1 asc' ? messages.down : ( ufficioList.order=='fax1 desc' ? messages.up : '' )}">-->
+<!--							<f:param name="order"-->
+<!--								value="#{ufficioList.order=='fax1 asc' ? 'fax1 desc' : 'fax1 asc'}" />-->
+<!--						</s:link>-->
+<!--					</f:facet>-->
+<!--            #{ufficio.fax1}-->
+<!--        </h:column>-->
+				<h:column>
+					<f:facet name="header">Azione</f:facet>
+					<s:link view="/#{empty from ? 'Ufficio' : from}.xhtml"
+						value="Seleziona" id="ufficio">
+						<f:param name="ufficioIdufficio" value="#{ufficio.idufficio}" />
+					</s:link>
+				</h:column>
+			</rich:dataTable></div>
+		</rich:panel>
+
+		<div class="tableControl"><s:link view="/UfficioList.xhtml"
+			rendered="#{ufficioList.previousExists}"
+			value="#{messages.left}#{messages.left} prima" id="firstPage">
+			<f:param name="firstResult" value="0" />
+		</s:link> <s:link view="/UfficioList.xhtml"
+			rendered="#{ufficioList.previousExists}"
+			value="#{messages.left} precedente" id="previousPage">
+			<f:param name="firstResult"
+				value="#{ufficioList.previousFirstResult}" />
+		</s:link> <s:link view="/UfficioList.xhtml"
+			rendered="#{ufficioList.nextExists}"
+			value="prossima #{messages.right}" id="nextPage">
+			<f:param name="firstResult" value="#{ufficioList.nextFirstResult}" />
+		</s:link> <s:link view="/UfficioList.xhtml"
+			rendered="#{ufficioList.nextExists}"
+			value="ultima #{messages.right}#{messages.right}" id="lastPage">
+			<f:param name="firstResult" value="#{ufficioList.lastFirstResult}" />
+		</s:link></div>
+
+		<s:div styleClass="actionButtons" rendered="#{empty from}">
+			<s:button view="/UfficioEdit.xhtml" id="create"
+				value="Crea nuovo ufficio">
+				<f:param name="ufficioIdufficio" />
+			</s:button>
+		</s:div>
+
+	</ui:define>
+
+</ui:composition>
+

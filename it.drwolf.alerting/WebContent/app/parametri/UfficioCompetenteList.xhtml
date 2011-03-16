@@ -1,0 +1,74 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:rich="http://richfaces.org/rich"
+                template="/layout/template.xhtml">
+
+<ui:define name="title">Uffici Competenti Segnalazioni</ui:define>
+
+<ui:define name="navigation">
+ 	<ui:include src="/layout/menu.xhtml" />
+</ui:define>
+                       
+<ui:define name="body">
+    
+    <h:form >
+    
+    
+    <rich:panel>
+        
+               
+    <rich:dataTable id="ufficioCompetenteList" 
+                var="ufficioCompetente"
+              value="#{ufficioCompetenteList.resultList}" 
+           rendered="#{not empty ufficioCompetenteList.resultList}">
+       
+        <h:column>
+            <f:facet name="header">
+               Ufficio
+            </f:facet>
+            <h:outputText value="#{ufficioCompetente.eloiseId}" converter="#{ufficioConverter}"/>
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">
+                Gestori Segnalazioni
+            </f:facet>
+            <ui:repeat value="#{ufficioCompetente.gestori}" var="p">
+            	&#8227;&#160;<h:outputText value="#{p}" converter="#{peopleConverter}"/>&#160;&#160;
+            </ui:repeat>
+        </h:column>
+       
+        <h:column>
+            <f:facet name="header">Azioni</f:facet>
+            <s:link view="/app/parametri/UfficioCompetenteEdit.xhtml" 
+                   value="Modifica" 
+                      id="ufficioCompetente">
+                <f:param name="ufficioCompetenteId" 
+                        value="#{ufficioCompetente.id}"/>
+            </s:link>
+        </h:column>
+    </rich:dataTable>
+
+
+    </rich:panel>
+    
+     <s:decorate template="/layout/actions.xhtml">
+        <s:button view="/app/parametri/UfficioCompetenteEdit.xhtml"
+                    id="create" 
+                 value="Nuovo ufficio">
+            <f:param name="ufficioCompetenteId"/>
+        </s:button>
+    </s:decorate>
+   
+     </h:form>
+</ui:define>
+
+</ui:composition>
+

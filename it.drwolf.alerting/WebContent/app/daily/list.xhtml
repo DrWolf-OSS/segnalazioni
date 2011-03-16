@@ -1,0 +1,103 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:rich="http://richfaces.org/rich"
+                template="/layout/template.xhtml">
+
+<ui:define name="title">Gestione fogli di lavoro</ui:define>
+<ui:define name="navigation">
+ 	<ui:include src="/layout/menu.xhtml" />
+</ui:define>
+
+<ui:define name="body">
+
+
+
+
+    <rich:dataTable value="#{giornalieroList.listaGiornalieri}" var="g" rows="10">
+	
+	<f:facet name="header">
+	<s:div>
+	<s:button value="Nuovo foglio di lavoro" onclick="#{rich:component('sqp')}.show();return 0;"/>
+		<rich:modalPanel id="sqp" autosized="true">
+		<f:facet name="header">
+			Scegli una squadra
+		</f:facet>
+		<f:facet name="controls">
+		<a href="javascript:void:(0)" onclick="#{rich:component('sqp')}.hide()">
+			<img style="border:0" src="/sign/img/cross.png"/>
+		</a>
+		</f:facet>
+			<center>
+				 <s:link view="/app/daily/edit.xhtml" value="Tutte le squadre">
+            		<f:param name="entityId" value=""/>
+            		<f:param name="sq" value=""/>
+            	 </s:link>
+        	</center>    
+        	<br/>
+        	
+        	<rich:dataGrid value="#{squadraInterventoList.resultList}" var="squadra" columns="4">
+        		<s:div style="text-align:center">
+	        		<s:link view="/app/daily/edit.xhtml" value="#{squadra.nome}">
+	            			<f:param name="entityId" value=""/>
+            				<f:param name="sq" value="#{squadra.id}"/>
+            		</s:link>
+	            </s:div>
+        	</rich:dataGrid>		 
+				
+
+			</rich:modalPanel>
+		</s:div>	
+           
+    		
+	</f:facet>
+	
+        <rich:column>
+            <f:facet name="header">
+                Data
+            </f:facet>
+            <s:link view="/app/daily/edit.xhtml">
+            	<h:outputText value="#{g.data}">
+            	<s:convertDateTime pattern="dd/MM/yyyy"/>
+            	</h:outputText>
+            	<f:param name="entityId" value="#{g.id}"/>
+            </s:link>
+        </rich:column>
+        <rich:column>
+            <f:facet name="header">
+                Interventi
+            </f:facet>
+           #{g.interventi}
+
+
+        </rich:column>
+        <rich:column>
+            <f:facet name="header">
+                Azioni
+            </f:facet>
+           	<s:decorate template="/layout/actions.xhtml">
+			<s:link value="Stampa"
+					propagation="join"
+					target="_blank"
+                    view="/app/daily/stampaGiornaliero.xhtml" >
+                    <f:param name="entityId" value="#{g.id}"/>
+            </s:link>&#160;
+            <s:link view="/app/daily/edit.xhtml" value="Modifica">
+            	<f:param name="entityId" value="#{g.id}"/>
+            </s:link>
+			</s:decorate>
+        </rich:column>
+		<f:facet name="footer">
+			<rich:datascroller renderIfSinglePage="false"/>
+		</f:facet>
+    </rich:dataTable>
+
+
+
+   </ui:define>
+</ui:composition>

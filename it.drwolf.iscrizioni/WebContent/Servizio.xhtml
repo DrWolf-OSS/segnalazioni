@@ -1,0 +1,104 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Dettagli Servizio</f:facet>
+
+
+        <s:decorate id="id" template="layout/display.xhtml">
+            <ui:define name="label">id</ui:define>
+            <h:outputText value="#{servizioHome.instance.id}"/>
+        </s:decorate>
+
+        <s:decorate id="nome" template="layout/display.xhtml">
+            <ui:define name="label">Nome</ui:define>
+            <h:outputText value="#{servizioHome.instance.nome}"/>
+        </s:decorate>
+
+        <s:decorate id="url" template="layout/display.xhtml">
+            <ui:define name="label">Url</ui:define>
+            <h:outputText value="#{servizioHome.instance.url}"/>
+        </s:decorate>
+
+       
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/ServizioEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty servizioFrom ? 'ServizioList' : servizioFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="ajax">
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Categorie opzioni</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="categorieOpzioniChildren">
+
+        <h:outputText value="There are no categorieOpzioni associated with this servizio."
+                   rendered="#{empty servizioHome.categorieOpzioni}"/>
+
+        <rich:dataTable value="#{servizioHome.categorieOpzioni}"
+                       var="_categoriaOpzioniServizio"
+                  rendered="#{not empty servizioHome.categorieOpzioni}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="categorieOpzioniTable">
+            <rich:column sortBy="#{_categoriaOpzioniServizio.id}">
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_categoriaOpzioniServizio.id}"/>
+            </rich:column>
+            <rich:column sortBy="#{_categoriaOpzioniServizio.multiple}">
+                <f:facet name="header">Multiple</f:facet>
+                <h:outputText value="#{_categoriaOpzioniServizio.multiple}"/>
+            </rich:column>
+            <rich:column sortBy="#{_categoriaOpzioniServizio.nome}">
+                <f:facet name="header">Nome</f:facet>
+                <h:outputText value="#{_categoriaOpzioniServizio.nome}"/>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectcategoriaOpzioniServizio"
+                     value="Select"
+                      view="/CategoriaOpzioniServizio.xhtml">
+                    <f:param name="categoriaOpzioniServizioId"
+                            value="#{_categoriaOpzioniServizio.id}"/>
+                    <f:param name="categoriaOpzioniServizioFrom" value="Servizio"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add categoriaOpzioniServizio"
+                view="/CategoriaOpzioniServizioEdit.xhtml">
+            <f:param name="servizioId"
+                    value="#{servizioHome.instance.id}"/>
+            <f:param name="categoriaOpzioniServizioFrom" value="Servizio"/>
+        </s:button>
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

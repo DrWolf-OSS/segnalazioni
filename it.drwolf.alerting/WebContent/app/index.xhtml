@@ -1,0 +1,384 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:c="http://java.sun.com/jstl/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:rich="http://richfaces.org/rich"
+                xmlns:a4j="http://richfaces.org/a4j"
+                template="/layout/template.xhtml">
+
+  <ui:define name="title">Homepage Segnalazioni</ui:define>
+
+
+  <ui:define name="pageactions">
+ 	<s:link target="_blank" action="#{xlsGenerator.homeExcel()}">
+ 		<img  height="16" width="16" alt="Esporta in Excel" style="border:0" src="/sign/img/page_white_excel.png" />
+ 	</s:link>
+  </ui:define>
+
+  <ui:define name="navigation">
+ 	<ui:include src="/layout/menu.xhtml" />
+  </ui:define>
+
+  <ui:define name="body">
+
+  
+    <s:span id="shelp"></s:span>
+    
+    
+	
+	<c:set value="#{alertingController.isGestore(identity.username)}" var="gestore"/>
+
+    <rich:tabPanel switchType="client" selectedTab="#{workSession.currentTab}">
+
+      <rich:tab name="pool" ontabenter="updateTab('pool')" label="Segnalazioni da prendere in carico (#{pooledTaskInstanceList.size()})"
+      			rendered="#{not empty pooledTaskInstanceList}">
+
+    <rich:dataTable value="#{pooledTaskInstanceList}" var="task" rendered="#{not empty pooledTaskInstanceList}">
+
+        <rich:column>
+            <f:facet name="header">
+                Segnalazione
+            </f:facet>
+            
+            <s:fragment rendered="#{segnalazioneHome.verificaScadenza(alertingController.getSegnalazione(task),false)}" >
+				<img style="margin-right:1em;" 
+					src="/sign/img/exclamation.png" height="16" width="16" alt="Scaduta" title="Scaduta"/>
+			</s:fragment>
+            
+            <h:outputText value="#{alertingController.getTitleForTask(task)}" escape="false"/>
+
+        </rich:column>
+
+        <rich:column>
+            <f:facet name="header">
+                Azioni
+            </f:facet>
+<!--            <h:commandButton action="# {alertingController.assignTaskToCurrentActor(task)}"-->
+<!--            value="# {task.description}" />-->
+            <s:button value="#{task.description}" propagation="none"
+                    view="/app/task.xhtml" action="#{alertingController.assignTaskToCurrentActorById()}">
+                <f:param name="taskId" value="#{task.id}"/>
+                <f:param name="processId" value="#{task.processInstance.id}"/>                
+            </s:button>
+        </rich:column>
+
+    </rich:dataTable>
+    </rich:tab>
+
+    <rich:tab name="interventi" ontabenter="updateTab('interventi')" label="Interventi (#{interventi.size()})" rendered="#{gestore}">
+
+
+      <rich:dataTable id="intTable" value="#{interventi}" var="intervento" rows="10" rendered="#{not empty interventi}" reRender="ids,tt">
+        <rich:column filterMethod="#{filteringBean.filterFor('intervento.oggetto').filter}" >
+      	  <f:facet name="header">
+      	  <s:div>
+      	  Intervento
+      	  <s:div>
+      	  <h:inputText styleClass="rich-filter-input" value="#{filteringBean.filterFor('intervento.oggetto').value}" >
+      	  <a4j:support event="onblur" reRender="intTable"
+          	ignoreDupResponses="true"/>
+      	  </h:inputText>
+      	  </s:div>
+      	  </s:div>
+      	  </f:facet>
+      	  <s:link view="/app/intervento/edit.xhtml" propagation="none">
+      	  	<f:param name="entityId" value="#{intervento.id}" />
+    	  #{intervento.oggetto}
+    	  </s:link>
+		</rich:column>
+		
+		
+        <rich:column sortBy="#{intervento.stato.descrizione}"
+                     filterBy="#{intervento.stato.descrizione}">
+      	  <f:facet name="header">Stato</f:facet>
+    	  <h:selectBooleanCheckbox styleClass="noPrint" value="#{intervento.cambiaStato}"/>
+    	  #{intervento.stato}
+		</rich:column>
+		<rich:column sortBy="#{intervento.scadenza}">
+		  <f:facet name="header">Scadenza</f:facet>
+				<div class="noPrint" style="background:#{intervento.codiceTriage.colore};border:1px solid #aaa;height: 1em; width: 1em; float:left;margin-right: 1em;">&#160;</div>
+				<span class="forPrint">#{intervento.codiceTriage.descrizione}</span>
+				<h:outputText value="#{intervento.formattedScadenza}" />
+		</rich:column>
+		<rich:column sortBy="#{intervento.squadraIntervento.nome}"
+                     filterBy="#{intervento.squadraIntervento.nome}">
+		  <f:facet name="header">Squadra</f:facet>
+		  #{intervento.squadraIntervento}
+		</rich:column>
+
+		<rich:column filterMethod="#{filteringBean.filterFor('intervento.indirizzo').filter(intervento.indirizzo)}" >
+      	  <f:facet name="header">
+      	  <s:div>
+      	  Indirizzo
+      	  <s:div>
+      	  <h:inputText styleClass="rich-filter-input" value="#{filteringBean.filterFor('intervento.indirizzo').value}" >
+      	  <a4j:support event="onblur" reRender="intTable"
+          	ignoreDupResponses="true"/>
+      	  </h:inputText>
+      	  </s:div>
+      	  </s:div>
+      	  </f:facet>
+    	  #{intervento.indirizzo}
+		</rich:column>
+
+
+		<rich:column headerClass="ncol" sortBy="#{intervento.segnalazione.id}"
+                     filterBy="#{intervento.segnalazione.id}">
+		  <f:facet name="header">N.</f:facet>
+		  #{intervento.segnalazione.id}
+		</rich:column>
+		<rich:column  filterMethod="#{filteringBean.filterFor('intervento.segnalazione.oggetto').filter(intervento.segnalazione.oggetto)}" >
+      	  <f:facet name="header">
+      	  <s:div>
+      	  Segnalazione
+      	  <s:div>
+      	  <h:inputText styleClass="rich-filter-input" value="#{filteringBean.filterFor('intervento.segnalazione.oggetto').value}" >
+      	  <a4j:support event="onblur" reRender="intTable"
+          	ignoreDupResponses="true"/>
+      	  </h:inputText>
+      	  </s:div>
+      	  </s:div>
+		  </f:facet>
+		  #{intervento.segnalazione.oggetto}
+		</rich:column>
+		<f:facet name="footer">
+			<rich:datascroller renderIfSinglePage="false" id="ids" reRender="tt"/>
+		</f:facet>
+		
+      </rich:dataTable>
+
+      <rich:simpleTogglePanel styleClass="noPrint" rendered="#{not empty interventi}"
+      		label="Aggiornamento multiplo"
+      		opened="false"
+      		switchType="client" >
+      <h:selectOneMenu value="#{listaSegnalazioni.cambiaStato}">
+      <s:selectItems value="#{statoList.resultList}" var="s" label="#{s}"/>
+      <s:convertEntity/>
+      </h:selectOneMenu>
+      <h:commandButton action="#{listaSegnalazioni.massUpdate()}" value="Cambia stato agli interventi selezionati"/>
+	</rich:simpleTogglePanel>
+    </rich:tab>
+
+      <rich:tab name="task" ontabenter="updateTab('task')"  label="Segnalazioni in lavorazione (#{taskInstanceList.size()})" rendered="#{not empty taskInstanceList}">
+
+    <rich:dataTable id="taskList" value="#{taskInstanceList}" var="task" rows="5" >
+
+
+        <rich:column headerClass="ncol" sortBy="#{alertingController.getSegnalazione(task).id}"
+        			filterBy="#{alertingController.getSegnalazione(task).id}">
+        			
+            <f:facet name="header">
+                N.
+            </f:facet>
+            
+            
+                        
+            <s:link propagation="none"
+                    view="/app/task.xhtml">
+                <f:param name="taskId" value="#{task.id}"/>
+                <f:param name="processId" value="#{task.processInstance.id}"/>
+                <h:outputText value="#{alertingController.getSegnalazione(task).id}" escape="false"/>
+            </s:link>
+        </rich:column>
+        
+        <rich:column  filterMethod="#{filteringBean.filterFor('tilist.task.oggetto').filter(alertingController.getSegnalazione(task).oggetto)}" >
+        			
+            <f:facet name="header">
+            <s:div>
+                Segnalazione
+            <s:div>
+      	  <h:inputText styleClass="rich-filter-input" value="#{filteringBean.filterFor('tilist.task.oggetto').value}" >
+      	  
+      	  <a4j:support event="onblur" reRender="taskList"
+          	ignoreDupResponses="true"/>
+          	
+      	  </h:inputText>
+      	  
+      	  </s:div>
+      	  </s:div>
+      	  	
+		  </f:facet>
+			
+			 <s:fragment rendered="#{segnalazioneHome.verificaScadenza(alertingController.getSegnalazione(task),false)}" >
+				<img style="margin-right:1em;" 
+					src="/sign/img/exclamation.png" height="16" width="16" alt="Scaduta" title="Scaduta"/>
+			</s:fragment>
+
+                        
+            <s:link propagation="none"
+                    view="/app/task.xhtml">
+                <f:param name="taskId" value="#{task.id}"/>
+                <f:param name="processId" value="#{task.processInstance.id}"/>
+                <h:outputText value="#{alertingController.getSegnalazione(task).oggetto}" escape="false"/>
+            </s:link>
+        </rich:column>
+        <rich:column rendered="#{gestore}" >
+            <f:facet name="header">
+               Intervento
+            </f:facet>
+
+        </rich:column>
+        <rich:column sortBy="#{alertingController.getSegnalazione(task).stato.descrizione}"
+        			filterBy="#{alertingController.getSegnalazione(task).stato.descrizione}">
+      	  <f:facet name="header">Stato</f:facet>
+    	  #{alertingController.getSegnalazione(task).stato}
+		</rich:column>
+        <rich:column rendered="#{gestore}">
+            <f:facet name="header">
+               Scadenza
+            </f:facet>
+
+        </rich:column>
+        <rich:column rendered="#{gestore}">
+            <f:facet name="header">
+               Squadra
+            </f:facet>
+
+        </rich:column>
+        <rich:column>
+            <f:facet name="header">
+                Azioni
+            </f:facet>
+            <s:button value="#{task.description}" propagation="none"
+                    view="/app/task.xhtml">
+                <f:param name="taskId" value="#{task.id}"/>
+                <f:param name="processId" value="#{task.processInstance.id}"/>
+            </s:button>
+
+        </rich:column>
+
+		<rich:subTable rendered="#{gestore and not empty alertingController.getSegnalazione(task).interventos}"
+		               value="#{alertingController.getSegnalazione(task).interventos}"
+					   var="i">
+			<rich:column style="background:#eee;" >
+
+			</rich:column>
+			<rich:column style="background:#eee;" >
+
+			</rich:column>
+			<rich:column style="background:#eee;">
+				#{i.oggetto}
+			</rich:column>
+			<rich:column style="background:#eee;">
+				#{i.stato}
+			</rich:column>
+			<rich:column style="background:#eee;">
+				<div style="background:#{i.codiceTriage.colore};border:1px solid #aaa;height: 1em; width: 1em; float:left;margin-right: 1em;">&#160;</div>
+				<h:outputText value="#{i.formattedScadenza}" />
+			</rich:column>
+			<rich:column style="background:#eee;">
+				#{i.squadraIntervento}
+			</rich:column>
+			<rich:column style="background:#eee;" >
+
+			</rich:column>
+		</rich:subTable>
+
+          <f:facet name="footer" >
+<rich:datascroller for="taskList" maxPages="10" id="taskDS" />
+          </f:facet>
+
+    </rich:dataTable>
+
+
+
+
+    </rich:tab>
+
+
+      <rich:tab name="mie" ontabenter="updateTab('mie')"  label="Le mie segnalazioni (#{mie.size()})">
+         <rich:dataTable value="#{mie}" var="s">
+          <rich:column>
+            <f:facet name="header">
+              <s:div>
+				Segnalazione
+				
+              </s:div>
+            </f:facet>
+            
+             <s:fragment rendered="#{segnalazioneHome.verificaScadenza(s,false)  and not s:hasRole('cittadino')}" >
+				<img style="margin-right:1em;" 
+					src="/sign/img/exclamation.png" height="16" width="16" alt="Scaduta" title="Scaduta"/>
+			</s:fragment>
+            
+            <s:link value="#{s.id} - #{s.oggetto}" view="/app/segnalazione.xhtml">
+            <f:param name="sid" value="#{s.id}"/>
+            </s:link>
+          </rich:column>
+          <rich:column>
+            <f:facet name="header">
+            	Stato
+            </f:facet>
+            #{s.stato}
+          </rich:column>
+          <rich:column>
+            <f:facet name="header">
+              <s:div>
+            	Data
+            	
+			  </s:div>
+            </f:facet>
+            <h:outputText value="#{s.data}">
+            <s:convertDateTime pattern="dd/MM/yyyy"/>
+            </h:outputText>
+          </rich:column>
+        </rich:dataTable>
+      </rich:tab>
+	   <rich:tab rendered="#{alertingController.isSmistatore(identity.credentials.username)}" name="aggiornamenti" ontabenter="updateTab('aggiornamenti')"  label="Ultimi aggiornamenti">
+	   
+	   	 <rich:dataTable value="#{ultimiAggiornamenti}" var="s"  rows="10">
+          <rich:column>
+            <f:facet name="header">
+				Segnalazione
+            </f:facet>
+            <s:link value="#{s[0]} - #{s[1]}" view="/app/segnalazione.xhtml" propagation="none">
+            <f:param name="sid" value="#{s[0]}"/>
+            </s:link>
+          </rich:column>
+          <rich:column>
+            <f:facet name="header">
+            	Data aggiornamento
+            </f:facet>
+            
+            <h:outputText value="#{s[2]}">
+            <s:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
+            </h:outputText>
+            
+          </rich:column>
+          <f:facet name="footer" >
+          	<rich:datascroller />
+          </f:facet>
+          
+        </rich:dataTable>
+	   </rich:tab>
+
+<a4j:status onstart="#{rich:component('wait')}.show()" onstop="#{rich:component('wait')}.hide()"/>
+</rich:tabPanel>
+<rich:simpleTogglePanel styleClass="noPrint" label="Filtro Ricerca" opened="false" switchType="client">
+    <s:decorate template="/layout/input.xhtml">
+    <ui:define name="label">Stato</ui:define>
+    	<h:selectManyCheckbox required="true" id="stati" value="#{listaSegnalazioni.stati}">
+	    	<s:selectItems value="#{statoList.resultList}" var="s" label="#{s}"/>
+    		<s:convertEntity/>
+    	</h:selectManyCheckbox>
+    </s:decorate>
+    <s:decorate template="/layout/input.xhtml">
+    <ui:define name="label">Data</ui:define>
+		Da: <rich:calendar value="#{listaSegnalazioni.dataInizio}" datePattern="dd/MM/yyyy" />
+		A: <rich:calendar value="#{listaSegnalazioni.dataFine}" datePattern="dd/MM/yyyy" />
+    </s:decorate>
+    <h:commandButton action="#{listaSegnalazioni.clean()}" value="cerca"/>
+    </rich:simpleTogglePanel>
+     
+     <a4j:region id="utr">
+        <a4j:jsFunction name="updateTab" ajaxSingle="true" immediate="true" eventsQueue="tab" >
+            <a4j:actionparam name="param1" assignTo="#{workSession.currentTab}"  />
+        </a4j:jsFunction>
+       </a4j:region>
+     
+   </ui:define>
+</ui:composition>

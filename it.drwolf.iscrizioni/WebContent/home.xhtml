@@ -1,0 +1,65 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich" template="layout/template.xhtml">
+
+	<ui:define name="body">
+
+		<rich:panel styleClass="homeForm">
+		<rich:panel>
+			<h:panelGrid columns="2">
+				<h:graphicImage value="/img/mail.png" alt="e-mail" />
+				<s:div styleClass="info">
+					<h:form>
+					
+						<s:decorate id="idField" template="layout/edit.xhtml">
+							<ui:define name="label">Inserisci la tua e-mail</ui:define>
+							<h:inputText id="email" required="true" value="#{iscrittoHome.email}" />
+						</s:decorate>
+						<div class="actionButtons">
+						
+						<h:commandButton id="nuova"
+							value="Nuova iscrizione" action="#{iscrittoHome.createNew}"/> 
+							
+							<br/>
+
+						<h:commandButton id="modifica"
+							value="Ricordami il codice utente" action="#{iscrittoHome.rememberCode}"/>                         
+                        </div>
+                      
+					</h:form>
+				</s:div>
+			</h:panelGrid>
+			</rich:panel>
+			
+			<rich:panel styleClass="user">
+			<h:panelGrid columns="2">
+				<h:graphicImage value="/img/user.png" alt="user" />
+				<s:div styleClass="info">
+					<h:form>
+					
+						<s:decorate id="idField" template="layout/edit.xhtml">
+							<ui:define name="label"> Se sei già iscritto, <br/>inserisci il tuo codice utente</ui:define>
+							<h:inputSecret id="id" required="true" value="#{iscrittoHome.iscrittoId}" />
+						</s:decorate>
+						<div class="actionButtons">
+						
+						<h:commandButton id="nuova"
+							value="Accedi" action="#{iscrittoHome.verifyId}"/> 
+							
+							                       
+                        </div>
+                      
+					</h:form>
+				</s:div>
+			</h:panelGrid>
+			</rich:panel>
+						
+		</rich:panel>
+	
+	</ui:define>
+</ui:composition>

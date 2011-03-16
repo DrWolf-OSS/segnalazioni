@@ -1,0 +1,28 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j" template="/layout/template.xhtml">
+
+	<ui:define name="title">Nuova Segnalazione</ui:define>
+	<ui:define name="navigation">
+		<ui:include src="/layout/menu.xhtml" />
+	</ui:define>
+
+	<ui:define name="body">
+
+		<ui:include src="/app/segnalazione/include.xhtml">
+			<ui:param name="segnalazione" value="#{segnalazioneHome.instance}" />
+		</ui:include>
+
+		<s:decorate id="buttons" template="/layout/actions.xhtml">
+			<h:commandButton value="Inoltra segnalazione"
+				action="#{segnalazioneHome.persist}" />
+		</s:decorate>
+	</ui:define>
+</ui:composition>

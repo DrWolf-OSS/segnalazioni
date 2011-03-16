@@ -1,0 +1,62 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:rich="http://richfaces.ajax4jsf.org/rich"
+   xmlns:s="http://jboss.com/products/seam/taglib">
+
+
+	<s:decorate template="/layout/input.xhtml">
+		<ui:define name="label">Data di Chiusura</ui:define>	
+		<rich:calendar value="#{segnalazione.chiusura}" datePattern="dd/MM/yyyy"/>
+
+    </s:decorate>
+	<s:decorate template="/layout/input.xhtml">
+		<ui:define name="label">Esito</ui:define>	
+		<h:selectOneRadio  value="#{segnalazione.esitoSegnalazione}">
+		<s:selectItems var="e" label="#{e.esito}" value="#{esitoSegnalazioneList.resultList}" />
+				<s:convertEntity />
+		</h:selectOneRadio>
+
+    </s:decorate>
+	
+	<s:decorate  template="/layout/display.xhtml" rendered="#{not empty alertingController.interventiAttivi}">
+    	<ui:define name="label">Interventi attivi:</ui:define>
+	<rich:panel header="Attenzione!! i seguenti interventi risultano ancora in fase di aggiornamento">
+		<rich:dataTable styleClass="historyTable" value="#{alertingController.interventiAttivi}" var="h">
+			<h:column>
+				<f:facet name="header">
+					Oggetto
+				</f:facet>
+				<h:outputText value="#{h.oggetto}">
+				</h:outputText>
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					Descrizione
+				</f:facet>
+				#{h.descrizione}
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					Stato
+				</f:facet>
+				#{h.stato}
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					Gestore
+				</f:facet>
+				<h:outputText value="#{h.gestore}">
+					<f:converter converterId="usernameConverter"/>
+				</h:outputText>
+
+			</h:column>
+		</rich:dataTable>
+		</rich:panel>
+	</s:decorate>
+
+
+
+
+</ui:composition>

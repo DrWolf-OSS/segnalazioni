@@ -1,0 +1,246 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:a="http://richfaces.org/a4j"
+                xmlns:rich="http://richfaces.org/rich"
+                template="layout/template.xhtml">
+                       
+<ui:define name="body">
+    
+    <h:messages globalOnly="true" styleClass="message" id="globalMessages"/>
+
+    <h:form id="sede" styleClass="edit">
+    
+        <rich:panel>
+            <f:facet name="header">#{sedeHome.managed ? 'Modifica' : 'Aggiungi'} Sede</f:facet>
+
+
+
+            <s:decorate id="descrizioneDecoration" template="layout/edit.xhtml">
+                <ui:define name="label">descrizione</ui:define>
+  
+					<h:inputTextarea id="descrizione" cols="64" rows="3" required="true"
+						value="#{sedeHome.instance.descrizione}"/>                         
+            </s:decorate>
+
+
+        
+            <div style="clear:both">
+                <span class="required">*</span> 
+                Campi richiesti
+            </div>
+            
+        </rich:panel>
+                
+        <div class="actionButtons">
+
+            <h:commandButton id="save" 
+                          value="Salva" 
+                         action="#{sedeHome.persist}"
+                       disabled="#{!sedeHome.wired}"
+                       rendered="#{!sedeHome.managed}"/>  
+                          			  
+            <h:commandButton id="update" 
+                          value="Salva" 
+                         action="#{sedeHome.update}"
+                       rendered="#{sedeHome.managed}"/>
+                        			  
+            <h:commandButton id="delete" 
+                          value="Elimina" 
+                         action="#{sedeHome.remove}"
+                      immediate="true"
+                       rendered="#{sedeHome.managed}"/>
+                    
+            <s:button id="done" 
+                   value="Annulla"
+             propagation="end"
+                    view="/Sede.xhtml"
+                rendered="#{sedeHome.managed}"/>
+                
+            <s:button id="cancel" 
+                   value="Annulla"
+             propagation="end"
+                    view="/#{empty sedeFrom ? 'SedeList' : sedeFrom}.xhtml"
+                rendered="#{!sedeHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<!--<rich:tabPanel switchType="ajax">-->
+<!---->
+<!--    <rich:tab label="Uffici">-->
+<!--        <div class="association" id="ufficiosChildren">-->
+<!--        -->
+<!--            <h:outputText value="There are no ufficios associated with this sede." -->
+<!--                       rendered="#{empty sedeHome.ufficios}"/>-->
+<!--        -->
+<!--            <rich:dataTable value="#{sedeHome.ufficios}" -->
+<!--                           var="ufficio" -->
+<!--                      rendered="#{not empty sedeHome.ufficios}" -->
+<!--                    rowClasses="rvgRowOne,rvgRowTwo"-->
+<!--                            id="ufficiosTable">-->
+<!--                <h:column>-->
+<!--                    <f:facet name="header">idufficio</f:facet>-->
+<!--                    <h:outputText value="#{ufficio.idufficio}"/>-->
+<!--                </h:column>-->
+<!--                <h:column>-->
+<!--                    <f:facet name="header">visible</f:facet>-->
+<!--                    <h:outputText value="#{ufficio.visible}"/>-->
+<!--                </h:column>-->
+<!--                <h:column>-->
+<!--                    <f:facet name="header">descrizione</f:facet>-->
+<!--                    <h:outputText value="#{ufficio.descrizione}"/>-->
+<!--                </h:column>-->
+<!--                <h:column>-->
+<!--                    <f:facet name="header">telefono</f:facet>-->
+<!--                    <h:outputText value="#{ufficio.telefono}"/>-->
+<!--                </h:column>-->
+<!--                <h:column>-->
+<!--                    <f:facet name="header">fax</f:facet>-->
+<!--                    <h:outputText value="#{ufficio.fax}"/>-->
+<!--                </h:column>-->
+<!--                <h:column>-->
+<!--                    <f:facet name="header">email</f:facet>-->
+<!--                    <h:outputText value="#{ufficio.email}"/>-->
+<!--                </h:column>-->
+<!--                <h:column>-->
+<!--                    <f:facet name="header">nome</f:facet>-->
+<!--                    <h:outputText value="#{ufficio.nome}"/>-->
+<!--                </h:column>-->
+<!--                <h:column>-->
+<!--                    <f:facet name="header">fax1</f:facet>-->
+<!--                    <h:outputText value="#{ufficio.fax1}"/>-->
+<!--                </h:column>-->
+<!--                <h:column>-->
+<!--                    <f:facet name="header">action</f:facet>-->
+<!--                    <s:link view="/Ufficio.xhtml" -->
+<!--                              id="selectufficio" -->
+<!--                           value="Select"-->
+<!--                     propagation="none">-->
+<!--                        <f:param name="ufficioIdufficio" -->
+<!--                                value="#{ufficio.idufficio}"/>-->
+<!--                        <f:param name="ufficioFrom" value="Sede"/>-->
+<!--                    </s:link>-->
+<!--                </h:column>-->
+<!--            </rich:dataTable>-->
+<!--        -->
+<!--        </div>-->
+<!--          -->
+<!--        <f:subview rendered="#{sedeHome.managed}" id="ufficios">-->
+<!--        <div class="actionButtons">-->
+<!--            <s:button id="addufficio" -->
+<!--                   value="Add ufficio"-->
+<!--                    view="/UfficioEdit.xhtml"-->
+<!--             propagation="none">-->
+<!--                 <f:param name="sedeIdsede" -->
+<!--                         value="#{sedeHome.instance.idsede}"/>-->
+<!--                 <f:param name="ufficioFrom" value="Sede"/>-->
+<!--            </s:button>-->
+<!--        </div>-->
+<!--        </f:subview>-->
+<!--    </rich:tab>-->
+<!---->
+<!--    <rich:tab label="peoples">-->
+<!--        <div class="association" id="peoplesChildren">-->
+<!--        -->
+<!--            <h:outputText value="There are no peoples associated with this sede." -->
+<!--                       rendered="#{empty sedeHome.peoples}"/>-->
+<!--        -->
+<!--            <rich:dataTable value="#{sedeHome.peoples}" -->
+<!--                           var="people" -->
+<!--                      rendered="#{not empty sedeHome.peoples}" -->
+<!--                    rowClasses="rvgRowOne,rvgRowTwo"-->
+<!--                            id="peoplesTable">-->
+<!--                <h:column>-->
+<!--                    <f:facet name="header">idpeople</f:facet>-->
+<!--                    <h:outputText value="#{people.idpeople}"/>-->
+<!--                </h:column>-->
+<!--                <h:column>-->
+<!--                    <f:facet name="header">nome</f:facet>-->
+<!--                    <h:outputText value="#{people.nome}"/>-->
+<!--                </h:column>-->
+<!--                <h:column>-->
+<!--                    <f:facet name="header">cognome</f:facet>-->
+<!--                    <h:outputText value="#{people.cognome}"/>-->
+<!--                </h:column>-->
+<!--                <h:column>-->
+<!--                    <f:facet name="header">password</f:facet>-->
+<!--                    <h:outputText value="#{people.password}"/>-->
+<!--                </h:column>-->
+<!--                <h:column>-->
+<!--                    <f:facet name="header">telefono</f:facet>-->
+<!--                    <h:outputText value="#{people.telefono}"/>-->
+<!--                </h:column>-->
+<!--                <h:column>-->
+<!--                    <f:facet name="header">fax</f:facet>-->
+<!--                    <h:outputText value="#{people.fax}"/>-->
+<!--                </h:column>-->
+<!--                <h:column>-->
+<!--                    <f:facet name="header">email</f:facet>-->
+<!--                    <h:outputText value="#{people.email}"/>-->
+<!--                </h:column>-->
+<!--                <h:column>-->
+<!--                    <f:facet name="header">profiloProfessionale</f:facet>-->
+<!--                    <h:outputText value="#{people.profiloProfessionale}"/>-->
+<!--                </h:column>-->
+<!--                <h:column>-->
+<!--                    <f:facet name="header">telefonoPrivato</f:facet>-->
+<!--                    <h:outputText value="#{people.telefonoPrivato}"/>-->
+<!--                </h:column>-->
+<!--                <h:column>-->
+<!--                    <f:facet name="header">fax1</f:facet>-->
+<!--                    <h:outputText value="#{people.fax1}"/>-->
+<!--                </h:column>-->
+<!--                <h:column>-->
+<!--                    <f:facet name="header">email1</f:facet>-->
+<!--                    <h:outputText value="#{people.email1}"/>-->
+<!--                </h:column>-->
+<!--                <h:column>-->
+<!--                    <f:facet name="header">cellulare</f:facet>-->
+<!--                    <h:outputText value="#{people.cellulare}"/>-->
+<!--                </h:column>-->
+<!--                <h:column>-->
+<!--                    <f:facet name="header">numeroBreve</f:facet>-->
+<!--                    <h:outputText value="#{people.numeroBreve}"/>-->
+<!--                </h:column>-->
+<!--                <h:column>-->
+<!--                    <f:facet name="header">visible</f:facet>-->
+<!--                    <h:outputText value="#{people.visible}"/>-->
+<!--                </h:column>-->
+<!--                <h:column>-->
+<!--                    <f:facet name="header">action</f:facet>-->
+<!--                    <s:link view="/People.xhtml" -->
+<!--                              id="selectpeople" -->
+<!--                           value="Select"-->
+<!--                     propagation="none">-->
+<!--                        <f:param name="peopleIdpeople" -->
+<!--                                value="#{people.idpeople}"/>-->
+<!--                        <f:param name="peopleFrom" value="Sede"/>-->
+<!--                    </s:link>-->
+<!--                </h:column>-->
+<!--            </rich:dataTable>-->
+<!--        -->
+<!--        </div>-->
+<!--          -->
+<!--        <f:subview rendered="#{sedeHome.managed}" id="peoples">-->
+<!--        <div class="actionButtons">-->
+<!--            <s:button id="addpeople" -->
+<!--                   value="Add people"-->
+<!--                    view="/PeopleEdit.xhtml"-->
+<!--             propagation="none">-->
+<!--                 <f:param name="sedeIdsede" -->
+<!--                         value="#{sedeHome.instance.idsede}"/>-->
+<!--                 <f:param name="peopleFrom" value="Sede"/>-->
+<!--            </s:button>-->
+<!--        </div>-->
+<!--        </f:subview>-->
+<!--    </rich:tab>-->
+<!--</rich:tabPanel>-->
+</ui:define>
+
+</ui:composition>

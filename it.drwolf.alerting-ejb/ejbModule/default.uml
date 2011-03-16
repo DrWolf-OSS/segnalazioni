@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Package xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://www.eclipse.org/uml2/2.1.0/UML" xmi:id="_MrfikZ5_Ed2g4d4WR5KQKA">
+  <elementImport xmi:id="_MwxEIJ5_Ed2g4d4WR5KQKA">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+  </elementImport>
+  <elementImport xmi:id="_MxjuUJ5_Ed2g4d4WR5KQKA">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+  </elementImport>
+  <elementImport xmi:id="_MxkVYJ5_Ed2g4d4WR5KQKA">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#UnlimitedNatural"/>
+  </elementImport>
+  <elementImport xmi:id="_MxkVYZ5_Ed2g4d4WR5KQKA">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+  </elementImport>
+  <packagedElement xmi:type="uml:Actor" xmi:id="_rK65cJ5_Ed2g4d4WR5KQKA" name="Cittadino"/>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_sVcL0J5_Ed2g4d4WR5KQKA" name="Crea unasegnalazione">
+    <extensionPoint xmi:id="_NDQF0J6AEd2g4d4WR5KQKA" name="uno"/>
+    <extensionPoint xmi:id="_N8ASwJ6AEd2g4d4WR5KQKA" name="due"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Actor" xmi:id="_4i6OQJ5_Ed2g4d4WR5KQKA" name="Ufficio Smistatore"/>
+  <packagedElement xmi:type="uml:Association" xmi:id="_PTwI0J6AEd2g4d4WR5KQKA" memberEnd="_PTwv4J6AEd2g4d4WR5KQKA _PTwv456AEd2g4d4WR5KQKA" navigableOwnedEnd="_PTwv4J6AEd2g4d4WR5KQKA _PTwv456AEd2g4d4WR5KQKA">
+    <ownedEnd xmi:id="_PTwv4J6AEd2g4d4WR5KQKA" name="src" type="_rK65cJ5_Ed2g4d4WR5KQKA" association="_PTwI0J6AEd2g4d4WR5KQKA">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_PTwv4p6AEd2g4d4WR5KQKA" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_PTwv4Z6AEd2g4d4WR5KQKA" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_PTwv456AEd2g4d4WR5KQKA" name="dst" type="_sVcL0J5_Ed2g4d4WR5KQKA" association="_PTwI0J6AEd2g4d4WR5KQKA">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_PTxW8Z6AEd2g4d4WR5KQKA" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_PTxW8J6AEd2g4d4WR5KQKA" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_P31tUJ6AEd2g4d4WR5KQKA" memberEnd="_P31tUZ6AEd2g4d4WR5KQKA _P32UYp6AEd2g4d4WR5KQKA" navigableOwnedEnd="_P31tUZ6AEd2g4d4WR5KQKA _P32UYp6AEd2g4d4WR5KQKA">
+    <ownedEnd xmi:id="_P31tUZ6AEd2g4d4WR5KQKA" name="src" type="_4i6OQJ5_Ed2g4d4WR5KQKA" association="_P31tUJ6AEd2g4d4WR5KQKA">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_P32UYZ6AEd2g4d4WR5KQKA" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_P32UYJ6AEd2g4d4WR5KQKA" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_P32UYp6AEd2g4d4WR5KQKA" name="dst" type="_sVcL0J5_Ed2g4d4WR5KQKA" association="_P31tUJ6AEd2g4d4WR5KQKA">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_P32UZJ6AEd2g4d4WR5KQKA" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_P32UY56AEd2g4d4WR5KQKA" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+</uml:Package>

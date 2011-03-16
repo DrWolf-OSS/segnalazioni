@@ -1,0 +1,100 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="gruppoSearch" styleClass="edit">
+
+        <rich:simpleTogglePanel label="Cerca gruppi" switchType="ajax">
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Nome</ui:define>
+                <h:inputText id="nome" value="#{gruppoList.gruppo.nome}"/>
+            </s:decorate>
+
+
+        </rich:simpleTogglePanel>
+
+        <div class="actionButtons">
+            <h:commandButton id="search" value="Cerca" action="/GruppoList.xhtml"/>
+            <s:button id="reset" value="Reset" includePageParams="false"/>
+        </div>
+
+    </h:form>
+
+    <rich:panel>
+        <f:facet name="header">Elenco Gruppi</f:facet>
+    <div class="results" id="gruppoList">
+
+    <h:outputText value="The gruppo search returned no results."
+               rendered="#{empty gruppoList.resultList}"/>
+
+    <rich:dataTable id="gruppoList"
+                var="_gruppo"
+              value="#{gruppoList.resultList}"
+           rendered="#{not empty gruppoList.resultList}">
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{gruppoList}"/>
+                    <ui:param name="propertyLabel" value="Id"/>
+                    <ui:param name="propertyPath" value="gruppo.id"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_gruppo.id}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{gruppoList}"/>
+                    <ui:param name="propertyLabel" value="Nome"/>
+                    <ui:param name="propertyPath" value="gruppo.nome"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_gruppo.nome}"/>
+        </h:column>
+        <rich:column styleClass="action">
+            <f:facet name="header">Azione</f:facet>
+            <s:link view="/#{empty from ? 'Gruppo' : from}.xhtml"
+                   value="#{empty from ? 'Mostra' : 'Seleziona'}"
+             propagation="#{empty from ? 'none' : 'default'}"
+                      id="gruppo">
+                <f:param name="gruppoId"
+                        value="#{_gruppo.id}"/>
+            </s:link>
+            #{' '}
+            <s:link view="/GruppoEdit.xhtml"
+                   value="Modifica"
+             propagation="none"
+                      id="gruppoEdit"
+                rendered="#{empty from}">
+                <f:param name="gruppoId"
+                        value="#{_gruppo.id}"/>
+            </s:link>
+        </rich:column>
+    </rich:dataTable>
+
+    </div>
+    </rich:panel>
+
+   
+
+    <s:div styleClass="actionButtons" rendered="#{empty from}">
+        <s:button view="/GruppoEdit.xhtml"
+                    id="create"
+           propagation="none"
+                 value="Nuovo gruppo">
+            <f:param name="gruppoId"/>
+        </s:button>
+    </s:div>
+
+</ui:define>
+
+</ui:composition>

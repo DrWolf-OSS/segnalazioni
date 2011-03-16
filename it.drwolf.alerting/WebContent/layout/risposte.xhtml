@@ -1,0 +1,125 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:rich="http://richfaces.org/rich"
+   xmlns:a4j="http://richfaces.org/a4j"
+   xmlns:c="http://java.sun.com/jstl/core"
+   xmlns:s="http://jboss.com/products/seam/taglib">
+   
+   <c:set var="risposte" value="#{segnalazione.risposte}"/>
+	
+<s:decorate id="risposteDecoration">
+<a4j:region>
+		<rich:dataTable styleClass="historyTable zebra" value="#{risposte}" var="r">
+			<h:column>
+				<f:facet name="header">
+					Data
+				</f:facet>
+				<h:outputText value="#{r.data}">
+					<s:convertDateTime pattern="dd/MM/yyyy"/>
+				</h:outputText>
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					Oggetto
+				</f:facet>
+				
+				<s:div style="float:left;margin-right: 1em;">
+				<s:graphicImage value="/img/information.png"/>
+				<rich:toolTip style="background:white;">
+					<h:outputText value="#{r.testo}" escape="false"/>				
+				</rich:toolTip>
+				</s:div>				
+					<h:outputText value="#{r.oggetto}" />
+
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					Mittente
+				</f:facet>
+				<h:outputText value="#{r.mittente}" >
+					<f:converter converterId="usernameConverter"/>
+				</h:outputText>
+					
+			</h:column>
+			<h:column rendered="#{!s:hasRole('cittadino')}">	
+				<f:facet name="header">
+					Azioni
+				</f:facet>						
+				<a4j:commandButton rendered="#{segnalazione.sottotipoSegnalazione.tipoSegnalazione.ufficioSmistatore.gestori.contains(identity.username) or (segnalazione.cittadino eq null and alertingController.isTaskAssignee())}" action="#{rispostaHome.mailRisposta(r)}" value="Invia per email #{r.sent ? '(già inviata o stampata)' : ''}" reRender="risposteDecoration"/>
+				<s:button view="/app/segnalazione/stampaRisposta.xhtml" value="Stampa PDF">
+					<f:param name="rid" value="#{r.id}"/>
+				</s:button>
+				<a4j:commandButton action="#{rispostaHome.elimina(r)}" value="Elimina" rendered="#{not r.sent}" reRender="risposteDecoration" />
+
+			</h:column>
+		</rich:dataTable>
+		
+		
+		
+		<rich:simpleTogglePanel id="rispPanel" label="Crea risposta"
+			opened="false"  
+			rendered="#{segnalazione.sottotipoSegnalazione.tipoSegnalazione.ufficioSmistatore.gestori.contains(identity.username) or (segnalazione.cittadino eq null and alertingController.isTaskAssignee())}" 
+			switchType="client">
+			
+			<s:decorate rendered="#{segnalazione.cittadino ne null and empty segnalazione.risposte}" template="/layout/actions.xhtml">
+
+        <a4j:jsFunction name="setRicevuta" >
+            <a4j:actionparam name="param1" assignTo="#{rispostaHome.risposta.ricevuta}"  />                  
+        </a4j:jsFunction>
+        
+       
+        
+		<script type="text/javascript">
+			function preparaRicevuta(){
+				#{rich:element('oggRisposta')}.value='RICEVUTA PRESENTAZIONE SEGNALAZIONE';
+				setRicevuta(true);
+				var x = tinyMCE.get(#{rich:element('testoRisposta')}.id+'TextArea');
+					x.setContent('<p>Il Sig./la Sig.ra #{seu.escapeJavaScript(segnalazione.cittadino.cognome)} #{seu.escapeJavaScript(segnalazione.cittadino.nome)}#{segnalazione.cittadino.hasIndirizzo() ? ' residente in ' : '' }#{seu.escapeJavaScript(segnalazione.cittadino.indirizzo)}#{segnalazione.cittadino.hasTel() ? ', tel. ' : '' }#{segnalazione.cittadino.telefono} ha presentato la seguente segnalazione:</p>'
+							+'<p>#{segnalazione.id} - #{seu.escapeJavaScript(segnalazione.oggetto)}</p>'
+							+'<p>#{seu.escapeJavaScript(workSession.getParam('app.risposte.ufficio'))} invierà la risposta entro il #{' '}<h:outputText value="#{segnalazione.scadenza}"><s:convertDateTime pattern="dd/MM/yyyy" /></h:outputText></p>');
+					#{rich:element('creaRispostaBtn')}.style.display='inline';
+				}
+			
+		</script>
+		<input type="button" onclick="preparaRicevuta()" value="Predisponi ricevuta" />
+		</s:decorate>
+
+			<s:decorate template="/layout/actions.xhtml" rendered="#{segnalazione.cittadino ne null}">
+		<script type="text/javascript">
+			function preparaEsito(){
+					#{rich:element('oggRisposta')}.value='COMUNICAZIONE ESITO SEGNALAZIONE';
+					
+				var x = tinyMCE.get(#{rich:element('testoRisposta')}.id+'TextArea');
+					x.setContent('<p>Gentile cittadino,</p>'
+							+'<p>con riferimento alla segnalazione n. #{segnalazione.id} da Lei presentata in data #{' '}<h:outputText value="#{segnalazione.data}"><s:convertDateTime pattern="dd/MM/yyyy" /></h:outputText> relativa a "#{seu.escapeJavaScript(segnalazione.oggetto)}", Le comunichiamo che l\'ufficio competente ha trasmesso la seguente risposta</p>'
+							+'<p>#{seu.escapeJavaScript(workSession.getParam('app.esito.footer'))} #{seu.escapeJavaScript(alertingController.dirigenti)}</p>');
+					#{rich:element('creaRispostaBtn')}.style.display='inline';
+				}
+			
+		</script>
+		<input type="button" onclick="preparaEsito()" value="Predisponi comunicazione esito" />
+		</s:decorate>
+			
+			<s:decorate template="/layout/input.xhtml">
+				<ui:define name="label">Oggetto</ui:define>
+				<h:inputText id="oggRisposta"  value="#{rispostaHome.risposta.oggetto}">
+				<a4j:support event="onblur" reRender="creaRispostaBtn" />
+				</h:inputText>
+			</s:decorate>
+			<s:decorate template="/layout/input.xhtml">
+				<ui:define name="label">Data</ui:define>
+				<rich:calendar value="#{rispostaHome.risposta.data}" datePattern="dd/MM/yyyy"/>
+			</s:decorate>
+			<s:decorate template="/layout/input.xhtml">
+			
+				<ui:define name="label">Testo</ui:define>
+				<rich:editor id="testoRisposta" height="200" width="400" value="#{rispostaHome.risposta.testo}"/>
+			</s:decorate>
+			<a4j:commandButton id="creaRispostaBtn" value="Crea risposta"  style="display: #{rispostaHome.risposta.oggetto eq null ? 'none' : 'inline'}" action="#{rispostaHome.addRisposta(rispostaHome.risposta)}" reRender="risposteDecoration"/>
+		</rich:simpleTogglePanel>
+	 <a4j:status onstart="#{rich:component('wait')}.show()" onstop="#{rich:component('wait')}.hide()"/>
+</a4j:region>
+</s:decorate>
+</ui:composition>

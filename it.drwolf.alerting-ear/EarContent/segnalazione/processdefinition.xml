@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="segnalazione">
+
+
+	<swimlane name="segnalatore">
+		<assignment actor-id="#{identity.username}"></assignment>
+	</swimlane>
+
+	<swimlane name="smistatore">
+		<assignment pooled-actors="#{alertingProcess.getSmistatori()}"></assignment>
+	</swimlane>
+
+
+	<start-state name="inizio">
+		<transition to="cittadino"></transition>
+	</start-state>
+
+
+	<task-node name="assegnazioneSegnalazione">
+		<task name="scegliAssegnatario">
+			<description>
+				Assegna
+			</description>
+			<assignment actor-id="#{identity.username}"></assignment>
+		</task>
+		<transition to="assegnazionePool" name="assegna">
+			<description>
+				Assegna Segnalazione
+			</description>
+		</transition>
+	</task-node>
+
+	<task-node name="aggiornamentoSegnalazione">
+		<task name="aggiornaSegnalazione">
+			<description>
+				Aggiorna
+			</description>
+			<assignment actor-id="#{alertingProcess.impiegatoUfficioCompetente}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="alert" expression="#{alertingController.alertAssignee()}"></action>
+		</event>
+		<transition to="assegnazioneSegnalazione" name="riassegna">
+			<description>
+				Cambia Assegnatario
+			</description>
+		</transition>
+		<transition to="cittadino2" name="termina">
+			<description>
+				Predisponi Chiusura
+			</description>
+		</transition>
+	</task-node>
+
+	<task-node name="chiusuraSegnalazione">
+		<task name="chiudiSegnalazione">
+			<description>
+				Chiudi o riassegna
+			</description>
+			<assignment actor-id="#{alertingController.smistatoreFinale}"></assignment>
+		</task>
+		<transition to="fine" name="chiudi">
+			<description>
+				Chiudi Segnalazione
+			</description>
+		</transition>
+		<transition to="assegnazioneSegnalazione" name="riassegna">
+			<description>
+				Riassegna Segnalazione
+			</description>
+		</transition>
+	</task-node>
+
+	<task-node name="aperturaSegnalazione">
+		<task name="scegliAssegnatario" swimlane="smistatore">
+			<description>
+				Apri
+			</description>
+		</task>
+		<transition to="fine" name="chiudiDirettamente">
+			<description>
+				Chiudi direttamente
+			</description>
+		</transition>
+		<transition to="assegnazionePool" name="assegna">
+			<description>
+				Assegna Segnalazione
+			</description>
+		</transition>
+	</task-node>
+
+	<decision name="cittadino" expression="#{segnalazioneHome.instance.cittadino eq null ? 'no' : 'yes'}">
+		<transition to="aperturaSegnalazione" name="yes"></transition>
+		<transition to="assegnazioneSegnalazione" name="no"></transition>
+	</decision>
+
+	<decision name="cittadino2" expression="#{alertingProcess.ripassaAUrp() ? 'yes' : 'no'}">
+		<transition to="chiusuraSegnalazione" name="yes"></transition>
+		<transition to="fine" name="no"></transition>
+	</decision>
+
+	<decision name="assegnazionePool" expression="#{alertingController.assegnazionePool ? 'yes' : 'no'}">
+		<transition to="aggiornamentoPoolSegnalazione" name="yes"></transition>
+		<transition to="aggiornamentoSegnalazione" name="no"></transition>
+	</decision>
+
+	<task-node name="aggiornamentoPoolSegnalazione">
+		<task name="aggiornaSegnalazione">
+			<description>
+				Aggiorna
+			</description>
+			<assignment pooled-actors="#{alertingProcess.poolCompetente}"></assignment>
+		</task>
+		<transition to="assegnazioneSegnalazione" name="riassegna">
+			<description>
+				Cambia Assegnatario
+			</description>
+		</transition>
+		<transition to="cittadino2" name="termina">
+			<description>
+				Predisponi Chiusura
+			</description>
+		</transition>
+	</task-node>
+
+
+	<end-state name="fine">
+		<event type="node-enter">
+			<action name="chiudi" expression="#{alertingController.endProcess()}"></action>
+		</event>
+	</end-state>
+
+
+</process-definition>

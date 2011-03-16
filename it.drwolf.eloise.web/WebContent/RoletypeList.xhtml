@@ -1,0 +1,125 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:rich="http://richfaces.org/rich"
+                template="layout/template.xhtml">
+                       
+<ui:define name="body">
+    
+    <h:messages globalOnly="true" styleClass="message" id="globalMessages"/>
+    
+    <h:form id="roletypeSearch" styleClass="edit">
+    
+        <rich:simpleTogglePanel label="Parametri ricerca ruoli" switchType="ajax" styleClass="PNLGeneric">
+        
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Ruolo</ui:define>
+                <h:inputText id="role" value="#{roletypeList.roletype.role}"/>
+            </s:decorate>
+            <s:div style="clear:both;" />
+        <div class="actionButtons">
+            <h:commandButton id="search" value="Cerca" action="/RoletypeList.xhtml"/>
+        </div>
+        
+        </rich:simpleTogglePanel>
+        
+
+        
+    </h:form>
+    
+    <rich:panel styleClass="PNLGeneric">
+        <f:facet name="header">Risultati ricerca</f:facet>
+    <div class="results" id="roletypeList">
+
+    <h:outputText value="Non ci sono ruoli che soddisfano i paramteri di ricerca." 
+               rendered="#{empty roletypeList.resultList}"/>
+               
+    <rich:dataTable id="roletypeList" 
+                var="roletype"
+              value="#{roletypeList.resultList}" 
+           rendered="#{not empty roletypeList.resultList}">
+<!--        <h:column>-->
+<!--            <f:facet name="header">-->
+<!--                <s:link styleClass="columnHeader"-->
+<!--                             value="roleTypeId #{roletypeList.order=='roleTypeId asc' ? messages.down : ( roletypeList.order=='roleTypeId desc' ? messages.up : '' )}">-->
+<!--                    <f:param name="order" value="#{roletypeList.order=='roleTypeId asc' ? 'roleTypeId desc' : 'roleTypeId asc'}"/>-->
+<!--                </s:link>-->
+<!--            </f:facet>-->
+<!--            #{roletype.roleTypeId}-->
+<!--        </h:column>-->
+        <h:column>
+            <f:facet name="header">
+                <s:link styleClass="columnHeader"
+                             value="Ruolo #{roletypeList.order=='role asc' ? messages.down : ( roletypeList.order=='role desc' ? messages.up : '' )}">
+                    <f:param name="order" value="#{roletypeList.order=='role asc' ? 'role desc' : 'role asc'}"/>
+                </s:link>
+            </f:facet>
+            #{roletype.role}
+        </h:column>
+        <h:column>
+            <f:facet name="header">Azioni</f:facet>
+            <s:link view="/#{empty from ? 'Roletype' : from}.xhtml" 
+                   value="Seleziona" 
+                      id="roletype">
+                <f:param name="roletypeRoleTypeId" 
+                        value="#{roletype.roleTypeId}"/>
+            </s:link>
+        </h:column>
+    </rich:dataTable>
+
+    </div>
+    </rich:panel>
+    
+    <div class="tableControl">
+      
+        <s:link view="/RoletypeList.xhtml" 
+            rendered="#{roletypeList.previousExists}" 
+               value="#{messages.left}#{messages.left} prima"
+                  id="firstPage">
+          <f:param name="firstResult" value="0"/>
+        </s:link>
+        
+        <s:link view="/RoletypeList.xhtml" 
+            rendered="#{roletypeList.previousExists}" 
+               value="#{messages.left} precedente"
+                  id="previousPage">
+            <f:param name="firstResult" 
+                    value="#{roletypeList.previousFirstResult}"/>
+        </s:link>
+        
+        <s:link view="/RoletypeList.xhtml" 
+            rendered="#{roletypeList.nextExists}" 
+               value="prossima #{messages.right}"
+                  id="nextPage">
+            <f:param name="firstResult" 
+                    value="#{roletypeList.nextFirstResult}"/>
+        </s:link>
+        
+        <s:link view="/RoletypeList.xhtml" 
+            rendered="#{roletypeList.nextExists}" 
+               value="ultima #{messages.right}#{messages.right}"
+                  id="lastPage">
+            <f:param name="firstResult" 
+                    value="#{roletypeList.lastFirstResult}"/>
+        </s:link>
+        
+    </div>
+    
+    <s:div styleClass="actionButtons" rendered="#{empty from}">
+        <s:button view="/RoletypeEdit.xhtml"
+                    id="create" 
+                 value="Crea nuovo ruolo">
+            <f:param name="roletypeRoleTypeId"/>
+        </s:button> 
+    </s:div>
+    
+</ui:define>
+
+</ui:composition>
+

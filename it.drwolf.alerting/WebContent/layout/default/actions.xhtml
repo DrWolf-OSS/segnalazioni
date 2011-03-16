@@ -1,0 +1,41 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:rich="http://richfaces.ajax4jsf.org/rich"
+   xmlns:s="http://jboss.com/products/seam/taglib">
+   
+
+<s:decorate template="/layout/actions.xhtml">
+
+            <h:commandButton id="save" 
+                          value="Conferma le modifiche" 
+                         action="#{home.persist}"
+                       rendered="#{!home.managed}"/>  
+                          			  
+            <h:commandButton id="update" 
+                          value="Conferma le modifiche" 
+                         action="#{home.update}"
+                       rendered="#{home.managed}"/>
+                        			  
+            <h:commandButton id="delete" 
+                          value="Elimina" 
+                         action="#{home.remove}"
+                      immediate="true"
+                       rendered="#{home.managed}"/>
+                    
+            <s:button id="done" 
+                   value="Done"
+             propagation="end"
+                    view="/app/#{base}List.xhtml"
+                rendered="#{cittadinoHome.managed}"/>
+                
+            <s:button id="cancel" 
+                   value="Annulla"
+             propagation="end"
+                    view="/app/#{base}List.xhtml"
+                rendered="#{!cittadinoHome.managed}"/>
+
+        </s:decorate>
+		
+</ui:composition>

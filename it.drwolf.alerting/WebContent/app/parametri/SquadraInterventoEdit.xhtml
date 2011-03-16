@@ -1,0 +1,53 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	template="/layout/template.xhtml">
+
+	<ui:define name="title">#{squadraInterventoHome.managed ? 'Modifica' : 'Nuova'} Squadra Intervento </ui:define>
+
+	<ui:define name="navigation">
+		<ui:include src="/layout/menu.xhtml" />
+	</ui:define>
+	<ui:define name="body">
+
+		<h:form id="squadraIntervento" styleClass="edit">
+
+			<rich:panel>
+			
+			
+
+				<s:decorate	template="/layout/input.xhtml">
+					<ui:define name="label">Nome</ui:define>
+					<h:inputText required="true" value="#{squadraInterventoHome.instance.nome}" />
+
+				</s:decorate>
+				
+				<s:decorate	template="/layout/input.xhtml">
+					<ui:define name="label">Componenti</ui:define>
+					<rich:pickList converter="#{peopleConverter}" sourceListWidth="250px" targetListWidth="250px"
+						value="#{squadraInterventoHome.instance.componenti}" >
+						<f:selectItems value="#{eloiseUtils.people}"/>
+						</rich:pickList>
+						
+						
+				</s:decorate>
+				
+
+			</rich:panel>
+			
+				<ui:include src="/layout/default/actions.xhtml" >
+						<ui:param name="home" value="#{squadraInterventoHome}"/>
+						<ui:param name="base" value="parametri/SquadraIntervento"/>
+				</ui:include>
+		
+		</h:form>
+		
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,39 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:rich="http://richfaces.ajax4jsf.org/rich"
+   xmlns:c="http://java.sun.com/jstl/core"
+   xmlns:s="http://jboss.com/products/seam/taglib">
+
+   
+
+
+    	 <rich:dropDownMenu styleClass="priorityMenu">
+    	  <f:facet name="label">
+    	  <s:div>
+            	  <div class="noPrint" style="background:#{interventoHome.instance.codiceTriage.colore};border:1px solid #aaa;height: 1em; width: 1em; float:left;margin-right: 1em;">&#160;</div>
+            	  <span class="forPrint">#{interventoHome.instance.codiceTriage.descrizione}</span>
+    	      	  <h:outputText value="#{interventoHome.instance.codiceTriage ne null ? interventoHome.instance.codiceTriage.id : 'Scegli una priorità'}"/>
+    	  </s:div>
+    	  </f:facet>
+    	
+    	  <c:forEach items="#{interventoHome.codici}" var="codice">
+    	   <rich:menuItem submitMode="ajax" value="#{codice.id} (#{codice.tempoIntervento ge 0 ? codice.tempoIntervento : '--'}gg)"
+                    action="#{interventoHome.instance.setCodiceTriage(codice)}"
+                    reRender="scadenza,buttons" limitToList="true" ajaxSingle="true">
+
+                     <f:facet name="icon">
+                            <div style="background:#{codice.colore};border:1px solid #aaa;height: 1em; width: 1em; float:left;margin-right: 1em;">&#160;</div>
+                        </f:facet>
+                </rich:menuItem>
+          </c:forEach>
+         
+    	 </rich:dropDownMenu>
+
+		<rich:calendar disabled="#{interventoHome.instance.codiceTriage.tempoIntervento ge 0}"
+					datePattern="#{interventoHome.datePattern}"
+				          value="#{interventoHome.scadenza}" />
+
+
+</ui:composition>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.com/products/seam/pages"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd"
+      no-conversation-view-id="/UfficioList.xhtml"
+      login-required="true">
+   
+   <begin-conversation join="true"/>
+   
+   <action execute="#{ufficioHome.wire}"/>
+   
+   <param name="ufficioFrom"/>
+   <param name="ufficioIdufficio" value="#{ufficioHome.ufficioIdufficio}"/>
+   <param name="areaFrom"/>
+   <param name="areaIdsettore" value="#{areaHome.areaIdsettore}"/>
+   <param name="enteFrom"/>
+   <param name="enteIdente" value="#{enteHome.enteIdente}"/>
+
+
+   <param name="sedeFrom"/>
+   <param name="sedeIdsede" value="#{sedeHome.sedeIdsede}"/>
+
+   <param name="orarioFrom"/>
+   <param name="orarioIdorario" value="#{orarioHome.orarioIdorario}"/>
+
+
+
+   <navigation from-action="#{ufficioHome.persist}">
+       <end-conversation/>
+       <redirect view-id="/Ufficio.xhtml"/>
+   </navigation>
+   
+   <navigation from-action="#{ufficioHome.update}">
+       <end-conversation/>
+       <redirect view-id="/Ufficio.xhtml"/>
+   </navigation>
+   
+   <navigation from-action="#{ufficioHome.remove}">
+       <end-conversation/>
+       <redirect view-id="/UfficioList.xhtml"/>
+   </navigation>
+   
+</page>

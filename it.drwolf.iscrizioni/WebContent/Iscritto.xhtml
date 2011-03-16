@@ -1,0 +1,148 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+     <rich:panel styleClass="entityEdit">
+        <f:facet name="header">
+        <s:div>
+
+        <s:div  style="float:right;margin:0;">
+
+        <s:button view="/IscrittoEdit.xhtml"
+                    id="edit"
+                    style="margin:0;"
+                 value="Modifica iscrizione"/>
+    	
+    	</s:div>
+
+        Dettagli iscrizione per #{iscrittoHome.instance}
+        
+		</s:div>
+        </f:facet>
+
+    
+
+        <s:fragment rendered="#{iscrittoHome.revision ne null}">
+        <h2>Versione archiviata dei dati dell'iscritto</h2>
+         <s:link includePageParams="false" view="/Iscritto.xhtml" propagation="end">
+           
+            <f:param name="iscrittoId" value="#{iscrittoHome.instance.id}"/>
+            mostra la versione corrente
+            </s:link>
+       <br/>
+       <br/>
+        </s:fragment>
+        
+        <s:decorate id="id" template="layout/display.xhtml">
+            <ui:define name="label">Codice Utente</ui:define>
+           <code> <h:outputText value="#{iscrittoHome.instance.id}"/></code>
+        </s:decorate>
+
+        <s:decorate id="nome" template="layout/display.xhtml">
+            <ui:define name="label">Nome</ui:define>
+            <h:outputText value="#{iscrittoHome.instance.nome}"/>
+        </s:decorate>
+
+        <s:decorate id="cognome" template="layout/display.xhtml">
+            <ui:define name="label">Cognome</ui:define>
+            <h:outputText value="#{iscrittoHome.instance.cognome}"/>
+        </s:decorate>
+
+        <s:decorate id="email" template="layout/display.xhtml">
+            <ui:define name="label">Email</ui:define>
+            <h:outputText value="#{iscrittoHome.instance.email}"/>
+        </s:decorate>
+
+        <s:decorate id="email" template="layout/display.xhtml">
+            <ui:define name="label">Ragione Sociale</ui:define>
+            <h:outputText value="#{iscrittoHome.instance.ragioneSociale}"/>
+        </s:decorate>
+
+        <s:decorate id="cell" template="layout/display.xhtml">
+            <ui:define name="label">Telefono</ui:define>
+            <h:outputText value="#{iscrittoHome.instance.telefono}"/>
+        </s:decorate>
+
+        <s:decorate id="cell" template="layout/display.xhtml">
+            <ui:define name="label">Cellulare</ui:define>
+            <h:outputText value="#{iscrittoHome.instance.cellulare}"/>
+        </s:decorate>
+
+        <s:decorate id="cell" template="layout/display.xhtml">
+            <ui:define name="label">Fax</ui:define>
+            <h:outputText value="#{iscrittoHome.instance.fax}"/>
+        </s:decorate>
+
+        <s:decorate id="cell" template="layout/display.xhtml">
+            <ui:define name="label">Indirizzo</ui:define>
+            <h:outputText value="#{iscrittoHome.instance.indirizzo}"/>
+        </s:decorate>
+        
+        <s:decorate id="cell" template="layout/display.xhtml">
+            <ui:define name="label">CAP</ui:define>
+            <h:outputText value="#{iscrittoHome.instance.cap}"/>
+        </s:decorate>
+        
+        <s:decorate id="cell" template="layout/display.xhtml">
+            <ui:define name="label">Località</ui:define>
+            <h:outputText value="#{iscrittoHome.instance.localita}"/>
+        </s:decorate>
+
+        <s:decorate id="servizi" template="layout/display.xhtml">
+            <ui:define name="label">Servizi</ui:define>
+            
+            <rich:dataList value="#{iscrittoHome.instance.servizi}" var="s">
+				<h:outputLink value="#{s.url}">#{s.nome}</h:outputLink>            	
+
+            </rich:dataList>            
+        </s:decorate>
+
+        <s:decorate rendered="#{identity.loggedIn}" id="gruppi" template="layout/display.xhtml">
+            <ui:define name="label">Gruppi</ui:define>
+            
+            <rich:dataList value="#{iscrittoHome.instance.gruppi}" var="g">
+				<h:outputText value="#{g.nome}"/>            	
+
+            </rich:dataList>            
+        </s:decorate>
+        
+        <s:decorate rendered="#{identity.loggedIn}" id="gruppi" template="layout/display.xhtml">
+            <ui:define name="label">Modifiche</ui:define>
+            
+            <rich:dataList value="#{iscrittoHome.revisions}" var="r">
+            <s:link styleClass="#{r[0] eq iscrittoHome.revision ? 'current' : null}" view="/Iscritto.xhtml" propagation="end">
+            <f:param name="r" value="#{r[0]}"/>
+            <f:param name="iscrittoId" value="#{iscrittoHome.instance.id}"/>
+            
+           <h:outputText value="#{r[2]}">
+            <s:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"/>
+            </h:outputText> - #{r[1] eq null ? iscrittoHome.instance : r[1]}
+            </s:link>
+				            	
+
+            </rich:dataList>            
+        </s:decorate>
+
+        <div style="clear:both"/>
+    <div class="actionButtons">
+
+        <s:button view="/IscrittoEdit.xhtml"
+                    id="edit"
+                 value="Modifica iscrizione"/>
+
+    </div>
+
+    </rich:panel>
+
+
+</ui:define>
+
+</ui:composition>

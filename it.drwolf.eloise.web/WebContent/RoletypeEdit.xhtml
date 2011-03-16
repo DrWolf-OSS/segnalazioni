@@ -1,0 +1,123 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:a="http://richfaces.org/a4j"
+                xmlns:rich="http://richfaces.org/rich"
+                template="layout/template.xhtml">
+                       
+<ui:define name="body">
+    
+    <h:messages globalOnly="true" styleClass="message" id="globalMessages"/>
+
+    <h:form id="roletype" styleClass="edit">
+    
+        <rich:panel styleClass="PNLGeneric">
+            <f:facet name="header">#{roletypeHome.managed ? 'Modifica' : 'Aggiungi'} tipo ruolo</f:facet>
+
+
+
+            <s:decorate id="roleDecoration" template="layout/edit.xhtml">
+                <ui:define name="label">tipo ruolo</ui:define>
+                <h:inputTextarea id="role"
+                               cols="64"
+                               rows="3"
+                               required="true" 
+                              value="#{roletypeHome.instance.role}"/>
+            </s:decorate>
+
+        
+            <div style="clear:both">
+                <span class="required">*</span> 
+                Campi richiesti
+            </div>
+            
+        </rich:panel>
+                
+        <div class="actionButtons">
+
+            <h:commandButton id="save" 
+                          value="Salva" 
+                         action="#{roletypeHome.persist}"
+                       disabled="#{!roletypeHome.wired}"
+                       rendered="#{!roletypeHome.managed}"/>  
+                          			  
+            <h:commandButton id="update" 
+                          value="Salva" 
+                         action="#{roletypeHome.update}"
+                       rendered="#{roletypeHome.managed}"/>
+                        			  
+            <h:commandButton id="delete" 
+                          value="Elimina" 
+                         action="#{roletypeHome.remove}"
+                      immediate="true"
+                       rendered="#{roletypeHome.managed}"/>
+                    
+            <s:button id="done" 
+                   value="Annulla"
+             propagation="end"
+                    view="/Roletype.xhtml"
+                rendered="#{roletypeHome.managed}"/>
+                
+            <s:button id="cancel" 
+                   value="Annulla"
+             propagation="end"
+                    view="/#{empty roletypeFrom ? 'RoletypeList' : roletypeFrom}.xhtml"
+                rendered="#{!roletypeHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<!--<rich:tabPanel switchType="ajax">-->
+<!---->
+<!--    <rich:tab label="organizationalroles">-->
+<!--        <div class="association" id="organizationalrolesChildren">-->
+<!--        -->
+<!--            <h:outputText value="There are no organizationalroles associated with this roletype." -->
+<!--                       rendered="#{empty roletypeHome.organizationalroles}"/>-->
+<!--        -->
+<!--            <rich:dataTable value="#{roletypeHome.organizationalroles}" -->
+<!--                           var="organizationalrole" -->
+<!--                      rendered="#{not empty roletypeHome.organizationalroles}" -->
+<!--                    rowClasses="rvgRowOne,rvgRowTwo"-->
+<!--                            id="organizationalrolesTable">-->
+<!--                <h:column>-->
+<!--                    <f:facet name="header">organizationalRoleId</f:facet>-->
+<!--                    <h:outputText value="#{organizationalrole.organizationalRoleId}"/>-->
+<!--                </h:column>-->
+<!--                <h:column>-->
+<!--                    <f:facet name="header">action</f:facet>-->
+<!--                    <s:link view="/Organizationalrole.xhtml" -->
+<!--                              id="selectorganizationalrole" -->
+<!--                           value="Select"-->
+<!--                     propagation="none">-->
+<!--                        <f:param name="organizationalroleOrganizationalRoleId" -->
+<!--                                value="#{organizationalrole.organizationalRoleId}"/>-->
+<!--                        <f:param name="organizationalroleFrom" value="Roletype"/>-->
+<!--                    </s:link>-->
+<!--                </h:column>-->
+<!--            </rich:dataTable>-->
+<!--        -->
+<!--        </div>-->
+<!--          -->
+<!--        <f:subview rendered="#{roletypeHome.managed}" id="organizationalroles">-->
+<!--        <div class="actionButtons">-->
+<!--            <s:button id="addorganizationalrole" -->
+<!--                   value="Add organizationalrole"-->
+<!--                    view="/OrganizationalroleEdit.xhtml"-->
+<!--             propagation="none">-->
+<!--                 <f:param name="roletypeRoleTypeId" -->
+<!--                         value="#{roletypeHome.instance.roleTypeId}"/>-->
+<!--                 <f:param name="organizationalroleFrom" value="Roletype"/>-->
+<!--            </s:button>-->
+<!--        </div>-->
+<!--        </f:subview>-->
+<!--    </rich:tab>-->
+<!--</rich:tabPanel>-->
+</ui:define>
+
+</ui:composition>

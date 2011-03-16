@@ -1,0 +1,367 @@
+body {
+	margin: 0 auto;
+	padding: 0;
+	font-size: 75%;
+	width: 100;
+}
+
+a:active,a:link,a:visited {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+textarea {
+	height: 11em;
+	width:100%;
+}
+
+pre {
+	font-family: sans-serif;
+}
+
+table.main td.navigation,table.main td.content {
+	vertical-align: top;
+	border-collapse: collapse;
+}
+
+table.main {
+	width: 100%;
+}
+
+.main .navigation {
+	width: 15%;
+}
+
+.main .content {
+	width: 80%;
+}
+
+.title {
+	text-align: center;
+	font-size: 150%;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+.login .dr-stglpnl-h {
+	font-size: 200%;
+}
+
+.homeLogout {
+	text-align: right;
+	font-size: 250%;
+	width: 100%;
+	margin-bottom: .25em;
+}
+
+.error {
+	border: 1px solid red;
+	background-color: white;
+	background-repeat: no-repeat;
+	background-position: 4px 50%;
+	padding: 4px;
+	padding-left: 24px;
+}
+
+.field label {
+	display: block;
+	font-weight: bold;
+	margin: 0.5em;
+	padding: 0.5em;
+	width: 25em;
+	border-bottom: 1px solid #c0c0c0;
+	text-transform: capitalize;
+}
+
+.actions {
+	clear: both;
+}
+
+.actions input {
+	margin: .5em;
+}
+
+.messageIcon {
+	padding-right: 1em;
+}
+
+.dialog {
+	border-width: 1px;
+	border-style: solid;
+	padding: 10px;
+	background-position: top left;
+	background-repeat: repeat-x;
+}
+
+.inputControls input,.inputControls select {
+	border-style: solid;
+	border-width: 1px;
+	background-repeat: repeat-x;
+}
+
+.inputControls {
+	margin-bottom: 1em;
+}
+
+.outputLabel,.inputLabel {
+	text-transform: capitalize;
+	font-weight: bold;
+	clear: both;
+}
+
+.outputValue {
+	margin-bottom: 1em;
+}
+
+.creaSegnalazione {
+	font-size: 250%;
+}
+
+.elementoIndirizzo {
+	float: left;
+	margin: .5em;
+}
+
+.elementoIndirizzo input {
+	margin-left: .5em;
+}
+
+.rich-table {
+	width: 100%;
+}
+
+.rich-pmenu-item-label a {
+	display: block;
+}
+
+.zebra .even-row {
+	background-color: white;
+}
+
+.zebra .odd-row {
+	background-color: #dddddd;
+}
+
+.zebra .active-row {
+	background-color: #feffbf;
+}
+
+.bodyPanel>.rich-panel-body {
+	padding: 0;
+}
+
+
+
+.requiredLabel {
+	float: right;
+	display: block;
+	overflow: hidden;
+	height: 0 !important;
+	width: 16px;
+	padding-top: 16px;
+	background: url(/sign/img/bullet_red.png);
+}
+
+.gridAction {
+	float: right;
+	margin-left: .25em;
+	margin-bottom: .25em;
+	border: 0 !important;
+}
+.gridAction img{
+	
+border: 0 !important;
+}
+
+
+
+.griddesc {
+	display: block;
+	margin-bottom: .5em;
+}
+
+.gridlabel {
+	float: left;
+	width: 5em;
+	display: block;
+	font-weight: bold;
+	margin-right: 1em;
+}
+
+
+.priorityMenu{
+width: 140px;
+padding:2px;
+padding-left: 16px;
+border: 1px solid #ccc;
+background: url(/sign/img/arrow_down.png) 4px no-repeat;
+}
+
+.userMenu{
+padding-left: 16px;
+background: url(/sign/img/arrow_down.png) 4px no-repeat;
+}
+
+.logoContainer{
+width:100%;
+text-align:center;
+}
+
+.homeLogo{
+width:600px;
+margin:auto;
+height: 430px;
+background: url(/sign/img/sign_logo.jpg) top center no-repeat;
+padding:0;
+border:0;
+text-align: right;
+}
+
+.homeText{
+padding-top: 32px;
+padding-left: 50px;
+display: block;
+color: white;
+font-size: 300%;
+font-weight: bold;
+margin-right: 45%;
+margin-top: 10px;
+}
+
+.login{
+margin-top: 8px;
+}
+
+.pm{
+padding:0 1px 0 2px;
+}
+
+.rich-messages{
+text-align:center;
+}
+
+.logoutText{
+margin-top: 20px;
+width: 280px;
+height: 320px;
+padding: 20px;
+padding-top: 80px;
+padding-left: 300px;
+background: url(/sign/img/logout.jpg) top center no-repeat;
+display: block;
+color: white;
+font-size: 300%;
+font-weight: bold;
+text-align: right;
+}
+
+#ssologinurl{
+display: block;
+text-align: right;
+margin-bottom: .5em;
+}
+
+.loginTitle{
+text-align:center;
+margin-top:0px;
+margin-bottom: .25em;
+font-size: 150%;
+font-weight: bold;
+color: white;
+}
+
+.errorLogo{
+background: url(/sign/img/error_logo.jpg);	
+height: 400px;
+width: 600px;
+text-align: center;
+}
+
+.errorText{
+display: block;
+font-size: 300%;
+font-weight: bold;
+padding-top: 1em;
+color: white;
+}
+
+.errorDetail{
+color:white;
+text-align: left;
+margin-top: 60px;
+margin-left: 300px;
+margin-right: 10px;
+}
+.flat{
+margin:0!important;
+padding:0!important;
+}
+
+.forPrint{
+   display:none;
+}
+
+.pageAction{
+float:right;
+margin-right: 5px;
+}
+
+.filter .rich-table-subheadercell{
+background-image: url(/sign/img/magnifier.png);
+background-position: 95% 10%;
+background-repeat:no-repeat;
+}
+
+.rich-messages dt{
+clear:both;
+}
+
+.rich-messages-marker{
+width:48%;
+text-align:right;
+float:left;
+}
+
+.rich-messages-label{
+width: 50%;
+text-align:left;
+display:block;
+margin-top: 20px;
+float:right;
+}
+
+
+fieldset{
+border-bottom:0;
+border-left:0;
+border-right:0;
+}
+
+.rich-filter-input{
+width:100%;
+}
+.ncol input{
+	width: 3em ! important;
+}
+
+.reportColumn_input{
+	margin-right:10px ;
+	margin-bottom: 20px;
+	margin-left: 10px;
+}
+
+.reportColumn_panel{
+	padding-bottom: 20px;
+	margin-bottom: 20px;
+}
+
+.delImg{
+	border: 0px;
+}
+
+.stdPnl{
+	margin-bottom: 10px;
+}

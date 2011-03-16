@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.com/products/seam/pages"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.1.xsd">
+
+  <navigation from-action="#{iscrittoHome.createNew}">
+  	<redirect view-id="/thanks.xhtml"></redirect>
+  </navigation>
+  
+  <navigation from-action="#{iscrittoHome.rememberCode}">
+  	<redirect view-id="/thanks.xhtml"></redirect>
+  </navigation>
+
+  <navigation from-action="#{iscrittoHome.verifyId}">
+  	<rule if-outcome="OK">
+  		<redirect view-id="/Iscritto.xhtml">
+  			<param name="iscrittoId" value="#{iscrittoHome.iscrittoId}"/>
+  		</redirect>
+  	</rule>
+  	
+  	<rule if-outcome="KO">
+  		<end-conversation before-redirect="true"/>
+  		<redirect view-id="/home.xhtml">
+  			<message>Il codice non è stato trovato, puoi richiedere il codice inserendo la tua email, o effettuare una nuova iscrizione se non sei iscritto</message>
+  		</redirect>
+  	</rule>
+
+  </navigation>
+
+
+
+</page>

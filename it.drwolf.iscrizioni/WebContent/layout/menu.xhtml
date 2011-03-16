@@ -1,0 +1,32 @@
+<rich:toolBar rendered="#{identity.loggedIn}"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:rich="http://richfaces.org/rich">
+   
+    
+    <s:link view="/IscrittoList.xhtml"
+           value="Iscritti"
+includePageParams="false"
+     propagation="none"/>
+    <s:link view="/GruppoList.xhtml"
+           value="Gruppi"
+includePageParams="false"
+     propagation="none"/>
+    <s:link rendered="#{s:hasRole('admin')}" view="/AppParamList.xhtml"
+           value="Configurazione"
+includePageParams="false"
+     propagation="none"/>
+    <s:link rendered="#{s:hasRole('admin')}" view="/ServizioList.xhtml"
+           value="Servizi"
+includePageParams="false"
+     propagation="none"/>
+    <!-- @newMenuItem@ -->
+    <rich:toolBarGroup location="right">
+        <h:outputText value="#{identity.username}" />
+        
+        <s:link view="/home.xhtml" action="#{identity.logout}" value="Logout"  propagation="none"/>
+    </rich:toolBarGroup>
+</rich:toolBar>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.com/products/seam/pages"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd"
+      no-conversation-view-id="/SedeList.xhtml"
+      login-required="true">
+   
+   <begin-conversation join="true"/>
+   
+   <action execute="#{sedeHome.wire}"/>
+   
+<param name="ufficioIdufficio" value="#{ufficioHome.ufficioIdufficio}"/>
+   <param name="sedeFrom"/>
+   <param name="sedeIdsede" value="#{sedeHome.sedeIdsede}"/>
+
+
+   <navigation from-action="#{sedeHome.persist}">
+       <end-conversation/>
+       <redirect view-id="/Sede.xhtml"/>
+   </navigation>
+   
+   <navigation from-action="#{sedeHome.update}">
+       <end-conversation/>
+       <redirect view-id="/Sede.xhtml"/>
+   </navigation>
+   
+   <navigation from-action="#{sedeHome.remove}">
+       <end-conversation/>
+       <redirect view-id="/SedeList.xhtml"/>
+   </navigation>
+   
+</page>

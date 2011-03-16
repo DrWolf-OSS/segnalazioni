@@ -1,0 +1,50 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:rich="http://richfaces.org/rich"
+                template="/layout/template.xhtml">
+
+<ui:define name="title">Elenco Segnalazioni</ui:define>
+<ui:define name="navigation">
+ 	<ui:include src="/layout/menu.xhtml" />
+</ui:define>
+
+<ui:define name="body">
+
+
+
+
+    <rich:dataTable styleClass="zebra" value="#{alertingController.listaSegnalazioni}" var="s">
+ 		<f:facet name="header">
+                    <rich:columnGroup>
+                        <h:column><h:outputText value="Segnalazione" /></h:column>
+                        <h:column><h:outputText value="Stato" /></h:column>
+                        <h:column><h:outputText value="Attività in corso" /></h:column>
+                    </rich:columnGroup>
+                </f:facet>
+        <rich:column>
+			#{s.id} - #{s.oggetto}
+        </rich:column>
+        <rich:column>
+
+            #{s.stato.descrizione}
+        </rich:column>
+        <rich:column>
+
+            <rich:dataList value="#{alertingController.getAttivitaSegnalazione(s)}" var="t">
+            	<h:outputText value="#{t.description}"/>, <h:outputText value="#{t.actorId}">
+					<f:converter converterId="usernameConverter"/>
+				</h:outputText>
+            </rich:dataList>
+        </rich:column>
+
+    </rich:dataTable>
+
+
+
+   </ui:define>
+</ui:composition>

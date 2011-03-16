@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pages xmlns="http://jboss.com/products/seam/pages"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd"
+
+       no-conversation-view-id="/login.xhtml"
+       login-view-id="/login.xhtml">
+
+	<page view-id="/css/*" login-required="false"  conversation-required="false" />
+
+    
+    <page view-id="/app/*" login-required="true">
+        <navigation>
+            <rule if-outcome="home">
+	            <end-conversation before-redirect="true"/>
+                <redirect view-id="/app/index.xhtml"/>
+            </rule>
+        </navigation>
+        
+             <navigation from-action="#{alertingController.creaSegnalazione}">
+		    	
+        <rule if="#{alertingController.singleTask ne null}" >
+        	
+            <redirect view-id="/app/task.xhtml">
+                <param name="taskId" value="#{alertingController.singleTask.id}" />
+                <param name="processId" value="#{alertingController.singleTask.processInstance.id}" />
+            </redirect>
+        </rule>
+        <rule if="#{alertingController.singleTask eq null}">
+            <redirect view-id="/app/index.xhtml" />
+        </rule>
+
+    </navigation>
+        
+    </page> 
+    
+    
+    <page view-id="/app/utenti/*" >
+    	<restrict>#{s:hasRole('impiegato')}</restrict>
+    </page> 
+
+    <page view-id="/app/paramteri/*" >
+    	<restrict>#{s:hasRole('admin')}</restrict>
+    </page> 
+
+    <exception class="org.jboss.seam.framework.EntityNotFoundException">
+        <redirect view-id="/error.xhtml">
+            <message>Non trovato</message>
+        </redirect>
+    </exception>
+    
+    <exception class="javax.persistence.EntityNotFoundException">
+        <redirect view-id="/error.xhtml">
+            <message>Non trovato</message>
+        </redirect>
+    </exception>
+    
+    <exception class="javax.persistence.OptimisticLockException">
+        <end-conversation/>
+        <redirect view-id="/error.xhtml">
+            <message>Modifiche concorrenti sull'oggetto, proa ancora</message>
+        </redirect>
+    </exception>
+    
+    <exception class="org.jboss.seam.security.AuthorizationException">
+        <redirect view-id="/error.xhtml">
+            <message>Permessi insufficienti</message>
+        </redirect>
+    </exception>
+    
+    <exception class="org.jboss.seam.security.NotLoggedInException">
+        <redirect view-id="/login.xhtml">
+            <message>Effettua il Login, per favore</message>
+        </redirect>
+    </exception>
+    
+    <exception class="javax.faces.application.ViewExpiredException">
+        <redirect view-id="/error.xhtml">
+            <message>La tua sessione è scaduta, prova ancora</message>
+        </redirect>
+    </exception>
+     
+    <exception>
+        <redirect view-id="/error.xhtml">
+            <message>Errore imprevisto</message>
+        </redirect>
+    </exception>
+    
+</pages>

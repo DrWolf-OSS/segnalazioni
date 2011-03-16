@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-modules id="moduleCoreId" project-version="1.5.0">
+<wb-module deploy-name="it.drwolf.alerting-ear">
+<wb-resource deploy-path="/" source-path="/EarContent"/>
+<dependent-module deploy-path="/" handle="module:/resource/it.drwolf.alerting-ejb/it.drwolf.alerting-ejb">
+<dependency-type>uses</dependency-type>
+</dependent-module>
+<dependent-module deploy-path="/" handle="module:/resource/it.drwolf.alerting/it.drwolf.alerting">
+<dependency-type>uses</dependency-type>
+</dependent-module>
+        <dependent-module deploy-path="/" handle="module:/resource/it.drwolf.eloise.web-ejb/it.drwolf.eloise.web-ejb">
+            <dependent-object/>
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/" handle="module:/resource/it.drwolf.iscrizioni-ejb/it.drwolf.iscrizioni-ejb">
+            <dependent-object/>
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+</wb-module>
+</project-modules>

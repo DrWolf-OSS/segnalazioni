@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.com/products/seam/pages"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd"
+      no-conversation-view-id="/SottotipoSegnalazioneList.xhtml"
+      login-required="true">
+   
+   <begin-conversation join="true"/>
+
+   <param name="sottotipoSegnalazioneId" value="#{sottotipoSegnalazioneHome.sottotipoSegnalazioneId}"/>
+
+   <navigation from-action="#{home.persist}">
+       <end-conversation before-redirect="true"/>
+       <redirect view-id="/app/parametri/SottotipoSegnalazioneList.xhtml"/>
+   </navigation>
+   
+   <navigation from-action="#{home.update}">
+      <end-conversation before-redirect="true"/>
+       <redirect view-id="/app/parametri/SottotipoSegnalazioneList.xhtml"/>
+   </navigation>
+   
+   <navigation from-action="#{home.remove}">
+       <end-conversation before-redirect="true"/>
+       <redirect view-id="/app/parametri/SottotipoSegnalazioneList.xhtml"/>
+   </navigation>
+   
+</page>

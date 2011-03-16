@@ -1,0 +1,82 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="appParam" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{appParamHome.managed ? 'Edit' : 'Add'} App param</f:facet>
+
+
+            <s:decorate id="idField" template="layout/edit.xhtml">
+                <ui:define name="label">Id</ui:define>
+                <h:inputTextarea id="id"
+                               cols="80"
+                               rows="3"
+                           disabled="#{appParamHome.managed}"
+                           required="true"
+                              value="#{appParamHome.instance.id}"/>
+            </s:decorate>
+
+
+            <s:decorate id="valueField" template="layout/edit.xhtml">
+                <ui:define name="label">Value</ui:define>
+                <h:inputTextarea id="value"
+                               cols="80"
+                               rows="3"
+                              value="#{appParamHome.instance.value}"/>
+            </s:decorate>
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{appParamHome.persist}"
+                       disabled="#{!appParamHome.wired}"
+                       rendered="#{!appParamHome.managed}"/>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{appParamHome.update}"
+                       rendered="#{appParamHome.managed}"/>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{appParamHome.remove}"
+                      immediate="true"
+                       rendered="#{appParamHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/AppParam.xhtml"
+                rendered="#{appParamHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty appParamFrom ? 'AppParamList' : appParamFrom}.xhtml"
+                rendered="#{!appParamHome.managed}"/>
+
+        </div>
+    </h:form>
+
+</ui:define>
+
+</ui:composition>

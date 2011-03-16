@@ -1,0 +1,86 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:rich="http://richfaces.ajax4jsf.org/rich"
+   xmlns:c="http://java.sun.com/jstl/core"
+   xmlns:s="http://jboss.com/products/seam/taglib">
+
+   
+	
+
+		<rich:dataTable styleClass="historyTable zebra" value="#{interventi}" var="h">
+			<h:column>
+				<f:facet name="header">
+					Oggetto
+				</f:facet>
+				<s:link view="/app/intervento/edit.xhtml" value="#{h.oggetto}">
+					<f:param name="entityId" value="#{h.id}"/>
+				</s:link>
+				
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+				
+					Descrizione
+				</f:facet>
+				#{h.descrizione}
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					Stato
+				</f:facet>
+				#{h.stato}
+			</h:column>
+		</rich:dataTable>
+		
+		<rich:simpleTogglePanel rendered="#{alertingController.isGestore(identity.username) and alertingController.taskAssignee}" label="Genera Intervento" opened="false" switchType="client">
+
+	<s:decorate  template="/layout/input.xhtml">
+    	<ui:define name="label">Oggetto</ui:define>
+		<h:inputText required="true" value="#{interventoHome.instance.oggetto}"/>
+	</s:decorate>
+
+	<s:decorate  template="/layout/input.xhtml">
+    	<ui:define name="label">Descrizione</ui:define>
+		<h:inputTextarea value="#{interventoHome.instance.descrizione}"/>
+	</s:decorate>
+
+
+	<s:decorate  template="/layout/input.xhtml" id="scadenza">
+    	<ui:define name="label">Priorità</ui:define>
+
+    	 <ui:include src="/layout/priority.xhtml" />
+	</s:decorate>
+
+
+	<s:decorate  template="/layout/input.xhtml">
+    	<ui:define name="label">Tipologia</ui:define>
+		<h:selectOneRadio required="true" layout="pageDirection"
+			value="#{interventoHome.instance.sottotipoIntervento}">
+
+			<s:selectItems value="#{sottotipoInterventoList.resultList}"
+					var="tipo" label="#{tipo.descrizione}"/>
+			<s:convertEntity/>
+		</h:selectOneRadio>
+	</s:decorate>
+
+	<s:decorate  template="/layout/input.xhtml">
+    	<ui:define name="label">Squadre Intervento</ui:define>
+		<h:selectManyCheckbox required="true" layout="pageDirection"
+			value="#{interventoHome.squadre}">
+			<s:selectItems value="#{squadraInterventoList.resultList}"
+					var="s" label="#{s.nome}"/>
+			<s:convertEntity/>
+		</h:selectManyCheckbox>
+	</s:decorate>
+
+	<s:decorate template="/layout/actions.xhtml">
+             <h:commandButton value="Crea intervento"
+                    action="#{interventoHome.genera}" />
+	</s:decorate>
+
+	</rich:simpleTogglePanel>
+	
+
+</ui:composition>

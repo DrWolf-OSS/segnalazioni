@@ -1,0 +1,68 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:rich="http://richfaces.org/rich"
+                template="/layout/template.xhtml">
+
+<ui:define name="title">Ruoli Globali</ui:define>
+
+<ui:define name="navigation">
+ 	<ui:include src="/layout/menu.xhtml" />
+</ui:define>
+                       
+<ui:define name="body">
+    
+    <h:form >
+    
+    
+    <rich:panel>
+        
+               
+    <rich:dataTable id="globalRoleList" 
+                var="globalRole"
+              value="#{globalRoleList.resultList}" 
+           rendered="#{not empty globalRoleList.resultList}">
+       
+        <h:column>
+            <f:facet name="header">
+               Ruolo
+            </f:facet>
+            <h:outputText value="#{globalRole.name}" />
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">
+               Utenti
+            </f:facet>
+            <ui:repeat value="#{globalRole.users}" var="p">
+            	&#8227;&#160;<h:outputText value="#{p}" converter="#{peopleConverter}"/>&#160;&#160;
+            </ui:repeat>
+        </h:column>
+       
+        <h:column>
+            <f:facet name="header">Azioni</f:facet>
+            <s:link view="/app/parametri/GlobalRoleEdit.xhtml" 
+                   value="Modifica" 
+                      id="globalRole">
+                <f:param name="globalRoleId" 
+                        value="#{globalRole.id}"/>
+            </s:link>
+        </h:column>
+    </rich:dataTable>
+
+
+    </rich:panel>
+    
+    
+   
+     </h:form>
+</ui:define>
+
+</ui:composition>
+

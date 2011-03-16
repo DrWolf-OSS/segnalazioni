@@ -1,0 +1,74 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:rich="http://richfaces.org/rich"
+                template="/layout/template.xhtml">
+
+<ui:define name="title">Sottotipologie Interventi</ui:define>
+
+<ui:define name="navigation">
+ 	<ui:include src="/layout/menu.xhtml" />
+</ui:define>
+                       
+<ui:define name="body">
+    
+    
+    
+    <h:form>
+    
+    <rich:panel>
+       
+    <rich:dataTable id="sottotipoInterventoList" 
+                var="sottotipoIntervento"
+              value="#{sottotipoInterventoList.resultList}" 
+           rendered="#{not empty sottotipoInterventoList.resultList}">
+        
+        <h:column>
+            <f:facet name="header">
+                <s:link styleClass="columnHeader"
+                             value="Tipo Intervento #{sottotipoInterventoList.order=='tipoIntervento.id asc' ? messages.down : ( sottotipoInterventoList.order=='tipoIntervento.id desc' ? messages.up : '' )}">
+                    <f:param name="order" value="#{sottotipoInterventoList.order=='tipoIntervento.id asc' ? 'tipoIntervento.id desc' : 'tipoIntervento.id asc'}"/>
+                </s:link>
+            </f:facet>
+            #{sottotipoIntervento.tipoIntervento.descrizione}
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <s:link styleClass="columnHeader"
+                             value="Descrizione #{sottotipoInterventoList.order=='descrizione asc' ? messages.down : ( sottotipoInterventoList.order=='descrizione desc' ? messages.up : '' )}">
+                    <f:param name="order" value="#{sottotipoInterventoList.order=='descrizione asc' ? 'descrizione desc' : 'descrizione asc'}"/>
+                </s:link>
+            </f:facet>
+            #{sottotipoIntervento.descrizione}
+        </h:column>
+        <h:column>
+            <f:facet name="header">Azioni</f:facet>
+            <s:link view="/app/parametri/SottotipoInterventoEdit.xhtml" 
+                   value="Modifica" 
+                      id="sottotipoIntervento">
+                <f:param name="sottotipoInterventoId" 
+                        value="#{sottotipoIntervento.id}"/>
+            </s:link>
+        </h:column>
+    </rich:dataTable>
+
+   </rich:panel>
+   <s:decorate template="/layout/actions.xhtml">
+        <s:button view="/app/parametri/SottotipoInterventoEdit.xhtml"
+                    id="create" 
+                 value="Nuova sottotipologia intervento">
+            <f:param name="sottotipoInterventoId"/>
+        </s:button>
+    </s:decorate>
+   </h:form>
+   
+</ui:define>
+
+</ui:composition>
+

@@ -1,0 +1,63 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:rich="http://richfaces.org/rich"
+                template="/layout/template.xhtml">
+
+<ui:define name="title">#{cittadinoHome.instance.nome}  #{cittadinoHome.instance.cognome}</ui:define>
+
+<ui:define name="navigation">
+ 	<ui:include src="/layout/menu.xhtml" />
+</ui:define>                       
+<ui:define name="body">
+    
+
+
+        <s:decorate id="nome" template="/layout/display.xhtml">
+            <ui:define name="label">nome</ui:define>
+            #{cittadinoHome.instance.nome}
+        </s:decorate>
+
+
+        <s:decorate id="cognome" template="/layout/display.xhtml">
+            <ui:define name="label">cognome</ui:define>
+            #{cittadinoHome.instance.cognome}
+        </s:decorate>
+
+
+
+
+        <s:decorate id="email" template="/layout/display.xhtml">
+            <ui:define name="label">email</ui:define>
+            #{cittadinoHome.instance.email}
+        </s:decorate>
+
+
+        <s:decorate id="via" template="/layout/display.xhtml">
+            <ui:define name="label">Indirizzo</ui:define>
+            #{cittadinoHome.instance.indirizzo}
+        </s:decorate>
+
+
+        <s:decorate id="tel" template="/layout/display.xhtml">
+            <ui:define name="label">cellulare</ui:define>
+            #{cittadinoHome.instance.cellulare}
+        </s:decorate>
+
+
+
+
+        <div style="clear:both"/>
+        
+
+
+
+   
+</ui:define>
+
+</ui:composition>

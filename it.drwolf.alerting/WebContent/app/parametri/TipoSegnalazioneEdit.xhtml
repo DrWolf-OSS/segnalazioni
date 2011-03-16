@@ -1,0 +1,81 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	template="/layout/template.xhtml">
+
+	<ui:define name="title">#{tipoSegnalazioneHome.managed ? 'Modifica' : 'Nuova'} Tipologia Segnalazione</ui:define>
+
+	<ui:define name="navigation">
+		<ui:include src="/layout/menu.xhtml" />
+	</ui:define>
+	<ui:define name="body">
+
+		<h:form id="tipoSegnalazione" styleClass="edit">
+
+			<rich:panel>
+			
+				<s:decorate id="descrizioneDecoration"
+					template="/layout/input.xhtml">
+					<ui:define name="label">Descrizione</ui:define>
+					<h:inputText id="descrizione" required="true"
+						value="#{tipoSegnalazioneHome.instance.descrizione}" />
+				</s:decorate>
+
+				<s:decorate	template="/layout/input.xhtml">
+					<ui:define name="label">Ufficio Smistatore</ui:define>
+					<h:selectOneMenu value="#{tipoSegnalazioneHome.instance.ufficioSmistatore}">
+						<s:selectItems value="#{ufficioCompetenteList.resultList}" var="u" label="#{ufficioConverter.getAsString(null,null,u.eloiseId.toString())}"/>
+						<s:convertEntity/>
+					</h:selectOneMenu>
+						
+						
+				</s:decorate>
+
+				<s:decorate	template="/layout/input.xhtml">
+					<ui:define name="label">Smistatore finale</ui:define>
+					<rich:comboBox  style="width: 120px;"
+							value="#{tipoSegnalazioneHome.instance.smistatoreFinale}"  converter="#{peopleConverter}">
+							<f:selectItems value="#{eloiseUtils.people}"/>
+						</rich:comboBox>
+						
+				</s:decorate>
+				
+				<s:decorate	template="/layout/input.xhtml">
+					<ui:define name="label">Uffici Competenti</ui:define>
+					<rich:pickList required="true"  sourceListWidth="250px" targetListWidth="250px"
+						value="#{tipoSegnalazioneHome.instance.ufficiCompetenti}" >
+						<s:selectItems value="#{ufficioCompetenteList.resultList}" var="u" label="#{ufficioConverter.getAsString(null,null,u.eloiseId.toString())}"/>
+						<s:convertEntity/>
+						</rich:pickList>
+						
+						
+				</s:decorate>
+				<s:decorate	template="/layout/input.xhtml">
+					<ui:define name="label">Stati Possibili</ui:define>
+					<rich:pickList required="true" sourceListWidth="250px" targetListWidth="250px"
+						value="#{tipoSegnalazioneHome.instance.statiPossibili}" >
+						<s:selectItems value="#{statoList.resultList}" var="stato" label="#{stato.descrizione}"/>
+						<s:convertEntity/>
+						</rich:pickList>
+
+						
+				</s:decorate>
+
+			</rich:panel>
+			
+				<ui:include src="/layout/default/actions.xhtml" >
+						<ui:param name="home" value="#{tipoSegnalazioneHome}"/>
+						<ui:param name="base" value="parametri/TipoSegnalazione"/>
+				</ui:include>
+		
+		</h:form>
+		
+	</ui:define>
+</ui:composition>

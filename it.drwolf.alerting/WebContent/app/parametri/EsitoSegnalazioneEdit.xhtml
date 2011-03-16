@@ -1,0 +1,45 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	template="/layout/template.xhtml">
+
+	<ui:define name="title">#{esitoSegnalazioneHome.managed ? 'Modifica' : 'Nuovo'} Esito Segnalazione</ui:define>
+
+	<ui:define name="navigation">
+		<ui:include src="/layout/menu.xhtml" />
+	</ui:define>
+	
+		<ui:define name="body">
+
+		<h:form id="esitoSegnalazione" styleClass="edit">
+
+			<rich:panel>
+			
+				<s:decorate id="nomeDecoration"
+					template="/layout/input.xhtml">
+					<ui:define name="label">Esito</ui:define>
+					<h:inputText id="nome" disabled="#{esitoSegnalazioneHome.managed}" required="true"
+						value="#{esitoSegnalazioneHome.instance.esito}" />
+				</s:decorate>
+
+			</rich:panel>
+			
+				<ui:include src="/layout/default/actions.xhtml" >
+						<ui:param name="home" value="#{esitoSegnalazioneHome}"/>
+						<ui:param name="base" value="parametri/EsitoSegnalazione"/>
+				</ui:include>
+		
+		</h:form>
+		
+	</ui:define>
+	
+	
+
+</ui:composition>

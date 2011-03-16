@@ -1,0 +1,65 @@
+<m:message  xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:m="http://jboss.com/products/seam/mail"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	>
+<m:header name="X-Composed-By" value="DrClear" />
+<m:from name="#{rispostaHome.fromName}" address="#{rispostaHome.fromAddress}" />
+
+<m:to name="#{rispostaHome.toName}" address="#{rispostaHome.toAddress}"/>
+
+<m:subject>[#{workSession.getParam('app.description')}] #{rispostaHome.instance.oggetto}</m:subject>
+
+<m:body>
+	<html>
+		<head>
+			<style type="text/css">
+			body{
+				font-size: 85%;
+				font-family:sans-serif;
+			}
+			#mainDiv{
+				width: 785px;
+				padding-top:0;
+				padding-left:15px;
+				padding-right: 15px;
+				padding-bottom: 15px;
+			}
+   			h1 {
+   				text-align:center;
+   				margin-bottom: .75em;
+   			}
+   			p{
+	   			margin-left: 150px;
+  				margin-right: 150px;
+   			}
+ 			</style>
+		</head>
+		<body>
+			<div id="mainDiv">
+			 <img src="#{risposteUtils.header}" 
+                   	alt=" " 
+                   	border="0" />
+             <h1>#{rispostaHome.instance.oggetto}</h1>
+             <p style="text-align:right;">#{workSession.getParam('app.comune')}, #{giornalieroHome.convertData(rispostaHome.instance.data)}</p>
+	
+			<p  style="text-align:justify;">
+			<h:outputText value="#{rispostaHome.instance.testo}" escape="false"/>
+			</p>
+			
+
+			<p style="text-align:right;">#{workSession.getParam('app.risposte.saluti')} #{giornalieroHome.convertPeople(rispostaHome.instance.mittente)}<br/>#{workSession.getParam('app.risposte.salutips')}</p>
+             
+             
+                   	
+             <img src="#{risposteUtils.footer}"
+                   	alt=" " 
+                   	border="0"/>
+			</div>
+			</body>
+		</html>
+</m:body>
+</m:message>

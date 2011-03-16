@@ -1,0 +1,25 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:rich="http://richfaces.ajax4jsf.org/rich"
+   xmlns:s="http://jboss.com/products/seam/taglib">
+
+
+
+	<s:decorate	rendered="#{segnalazioneHome.instance.sottotipoSegnalazione ne null}" template="/layout/input.xhtml">
+		<ui:define name="label">Assegnatario Segnalazione</ui:define>
+		<rich:comboBox width="250px" listWidth="250px" required="true" rendered="#{not alertingController.assegnazionePool}" converter="#{peopleAndRolesConverter}"
+			value="#{alertingProcess.impiegatoUfficioCompetente}" >
+			<f:selectItems value="#{alertingController.competenti}" />
+		</rich:comboBox>
+		<h:selectOneMenu rendered="#{alertingController.assegnazionePool}"
+			value="#{alertingProcess.ufficio}" >
+			<s:selectItems value="#{segnalazioneHome.instance.sottotipoSegnalazione.tipoSegnalazione.ufficiCompetenti}" var="u" label="#{u.nome}" />
+			<s:convertEntity />
+		</h:selectOneMenu>
+	</s:decorate>
+
+	
+
+</ui:composition>

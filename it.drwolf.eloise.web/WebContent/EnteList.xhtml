@@ -1,0 +1,134 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:rich="http://richfaces.org/rich"
+                template="layout/template.xhtml">
+                       
+<ui:define name="body">
+    
+    <h:messages globalOnly="true" styleClass="message" id="globalMessages" />
+    
+    <h:form id="enteSearch" styleClass="edit">
+    
+        <rich:simpleTogglePanel label="Paramteri ricerca enti" switchType="ajax"  styleClass="PNLGeneric">
+        
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">nome</ui:define>
+                <h:inputText id="nome" value="#{enteList.ente.nome}"/>
+            </s:decorate>
+
+         
+       <s:div style="clear:both;" /> 
+        
+        <div class="actionButtons">
+            <h:commandButton id="search" value="Cerca" action="/EnteList.xhtml"/>
+        </div>
+         </rich:simpleTogglePanel>
+    </h:form>
+    
+    <rich:panel>
+        <f:facet name="header">Risultati ricerca</f:facet>
+    <div class="results" id="enteList">
+
+    <h:outputText value="Non ci sono enti che soddisfano i paramteri di ricerca." 
+               rendered="#{empty enteList.resultList}"/>
+               
+    <rich:dataTable id="enteList" 
+                var="ente"
+              value="#{enteList.resultList}" 
+           rendered="#{not empty enteList.resultList}">
+<!--        <h:column>-->
+<!--            <f:facet name="header">-->
+<!--                <s:link styleClass="columnHeader"-->
+<!--                             value="idente #{enteList.order=='idente asc' ? messages.down : ( enteList.order=='idente desc' ? messages.up : '' )}">-->
+<!--                    <f:param name="order" value="#{enteList.order=='idente asc' ? 'idente desc' : 'idente asc'}"/>-->
+<!--                </s:link>-->
+<!--            </f:facet>-->
+<!--            #{ente.idente}-->
+<!--        </h:column>-->
+
+        <h:column>
+            <f:facet name="header">
+                <s:link styleClass="columnHeader"
+                             value="Nome #{enteList.order=='nome asc' ? messages.down : ( enteList.order=='nome desc' ? messages.up : '' )}">
+                    <f:param name="order" value="#{enteList.order=='nome asc' ? 'nome desc' : 'nome asc'}"/>
+                </s:link>
+            </f:facet>
+            #{ente.nome}
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <s:link styleClass="columnHeader"
+                             value="Visibile #{enteList.order=='visible asc' ? messages.down : ( enteList.order=='visible desc' ? messages.up : '' )}">
+                    <f:param name="order" value="#{enteList.order=='visible asc' ? 'visible desc' : 'visible asc'}"/>
+                </s:link>
+            </f:facet>
+            <h:outputText value="#{ente.visible ? 'si' : 'no'}" />
+        </h:column>  
+        <h:column>
+            <f:facet name="header">Azione</f:facet>
+            <s:link view="/#{empty from ? 'Ente' : from}.xhtml" 
+                   value="Seleziona" 
+                      id="ente">
+                <f:param name="enteIdente" 
+                        value="#{ente.idente}"/>
+            </s:link>
+        </h:column>
+    </rich:dataTable>
+
+    </div>
+    </rich:panel>
+    
+    <div class="tableControl">
+      
+        <s:link view="/EnteList.xhtml" 
+            rendered="#{enteList.previousExists}" 
+               value="#{messages.left}#{messages.left} prima"
+                  id="firstPage">
+          <f:param name="firstResult" value="0"/>
+        </s:link>
+        
+        <s:link view="/EnteList.xhtml" 
+            rendered="#{enteList.previousExists}" 
+               value="#{messages.left} precedente"
+                  id="previousPage">
+            <f:param name="firstResult" 
+                    value="#{enteList.previousFirstResult}"/>
+        </s:link>
+        
+        <s:link view="/EnteList.xhtml" 
+            rendered="#{enteList.nextExists}" 
+               value="prossima #{messages.right}"
+                  id="nextPage">
+            <f:param name="firstResult" 
+                    value="#{enteList.nextFirstResult}"/>
+        </s:link>
+        
+        <s:link view="/EnteList.xhtml" 
+            rendered="#{enteList.nextExists}" 
+               value="ultima #{messages.right}#{messages.right}"
+                  id="lastPage">
+            <f:param name="firstResult" 
+                    value="#{enteList.lastFirstResult}"/>
+        </s:link>
+        
+    </div>
+    
+    <s:div styleClass="actionButtons" rendered="#{empty from}">
+        <s:button view="/EnteEdit.xhtml"
+                    id="create" 
+                 value="Crea nuovo ente">
+            <f:param name="enteIdente"/>
+        </s:button>
+    </s:div>
+    
+</ui:define>
+
+</ui:composition>
+

@@ -1,0 +1,38 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:rich="http://richfaces.ajax4jsf.org/rich"
+	xmlns:s="http://jboss.com/products/seam/taglib">
+
+
+
+	
+	<c:set var="list" value="#{alertingController.getMessageList(segnalazione)}" />
+		
+
+		<rich:dataGrid elements="3"
+			value="#{list}"
+			var="messaggio">
+			<rich:panel>
+				<f:facet name="header">
+					<s:div>
+						<h:outputText value="#{messaggio.date}">
+							<s:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+						</h:outputText>&#160;-&#160;
+				<h:outputText value="#{messaggio.user}">
+							<f:converter converterId="usernameConverter" />
+						</h:outputText>
+						<h:outputText value=" #{eloiseUtils.getUserRoles(messaggio.user)}"/>
+					</s:div>
+				</f:facet>
+				<div class="messaggio">#{messaggio.txt}</div>
+			</rich:panel>
+			<f:facet name="footer" >
+				<rich:datascroller renderIfSinglePage="false"/>
+			</f:facet>
+		</rich:dataGrid>
+
+	
+</ui:composition>

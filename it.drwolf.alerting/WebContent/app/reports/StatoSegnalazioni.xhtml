@@ -1,0 +1,319 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	template="/layout/template.xhtml">
+
+	<ui:define name="title">Ricerca Segnalazioni (#{reports.listaSegnalazioni.size()} risultati)</ui:define>
+
+	<ui:define name="navigation">
+		<h:form>
+			<rich:simpleTogglePanel switchType="client" rendered="#{not s:hasRole('cittadino')}"
+				style="width: 200px; margin-bottom: 3px;" id="srcpnl" label="Cerca">
+
+				<s:decorate template="/layout/input.xhtml">
+					<ui:define name="label">Numero</ui:define>
+					<h:inputText value="#{reports.numero}" />
+				</s:decorate>
+
+				<s:decorate template="/layout/input.xhtml">
+					<ui:define name="label">Oggetto</ui:define>
+					<h:inputText value="#{reports.oggetto}" />
+				</s:decorate>
+
+				<s:decorate id="cittdec" template="/layout/input.xhtml"
+					rendered="#{s:hasRole('impiegato')}">
+					<ui:define name="label">Cittadino</ui:define>
+					<s:graphicImage alt="Pulisci campo" title="Pulisi campo"
+						style="float:right;" value="/img/broom.png"
+						onclick="#{rich:element('suggest')}.value=''" />
+					<h:inputText value="#{reports.cittadino}" id="suggest" />
+
+
+					<rich:suggestionbox height="200" width="180" for="suggest"
+						suggestionAction="#{cittadinoList.autocomplete}" var="suggest">
+
+						<h:column>
+
+							<h:outputText value="#{suggest}" escape="false" />
+
+						</h:column>
+
+					</rich:suggestionbox>
+
+				</s:decorate>
+
+				<s:decorate template="/layout/input.xhtml"
+					rendered="#{s:hasRole('impiegato')}">
+					<ui:define name="label">Inserita da</ui:define>
+					<rich:comboBox style="width: 120px;" value="#{reports.inseritore}"
+						converter="#{peopleConverter}">
+						<f:selectItems value="#{eloiseUtils.people}" />
+					</rich:comboBox>
+				</s:decorate>
+
+				<s:decorate template="/layout/input.xhtml">
+					<ui:define name="label">Tipologia</ui:define>
+					<h:selectOneMenu value="#{reports.sottotipoSegnalazione}">
+
+						<s:selectItems value="#{sottotipoSegnalazioneList.resultList}"
+							var="tipo" label="#{tipo.descrizione}"
+							noSelectionLabel="Qualsiasi" />
+						<s:convertEntity />
+					</h:selectOneMenu>
+				</s:decorate>
+
+				<s:decorate template="/layout/input.xhtml">
+					<ui:define name="label">Esito</ui:define>
+					<h:selectOneMenu value="#{reports.esitoSegnalazione}">
+
+						<s:selectItems value="#{esitoSegnalazioneList.resultList}"
+							var="tipo" label="#{tipo.esito}" noSelectionLabel="Qualsiasi" />
+						<s:convertEntity />
+					</h:selectOneMenu>
+				</s:decorate>
+
+
+				<s:decorate template="/layout/input.xhtml">
+					<ui:define name="label">Indirizzo</ui:define>
+					<h:inputText value="#{reports.via}" />
+				</s:decorate>
+
+				<s:decorate template="/layout/input.xhtml">
+					<ui:define name="label">Senza Risposta</ui:define>
+					<h:selectBooleanCheckbox value="#{reports.senzaRisposta}" />Con cittadino associato<br />
+					<h:selectBooleanCheckbox value="#{reports.senzaRispostaInterne}" />Segnalazioni interne<br />
+				</s:decorate>
+
+
+
+
+				<s:decorate template="/layout/input.xhtml">
+					<ui:define name="label">Stato</ui:define>
+					<h:selectManyCheckbox required="true" id="stati"
+						value="#{reports.stati}" layout="pageDirection">
+						<s:selectItems value="#{statoList.resultList}" var="s"
+							label="#{s}" />
+						<s:convertEntity />
+					</h:selectManyCheckbox>
+				</s:decorate>
+				<s:decorate template="/layout/input.xhtml">
+					<ui:define name="label">Apertura</ui:define>
+	 				dal: <rich:calendar value="#{reports.aperturaDa}" inputSize="12"
+						datePattern="dd/MM/yyyy" />
+					<br />
+ 					al: <rich:calendar value="#{reports.aperturaA}" inputSize="12"
+						datePattern="dd/MM/yyyy" />
+				</s:decorate>
+				<s:decorate template="/layout/input.xhtml">
+					<ui:define name="label">Chiusura</ui:define>
+	 				dal: <rich:calendar value="#{reports.chiusuraDa}" inputSize="12"
+						datePattern="dd/MM/yyyy" />
+					<br />
+ 					al: <rich:calendar value="#{reports.chiusuraA}" inputSize="12"
+						datePattern="dd/MM/yyyy" />
+				</s:decorate>
+				<s:decorate template="/layout/input.xhtml">
+					<ui:define name="label">Scadenza</ui:define>
+	 				dal: <rich:calendar value="#{reports.scadenzaDa}" inputSize="12"
+						datePattern="dd/MM/yyyy" />
+					<br />
+ 					al: <rich:calendar value="#{reports.scadenzaA}" inputSize="12"
+						datePattern="dd/MM/yyyy" />
+				</s:decorate>
+
+				<s:decorate id="utenzaDecoration" template="/layout/input.xhtml"
+					rendered="#{s:hasRole('impiegato')}">
+					<ui:define name="label">Utenza</ui:define>
+					<rich:dropDownMenu styleClass="priorityMenu">
+						<f:facet name="label">
+							<s:div>
+								<h:outputText
+									value="#{reports.utenza ne null ? reports.utenza : 'Scegli un\'utenza'}" />
+							</s:div>
+						</f:facet>
+						<rich:menuItem submitMode="ajax" limitToList="true"
+							ajaxSingle="true" action="#{reports.setUtenza(null)}"
+							reRender="utenzaDecoration" value="Nessuna Utenza" />
+						<c:forEach items="#{categoriaUtenzaList.resultList}" var="cu">
+							<rich:menuGroup value="#{cu.nome}"
+								rendered="#{not empty cu.sottocategorie}">
+								<c:forEach items="#{cu.sottocategorie}" var="sc">
+									<rich:menuGroup value="#{sc.nome}"
+										rendered="#{not empty sc.utenze}">
+										<c:forEach items="#{sc.utenze}" var="u">
+											<rich:menuItem submitMode="ajax" limitToList="true"
+												ajaxSingle="true" action="#{reports.setUtenza(u)}"
+												reRender="utenzaDecoration" value="#{u.descrizione}" />
+										</c:forEach>
+									</rich:menuGroup>
+								</c:forEach>
+							</rich:menuGroup>
+						</c:forEach>
+					</rich:dropDownMenu>
+				</s:decorate>
+
+
+
+
+
+				<s:decorate template="/layout/input.xhtml"
+					rendered="#{s:hasRole('impiegato')}">
+					<ui:define name="label">In carico a</ui:define>
+					<rich:comboBox value="#{reports.incaricato}">
+						<f:selectItems value="#{reports.incaricati}" />
+					</rich:comboBox>
+				</s:decorate>
+				<s:decorate template="/layout/input.xhtml"
+					rendered="#{s:hasRole('impiegato')}">
+					<ui:define name="label">Ufficio</ui:define>
+					<rich:comboBox value="#{reports.ufficio}">
+						<c:forEach items="#{ufficioCompetenteList.resultList}" var="u">
+							<f:selectItem
+								itemValue="#{ufficioConverter.getAsString(null,null,u.eloiseId)}" />
+						</c:forEach>
+					</rich:comboBox>
+
+				</s:decorate>
+
+				<s:decorate template="/layout/actions.xhtml">
+					<h:commandButton value="Cerca" action="#{reports.clear()}" />
+				</s:decorate>
+			</rich:simpleTogglePanel>
+
+		</h:form>
+
+		<ui:include src="/layout/menu.xhtml" />
+	</ui:define>
+
+	<ui:define name="body">
+
+
+		<c:set var="segnalazioni" value="#{reports.listaSegnalazioni}" />
+
+
+
+		<rich:dataTable id="statoSegnalazioni" value="#{segnalazioni}" var="s">
+
+			<rich:column label="N" sortable="true" sortBy="#{s.id}">
+				<f:facet name="header">
+        	N
+        	</f:facet>
+				<s:link value="#{s.id}" view="/app/segnalazione.xhtml">
+					<f:param name="sid" value="#{s.id}" />
+				</s:link>
+			</rich:column>
+
+			<rich:column label="Segnalazione" sortable="true"
+				sortBy="#{s.oggetto}">
+				<f:facet name="header">
+        	Oggetto
+        	</f:facet>
+
+				<s:fragment
+					rendered="#{segnalazioneHome.verificaScadenza(s,false) and not s:hasRole('cittadino')}"> 
+
+					<img style="margin-right: 1em;" src="/sign/img/exclamation.png"
+						height="16" width="16" alt="Scaduta" title="Scaduta" />
+				</s:fragment>
+
+				<s:div>
+					<rich:toolTip>#{alertingController.getFirstMessage(s)}</rich:toolTip>
+					<s:link value="#{s.oggetto}" view="/app/segnalazione.xhtml">
+						<f:param name="sid" value="#{s.id}" />
+					</s:link>
+
+
+				</s:div>
+			</rich:column>
+
+			<rich:column label="Cittadino" sortable="true" rendered="#{not s:hasRole('cittadino')}"  
+				sortBy="#{s.cittadino.cognome}">
+				<f:facet name="header">
+        	Cittadino
+        	</f:facet>
+            #{s.cittadino.cognome} #{s.cittadino.nome}
+        </rich:column>
+
+			<rich:column label="Inserita da" sortable="true"
+				sortBy="#{s.idutenteInseritore}">
+				<f:facet name="header">
+        	Inserita da
+        	</f:facet>
+				<h:outputText value="#{s.idutenteInseritore}"
+					converter="#{usernameConverter}">
+
+				</h:outputText>
+			</rich:column>
+
+
+			<rich:column label="Stato" sortable="true"
+				sortBy="#{s.stato.descrizione}">
+				<f:facet name="header">
+        	Stato
+        	</f:facet>
+            #{s.stato.descrizione}
+        </rich:column>
+
+			<rich:column label="Apertura" sortable="true" sortBy="#{s.data}">
+				<f:facet name="header">
+        	Apertura
+        	</f:facet>
+				<h:outputText value="#{s.data}">
+					<s:convertDateTime pattern="dd/MM/yyyy" />
+				</h:outputText>
+			</rich:column>
+			<rich:column label="Chiusura" sortable="true"
+				sortBy="#{reports.getChiusuraSegnalazione(s)}">
+				<f:facet name="header">
+			Chiusura
+        	</f:facet>
+				<h:outputText value="#{reports.getChiusuraSegnalazione(s)}">
+					<s:convertDateTime pattern="dd/MM/yyyy" />
+				</h:outputText>
+			</rich:column>
+			<rich:column label="Scadenza" sortable="true" sortBy="#{s.scadenza}" rendered="#{not s:hasRole('cittadino')}">
+				<f:facet name="header">
+			Scadenza
+        	</f:facet>
+				<h:outputText value="#{s.scadenza}">
+					<s:convertDateTime pattern="dd/MM/yyyy" />
+				</h:outputText>
+			</rich:column>
+
+			<rich:column label="Attività" sortable="true" rendered="#{not s:hasRole('cittadino')}"
+				sortBy="#{reports.getCurrentTaskDescription(s)}">
+				<f:facet name="header">
+        	Attività
+        	</f:facet>
+				<h:outputText value="#{reports.getCurrentTaskDescription(s)}" />
+			</rich:column>
+
+			<rich:column label="In Carico a" sortable="true" rendered="#{not s:hasRole('cittadino')}"
+				sortBy="#{reports.getCurrentTaskOwner(s)}">
+				<f:facet name="header">
+        	In carico a
+        	</f:facet>
+				<h:outputText value="#{reports.getCurrentTaskOwner(s)}" />
+			</rich:column>
+			<rich:column label="Ufficio" sortable="true"
+				sortBy="#{reports.getCurrentTaskOffice(s)}">
+				<f:facet name="header">
+        	Ufficio
+        	</f:facet>
+				<h:outputText value="#{reports.getCurrentTaskOffice(s)}" />
+			</rich:column>
+
+
+
+		</rich:dataTable>
+
+
+
+	</ui:define>
+</ui:composition>

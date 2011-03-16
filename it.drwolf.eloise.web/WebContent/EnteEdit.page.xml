@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.com/products/seam/pages"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd"
+      no-conversation-view-id="/EnteList.xhtml"
+      login-required="true">
+   
+   <begin-conversation join="true"/>
+   
+   <action execute="#{enteHome.wire}"/>
+   
+   <param name="enteFrom"/>
+   <param name="enteIdente" value="#{enteHome.enteIdente}"/>
+
+
+   <navigation from-action="#{enteHome.persist}">
+       <end-conversation/>
+       <redirect view-id="/Ente.xhtml"/>
+   </navigation>
+   
+   <navigation from-action="#{enteHome.update}">
+       <end-conversation/>
+       <redirect view-id="/Ente.xhtml"/>
+   </navigation>
+   
+   <navigation from-action="#{enteHome.remove}">
+       <end-conversation/>
+       <redirect view-id="/EnteList.xhtml"/>
+   </navigation>
+   
+</page>

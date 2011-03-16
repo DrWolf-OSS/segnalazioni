@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<root-container name="segnalazione" width="1079" height="589">
+  <node name="inizio" x="21" y="24" width="132" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="assegnazioneSegnalazione" x="19" y="430" width="189" height="37">
+    <edge>
+      <label x="-62" y="-12"/>
+    </edge>
+  </node>
+  <node name="aggiornamentoSegnalazione" x="572" y="423" width="204" height="36">
+    <edge>
+      <label x="11" y="-7"/>
+    </edge>
+    <edge>
+      <label x="-24" y="-25"/>
+    </edge>
+  </node>
+  <node name="chiusuraSegnalazione" x="633" y="219" width="197" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="aperturaSegnalazione" x="385" y="23" width="173" height="41">
+    <edge>
+      <label x="-75" y="-32"/>
+    </edge>
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="cittadino" x="48" y="113" width="132" height="36">
+    <edge>
+      <label x="-11" y="-20"/>
+    </edge>
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="cittadino2" x="944" y="550" width="132" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="assegnazionePool" x="354" y="196" width="149" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="aggiornamentoPoolSegnalazione" x="186" y="551" width="223" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="fine" x="945" y="41" width="132" height="36"/>
+  <deployment serverName="" serverPort="" serverDeployer="">
+    <classesAndResources/>
+    <filesAndFolders>
+      <element value="/it.drwolf.alerting-ear/EarContent/segnalazione/gpd.xml"/>
+      <element value="/it.drwolf.alerting-ear/EarContent/segnalazione/processdefinition.xml"/>
+      <element value="/it.drwolf.alerting-ear/EarContent/segnalazione/processimage.jpg"/>
+    </filesAndFolders>
+  </deployment>
+</root-container>

@@ -1,0 +1,81 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:c="http://java.sun.com/jstl/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:rich="http://richfaces.org/rich"
+                template="/layout/template.xhtml">
+
+<ui:define name="title">Report segnalazioni in carico per ufficio</ui:define>
+
+<ui:define name="navigation">
+ 	
+
+ 	<ui:include src="/layout/menu.xhtml" />
+</ui:define>
+
+<ui:define name="body">
+
+
+	<c:set var="segnalazioni" value="#{reports.segnalazioniPerUfficio}" />
+
+ 			
+
+    <rich:dataTable id="statoSegnalazioni" value="#{segnalazioni}" var="s">
+
+        <rich:column
+        	label="Ufficio"
+        	sortable="true"
+        	sortBy="#{s.ufficio}">
+        	<f:facet name="header">
+        	Ufficio
+        	</f:facet>
+           
+			#{s.ufficio}
+            
+        </rich:column>
+
+        <rich:column
+        	label="In Carico"
+        	sortable="true"
+        	sortBy="#{s.totale}">
+        	<f:facet name="header">
+        	In Carico
+        	</f:facet>           
+			#{s.totale}
+        </rich:column>
+       
+
+        <rich:column>
+        	
+        	
+        	<f:facet name="header">
+			 <table width="100%">
+			 	<tr>
+			 	 <td align="center" style="background:green;color:white;">In tempo</td>
+			 	 <td align="center" style="background:red;color:white;">Scadute</td>
+			 	</tr>
+
+			 </table>	
+        	
+        	</f:facet>           
+			 <table>
+			 	<tr>
+			 	 <td align="right" style="background:green;color:white;width:#{s.inTempo*5}px">#{s.inTempo}</td>
+			 	 <td align="right" style="background:#{s.scadute gt 0 ? 'red':'white' };color:white;width:#{s.scadute*5}px">#{s.scadute}</td>
+			 	</tr>
+
+			 </table>	
+        </rich:column>
+
+
+
+    </rich:dataTable>
+
+
+
+   </ui:define>
+</ui:composition>

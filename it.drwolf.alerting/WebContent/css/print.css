@@ -1,0 +1,18 @@
+.forPrint{
+display: block;;
+}
+
+.noPrint, .actions{
+display: none;
+}
+.rich-panel, .rich-stglpanel, .rich-tabpanel, fieldset{
+border:0;
+}
+
+.extdt-content{
+height: 5000px ! important;
+}
+
+.extdt-firstrow{
+page-break-after:auto ! important;
+}

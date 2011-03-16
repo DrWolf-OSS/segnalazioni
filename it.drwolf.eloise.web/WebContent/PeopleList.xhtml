@@ -1,0 +1,211 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:rich="http://richfaces.org/rich"
+                template="layout/template.xhtml">
+                       
+<ui:define name="body">
+    
+    <h:messages globalOnly="true" styleClass="message" id="globalMessages"/>
+    
+    <h:form id="peopleSearch" styleClass="edit">
+    
+        <rich:simpleTogglePanel label="Parametri ricerca persone" switchType="ajax"  styleClass="PNLGeneric">
+        
+<!--            <s:decorate template="layout/display.xhtml">-->
+<!--                <ui:define name="label">username</ui:define>-->
+<!--                <h:inputText id="idpeople" value="#{peopleList.people.idpeople}"/>-->
+<!--            </s:decorate>-->
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">username</ui:define>
+                <h:inputText id="email" value="#{peopleList.people.idpeople}"/>
+            </s:decorate>
+            
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">nome</ui:define>
+                <h:inputText id="nome" value="#{peopleList.people.nome}"/>
+            </s:decorate>
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">cognome</ui:define>
+                <h:inputText id="cognome" value="#{peopleList.people.cognome}"/>
+            </s:decorate>
+
+           
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">telefono</ui:define>
+                <h:inputText id="telefono" value="#{peopleList.people.telefono}"/>
+            </s:decorate>
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">fax</ui:define>
+                <h:inputText id="fax" value="#{peopleList.people.fax}"/>
+            </s:decorate>
+
+
+ 
+           <s:div style="clear:both;" />
+        <div class="actionButtons">
+            <h:commandButton id="search" value="Cerca" action="/PeopleList.xhtml"/>
+        </div>
+           
+
+       
+
+          
+        
+        </rich:simpleTogglePanel>
+        
+
+        
+    </h:form>
+    
+    <rich:panel>
+        <f:facet name="header">Risultati ricerca
+        </f:facet>
+    <div class="results" id="peopleList">
+
+    <h:outputText value="Non ci sono persone che soddisfano i paramteri di ricerca." 
+               rendered="#{empty peopleList.resultList}"/>
+               
+    <rich:dataTable id="peopleList" 
+                var="people"
+              value="#{peopleList.resultList}" 
+           rendered="#{not empty peopleList.resultList}">
+<!--        <h:column>-->
+<!--            <f:facet name="header">-->
+<!--                <s:link styleClass="columnHeader"-->
+<!--                             value="idpeople #{peopleList.order=='idpeople asc' ? messages.down : ( peopleList.order=='idpeople desc' ? messages.up : '' )}">-->
+<!--                    <f:param name="order" value="#{peopleList.order=='idpeople asc' ? 'idpeople desc' : 'idpeople asc'}"/>-->
+<!--                </s:link>-->
+<!--            </f:facet>-->
+<!--            #{people.idpeople}-->
+<!--        </h:column>-->
+        
+        <h:column>
+            <f:facet name="header">
+                <s:link styleClass="columnHeader"
+                             value="Username #{peopleList.order=='idpeople asc' ? messages.down : ( peopleList.order=='idpeople desc' ? messages.up : '' )}">
+                    <f:param name="order" value="#{peopleList.order=='idpeople asc' ? 'idpeople desc' : 'idpeople asc'}"/>
+                </s:link>
+            </f:facet>
+            #{people.idpeople}
+        </h:column>        
+        <h:column>
+            <f:facet name="header">
+                <s:link styleClass="columnHeader"
+                             value="Nome #{peopleList.order=='nome asc' ? messages.down : ( peopleList.order=='nome desc' ? messages.up : '' )}">
+                    <f:param name="order" value="#{peopleList.order=='nome asc' ? 'nome desc' : 'nome asc'}"/>
+                </s:link>
+            </f:facet>
+            #{people.nome}
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <s:link styleClass="columnHeader"
+                             value="Cognome #{peopleList.order=='cognome asc' ? messages.down : ( peopleList.order=='cognome desc' ? messages.up : '' )}">
+                    <f:param name="order" value="#{peopleList.order=='cognome asc' ? 'cognome desc' : 'cognome asc'}"/>
+                </s:link>
+            </f:facet>
+            #{people.cognome}
+        </h:column>
+        
+        <h:column>
+            <f:facet name="header">
+                <s:link styleClass="columnHeader"
+                             value="Telefono #{peopleList.order=='telefono asc' ? messages.down : ( peopleList.order=='telefono desc' ? messages.up : '' )}">
+                    <f:param name="order" value="#{peopleList.order=='telefono asc' ? 'telefono desc' : 'telefono asc'}"/>
+                </s:link>
+            </f:facet>
+            #{people.telefono}
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <s:link styleClass="columnHeader"
+                             value="Fax #{peopleList.order=='fax asc' ? messages.down : ( peopleList.order=='fax desc' ? messages.up : '' )}">
+                    <f:param name="order" value="#{peopleList.order=='fax asc' ? 'fax desc' : 'fax asc'}"/>
+                </s:link>
+            </f:facet>
+            #{people.fax}
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <s:link styleClass="columnHeader"
+                             value="Email #{peopleList.order=='email asc' ? messages.down : ( peopleList.order=='email desc' ? messages.up : '' )}">
+                    <f:param name="order" value="#{peopleList.order=='email asc' ? 'email desc' : 'email asc'}"/>
+                </s:link>
+            </f:facet>
+            #{people.email}
+        </h:column>
+       
+        
+       
+       
+        <h:column>
+            <f:facet name="header">Azione</f:facet>
+            <s:link view="/#{empty from ? 'People' : from}.xhtml" 
+                   value="Seleziona" 
+                      id="people">
+                <f:param name="peopleIdpeople" 
+                        value="#{people.idpeople}"/>
+            </s:link>
+        </h:column>
+    </rich:dataTable>
+
+    </div>
+    </rich:panel>
+    
+    <div class="tableControl">
+      
+        <s:link view="/PeopleList.xhtml" 
+            rendered="#{peopleList.previousExists}" 
+               value="#{messages.left}#{messages.left} prima"
+                  id="firstPage">
+          <f:param name="firstResult" value="0"/>
+        </s:link>
+        
+        <s:link view="/PeopleList.xhtml" 
+            rendered="#{peopleList.previousExists}" 
+               value="#{messages.left} precedente"
+                  id="previousPage">
+            <f:param name="firstResult" 
+                    value="#{peopleList.previousFirstResult}"/>
+        </s:link>
+        
+        <s:link view="/PeopleList.xhtml" 
+            rendered="#{peopleList.nextExists}" 
+               value="prossima #{messages.right}"
+                  id="nextPage">
+            <f:param name="firstResult" 
+                    value="#{peopleList.nextFirstResult}"/>
+        </s:link>
+        
+        <s:link view="/PeopleList.xhtml" 
+            rendered="#{peopleList.nextExists}" 
+               value="ultima #{messages.right}#{messages.right}"
+                  id="lastPage">
+            <f:param name="firstResult" 
+                    value="#{peopleList.lastFirstResult}"/>
+        </s:link>
+        
+    </div>
+    
+    <s:div styleClass="actionButtons" rendered="#{empty from}">
+        <s:button view="/PeopleEdit.xhtml"
+                    id="create" 
+                 value="Crea nuova persona">
+            <f:param name="peopleIdpeople"/>
+        </s:button>
+    </s:div>
+    
+</ui:define>
+
+</ui:composition>
+

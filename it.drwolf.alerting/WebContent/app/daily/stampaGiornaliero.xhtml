@@ -1,0 +1,154 @@
+<p:document xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:p="http://jboss.com/products/seam/pdf"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	fileName="giornaliero.pdf"
+	title="Foglio di lavoro del #{giornalieroHome.convertData(giornalieroHome.instance.data)}"
+	creator="DrWolf" pageSize="A4" type="pdf">
+
+	<p:font size="18">
+		<p:paragraph alignment="center" style="bold">Foglio di lavoro del #{giornalieroHome.convertData(giornalieroHome.instance.data)}</p:paragraph>
+	</p:font>
+	<p:font size="12">
+
+			<p:paragraph>#{giornalieroHome.instance.note}</p:paragraph>
+	
+	<p:table spacingBefore="12" columns="4" widthPercentage="100" >
+		<f:facet name="defaultCell">
+			<p:cell padding="2" paddingBottom="5" horizontalAlignment="left" verticalAlignment="top"/>
+		</f:facet>
+
+		<p:cell grayFill=".9">
+			<p:paragraph style="bold">Intervento</p:paragraph>
+		</p:cell>
+		<p:cell  grayFill=".9">
+			<p:paragraph style="bold">Squadra</p:paragraph>
+		</p:cell>
+		<p:cell grayFill=".9">
+			<p:paragraph style="bold">Scadenza</p:paragraph>
+		</p:cell>
+		<p:cell grayFill=".9">
+			<p:paragraph style="bold">Stato</p:paragraph>
+		</p:cell>
+
+		
+		<ui:repeat value="#{giornalieroHome.instance.interventi}" var="i">
+			<p:cell>
+				<p:paragraph style="bold">#{i.oggetto}</p:paragraph>
+			</p:cell>
+			<p:cell>
+				<p:paragraph style="bold">#{i.squadraIntervento.nome}</p:paragraph>
+			</p:cell>
+			<p:cell>
+				<p:paragraph style="bold">#{giornalieroHome.convertData(i.scadenza)}</p:paragraph>
+			</p:cell>
+			<p:cell>
+				<p:paragraph style="bold">#{i.stato}</p:paragraph>
+			</p:cell>
+		</ui:repeat>
+	</p:table>
+
+	<ui:repeat value="#{giornalieroHome.interventiPerSquadre}" var="entry">
+
+		<p:newPage />
+		
+		
+		<p:table headerRows="1" columns="2" widthPercentage="100" widths="1 4">
+		<f:facet name="defaultCell">
+			<p:cell padding="2" paddingBottom="5" horizontalAlignment="left" verticalAlignment="top"/>
+		</f:facet>
+
+			<p:cell colspan="2" horizontalAlignment="center">
+				<p:font size="18">
+					<p:paragraph alignment="center" style="bold">#{entry.key.nome}: Giornaliero del #{giornalieroHome.convertData(giornalieroHome.instance.data)}</p:paragraph>
+				</p:font>
+			</p:cell>
+
+		<ui:repeat value="#{entry.getValue()}" var="i">
+
+
+			<p:cell colspan="2" grayFill=".9" horizontalAlignment="center">
+				<p:paragraph style="bold">#{i.segnalazione ne null ? i.segnalazione.id : 'NS'} - #{i.oggetto}</p:paragraph>		
+			</p:cell>
+			
+			<p:cell>
+				<p:paragraph style="bold">Scadenza:</p:paragraph>
+			</p:cell>
+			<p:cell>
+				<p:paragraph>#{giornalieroHome.convertData(i.scadenza)}</p:paragraph>
+			</p:cell>
+			
+			<p:cell>
+				<p:paragraph style="bold">Referente:</p:paragraph>
+			</p:cell>
+			<p:cell>
+				<p:paragraph>#{i.nomeReferente} #{i.telefonoReferente}</p:paragraph>
+			</p:cell>
+
+			<p:cell>
+				<p:paragraph style="bold">Descrizione:</p:paragraph>
+			</p:cell>
+			<p:cell>
+				<p:paragraph>#{i.descrizione}</p:paragraph>
+			</p:cell>
+			
+			<s:fragment rendered="#{i.utenza ne null}">
+				<p:cell>
+					<p:paragraph style="bold">Utenza:</p:paragraph>
+				</p:cell>
+				<p:cell>
+					<p:paragraph>#{i.utenza}</p:paragraph>
+				</p:cell>
+			</s:fragment>
+			
+			<p:cell>
+				<p:paragraph style="bold">Indirizzo:</p:paragraph>
+			</p:cell>
+			<p:cell>
+				<p:paragraph>#{i.via},#{i.civico} #{i.localita} #{i.comune}</p:paragraph>
+			</p:cell>
+			
+			<s:fragment rendered="#{i.segnalazione ne null}">
+			<p:cell>
+				<p:paragraph style="bold">Ubicazione:</p:paragraph>
+			</p:cell>
+			<p:cell>
+				<p:paragraph>#{i.segnalazione.ubicazione}</p:paragraph>
+			</p:cell>
+			</s:fragment>
+			
+			<s:fragment rendered="#{not empty i.squadraIntervento.componenti}">
+			<p:cell>
+				<p:paragraph style="bold">Ore lavorate:</p:paragraph>
+			</p:cell>
+			<p:cell padding="5">
+				<p:table headerRows="1" columns="2" widthPercentage="100" widths="1 1">
+				<f:facet name="defaultCell">
+					<p:cell padding="2" paddingBottom="5" horizontalAlignment="left" verticalAlignment="top"/>
+				</f:facet>
+				
+					   
+						<ui:repeat value="#{i.squadraIntervento.componenti}" var="c">
+							<p:cell border="0">
+								<p:paragraph>#{giornalieroHome.convertPeople(c)} </p:paragraph>
+							</p:cell>
+							<p:cell>
+							
+							</p:cell>
+						</ui:repeat>
+					</p:table>
+				
+			</p:cell>
+			</s:fragment>
+						
+		</ui:repeat>
+		
+		</p:table>
+		
+	</ui:repeat>
+	
+	</p:font>
+</p:document>

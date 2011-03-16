@@ -1,0 +1,89 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:rich="http://richfaces.org/rich"
+                template="/layout/template.xhtml">
+
+<ui:define name="title">Tipologie Segnalazioni</ui:define>
+
+<ui:define name="navigation">
+ 	<ui:include src="/layout/menu.xhtml" />
+</ui:define>
+                       
+<ui:define name="body">
+    
+    <h:form >
+    
+    
+    <rich:panel>
+        
+               
+    <rich:dataTable id="tipoSegnalazioneList" 
+                var="tipoSegnalazione"
+              value="#{tipoSegnalazioneList.resultList}" 
+           rendered="#{not empty tipoSegnalazioneList.resultList}">
+       
+        <h:column>
+            <f:facet name="header">
+                <s:link styleClass="columnHeader"
+                             value="Descrizione #{tipoSegnalazioneList.order=='descrizione asc' ? messages.down : ( tipoSegnalazioneList.order=='descrizione desc' ? messages.up : '' )}">
+                    <f:param name="order" value="#{tipoSegnalazioneList.order=='descrizione asc' ? 'descrizione desc' : 'descrizione asc'}"/>
+                </s:link>
+            </f:facet>
+            #{tipoSegnalazione.descrizione}
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                Ufficio Smistatore
+            </f:facet>
+            <h:outputText value="#{tipoSegnalazione.ufficioSmistatore.eloiseId}" converter="#{ufficioConverter}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                Uffici Competenti
+            </f:facet>
+            <ui:repeat value="#{tipoSegnalazione.ufficiCompetenti}" var="ufficio">
+            	&#8227;&#160;<h:outputText value="#{ufficio.eloiseId}" converter="#{ufficioConverter}"/>&#160;&#160;
+            </ui:repeat>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                Stati Possibili
+            </f:facet>
+            <ui:repeat value="#{tipoSegnalazione.statiPossibili}" var="ufficio">
+            	&#8227;&#160;<h:outputText value="#{ufficio.descrizione}" />&#160;&#160;
+            </ui:repeat>
+        </h:column>
+        <h:column>
+            <f:facet name="header">Azioni</f:facet>
+            <s:link view="/app/parametri/TipoSegnalazioneEdit.xhtml" 
+                   value="Modifica" 
+                      id="tipoSegnalazione">
+                <f:param name="tipoSegnalazioneId" 
+                        value="#{tipoSegnalazione.id}"/>
+            </s:link>
+        </h:column>
+    </rich:dataTable>
+
+
+    </rich:panel>
+    
+     <s:decorate template="/layout/actions.xhtml">
+        <s:button view="/app/parametri/TipoSegnalazioneEdit.xhtml"
+                    id="create" 
+                 value="Nuova tipologia segnalazione">
+            <f:param name="tipoSegnalazioneId"/>
+        </s:button>
+    </s:decorate>
+   
+     </h:form>
+</ui:define>
+
+</ui:composition>
+
