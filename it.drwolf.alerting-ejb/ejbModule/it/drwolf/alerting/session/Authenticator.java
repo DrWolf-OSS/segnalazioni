@@ -10,6 +10,7 @@ import javax.persistence.EntityManager;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.bpm.Actor;
+import org.jboss.seam.core.Conversation;
 import org.jboss.seam.security.Credentials;
 import org.jboss.seam.security.Identity;
 
@@ -75,5 +76,10 @@ public class Authenticator {
 	public void impersonate(String username) throws Exception {
 		this.identity.getCredentials().setUsername(username);
 		this.sso.login();
+		try {
+			Conversation.instance().leave();
+		} catch (Exception e) {
+			// do nothing
+		}
 	}
 }

@@ -6,7 +6,10 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -23,6 +26,7 @@ import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.jboss.envers.Versioned;
 
@@ -56,11 +60,11 @@ public class Segnalazione implements java.io.Serializable {
 	private EsitoSegnalazione esitoSegnalazione;
 
 	private String ubicazione;
+
 	private String civico;
 	private String localita;
 	private String comune;
 	private Stato stato;
-
 	private Utenza utenza;
 
 	private CategoriaUtenza categoriaUtenza;
@@ -77,13 +81,16 @@ public class Segnalazione implements java.io.Serializable {
 
 	private String oggetto;
 
+	private Set<Sollecito> solleciti = new TreeSet<Sollecito>();
+
 	// Apertura
 	private Date data;
 
 	private String messaggio;
-	private Date scadenza;
 
+	private Date scadenza;
 	private Date chiusura;
+
 	private List<Risposta> risposte;
 
 	public Segnalazione() {
@@ -218,6 +225,28 @@ public class Segnalazione implements java.io.Serializable {
 		return this.scadenza;
 	}
 
+	@OneToMany(mappedBy = "segnalazione", cascade = CascadeType.ALL)
+	public Set<Sollecito> getSolleciti() {
+		return this.solleciti;
+	}
+
+	@Transient
+	public List<Sollecito> getSollecitiList() {
+		return new ArrayList<Sollecito>(this.getSolleciti());
+	}
+
+	@Transient
+	public List<Sollecito> getSollecitiSenzaRisposta() {
+		List<Sollecito> l = this.getSollecitiList();
+		Iterator<Sollecito> i = l.iterator();
+		while (i.hasNext()) {
+			if (i.next().getRisposta() != null) {
+				i.remove();
+			}
+		}
+		return l;
+	}
+
 	@ManyToOne
 	public SottocategoriaUtenza getSottocategoriaUtenza() {
 		return this.sottocategoriaUtenza;
@@ -345,6 +374,10 @@ public class Segnalazione implements java.io.Serializable {
 		this.scadenza = scadenza;
 	}
 
+	public void setSolleciti(Set<Sollecito> solleciti) {
+		this.solleciti = solleciti;
+	}
+
 	public void setSottocategoriaUtenza(
 			SottocategoriaUtenza sottocategoriaUtenza) {
 		this.sottocategoriaUtenza = sottocategoriaUtenza;
@@ -373,6 +406,11 @@ public class Segnalazione implements java.io.Serializable {
 
 	public void setVia(String via) {
 		this.via = via;
+	}
+
+	@Override
+	public String toString() {
+		return this.getId() + " - " + this.getOggetto();
 	}
 
 }

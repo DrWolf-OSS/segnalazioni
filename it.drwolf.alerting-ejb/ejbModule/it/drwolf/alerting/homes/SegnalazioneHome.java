@@ -8,11 +8,13 @@ import it.drwolf.alerting.entity.Intervento;
 import it.drwolf.alerting.entity.Segnalazione;
 import it.drwolf.alerting.entity.SitCivico;
 import it.drwolf.alerting.entity.SitStrada;
+import it.drwolf.alerting.entity.Sollecito;
 import it.drwolf.alerting.entity.SottocategoriaUtenza;
 import it.drwolf.alerting.entity.Stato;
 import it.drwolf.alerting.entity.Utenza;
 import it.drwolf.alerting.session.AlertingController;
 import it.drwolf.alerting.session.Authenticator;
+import it.drwolf.alerting.session.Reports;
 import it.drwolf.alerting.util.Constants;
 import it.drwolf.alerting.util.StradaJS;
 
@@ -36,6 +38,9 @@ import org.jboss.seam.security.Identity;
 public class SegnalazioneHome extends EntityHome<Segnalazione> {
 
 	@In(create = true)
+	private Reports reports;
+
+	@In(create = true)
 	private CittadinoHome cittadinoHome;
 
 	@In(create = true)
@@ -55,10 +60,11 @@ public class SegnalazioneHome extends EntityHome<Segnalazione> {
 
 		s.setData(new Date());
 		s.setScadenza(new Date(System.currentTimeMillis()
-				+ Integer
-						.parseInt(this.getEntityManager().find(AppParam.class,
+				+ Integer.parseInt(this
+						.getEntityManager()
+						.find(AppParam.class,
 								AppParam.APP_SEGNALAZIONE_SCADENZA.getKey())
-								.getValue()) * DateUtils.MILLIS_PER_DAY));
+						.getValue()) * DateUtils.MILLIS_PER_DAY));
 		s.setIdutenteInseritore(Identity.instance().getCredentials()
 				.getUsername());
 		if (this.cittadinoHome.isIdDefined()) {
@@ -67,11 +73,12 @@ public class SegnalazioneHome extends EntityHome<Segnalazione> {
 			s.setCittadino(Authenticator.findCittadino(this.getEntityManager(),
 					null, this.identity.getCredentials().getUsername()));
 		}
-		s.setComune(this.getEntityManager().find(AppParam.class,
-				AppParam.APP_COMUNE.getKey()).getValue());
-		s.setStato((Stato) this.getEntityManager().createQuery(
-				"from Stato where nome=:n").setParameter("n",
-				Stato.defaults[0].getNome()).getResultList().get(0));
+		s.setComune(this.getEntityManager()
+				.find(AppParam.class, AppParam.APP_COMUNE.getKey()).getValue());
+		s.setStato((Stato) this.getEntityManager()
+				.createQuery("from Stato where nome=:n")
+				.setParameter("n", Stato.defaults[0].getNome()).getResultList()
+				.get(0));
 		s.setCanaleSegnalazione((CanaleSegnalazione) this.getEntityManager()
 				.createQuery("from CanaleSegnalazione where nome='www'")
 				.getResultList().get(0));
@@ -124,8 +131,8 @@ public class SegnalazioneHome extends EntityHome<Segnalazione> {
 					.setParameter("var", v).getResultList();
 			for (SitStrada s : strade) {
 				stringhe.add(new StradaJS(s.getTipologiaToponimo()
-						.getDescrizione()
-						+ " " + s.getNome(), s.getCiviciString()));
+						.getDescrizione() + " " + s.getNome(), s
+						.getCiviciString()));
 			}
 
 		}
@@ -166,13 +173,13 @@ public class SegnalazioneHome extends EntityHome<Segnalazione> {
 						this.identity.getCredentials().getUsername())
 				.getResultList();
 
-		if (componenti.size() > 0
-				&& this
-						.getEntityManager()
+		if ((componenti.size() > 0)
+				&& (this.getEntityManager()
 						.createNativeQuery(
 								"select bv.id from AlertingRevisionEntity are,BPMInfo_versions bv where bv.id=:id and bv._revision=are.id and are.username in (:c)")
-						.setParameter("c", componenti).setParameter("id",
-								s.getBpmInfo().getId()).getResultList().size() > 0) {
+						.setParameter("c", componenti)
+						.setParameter("id", s.getBpmInfo().getId())
+						.getResultList().size() > 0)) {
 			return true;
 		}
 
@@ -203,6 +210,16 @@ public class SegnalazioneHome extends EntityHome<Segnalazione> {
 		return persist;
 	}
 
+	public void rispondiSollecito(Sollecito sollecito) {
+		Sollecito s = this.getEntityManager().find(Sollecito.class,
+				sollecito.getId());
+		this.setId(s.getIdSegnalazione());
+		s.setDataRisposta(new Date());
+		s.setRisposta(sollecito.getRisposta());
+		this.update();
+
+	}
+
 	public void setCategoriaUtenza(CategoriaUtenza cu) {
 		this.getInstance().setSottocategoriaUtenza(null);
 		this.getInstance().setCategoriaUtenza(cu);
@@ -222,7 +239,7 @@ public class SegnalazioneHome extends EntityHome<Segnalazione> {
 		this.getInstance().setVia(
 				sitStrada.getTipologiaToponimo().getDescrizione() + " "
 						+ sitStrada.getNome());
-		System.out.println("SETSITSTRADA: " + this.getInstance().getVia());
+		// System.out.println("SETSITSTRADA: " + this.getInstance().getVia());
 	}
 
 	public void setSottocategoriaUtenza(SottocategoriaUtenza sc) {
@@ -237,9 +254,20 @@ public class SegnalazioneHome extends EntityHome<Segnalazione> {
 		this.getInstance().setUtenza(u);
 	}
 
+	public void sollecita(Sollecito sollecito) {
+		this.setId(sollecito.getIdSegnalazione());
+		Segnalazione segnalazione = this.getInstance();
+		segnalazione.getSolleciti().add(sollecito);
+		sollecito.setSegnalazione(segnalazione);
+		sollecito.setIdassegnatario(this.reports.getAssignee(segnalazione));
+		sollecito.setIdinseritore(this.identity.getCredentials().getUsername());
+		this.update();
+
+	}
+
 	@Override
 	public String update() {
-		if (this.newMessage != null && !this.newMessage.trim().equals("")) {
+		if ((this.newMessage != null) && !this.newMessage.trim().equals("")) {
 			this.getInstance().setMessaggio(this.newMessage);
 		}
 		return super.update();
@@ -251,7 +279,7 @@ public class SegnalazioneHome extends EntityHome<Segnalazione> {
 			if (segnalazione.getScadenza() == null) {
 				return false;
 			}
-			boolean scaduta = segnalazione.getChiusura() == null
+			boolean scaduta = (segnalazione.getChiusura() == null)
 					&& segnalazione.getScadenza().before(new Date());
 			if (scaduta
 					&& this.identity.hasRole(Constants.IMPIEGATO.toString())

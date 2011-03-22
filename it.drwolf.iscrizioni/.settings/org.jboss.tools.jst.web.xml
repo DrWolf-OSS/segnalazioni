@@ -1059,40 +1059,6 @@
    </FOLDER>
   </FOLDER>
  </file-system>
- <file-system NAME="lib-mysql-connector-java-5.1.6-bin.jar"
-  location="/Users/agea/jboss-4.2.3.GA/server/default/lib/mysql-connector-java-5.1.6-bin.jar" model-entity="FileSystemJar">
-  <FOLDER NAME="com" model-entity="JarFolder">
-   <FOLDER NAME="mysql" model-entity="JarFolder">
-    <FOLDER NAME="jdbc" model-entity="JarFolder">
-     <FOLDER NAME="configs" model-entity="JarFolder"/>
-     <FOLDER NAME="exceptions" model-entity="JarFolder">
-      <FOLDER NAME="jdbc4" model-entity="JarFolder"/>
-     </FOLDER>
-     <FOLDER NAME="integration" model-entity="JarFolder">
-      <FOLDER NAME="c3p0" model-entity="JarFolder"/>
-      <FOLDER NAME="jboss" model-entity="JarFolder"/>
-     </FOLDER>
-     <FOLDER NAME="interceptors" model-entity="JarFolder"/>
-     <FOLDER NAME="jdbc2" model-entity="JarFolder">
-      <FOLDER NAME="optional" model-entity="JarFolder"/>
-     </FOLDER>
-     <FOLDER NAME="log" model-entity="JarFolder"/>
-     <FOLDER NAME="profiler" model-entity="JarFolder"/>
-     <FOLDER NAME="util" model-entity="JarFolder"/>
-    </FOLDER>
-   </FOLDER>
-  </FOLDER>
-  <FOLDER NAME="META-INF" model-entity="JarFolder">
-   <FOLDER NAME="services" model-entity="JarFolder"/>
-  </FOLDER>
-  <FOLDER NAME="org" model-entity="JarFolder">
-   <FOLDER NAME="gjt" model-entity="JarFolder">
-    <FOLDER NAME="mm" model-entity="JarFolder">
-     <FOLDER NAME="mysql" model-entity="JarFolder"/>
-    </FOLDER>
-   </FOLDER>
-  </FOLDER>
- </file-system>
  <file-system NAME="lib-jboss-remoting-int.jar"
   location="/Users/agea/jboss-4.2.3.GA/server/default/lib/jboss-remoting-int.jar" model-entity="FileSystemJar">
   <FOLDER NAME="META-INF" model-entity="JarFolder"/>
@@ -13904,8 +13870,43 @@ creation.&lt;/p&gt;
    </FOLDER>
   </FOLDER>
  </file-system>
+ <file-system NAME="lib-mysql-connector-java-5.1.15-bin.jar"
+  location="/Users/agea/jboss-4.2.3.GA/server/default/lib/mysql-connector-java-5.1.15-bin.jar" model-entity="FileSystemJar">
+  <FOLDER NAME="com" model-entity="JarFolder">
+   <FOLDER NAME="mysql" model-entity="JarFolder">
+    <FOLDER NAME="jdbc" model-entity="JarFolder">
+     <FOLDER NAME="configs" model-entity="JarFolder"/>
+     <FOLDER NAME="exceptions" model-entity="JarFolder">
+      <FOLDER NAME="jdbc4" model-entity="JarFolder"/>
+     </FOLDER>
+     <FOLDER NAME="integration" model-entity="JarFolder">
+      <FOLDER NAME="c3p0" model-entity="JarFolder"/>
+      <FOLDER NAME="jboss" model-entity="JarFolder"/>
+     </FOLDER>
+     <FOLDER NAME="interceptors" model-entity="JarFolder"/>
+     <FOLDER NAME="jdbc2" model-entity="JarFolder">
+      <FOLDER NAME="optional" model-entity="JarFolder"/>
+     </FOLDER>
+     <FOLDER NAME="jmx" model-entity="JarFolder"/>
+     <FOLDER NAME="log" model-entity="JarFolder"/>
+     <FOLDER NAME="profiler" model-entity="JarFolder"/>
+     <FOLDER NAME="util" model-entity="JarFolder"/>
+    </FOLDER>
+   </FOLDER>
+  </FOLDER>
+  <FOLDER NAME="META-INF" model-entity="JarFolder">
+   <FOLDER NAME="services" model-entity="JarFolder"/>
+  </FOLDER>
+  <FOLDER NAME="org" model-entity="JarFolder">
+   <FOLDER NAME="gjt" model-entity="JarFolder">
+    <FOLDER NAME="mm" model-entity="JarFolder">
+     <FOLDER NAME="mysql" model-entity="JarFolder"/>
+    </FOLDER>
+   </FOLDER>
+  </FOLDER>
+ </file-system>
  <file-system NAME="lib-commons-digester.jar"
-  location="/Users/agea/Documents/workspace3.5.2/it.drwolf.iscrizioni/WebContent/WEB-INF/lib/commons-digester.jar" model-entity="FileSystemJar">
+  location="/Users/agea/git/segnalazioni/it.drwolf.iscrizioni/WebContent/WEB-INF/lib/commons-digester.jar" model-entity="FileSystemJar">
   <FOLDER NAME="META-INF" model-entity="JarFolder">
    <FOLDER NAME="maven" model-entity="JarFolder">
     <FOLDER NAME="commons-digester" model-entity="JarFolder">
@@ -13929,7 +13930,7 @@ creation.&lt;/p&gt;
   </FOLDER>
  </file-system>
  <file-system NAME="lib-darkX-3.3.1.GA.jar"
-  location="/Users/agea/Documents/workspace3.5.2/it.drwolf.iscrizioni/WebContent/WEB-INF/lib/darkX-3.3.1.GA.jar" model-entity="FileSystemJar">
+  location="/Users/agea/git/segnalazioni/it.drwolf.iscrizioni/WebContent/WEB-INF/lib/darkX-3.3.1.GA.jar" model-entity="FileSystemJar">
   <FOLDER NAME="META-INF" model-entity="JarFolder">
    <FOLDER NAME="maven" model-entity="JarFolder">
     <FOLDER NAME="org.richfaces.samples" model-entity="JarFolder">
@@ -13957,7 +13958,7 @@ creation.&lt;/p&gt;
   </FOLDER>
  </file-system>
  <file-system NAME="lib-glassX-3.3.1.GA.jar"
-  location="/Users/agea/Documents/workspace3.5.2/it.drwolf.iscrizioni/WebContent/WEB-INF/lib/glassX-3.3.1.GA.jar" model-entity="FileSystemJar">
+  location="/Users/agea/git/segnalazioni/it.drwolf.iscrizioni/WebContent/WEB-INF/lib/glassX-3.3.1.GA.jar" model-entity="FileSystemJar">
   <FOLDER NAME="META-INF" model-entity="JarFolder">
    <FOLDER NAME="maven" model-entity="JarFolder">
     <FOLDER NAME="org.richfaces.samples" model-entity="JarFolder">
@@ -13985,7 +13986,7 @@ creation.&lt;/p&gt;
   </FOLDER>
  </file-system>
  <file-system NAME="lib-jboss-seam-debug.jar"
-  location="/Users/agea/Documents/workspace3.5.2/it.drwolf.iscrizioni/WebContent/WEB-INF/lib/jboss-seam-debug.jar" model-entity="FileSystemJar">
+  location="/Users/agea/git/segnalazioni/it.drwolf.iscrizioni/WebContent/WEB-INF/lib/jboss-seam-debug.jar" model-entity="FileSystemJar">
   <FOLDER NAME="com" model-entity="JarFolder">
    <FOLDER NAME="sun" model-entity="JarFolder">
     <FOLDER NAME="facelets" model-entity="JarFolder"/>
@@ -14013,7 +14014,7 @@ creation.&lt;/p&gt;
   </FOLDER>
  </file-system>
  <file-system NAME="lib-jboss-seam-excel.jar"
-  location="/Users/agea/Documents/workspace3.5.2/it.drwolf.iscrizioni/WebContent/WEB-INF/lib/jboss-seam-excel.jar" model-entity="FileSystemJar">
+  location="/Users/agea/git/segnalazioni/it.drwolf.iscrizioni/WebContent/WEB-INF/lib/jboss-seam-excel.jar" model-entity="FileSystemJar">
   <FOLDER NAME="META-INF" model-entity="JarFolder">
    <faces-config model-entity="FacesConfig12">
     <application model-entity="JSFApplication12">
@@ -14170,7 +14171,7 @@ creation.&lt;/p&gt;
   </FOLDER>
  </file-system>
  <file-system NAME="lib-jboss-seam-ioc.jar"
-  location="/Users/agea/Documents/workspace3.5.2/it.drwolf.iscrizioni/WebContent/WEB-INF/lib/jboss-seam-ioc.jar" model-entity="FileSystemJar">
+  location="/Users/agea/git/segnalazioni/it.drwolf.iscrizioni/WebContent/WEB-INF/lib/jboss-seam-ioc.jar" model-entity="FileSystemJar">
   <FOLDER NAME="META-INF" model-entity="JarFolder"/>
   <FOLDER NAME="org" model-entity="JarFolder">
    <FOLDER NAME="jboss" model-entity="JarFolder">
@@ -14185,7 +14186,7 @@ creation.&lt;/p&gt;
   <FOLDER NAME="schema" model-entity="JarFolder"/>
  </file-system>
  <file-system NAME="lib-jboss-seam-mail.jar"
-  location="/Users/agea/Documents/workspace3.5.2/it.drwolf.iscrizioni/WebContent/WEB-INF/lib/jboss-seam-mail.jar" model-entity="FileSystemJar">
+  location="/Users/agea/git/segnalazioni/it.drwolf.iscrizioni/WebContent/WEB-INF/lib/jboss-seam-mail.jar" model-entity="FileSystemJar">
   <FOLDER NAME="META-INF" model-entity="JarFolder">
    <faces-config model-entity="FacesConfig12">
     <application model-entity="JSFApplication12">
@@ -14271,7 +14272,7 @@ creation.&lt;/p&gt;
   </FOLDER>
  </file-system>
  <file-system NAME="lib-jboss-seam-pdf.jar"
-  location="/Users/agea/Documents/workspace3.5.2/it.drwolf.iscrizioni/WebContent/WEB-INF/lib/jboss-seam-pdf.jar" model-entity="FileSystemJar">
+  location="/Users/agea/git/segnalazioni/it.drwolf.iscrizioni/WebContent/WEB-INF/lib/jboss-seam-pdf.jar" model-entity="FileSystemJar">
   <FOLDER NAME="META-INF" model-entity="JarFolder">
    <faces-config model-entity="FacesConfig12">
     <application model-entity="JSFApplication12">
@@ -14508,7 +14509,7 @@ creation.&lt;/p&gt;
   </FOLDER>
  </file-system>
  <file-system NAME="lib-jboss-seam-remoting.jar"
-  location="/Users/agea/Documents/workspace3.5.2/it.drwolf.iscrizioni/WebContent/WEB-INF/lib/jboss-seam-remoting.jar" model-entity="FileSystemJar">
+  location="/Users/agea/git/segnalazioni/it.drwolf.iscrizioni/WebContent/WEB-INF/lib/jboss-seam-remoting.jar" model-entity="FileSystemJar">
   <FOLDER NAME="META-INF" model-entity="JarFolder"/>
   <FOLDER NAME="org" model-entity="JarFolder">
    <FOLDER NAME="jboss" model-entity="JarFolder">
@@ -14527,7 +14528,7 @@ creation.&lt;/p&gt;
   </FOLDER>
  </file-system>
  <file-system NAME="lib-jboss-seam-ui.jar"
-  location="/Users/agea/Documents/workspace3.5.2/it.drwolf.iscrizioni/WebContent/WEB-INF/lib/jboss-seam-ui.jar" model-entity="FileSystemJar">
+  location="/Users/agea/git/segnalazioni/it.drwolf.iscrizioni/WebContent/WEB-INF/lib/jboss-seam-ui.jar" model-entity="FileSystemJar">
   <FOLDER NAME="META-INF" model-entity="JarFolder">
    <FOLDER NAME="maven" model-entity="JarFolder">
     <FOLDER NAME="org.jboss.seam" model-entity="JarFolder">
@@ -17613,7 +17614,7 @@ a backing bean</description>
   </FOLDER>
  </file-system>
  <file-system NAME="lib-jsf-facelets.jar"
-  location="/Users/agea/Documents/workspace3.5.2/it.drwolf.iscrizioni/WebContent/WEB-INF/lib/jsf-facelets.jar" model-entity="FileSystemJar">
+  location="/Users/agea/git/segnalazioni/it.drwolf.iscrizioni/WebContent/WEB-INF/lib/jsf-facelets.jar" model-entity="FileSystemJar">
   <FOLDER NAME="com" model-entity="JarFolder">
    <FOLDER NAME="sun" model-entity="JarFolder">
     <FOLDER NAME="facelets" model-entity="JarFolder">
@@ -17743,7 +17744,7 @@ a backing bean</description>
   </FOLDER>
  </file-system>
  <file-system NAME="lib-jxl.jar"
-  location="/Users/agea/Documents/workspace3.5.2/it.drwolf.iscrizioni/WebContent/WEB-INF/lib/jxl.jar" model-entity="FileSystemJar">
+  location="/Users/agea/git/segnalazioni/it.drwolf.iscrizioni/WebContent/WEB-INF/lib/jxl.jar" model-entity="FileSystemJar">
   <FOLDER NAME="common" model-entity="JarFolder"/>
   <FOLDER NAME="jxl" model-entity="JarFolder">
    <FOLDER NAME="biff" model-entity="JarFolder">
@@ -17762,7 +17763,7 @@ a backing bean</description>
   <FOLDER NAME="META-INF" model-entity="JarFolder"/>
  </file-system>
  <file-system NAME="lib-laguna.jar"
-  location="/Users/agea/Documents/workspace3.5.2/it.drwolf.iscrizioni/WebContent/WEB-INF/lib/laguna.jar" model-entity="FileSystemJar">
+  location="/Users/agea/git/segnalazioni/it.drwolf.iscrizioni/WebContent/WEB-INF/lib/laguna.jar" model-entity="FileSystemJar">
   <FOLDER NAME="META-INF" model-entity="JarFolder">
    <FOLDER NAME="maven" model-entity="JarFolder">
     <FOLDER NAME="org.richfaces.samples" model-entity="JarFolder">
@@ -17782,7 +17783,7 @@ a backing bean</description>
   </FOLDER>
  </file-system>
  <file-system NAME="lib-richfaces-impl.jar"
-  location="/Users/agea/Documents/workspace3.5.2/it.drwolf.iscrizioni/WebContent/WEB-INF/lib/richfaces-impl.jar" model-entity="FileSystemJar">
+  location="/Users/agea/git/segnalazioni/it.drwolf.iscrizioni/WebContent/WEB-INF/lib/richfaces-impl.jar" model-entity="FileSystemJar">
   <FOLDER NAME="META-INF" model-entity="JarFolder">
    <FOLDER NAME="maven" model-entity="JarFolder">
     <FOLDER NAME="org.richfaces.framework" model-entity="JarFolder">
@@ -17894,7 +17895,7 @@ a backing bean</description>
   </FOLDER>
  </file-system>
  <file-system NAME="lib-richfaces-ui.jar"
-  location="/Users/agea/Documents/workspace3.5.2/it.drwolf.iscrizioni/WebContent/WEB-INF/lib/richfaces-ui.jar" model-entity="FileSystemJar">
+  location="/Users/agea/git/segnalazioni/it.drwolf.iscrizioni/WebContent/WEB-INF/lib/richfaces-ui.jar" model-entity="FileSystemJar">
   <FOLDER NAME="META-INF" model-entity="JarFolder">
    <FOLDER NAME="maven" model-entity="JarFolder">
     <FOLDER NAME="org.richfaces.ui" model-entity="JarFolder">
@@ -65567,7 +65568,7 @@ a backing bean</description>
   </FOLDER>
  </file-system>
  <file-system NAME="lib-drools-compiler.jar"
-  location="/Users/agea/Documents/workspace3.5.2/it.drwolf.iscrizioni-ear/EarContent/lib/drools-compiler.jar" model-entity="FileSystemJar">
+  location="/Users/agea/git/segnalazioni/it.drwolf.iscrizioni-ear/EarContent/lib/drools-compiler.jar" model-entity="FileSystemJar">
   <FOLDER NAME="META-INF" model-entity="JarFolder">
    <FOLDER NAME="maven" model-entity="JarFolder">
     <FOLDER NAME="org.drools" model-entity="JarFolder">
@@ -65634,7 +65635,7 @@ a backing bean</description>
   </FOLDER>
  </file-system>
  <file-system NAME="lib-antlr-runtime.jar"
-  location="/Users/agea/Documents/workspace3.5.2/it.drwolf.iscrizioni-ear/EarContent/lib/antlr-runtime.jar" model-entity="FileSystemJar">
+  location="/Users/agea/git/segnalazioni/it.drwolf.iscrizioni-ear/EarContent/lib/antlr-runtime.jar" model-entity="FileSystemJar">
   <FOLDER NAME="META-INF" model-entity="JarFolder"/>
   <FOLDER NAME="org" model-entity="JarFolder">
    <FOLDER NAME="antlr" model-entity="JarFolder">
@@ -65647,7 +65648,7 @@ a backing bean</description>
   </FOLDER>
  </file-system>
  <file-system NAME="lib-drools-core.jar"
-  location="/Users/agea/Documents/workspace3.5.2/it.drwolf.iscrizioni-ear/EarContent/lib/drools-core.jar" model-entity="FileSystemJar">
+  location="/Users/agea/git/segnalazioni/it.drwolf.iscrizioni-ear/EarContent/lib/drools-core.jar" model-entity="FileSystemJar">
   <FOLDER NAME="META-INF" model-entity="JarFolder">
    <FOLDER NAME="maven" model-entity="JarFolder">
     <FOLDER NAME="org.drools" model-entity="JarFolder">
@@ -65795,7 +65796,7 @@ a backing bean</description>
   </FOLDER>
  </file-system>
  <file-system NAME="lib-jboss-el.jar"
-  location="/Users/agea/Documents/workspace3.5.2/it.drwolf.iscrizioni-ear/EarContent/lib/jboss-el.jar" model-entity="FileSystemJar">
+  location="/Users/agea/git/segnalazioni/it.drwolf.iscrizioni-ear/EarContent/lib/jboss-el.jar" model-entity="FileSystemJar">
   <FOLDER NAME="META-INF" model-entity="JarFolder"/>
   <FOLDER NAME="org" model-entity="JarFolder">
    <FOLDER NAME="jboss" model-entity="JarFolder">
@@ -65808,7 +65809,7 @@ a backing bean</description>
   </FOLDER>
  </file-system>
  <file-system NAME="lib-mvel14.jar"
-  location="/Users/agea/Documents/workspace3.5.2/it.drwolf.iscrizioni-ear/EarContent/lib/mvel14.jar" model-entity="FileSystemJar">
+  location="/Users/agea/git/segnalazioni/it.drwolf.iscrizioni-ear/EarContent/lib/mvel14.jar" model-entity="FileSystemJar">
   <FOLDER NAME="META-INF" model-entity="JarFolder"/>
   <FOLDER NAME="org" model-entity="JarFolder">
    <FOLDER NAME="mvel" model-entity="JarFolder">
@@ -65841,7 +65842,7 @@ a backing bean</description>
   </FOLDER>
  </file-system>
  <file-system NAME="lib-jbpm-jpdl.jar"
-  location="/Users/agea/Documents/workspace3.5.2/it.drwolf.iscrizioni-ear/EarContent/lib/jbpm-jpdl.jar" model-entity="FileSystemJar">
+  location="/Users/agea/git/segnalazioni/it.drwolf.iscrizioni-ear/EarContent/lib/jbpm-jpdl.jar" model-entity="FileSystemJar">
   <FOLDER NAME="META-INF" model-entity="JarFolder"/>
   <FOLDER NAME="org" model-entity="JarFolder">
    <FOLDER NAME="jbpm" model-entity="JarFolder">
@@ -66126,7 +66127,7 @@ a backing bean</description>
   </FOLDER>
  </file-system>
  <file-system NAME="lib-jboss-seam.jar"
-  location="/Users/agea/Documents/workspace3.5.2/it.drwolf.iscrizioni-ear/EarContent/lib/jboss-seam.jar" model-entity="FileSystemJar">
+  location="/Users/agea/git/segnalazioni/it.drwolf.iscrizioni-ear/EarContent/lib/jboss-seam.jar" model-entity="FileSystemJar">
   <FOLDER NAME="META-INF" model-entity="JarFolder">
    <components NAME="components" model-entity="FileSeamComponents22">
     <import model-entity="SeamImport">org.jboss.seam.core</import>
@@ -66238,7 +66239,7 @@ a backing bean</description>
   </FOLDER>
  </file-system>
  <file-system NAME="lib-richfaces-api.jar"
-  location="/Users/agea/Documents/workspace3.5.2/it.drwolf.iscrizioni-ear/EarContent/lib/richfaces-api.jar" model-entity="FileSystemJar">
+  location="/Users/agea/git/segnalazioni/it.drwolf.iscrizioni-ear/EarContent/lib/richfaces-api.jar" model-entity="FileSystemJar">
   <FOLDER NAME="META-INF" model-entity="JarFolder">
    <FOLDER NAME="maven" model-entity="JarFolder">
     <FOLDER NAME="org.richfaces.framework" model-entity="JarFolder">
@@ -66278,7 +66279,7 @@ a backing bean</description>
   </FOLDER>
  </file-system>
  <file-system NAME="lib-commons-beanutils.jar"
-  location="/Users/agea/Documents/workspace3.5.2/it.drwolf.iscrizioni-ear/EarContent/lib/commons-beanutils.jar" model-entity="FileSystemJar">
+  location="/Users/agea/git/segnalazioni/it.drwolf.iscrizioni-ear/EarContent/lib/commons-beanutils.jar" model-entity="FileSystemJar">
   <FOLDER NAME="META-INF" model-entity="JarFolder"/>
   <FOLDER NAME="org" model-entity="JarFolder">
    <FOLDER NAME="apache" model-entity="JarFolder">
@@ -66295,7 +66296,7 @@ a backing bean</description>
   </FOLDER>
  </file-system>
  <file-system NAME="lib-commons-email-1.1.jar"
-  location="/Users/agea/Documents/workspace3.5.2/it.drwolf.iscrizioni-ear/EarContent/lib/commons-email-1.1.jar" model-entity="FileSystemJar">
+  location="/Users/agea/git/segnalazioni/it.drwolf.iscrizioni-ear/EarContent/lib/commons-email-1.1.jar" model-entity="FileSystemJar">
   <FOLDER NAME="META-INF" model-entity="JarFolder">
    <FOLDER NAME="maven" model-entity="JarFolder">
     <FOLDER NAME="org.apache.commons" model-entity="JarFolder">
@@ -66312,7 +66313,7 @@ a backing bean</description>
   </FOLDER>
  </file-system>
  <file-system NAME="lib-commons-lang-2.4.jar"
-  location="/Users/agea/Documents/workspace3.5.2/it.drwolf.iscrizioni-ear/EarContent/lib/commons-lang-2.4.jar" model-entity="FileSystemJar">
+  location="/Users/agea/git/segnalazioni/it.drwolf.iscrizioni-ear/EarContent/lib/commons-lang-2.4.jar" model-entity="FileSystemJar">
   <FOLDER NAME="META-INF" model-entity="JarFolder">
    <FOLDER NAME="maven" model-entity="JarFolder">
     <FOLDER NAME="commons-lang" model-entity="JarFolder">
@@ -66338,7 +66339,7 @@ a backing bean</description>
   </FOLDER>
  </file-system>
  <file-system NAME="lib-envers-1.0.0.ga.jar"
-  location="/Users/agea/Documents/workspace3.5.2/it.drwolf.iscrizioni-ear/EarContent/lib/envers-1.0.0.ga.jar" model-entity="FileSystemJar">
+  location="/Users/agea/git/segnalazioni/it.drwolf.iscrizioni-ear/EarContent/lib/envers-1.0.0.ga.jar" model-entity="FileSystemJar">
   <FOLDER NAME="META-INF" model-entity="JarFolder"/>
   <FOLDER NAME="org" model-entity="JarFolder">
    <FOLDER NAME="hibernate" model-entity="JarFolder">
@@ -66385,7 +66386,7 @@ a backing bean</description>
   </FOLDER>
  </file-system>
  <file-system NAME="lib-mvel2.jar"
-  location="/Users/agea/Documents/workspace3.5.2/it.drwolf.iscrizioni-ear/EarContent/lib/mvel2.jar" model-entity="FileSystemJar">
+  location="/Users/agea/git/segnalazioni/it.drwolf.iscrizioni-ear/EarContent/lib/mvel2.jar" model-entity="FileSystemJar">
   <FOLDER NAME="META-INF" model-entity="JarFolder">
    <FOLDER NAME="maven" model-entity="JarFolder">
     <FOLDER NAME="org.mvel" model-entity="JarFolder">
@@ -66435,7 +66436,7 @@ a backing bean</description>
   </FOLDER>
  </file-system>
  <file-system NAME="lib-opencsv-2.2.jar"
-  location="/Users/agea/Documents/workspace3.5.2/it.drwolf.iscrizioni-ear/EarContent/lib/opencsv-2.2.jar" model-entity="FileSystemJar">
+  location="/Users/agea/git/segnalazioni/it.drwolf.iscrizioni-ear/EarContent/lib/opencsv-2.2.jar" model-entity="FileSystemJar">
   <FOLDER NAME="au" model-entity="JarFolder">
    <FOLDER NAME="com" model-entity="JarFolder">
     <FOLDER NAME="bytecode" model-entity="JarFolder">

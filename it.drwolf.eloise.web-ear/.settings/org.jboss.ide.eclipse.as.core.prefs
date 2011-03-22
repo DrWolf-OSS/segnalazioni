@@ -1,3 +1,3 @@
-#Thu Dec 09 16:43:03 CET 2010
+#Mon Mar 21 11:43:41 CET 2011
 eclipse.preferences.version=1
-org.jboss.ide.eclipse.as.core.singledeployable.deployableList=resources/it.drwolf.eloise.web-ds.xml\n
+org.jboss.ide.eclipse.as.core.singledeployable.deployableList=resources/it.drwolf.iscrizioni-ds.xml\nresources/it.drwolf.alerting-ds.xml\nresources/it.drwolf.eloise.web-ds.xml\nresources/it.drwolf.eloise.web-ds.xml\nresources/sso-ds.xml\nresources/sso-ds.xml\n

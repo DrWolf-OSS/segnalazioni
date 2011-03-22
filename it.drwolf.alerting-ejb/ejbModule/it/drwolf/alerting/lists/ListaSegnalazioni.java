@@ -3,6 +3,7 @@ package it.drwolf.alerting.lists;
 import it.drwolf.alerting.entity.AppParam;
 import it.drwolf.alerting.entity.Intervento;
 import it.drwolf.alerting.entity.Segnalazione;
+import it.drwolf.alerting.entity.Sollecito;
 import it.drwolf.alerting.entity.Stato;
 import it.drwolf.alerting.session.AlertingController;
 
@@ -100,13 +101,16 @@ public class ListaSegnalazioni {
 	@SuppressWarnings("unchecked")
 	@Factory("mie")
 	public List<Segnalazione> getMieSegnalazioni() {
-		Query query = this.entityManager.createQuery(
-				"from Segnalazione where idutenteInseritore =:userid "
-						+ (this.inizio != null ? "and data >=:inizio " : "")
-						+ (this.fine != null ? "and data <=:fine " : "")
-						+ "and stato in (:stati)").setParameter("userid",
-				this.identity.getCredentials().getUsername()).setParameter(
-				"stati", this.getStati());
+		Query query = this.entityManager
+				.createQuery(
+						"from Segnalazione where idutenteInseritore =:userid "
+								+ (this.inizio != null ? "and data >=:inizio "
+										: "")
+								+ (this.fine != null ? "and data <=:fine " : "")
+								+ "and stato in (:stati)")
+				.setParameter("userid",
+						this.identity.getCredentials().getUsername())
+				.setParameter("stati", this.getStati());
 
 		if (this.inizio != null) {
 			query.setParameter("inizio", new Date(this.inizio));
@@ -120,6 +124,17 @@ public class ListaSegnalazioni {
 
 	public List<Integer> getSegnalazioniAperte() {
 		return this.segnalazioniAperte;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Factory("sollecitiSenzaRisposta")
+	public List<Sollecito> getSollecitiSenzaRisposta() {
+		return this.entityManager
+				.createQuery(
+						"from Sollecito where idassegnatario=:me and risposta is null")
+				.setParameter("me",
+						this.identity.getCredentials().getUsername())
+				.getResultList();
 	}
 
 	public List<Stato> getStati() {
@@ -206,13 +221,14 @@ public class ListaSegnalazioni {
 			stati = Arrays.asList(stringStati.split(","));
 		}
 		if (stati.size() == 0) {
-			stati.addAll(Arrays.asList(this.entityManager.find(AppParam.class,
-					AppParam.APP_FILTRO_STATI_DEFAULT.getKey()).getValue()
-					.split(",")));
+			stati.addAll(Arrays.asList(this.entityManager
+					.find(AppParam.class,
+							AppParam.APP_FILTRO_STATI_DEFAULT.getKey())
+					.getValue().split(",")));
 		}
-		this.stati = this.entityManager.createQuery(
-				"from Stato where nome in (:s)").setParameter("s", stati)
-				.getResultList();
+		this.stati = this.entityManager
+				.createQuery("from Stato where nome in (:s)")
+				.setParameter("s", stati).getResultList();
 
 	}
 

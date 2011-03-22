@@ -26,12 +26,32 @@
     	 </redirect>
     </navigation>
     <navigation from-action="#{listaSegnalazioni.clean()}">
-		<end-conversation before-redirect="true"/>
-    	 <redirect view-id="/app/index.xhtml" >
-		  <param name="i" value="#{listaSegnalazioni.inizio}"/>
-  		  <param name="f" value="#{listaSegnalazioni.fine}"/>
-    	  <param name="s" value="#{listaSegnalazioni.stringStati}"/>
-    	 </redirect>
+        <end-conversation before-redirect="true"/>
+         <redirect view-id="/app/index.xhtml" >
+          <param name="i" value="#{listaSegnalazioni.inizio}"/>
+          <param name="f" value="#{listaSegnalazioni.fine}"/>
+          <param name="s" value="#{listaSegnalazioni.stringStati}"/>
+         </redirect>
+    </navigation>
+    
+    <navigation from-action="#{segnalazioneHome.sollecita(sollecito)}">
+        <end-conversation before-redirect="true"/>
+         <redirect view-id="/app/index.xhtml" >
+          <param name="i" value="#{listaSegnalazioni.inizio}"/>
+          <param name="f" value="#{listaSegnalazioni.fine}"/>
+          <param name="s" value="#{listaSegnalazioni.stringStati}"/>
+          <param name="m" value="ok"/>
+         </redirect>
+    </navigation>
+    
+    <navigation from-action="#{segnalazioneHome.rispondiSollecito(sollecito)}">
+        <end-conversation before-redirect="true"/>
+         <redirect view-id="/app/index.xhtml" >
+          <param name="i" value="#{listaSegnalazioni.inizio}"/>
+          <param name="f" value="#{listaSegnalazioni.fine}"/>
+          <param name="s" value="#{listaSegnalazioni.stringStati}"/>
+          <param name="m" value="ok"/>
+         </redirect>
     </navigation>
     
 </page>

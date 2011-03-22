@@ -25,11 +25,16 @@
 							<ui:param name="segnalazione" value="#{segnalazione}"/>
 						</ui:include>
 					</rich:tab>
-					<rich:tab label="risposte">
-						<ui:include src="/layout/risposte.xhtml">
-							<ui:param name="segnalazione" value="#{segnalazione}"/>
-						</ui:include>
-					</rich:tab>
+                    <rich:tab label="solleciti" rendered="#{segnalazione.solleciti.size() gt 0}">
+                        <ui:include src="/layout/solleciti.xhtml">
+                            <ui:param name="segnalazione" value="#{segnalazione}"/>
+                        </ui:include>
+                    </rich:tab>
+                    <rich:tab label="risposte">
+                        <ui:include src="/layout/risposte.xhtml">
+                            <ui:param name="segnalazione" value="#{segnalazione}"/>
+                        </ui:include>
+                    </rich:tab>
 				</rich:tabPanel>
 			</s:validateAll>
 		</h:form>

@@ -57,8 +57,7 @@
             <f:facet name="header">
                 Azioni
             </f:facet>
-<!--            <h:commandButton action="# {alertingController.assignTaskToCurrentActor(task)}"-->
-<!--            value="# {task.description}" />-->
+
             <s:button value="#{task.description}" propagation="none"
                     view="/app/task.xhtml" action="#{alertingController.assignTaskToCurrentActorById()}">
                 <f:param name="taskId" value="#{task.id}"/>
@@ -295,15 +294,15 @@
           <rich:column>
             <f:facet name="header">
               <s:div>
-				Segnalazione
-				
+                Segnalazione
+                
               </s:div>
             </f:facet>
             
              <s:fragment rendered="#{segnalazioneHome.verificaScadenza(s,false)  and not s:hasRole('cittadino')}" >
-				<img style="margin-right:1em;" 
-					src="/sign/img/exclamation.png" height="16" width="16" alt="Scaduta" title="Scaduta"/>
-			</s:fragment>
+                <img style="margin-right:1em;" 
+                    src="/sign/img/exclamation.png" height="16" width="16" alt="Scaduta" title="Scaduta"/>
+            </s:fragment>
             
             <s:link value="#{s.id} - #{s.oggetto}" view="/app/segnalazione.xhtml">
             <f:param name="sid" value="#{s.id}"/>
@@ -311,21 +310,84 @@
           </rich:column>
           <rich:column>
             <f:facet name="header">
-            	Stato
+              <s:div>
+                Solleciti (senza risposta)
+              </s:div>
+            </f:facet>
+            <s:div>
+             <s:fragment rendered="#{not empty s.solleciti}">#{s.solleciti.size()}</s:fragment>
+             <s:fragment rendered="#{not empty s.sollecitiSenzaRisposta}"> (#{s.sollecitiSenzaRisposta.size()})</s:fragment>         
+            </s:div>
+          </rich:column>
+          <rich:column>
+            <f:facet name="header">
+                Stato
             </f:facet>
             #{s.stato}
           </rich:column>
           <rich:column>
             <f:facet name="header">
               <s:div>
-            	Data
-            	
-			  </s:div>
+                Data
+                
+              </s:div>
             </f:facet>
             <h:outputText value="#{s.data}">
             <s:convertDateTime pattern="dd/MM/yyyy"/>
             </h:outputText>
           </rich:column>
+          <rich:column>
+            <f:facet name="header">
+            Azioni
+            </f:facet>
+            <s:button value="Sollecita"
+            onclick="#{rich:element('sollIdSegnalazione')}.value=#{s.id};#{rich:element('sollTit')}.innerHTML='#{seu.escapeJavaScript(s.oggetto)}';#{rich:component('panelSollecito')}.show();return false;"
+            />
+          </rich:column>
+        </rich:dataTable>
+      </rich:tab>
+      <rich:tab name="solleciti" rendered="#{not empty sollecitiSenzaRisposta}" ontabenter="updateTab('solleciti')"  label="Solleciti (#{sollecitiSenzaRisposta.size()})">
+         <rich:dataTable value="#{sollecitiSenzaRisposta}" var="s">
+           <h:column>
+                <f:facet name="header">
+                    Segnalazione
+                </f:facet>
+           <s:link value="#{s.segnalazione}" view="/app/segnalazione.xhtml">
+            <f:param name="sid" value="#{s.segnalazione.id}"/>
+            </s:link>
+             </h:column>
+           <h:column>
+                <f:facet name="header">
+                    Inserito da
+                </f:facet>
+                <h:outputText value="#{s.idinseritore}">
+                    <f:converter converterId="usernameConverter"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    Inserito il
+                </f:facet>
+                <h:outputText value="#{s.data}">
+                    <s:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    Testo
+                </f:facet>
+                #{s.testo}
+            </h:column>
+            <h:column>
+             <f:facet name="header">
+            Azioni
+            </f:facet>
+            <s:button  value="Rispondi"
+            onclick="#{rich:element('rispSollId')}.value=#{s.id};#{rich:element('rispSollTit')}.innerHTML='#{seu.escapeJavaScript(s.segnalazione.oggetto)}';#{rich:component('panelRispostaSollecito')}.show();return false;"
+            />
+            
+            </h:column>
+
         </rich:dataTable>
       </rich:tab>
 	   <rich:tab rendered="#{alertingController.isSmistatore(identity.credentials.username)}" name="aggiornamenti" ontabenter="updateTab('aggiornamenti')"  label="Ultimi aggiornamenti">
@@ -381,4 +443,55 @@
        </a4j:region>
      
    </ui:define>
+   
+   <ui:define name="panels">
+      <rich:modalPanel id="panelSollecito" 
+        autosized="true" width="400" moveable="false" resizeable="false">
+        <f:facet name="header">
+            Inserisi sollecito per <s:span id="sollTit"></s:span>
+        </f:facet>
+        <f:facet name="controls">
+            <h:panelGroup>
+                <s:graphicImage value="/img/cross.png" onclick="#{rich:component('panelSollecito')}.hide()"/>
+            </h:panelGroup>
+        </f:facet>
+        <h:form>
+            <h:inputHidden value="#{sollecito.idSegnalazione}" id="sollIdSegnalazione" />
+            
+            <s:decorate template="/layout/input.xhtml">
+                <ui:define name="label">Testo sollecito</ui:define>
+                <h:inputTextarea  required="true" 
+                value="#{sollecito.testo}"/>
+            </s:decorate>
+            <div style="text-align:right">
+            <h:commandButton action="#{segnalazioneHome.sollecita(sollecito)}" value="Inoltra sollecito"/>
+            </div>
+        </h:form>
+    </rich:modalPanel>
+      <rich:modalPanel id="panelRispostaSollecito" 
+        autosized="true" width="400" moveable="false" resizeable="false">
+        <f:facet name="header">
+            Rispondi a sollecito per <s:span id="rispSollTit"></s:span>
+        </f:facet>
+        <f:facet name="controls">
+            <h:panelGroup>
+                <s:graphicImage value="/img/cross.png" onclick="#{rich:component('panelRispostaSollecito')}.hide()"/>
+            </h:panelGroup>
+        </f:facet>
+        <h:form>
+            <h:inputHidden value="#{sollecito.id}" id="rispSollId" />
+            
+            <s:decorate template="/layout/input.xhtml">
+                <ui:define name="label">Testo risposta</ui:define>
+                <h:inputTextarea  required="true" 
+                value="#{sollecito.risposta}"/>
+            </s:decorate>
+            <div style="text-align:right">
+            <h:commandButton action="#{segnalazioneHome.rispondiSollecito(sollecito)}" value="Rispondi"/>
+            </div>
+        </h:form>
+    </rich:modalPanel>
+ 
+   </ui:define>
+   
 </ui:composition>
