@@ -81,7 +81,7 @@ public class ListaSegnalazioni {
 										: "")
 								+ (this.fine != null ? "and scadenza <=:fine "
 										: "")
-								+ "and stato in (:stati) order by scadenza desc")
+								+ "and stato in (:stati) order by codiceTriage.priorita asc, scadenza asc")
 				.setParameter(
 						"ids",
 						this.alertingController

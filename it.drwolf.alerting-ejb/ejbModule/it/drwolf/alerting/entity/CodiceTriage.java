@@ -21,6 +21,8 @@ public class CodiceTriage {
 
 	private Integer tempoIntervento;
 
+	private Integer priorita = 10;
+
 	public CodiceTriage() {
 
 	}
@@ -47,6 +49,10 @@ public class CodiceTriage {
 		return this.id;
 	}
 
+	public Integer getPriorita() {
+		return this.priorita;
+	}
+
 	public Integer getTempoIntervento() {
 		return this.tempoIntervento;
 	}
@@ -61,6 +67,10 @@ public class CodiceTriage {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public void setPriorita(Integer priorita) {
+		this.priorita = priorita;
 	}
 
 	public void setTempoIntervento(Integer tempoIntervento) {
