@@ -82,11 +82,18 @@ swfobject.embedSWF("http://web.comune.calenzano.fi.it/portale/banner/banner.swf"
 		</s:div>
 		
 		
-		<s:link styleClass="home" view="/app/index.xhtml" propagation="none" >Home Segnalazioni</s:link>
-	</rich:toolBarGroup>
+        <s:link styleClass="home" view="/app/index.xhtml" propagation="none" >Home Segnalazioni</s:link>
+
+        <s:link propagation="none"
+                value="Crea nuova segnalazione"
+                view="/app/segnalazione/crea.xhtml">
+                <f:param name="entityId"/>
+            </s:link>
+
+    	</rich:toolBarGroup>
 	<rich:toolBarGroup itemSeparator="line" location="right">
 
-		<s:link view="/logout.xhtml">Logout</s:link>
+		<s:link view="/logout.xhtml">Esci</s:link>
 	</rich:toolBarGroup>
 </rich:toolBar>
 
@@ -123,7 +130,9 @@ swfobject.embedSWF("http://web.comune.calenzano.fi.it/portale/banner/banner.swf"
 			<table class="main">
 			
 				<tr>
-					<td class="navigation noPrint"><ui:insert name="navigation" /></td>
+				    <s:fragment rendered="#{not s:hasRole('cittadino')}">
+					   <td class="navigation noPrint"><ui:insert name="navigation" /></td>
+					</s:fragment>
 					<td class="content">
 						
 						 <rich:messages showSummary="true">

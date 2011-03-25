@@ -14,7 +14,7 @@
 
 
   <ui:define name="pageactions">
- 	<s:link target="_blank" action="#{xlsGenerator.homeExcel()}">
+ 	<s:link target="_blank" action="#{xlsGenerator.homeExcel()}" rendered="#{not s:hasRole('cittadino')}">
  		<img  height="16" width="16" alt="Esporta in Excel" style="border:0" src="/sign/img/page_white_excel.png" />
  	</s:link>
   </ui:define>
@@ -57,40 +57,43 @@
             <f:facet name="header">
                 Azioni
             </f:facet>
-
             <s:button value="#{task.description}" propagation="none"
                     view="/app/task.xhtml" action="#{alertingController.assignTaskToCurrentActorById()}">
                 <f:param name="taskId" value="#{task.id}"/>
                 <f:param name="processId" value="#{task.processInstance.id}"/>                
             </s:button>
         </rich:column>
-
     </rich:dataTable>
     </rich:tab>
-
     <rich:tab name="interventi" ontabenter="updateTab('interventi')" label="Interventi (#{interventi.size()})" rendered="#{gestore}">
-
-
       <rich:dataTable id="intTable" value="#{interventi}" var="intervento" rows="10" rendered="#{not empty interventi}" reRender="ids,tt">
+        <rich:column headerClass="ncol" filterBy="#{intervento.id}" sortBy="#{intervento.id}" >
+          <f:facet name="header">
+          N.
+          </f:facet>
+          <s:link view="/app/intervento/edit.xhtml" propagation="none">
+            <f:param name="entityId" value="#{intervento.id}" />
+          #{intervento.id}
+          </s:link>
+        </rich:column>
+        
         <rich:column filterMethod="#{filteringBean.filterFor('intervento.oggetto').filter}" >
-      	  <f:facet name="header">
-      	  <s:div>
-      	  Intervento
-      	  <s:div>
-      	  <h:inputText styleClass="rich-filter-input" value="#{filteringBean.filterFor('intervento.oggetto').value}" >
-      	  <a4j:support event="onblur" reRender="intTable"
-          	ignoreDupResponses="true"/>
-      	  </h:inputText>
-      	  </s:div>
-      	  </s:div>
-      	  </f:facet>
-      	  <s:link view="/app/intervento/edit.xhtml" propagation="none">
-      	  	<f:param name="entityId" value="#{intervento.id}" />
-    	  #{intervento.oggetto}
-    	  </s:link>
-		</rich:column>
-		
-		
+          <f:facet name="header">
+          <s:div>
+          Intervento
+          <s:div>
+          <h:inputText styleClass="rich-filter-input" value="#{filteringBean.filterFor('intervento.oggetto').value}" >
+          <a4j:support event="onblur" reRender="intTable"
+            ignoreDupResponses="true"/>
+          </h:inputText>
+          </s:div>
+          </s:div>
+          </f:facet>
+          <s:link view="/app/intervento/edit.xhtml" propagation="none">
+            <f:param name="entityId" value="#{intervento.id}" />
+          #{intervento.oggetto}
+          </s:link>
+        </rich:column>
         <rich:column sortBy="#{intervento.stato.descrizione}"
                      filterBy="#{intervento.stato.descrizione}">
       	  <f:facet name="header">Stato</f:facet>
@@ -278,7 +281,7 @@
 		</rich:subTable>
 
           <f:facet name="footer" >
-<rich:datascroller for="taskList" maxPages="10" id="taskDS" />
+<rich:datascroller for="taskList"  id="taskDS" />
           </f:facet>
 
     </rich:dataTable>
@@ -290,7 +293,7 @@
 
 
       <rich:tab name="mie" ontabenter="updateTab('mie')"  label="Le mie segnalazioni (#{mie.size()})">
-         <rich:dataTable value="#{mie}" var="s">
+         <rich:dataTable value="#{mie}" var="s" rows="10" reRender="mieDS">
           <rich:column>
             <f:facet name="header">
               <s:div>
@@ -325,17 +328,31 @@
             </f:facet>
             #{s.stato}
           </rich:column>
-          <rich:column>
+          <rich:column sortBy="#{s.data}">
             <f:facet name="header">
-              <s:div>
                 Data
-                
-              </s:div>
             </f:facet>
             <h:outputText value="#{s.data}">
             <s:convertDateTime pattern="dd/MM/yyyy"/>
             </h:outputText>
           </rich:column>
+          <rich:column label="Chiusura" sortable="true"
+                sortBy="#{reports.getChiusuraSegnalazione(s)}">
+                <f:facet name="header">
+            Chiusura
+            </f:facet>
+                <h:outputText value="#{reports.getChiusuraSegnalazione(s)}">
+                    <s:convertDateTime pattern="dd/MM/yyyy" />
+                </h:outputText>
+           </rich:column>
+           <rich:column label="Ufficio" sortable="true"
+                sortBy="#{reports.getCurrentTaskOffice(s)}">
+                <f:facet name="header">
+            In carico a
+            </f:facet>
+                <h:outputText value="#{reports.getCurrentTaskOffice(s)}" />
+            </rich:column>
+          
           <rich:column>
             <f:facet name="header">
             Azioni
@@ -344,6 +361,9 @@
             onclick="#{rich:element('sollIdSegnalazione')}.value=#{s.id};#{rich:element('sollTit')}.innerHTML='#{seu.escapeJavaScript(s.oggetto)}';#{rich:component('panelSollecito')}.show();return false;"
             />
           </rich:column>
+          <f:facet name="footer">
+            <rich:datascroller  id="mieDS" />
+          </f:facet>
         </rich:dataTable>
       </rich:tab>
       <rich:tab name="solleciti" rendered="#{not empty sollecitiSenzaRisposta}" ontabenter="updateTab('solleciti')"  label="Solleciti (#{sollecitiSenzaRisposta.size()})">
@@ -420,7 +440,7 @@
 
 <a4j:status onstart="#{rich:component('wait')}.show()" onstop="#{rich:component('wait')}.hide()"/>
 </rich:tabPanel>
-<rich:simpleTogglePanel styleClass="noPrint" label="Filtro Ricerca" opened="false" switchType="client">
+<rich:simpleTogglePanel styleClass="noPrint" label="Filtro Ricerca" opened="true" switchType="client">
     <s:decorate template="/layout/input.xhtml">
     <ui:define name="label">Stato</ui:define>
     	<h:selectManyCheckbox required="true" id="stati" value="#{listaSegnalazioni.stati}">

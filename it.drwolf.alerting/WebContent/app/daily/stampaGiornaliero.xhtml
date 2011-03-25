@@ -12,11 +12,11 @@
 	<p:font size="18">
 		<p:paragraph alignment="center" style="bold">Foglio di lavoro del #{giornalieroHome.convertData(giornalieroHome.instance.data)}</p:paragraph>
 	</p:font>
-	<p:font size="12">
+	<p:font size="10">
 
 			<p:paragraph>#{giornalieroHome.instance.note}</p:paragraph>
 	
-	<p:table spacingBefore="12" columns="4" widthPercentage="100" >
+	<p:table spacingBefore="12" columns="5" widthPercentage="100" >
 		<f:facet name="defaultCell">
 			<p:cell padding="2" paddingBottom="5" horizontalAlignment="left" verticalAlignment="top"/>
 		</f:facet>
@@ -27,9 +27,12 @@
 		<p:cell  grayFill=".9">
 			<p:paragraph style="bold">Squadra</p:paragraph>
 		</p:cell>
-		<p:cell grayFill=".9">
-			<p:paragraph style="bold">Scadenza</p:paragraph>
-		</p:cell>
+        <p:cell grayFill=".9">
+            <p:paragraph style="bold">Inserimento</p:paragraph>
+        </p:cell>
+        <p:cell grayFill=".9">
+            <p:paragraph style="bold">Scadenza</p:paragraph>
+        </p:cell>
 		<p:cell grayFill=".9">
 			<p:paragraph style="bold">Stato</p:paragraph>
 		</p:cell>
@@ -37,14 +40,17 @@
 		
 		<ui:repeat value="#{giornalieroHome.instance.interventi}" var="i">
 			<p:cell>
-				<p:paragraph style="bold">#{i.oggetto}</p:paragraph>
+				<p:paragraph style="bold"> #{i.id} (#{i.segnalazione ne null ? i.segnalazione.id : 'NS'}) - #{i.oggetto}</p:paragraph>
 			</p:cell>
 			<p:cell>
 				<p:paragraph style="bold">#{i.squadraIntervento.nome}</p:paragraph>
 			</p:cell>
-			<p:cell>
-				<p:paragraph style="bold">#{giornalieroHome.convertData(i.scadenza)}</p:paragraph>
-			</p:cell>
+            <p:cell>
+                <p:paragraph style="bold">#{i.segnalazione eq null ? giornalieroHome.convertData(i.apertura) : giornalieroHome.convertData(i.segnalazione.data)}</p:paragraph>
+            </p:cell>
+            <p:cell>
+                <p:paragraph style="bold">#{giornalieroHome.convertData(i.scadenza)}</p:paragraph>
+            </p:cell>
 			<p:cell>
 				<p:paragraph style="bold">#{i.stato}</p:paragraph>
 			</p:cell>
@@ -71,15 +77,17 @@
 
 
 			<p:cell colspan="2" grayFill=".9" horizontalAlignment="center">
-				<p:paragraph style="bold">#{i.segnalazione ne null ? i.segnalazione.id : 'NS'} - #{i.oggetto}</p:paragraph>		
+				<p:paragraph style="bold">
+				#{i.id } (#{i.segnalazione ne null ? i.segnalazione.id : 'NS'}) - #{i.oggetto}</p:paragraph>		
 			</p:cell>
 			
-			<p:cell>
-				<p:paragraph style="bold">Scadenza:</p:paragraph>
-			</p:cell>
-			<p:cell>
-				<p:paragraph>#{giornalieroHome.convertData(i.scadenza)}</p:paragraph>
-			</p:cell>
+            <p:cell>
+                <p:paragraph style="bold">Date:</p:paragraph>
+            </p:cell>
+            <p:cell>
+                <p:paragraph>Inserimento: #{i.segnalazione eq null ? giornalieroHome.convertData(i.apertura) : giornalieroHome.convertData(i.segnalazione.data)} - Scadenza: #{giornalieroHome.convertData(i.scadenza)}</p:paragraph>
+            </p:cell>
+
 			
 			<p:cell>
 				<p:paragraph style="bold">Referente:</p:paragraph>

@@ -25,16 +25,6 @@
 		value="#{segnalazione.oggetto}"/>
 	</s:decorate>
 	
-<!--	<s:decorate template="/layout/input.xhtml" rendered="# {s:hasRole('cittadino') and segnalazione.id eq null}">-->
-<!--		<ui:define name="label">Risposte</ui:define>-->
-<!--		Non voglio ricevere risposte per questa segnalazione-->
-<!--		<h:selectBooleanCheckbox value="# {segnalazione.noreply}" />-->
-<!--	</s:decorate>-->
-<!--	-->
-<!--	<s:decorate template="/layout/input.xhtml" rendered="# {segnalazione.noreply}">-->
-<!--		Non voglio ricevere risposte per questa segnalazione-->
-<!--	</s:decorate>-->
-
 	<s:decorate template="/layout/input.xhtml" rendered="#{segnalazione.id eq null}">
 		<ui:define name="label">Descrizione</ui:define>
 		<h:inputTextarea required="true"
@@ -46,7 +36,6 @@
 		<h:inputTextarea value="#{segnalazioneHome.newMessage}" />
 	</s:decorate>
 	
-
 <s:fragment rendered="#{not s:hasRole('cittadino') and segnalazione.cittadino eq null}">
 	<s:decorate template="/layout/input.xhtml" rendered="#{edit}">
 		<ui:define name="label">Referente</ui:define>
@@ -88,13 +77,21 @@
 
 	
 
-	<s:decorate id="utenzaDecoration" template="/layout/input.xhtml" rendered="#{edit}">
+	<s:decorate id="utenzaDecoration" template="/layout/input.xhtml" >
     	<ui:define name="label">Utenza</ui:define>
-		<rich:dropDownMenu styleClass="priorityMenu">
+        <h:outputText rendered="#{segnalazione.utenza ne null}">
+        #{segnalazione.utenza.sottocategoriaUtenza.categoriaUtenza} - #{segnalazione.utenza.sottocategoriaUtenza.nome} - #{segnalazione.utenza}
+        </h:outputText>
+        <h:outputText rendered="#{segnalazione.utenza eq null and segnalazione.sottocategoriaUtenza ne null}">
+        #{segnalazione.sottocategoriaUtenza.categoriaUtenza} - #{segnalazione.sottocategoriaUtenza.nome}
+        </h:outputText>
+        <h:outputText rendered="#{segnalazione.utenza eq null and segnalazione.sottocategoriaUtenza eq null and segnalazione.categoriaUtenza ne null}">
+        #{segnalazione.categoriaUtenza}
+        </h:outputText>
+		<rich:dropDownMenu styleClass="priorityMenu" rendered="#{edit}">
  <f:facet name="label">
     	  <s:div>
-
-    	      	  <h:outputText value="#{segnalazione.utenza ne null ? segnalazione.utenza : 'Scegli un\'utenza'}"/>
+                  <h:outputText value="#{segnalazione.utenza ne null ? segnalazione.utenza : 'Scegli un\'utenza'}"/>
     	  </s:div>
     	  </f:facet>
     	  <rich:menuItem submitMode="ajax"
@@ -130,13 +127,7 @@
 		 </rich:dropDownMenu>
 	</s:decorate>
 
-	<s:decorate template="/layout/input.xhtml" rendered="#{!edit}">
-		<ui:define name="label">Utenza</ui:define>
-		<s:fragment rendered="#{segnalazione.utenza ne null}" >#{segnalazione.utenza.descrizione}</s:fragment>	
-		<s:fragment rendered="#{segnalazione.sottocategoriaUtenza ne null}" >#{segnalazione.sottocategoriaUtenza.nome} - tutte le utenze</s:fragment>	
-		<s:fragment rendered="#{segnalazione.categoriaUtenza ne null}" >#{segnalazione.utenza.descrizione} - tutte le utenze</s:fragment>	
-		
-    </s:decorate>
+
 
 </s:fragment>
 

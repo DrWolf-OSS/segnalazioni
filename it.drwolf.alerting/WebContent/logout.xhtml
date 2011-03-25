@@ -10,7 +10,7 @@
                 template="/layout/template.xhtml">
 
 <ui:define name="title">
-	#{starter.applicationDescription}
+	<h:outputText value="#{starter.applicationDescription}" escape="false" />
 </ui:define>
 
 <ui:define name="navigation">
