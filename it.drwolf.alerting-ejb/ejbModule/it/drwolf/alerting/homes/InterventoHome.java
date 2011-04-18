@@ -112,12 +112,13 @@ public class InterventoHome extends EntityHome<Intervento> {
 				intervento.setTelefonoReferente(s.getTelefonoReferente());
 			}
 			intervento.setUtenza(s.getUtenza());
-			intervento.setStato((Stato) this.getEntityManager().createQuery(
-					"from Stato where nome=:n").setParameter("n",
-					Stato.defaults[0].getNome()).getResultList().get(0));
+			intervento.setStato((Stato) this.getEntityManager()
+					.createQuery("from Stato where nome=:n")
+					.setParameter("n", "aperto").getResultList().get(0));
 		} else {
-			intervento.setComune(this.getEntityManager().find(AppParam.class,
-					AppParam.APP_COMUNE.getKey()).getValue());
+			intervento.setComune(this.getEntityManager()
+					.find(AppParam.class, AppParam.APP_COMUNE.getKey())
+					.getValue());
 		}
 		return intervento;
 	}
@@ -174,25 +175,26 @@ public class InterventoHome extends EntityHome<Intervento> {
 
 			this.getEntityManager().persist(i);
 			FacesMessages.instance()
-					.add(
-							"Creato intervento " + i.getOggetto() + " - "
-									+ s.getNome());
+					.add("Creato intervento " + i.getOggetto() + " - "
+							+ s.getNome());
 		}
 
 	}
 
 	@SuppressWarnings("unchecked")
 	public List<CodiceTriage> getCodici() {
-		return this.getEntityManager().createQuery(
-				"from CodiceTriage order by tempoIntervento desc")
+		return this.getEntityManager()
+				.createQuery("from CodiceTriage order by tempoIntervento desc")
 				.getResultList();
 	}
 
 	@SuppressWarnings("unchecked")
 	public List<String> getComponentiSquadre() {
-		return this.getEntityManager().createNativeQuery(
-				"select distinct s.element from SquadraIntervento_componenti s"
-						+ " order by s.element").getResultList();
+		return this
+				.getEntityManager()
+				.createNativeQuery(
+						"select distinct s.element from SquadraIntervento_componenti s"
+								+ " order by s.element").getResultList();
 	}
 
 	public String getDatePattern() {

@@ -109,7 +109,13 @@
 <s:decorate id="utenzaDecoration" template="/layout/input.xhtml" >
 	<ui:define name="label">Utenza</ui:define>
 
- <h:outputText rendered="#{!edit}" value="#{interventoHome.instance.utenza}"/>
+  
+        <h:outputText rendered="#{interventoHome.instance.utenza ne null}">
+        #{interventoHome.instance.utenza.sottocategoriaUtenza.categoriaUtenza} - #{interventoHome.instance.utenza.sottocategoriaUtenza.nome} - #{interventoHome.instance.utenza}
+        </h:outputText>
+       
+
+
 
 		 <rich:dropDownMenu rendered="#{edit}" styleClass="priorityMenu">
  <f:facet name="label">
