@@ -315,14 +315,55 @@ public class IscrittoHome extends EntityHome<Iscritto> {
 
 			}
 			if (iscritto.getEmail() != null) {
-				if (this.getEntityManager()
+				List<Iscritto> resultList = this.getEntityManager()
 						.createQuery("from Iscritto where email=:email")
 						.setParameter("email", iscritto.getEmail())
-						.getResultList().size() > 0) {
+						.getResultList();
+				if (resultList.size() > 0) {
+					iscritto = resultList.get(0);
+					for (int i = 0; i < line.length; i++) {
+						if (header[i].equalsIgnoreCase("cap")) {
+							iscritto.setCap(line[i]);
+						}
+						if (header[i].equalsIgnoreCase("cellulare")) {
+							iscritto.setCellulare(line[i]);
+						}
+						if (header[i].equalsIgnoreCase("cognome")) {
+							iscritto.setCognome(line[i]);
+						}
+						if (header[i].equalsIgnoreCase("email")) {
+							iscritto.setEmail(line[i]);
+						}
+						if (header[i].equalsIgnoreCase("fax")) {
+							iscritto.setFax(line[i]);
+						}
+						if (header[i].equalsIgnoreCase("indirizzo")) {
+							iscritto.setIndirizzo(line[i]);
+						}
+						if (header[i].equalsIgnoreCase("localita")) {
+							iscritto.setLocalita(line[i]);
+						}
+						if (header[i].equalsIgnoreCase("nome")) {
+							iscritto.setNome(line[i]);
+						}
+						if (header[i].equalsIgnoreCase("ragionesociale")) {
+							iscritto.setRagioneSociale(line[i]);
+						}
+						if (header[i].equalsIgnoreCase("textmail")) {
+							iscritto.setTextMail(line[i].equals("true"));
+						}
+						if (header[i].equalsIgnoreCase("gruppi")) {
+							gruppi = line[i].split("\\s");
+						}
+						if (header[i].equalsIgnoreCase("opzioni")) {
+							opzioni = line[i].split("\\s");
+						}
+
+					}
+
 					FacesMessages.instance().add(Severity.INFO,
 							iscritto.getEmail() + " già presente");
 					System.out.println("già presente " + iscritto.getEmail());
-					continue;
 				}
 			}
 			for (String gid : gruppi) {
@@ -334,9 +375,13 @@ public class IscrittoHome extends EntityHome<Iscritto> {
 						this.getEntityManager()
 								.find(OpzioneServizio.class, oid));
 			}
-			iscritto.setId(IdGenerator.newId(this.getEntityManager()));
 			this.beforeImport(iscritto);
-			this.getEntityManager().persist(iscritto);
+			if (iscritto.getId() == null) {
+				iscritto.setId(IdGenerator.newId(this.getEntityManager()));
+				this.getEntityManager().persist(iscritto);
+			} else {
+				this.getEntityManager().merge(iscritto);
+			}
 			FacesMessages.instance().add(Severity.INFO,
 					iscritto.getEmail() + " importato");
 			System.out.println("importato " + iscritto.getEmail());
