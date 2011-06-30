@@ -18,5 +18,10 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="/it.drwolf.iscrizioni-ear/EarContent/lib/opencsv-2.2.jar"/>
+	<classpathentry kind="lib" path="/it.drwolf.iscrizioni-ear/EarContent/lib/resteasy-atom-provider.jar"/>
+	<classpathentry kind="lib" path="/it.drwolf.iscrizioni-ear/EarContent/lib/resteasy-jaxb-provider.jar"/>
+	<classpathentry kind="lib" path="/it.drwolf.iscrizioni-ear/EarContent/lib/resteasy-jaxrs.jar"/>
+	<classpathentry kind="lib" path="/it.drwolf.iscrizioni-ear/EarContent/lib/jboss-seam-resteasy.jar"/>
+	<classpathentry kind="lib" path="/it.drwolf.iscrizioni-ear/EarContent/lib/jaxrs-api.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

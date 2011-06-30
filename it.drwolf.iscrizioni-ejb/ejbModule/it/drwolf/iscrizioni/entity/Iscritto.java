@@ -61,91 +61,91 @@ public class Iscritto {
 
 	@Versioned
 	public String getCap() {
-		return cap;
+		return this.cap;
 	}
 
 	@Versioned
 	@Column(unique = true)
 	public String getCellulare() {
-		return cellulare;
+		return this.cellulare;
 	}
 
 	@Versioned
 	public String getCognome() {
-		return cognome;
+		return this.cognome;
 	}
 
 	@Versioned
 	public Boolean getConfermato() {
-		return confermato;
+		return this.confermato;
 	}
 
 	@Versioned
 	public Boolean getConsenso() {
-		return consenso;
+		return this.consenso;
 	}
 
 	@Versioned
 	@Column(unique = true)
 	public String getEmail() {
-		return email;
+		return this.email;
 	}
 
 	@Versioned
 	public String getFax() {
-		return fax;
+		return this.fax;
 	}
 
 	@ManyToMany(mappedBy = "iscritti", cascade = { CascadeType.MERGE,
 			CascadeType.PERSIST })
 	@OrderBy("nome")
 	public List<Gruppo> getGruppi() {
-		return gruppi;
+		return this.gruppi;
 	}
 
 	@Id
 	public String getId() {
-		return id;
+		return this.id;
 	}
 
 	@Versioned
 	public String getIndirizzo() {
-		return indirizzo;
+		return this.indirizzo;
 	}
 
 	@Versioned
 	public String getLocalita() {
-		return localita;
+		return this.localita;
 	}
 
 	@Versioned
 	public String getNome() {
-		return nome;
+		return this.nome;
 	}
 
 	@ManyToMany
 	public List<OpzioneServizio> getOpzioniServizi() {
-		return opzioniServizi;
+		return this.opzioniServizi;
 	}
 
 	@Versioned
 	public String getRagioneSociale() {
-		return ragioneSociale;
+		return this.ragioneSociale;
 	}
 
 	@ManyToMany
 	public List<Servizio> getServizi() {
-		return servizi;
+		return this.servizi;
 	}
 
 	@Versioned
 	public String getTelefono() {
-		return telefono;
+		return this.telefono;
 	}
 
 	@Versioned
 	public boolean isTextMail() {
-		return textMail;
+		return this.textMail;
 	}
 
 	public void setCap(String cap) {
@@ -157,6 +157,9 @@ public class Iscritto {
 			this.cellulare = null;
 		} else {
 			this.cellulare = cellulare.replaceAll("\\D", "");
+			if (this.cellulare.equals("")) {
+				this.cellulare = null;
+			}
 		}
 	}
 
@@ -225,11 +228,11 @@ public class Iscritto {
 
 	@Override
 	public String toString() {
-		if (cognome != null) {
-			return nome + " " + cognome;
-		} else if (email != null) {
-			return email;
+		if (this.cognome != null) {
+			return this.nome + " " + this.cognome;
+		} else if (this.email != null) {
+			return this.email;
 		}
-		return id;
+		return this.id;
 	}
 }

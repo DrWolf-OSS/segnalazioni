@@ -40,6 +40,8 @@ public class AppParam {
 
 	public static final String APP_INCOMPLETI_QUERY = "app.incompleti.query";
 
+	public static final String APP_MAIL_SECRET = "app.mail.secret";
+
 	public static AppParam[] defaults = new AppParam[] {
 			new AppParam(AppParam.LOCAL_ADMIN_PASSWORD, "changeme"),
 			new AppParam("sso.url", "http://localhost:8180/sso"),
@@ -60,6 +62,7 @@ public class AppParam {
 					AppParam.APP_INCOMPLETI_QUERY,
 					"SELECT I.id, I.cognome, I.nome, I.email, I.cellulare FROM Iscritto I where (I.id not in (select iscritti_id from Gruppo_Iscritto)) and (I.email is null and I.id in (select Iscritto_id from Iscritto_OpzioneServizio where opzioniServizi_id like ('newsletter%') or opzioniServizi_id like ('eventi%') or opzioniServizi_id like ('comunicati%')))"),
 			new AppParam(AppParam.APP_NAME, "Sistema di iscrizione ai servizi"),
+			new AppParam(AppParam.APP_MAIL_SECRET, "mailsecret")
 
 	};
 
@@ -79,11 +82,11 @@ public class AppParam {
 
 	@Id
 	public String getId() {
-		return id;
+		return this.id;
 	}
 
 	public String getValue() {
-		return value;
+		return this.value;
 	}
 
 	public void setId(String id) {
@@ -96,7 +99,7 @@ public class AppParam {
 
 	@Override
 	public String toString() {
-		return value;
+		return this.value;
 	}
 
 }
