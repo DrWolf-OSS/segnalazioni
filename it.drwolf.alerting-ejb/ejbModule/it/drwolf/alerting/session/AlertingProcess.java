@@ -57,9 +57,9 @@ public class AlertingProcess implements Serializable {
 
 	@SuppressWarnings("unchecked")
 	public Segnalazione getSegnalazione() {
-		List<Segnalazione> l = this.entityManager.createQuery(
-				"from Segnalazione where bpmInfo.processId=:pid").setParameter(
-				"pid", BusinessProcess.instance().getProcessId())
+		List<Segnalazione> l = this.entityManager
+				.createQuery("from Segnalazione where bpmInfo.processId=:pid")
+				.setParameter("pid", BusinessProcess.instance().getProcessId())
 				.getResultList();
 
 		if (l.size() > 0) {
@@ -91,6 +91,31 @@ public class AlertingProcess implements Serializable {
 		return this.ufficio;
 	}
 
+	public boolean ripassaAUrp() {
+		if (this.getSegnalazione() != null
+				&& this.getSegnalazione().getCittadino() != null) {
+			String parametro = this.entityManager.find(AppParam.class,
+					AppParam.RIPASSA_URP_CON_MAIL_TEL.getKey()).getValue();
+			String passa = this.entityManager.find(AppParam.class,
+					AppParam.RIPASSA_URP_SEMPRE.getKey()).getValue();
+
+			if (passa != null && passa.trim().equals("true")) {
+				return true;
+			}
+
+			if (parametro != null && parametro.trim().equals("true")) {
+				String telefono = this.getSegnalazione().getCittadino()
+						.getTelefono();
+				String email = this.getSegnalazione().getCittadino().getEmail();
+				if ((telefono != null && !telefono.trim().equals(""))
+						|| (email != null && !email.trim().equals(""))) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
 	public void setBpmInfoId(Integer bpmInfoId) {
 		this.bpmInfoId = bpmInfoId;
 	}
@@ -119,19 +144,5 @@ public class AlertingProcess implements Serializable {
 		this.ufficio = ufficio;
 
 		this.poolCompetente = ufficio.getGestori().toArray(new String[0]);
-	}
-
-	public boolean ripassaAUrp(){
-		if(this.getSegnalazione() != null && this.getSegnalazione().getCittadino() != null){
-			String parametro = this.entityManager.find( AppParam.class, AppParam.RIPASSA_URP_CON_MAIL_TEL.getKey()).getValue();
-			if (parametro != null && parametro.trim().equals("true")) {
-				String telefono = this.getSegnalazione().getCittadino().getTelefono();
-				String email = this.getSegnalazione().getCittadino().getEmail();
-				if ((telefono != null && !telefono.trim().equals("")) || (email != null && !email.trim().equals(""))) {
-					return true;
-				}
-			}
-		}
-		return false;
 	}
 }

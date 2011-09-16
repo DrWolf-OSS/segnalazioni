@@ -87,6 +87,9 @@ public class AppParam implements Serializable {
 	public static final AppParam ASSEGNATARIO_IN_MAIL = new AppParam(
 			"assegnatario.in.mail", "false");
 
+	public static final AppParam RIPASSA_URP_SEMPRE = new AppParam(
+			"ripassa.urp.sempre", "false");;
+
 	public static final AppParam[] defaults = new AppParam[] {
 			AppParam.APP_NAME, AppParam.APP_DESCRIPTION, AppParam.APP_SKIN,
 			AppParam.APP_WELCOME, AppParam.APP_COMUNE, AppParam.APP_SSOAPPID,
@@ -99,7 +102,7 @@ public class AppParam implements Serializable {
 			AppParam.APP_FILTRO_STATI_DEFAULT, AppParam.APP_ASSEGNAZIONE_POOL,
 			AppParam.APP_RISP_UFFICIO, AppParam.RIPASSA_URP_CON_MAIL_TEL,
 			AppParam.ASSEGNATARIO_IN_MAIL, AppParam.APP_RISP_SALUTI,
-			AppParam.APP_RISP_SALUTI_PS };
+			AppParam.APP_RISP_SALUTI_PS, AppParam.RIPASSA_URP_SEMPRE };
 
 	private String key;
 	private String value;
@@ -117,11 +120,11 @@ public class AppParam implements Serializable {
 	@Id
 	@Column(name = "key_column")
 	public String getKey() {
-		return key;
+		return this.key;
 	}
 
 	public String getValue() {
-		return value;
+		return this.value;
 	}
 
 	public void setKey(String key) {
@@ -134,7 +137,7 @@ public class AppParam implements Serializable {
 
 	@Override
 	public String toString() {
-		return value;
+		return this.value;
 	}
 
 }
