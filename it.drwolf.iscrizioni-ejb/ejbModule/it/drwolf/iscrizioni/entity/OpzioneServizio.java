@@ -14,21 +14,21 @@ public class OpzioneServizio {
 
 	@ManyToOne
 	public CategoriaOpzioniServizio getCategoriaOpzioniServizio() {
-		return categoriaOpzioniServizio;
+		return this.categoriaOpzioniServizio;
 	}
 
 	@Id
 	public String getId() {
-		return id;
+		return this.id;
 	}
 
 	public String getNome() {
-		return nome;
+		return this.nome;
 	}
 
 	@Override
 	public int hashCode() {
-		return getId().hashCode();
+		return this.getId().hashCode();
 
 	}
 

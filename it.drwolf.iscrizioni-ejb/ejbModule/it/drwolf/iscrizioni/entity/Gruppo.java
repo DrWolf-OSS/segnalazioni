@@ -19,17 +19,17 @@ public class Gruppo {
 
 	@Id
 	public String getId() {
-		return id;
+		return this.id;
 	}
 
 	@ManyToMany
 	@OrderBy("cognome, nome, email")
 	public List<Iscritto> getIscritti() {
-		return iscritti;
+		return this.iscritti;
 	}
 
 	public String getNome() {
-		return nome;
+		return this.nome;
 	}
 
 	public void setId(String id) {

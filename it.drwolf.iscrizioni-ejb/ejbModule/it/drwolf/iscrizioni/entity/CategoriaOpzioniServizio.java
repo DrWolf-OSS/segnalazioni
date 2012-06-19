@@ -30,35 +30,35 @@ public class CategoriaOpzioniServizio {
 
 	@Id
 	public String getId() {
-		return id;
+		return this.id;
 	}
 
 	public Boolean getMultiple() {
-		return multiple;
+		return this.multiple;
 	}
 
 	public String getNome() {
-		return nome;
+		return this.nome;
 	}
 
 	@Transient
 	public OpzioneServizio getOpzioneServizio4Iscritto() {
-		return opzioneServizio4Iscritto;
+		return this.opzioneServizio4Iscritto;
 	}
 
 	@OneToMany(mappedBy = "categoriaOpzioniServizio")
 	public List<OpzioneServizio> getOpzioniServizio() {
-		return opzioniServizio;
+		return this.opzioniServizio;
 	}
 
 	@Transient
 	public List<OpzioneServizio> getOpzioniServizio4Iscritto() {
-		return opzioniServizio4Iscritto;
+		return this.opzioniServizio4Iscritto;
 	}
 
 	@ManyToOne
 	public Servizio getServizio() {
-		return servizio;
+		return this.servizio;
 	}
 
 	public void setId(String id) {

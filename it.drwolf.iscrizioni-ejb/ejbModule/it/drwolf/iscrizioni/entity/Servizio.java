@@ -22,24 +22,24 @@ public class Servizio {
 	@OneToMany(mappedBy = "servizio")
 	@OrderBy("nome")
 	public List<CategoriaOpzioniServizio> getCategorieOpzioni() {
-		return categorieOpzioni;
+		return this.categorieOpzioni;
 	}
 
 	@Id
 	public String getId() {
-		return id;
+		return this.id;
 	}
 
 	public String getNome() {
-		return nome;
+		return this.nome;
 	}
 
 	public String getUrl() {
-		return url;
+		return this.url;
 	}
 
 	public String getUserPrefsUrl() {
-		return userPrefsUrl;
+		return this.userPrefsUrl;
 	}
 
 	public void setCategorieOpzioni(
@@ -65,6 +65,6 @@ public class Servizio {
 
 	@Override
 	public String toString() {
-		return nome;
+		return this.nome;
 	}
 }
