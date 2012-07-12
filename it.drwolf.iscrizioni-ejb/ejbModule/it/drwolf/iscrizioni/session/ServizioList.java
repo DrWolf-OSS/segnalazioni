@@ -24,7 +24,7 @@ public class ServizioList extends EntityQuery<Servizio> {
 		this.setEjbql(ServizioList.EJBQL);
 		this.setRestrictionExpressionStrings(Arrays
 				.asList(ServizioList.RESTRICTIONS));
-		this.setOrder("nome");
+		this.setOrder("posizione, nome");
 		this.setMaxResults(99999);
 	}
 

@@ -42,6 +42,10 @@ public class AppParam {
 
 	public static final String APP_MAIL_SECRET = "app.mail.secret";
 
+	public static final String APP_FIELDS_REQ = "app.fields.required";
+
+	public static final String APP_FIELDS_HIDDEN = "app.fields.hidden";
+
 	public static AppParam[] defaults = new AppParam[] {
 			new AppParam(AppParam.LOCAL_ADMIN_PASSWORD, "changeme"),
 			new AppParam("sso.url", "http://localhost:8180/sso"),

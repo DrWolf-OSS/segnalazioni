@@ -66419,8 +66419,170 @@ a backing bean</description>
    </FOLDER>
   </FOLDER>
  </file-system>
+ <file-system NAME="lib-jaxrs-api.jar"
+  location="/home/drwolf/git/segnalazioni/it.drwolf.iscrizioni-ear/EarContent/lib/jaxrs-api.jar" model-entity="FileSystemJar">
+  <FOLDER NAME="META-INF" model-entity="JarFolder">
+   <FOLDER NAME="maven" model-entity="JarFolder">
+    <FOLDER NAME="org.jboss.resteasy" model-entity="JarFolder">
+     <FOLDER NAME="jaxrs-api" model-entity="JarFolder"/>
+    </FOLDER>
+   </FOLDER>
+  </FOLDER>
+  <FOLDER NAME="javax" model-entity="JarFolder">
+   <FOLDER NAME="ws" model-entity="JarFolder">
+    <FOLDER NAME="rs" model-entity="JarFolder">
+     <FOLDER NAME="core" model-entity="JarFolder"/>
+     <FOLDER NAME="ext" model-entity="JarFolder"/>
+    </FOLDER>
+   </FOLDER>
+  </FOLDER>
+ </file-system>
+ <file-system NAME="lib-jboss-seam-resteasy.jar"
+  location="/home/drwolf/git/segnalazioni/it.drwolf.iscrizioni-ear/EarContent/lib/jboss-seam-resteasy.jar" model-entity="FileSystemJar">
+  <FOLDER NAME="META-INF" model-entity="JarFolder"/>
+  <FOLDER NAME="org" model-entity="JarFolder">
+   <FOLDER NAME="jboss" model-entity="JarFolder">
+    <FOLDER NAME="seam" model-entity="JarFolder">
+     <FOLDER NAME="resteasy" model-entity="JarFolder"/>
+    </FOLDER>
+   </FOLDER>
+  </FOLDER>
+ </file-system>
+ <file-system NAME="lib-resteasy-atom-provider.jar"
+  location="/home/drwolf/git/segnalazioni/it.drwolf.iscrizioni-ear/EarContent/lib/resteasy-atom-provider.jar" model-entity="FileSystemJar">
+  <FOLDER NAME="META-INF" model-entity="JarFolder">
+   <FOLDER NAME="maven" model-entity="JarFolder">
+    <FOLDER NAME="org.jboss.resteasy" model-entity="JarFolder">
+     <FOLDER NAME="resteasy-atom-provider" model-entity="JarFolder"/>
+    </FOLDER>
+   </FOLDER>
+  </FOLDER>
+  <FOLDER NAME="org" model-entity="JarFolder">
+   <FOLDER NAME="jboss" model-entity="JarFolder">
+    <FOLDER NAME="resteasy" model-entity="JarFolder">
+     <FOLDER NAME="plugins" model-entity="JarFolder">
+      <FOLDER NAME="providers" model-entity="JarFolder">
+       <FOLDER NAME="atom" model-entity="JarFolder"/>
+      </FOLDER>
+     </FOLDER>
+    </FOLDER>
+   </FOLDER>
+  </FOLDER>
+ </file-system>
+ <file-system NAME="lib-resteasy-jaxb-provider.jar"
+  location="/home/drwolf/git/segnalazioni/it.drwolf.iscrizioni-ear/EarContent/lib/resteasy-jaxb-provider.jar" model-entity="FileSystemJar">
+  <FOLDER NAME="META-INF" model-entity="JarFolder">
+   <FOLDER NAME="maven" model-entity="JarFolder">
+    <FOLDER NAME="org.jboss.resteasy" model-entity="JarFolder">
+     <FOLDER NAME="resteasy-jaxb-provider" model-entity="JarFolder"/>
+    </FOLDER>
+   </FOLDER>
+  </FOLDER>
+  <FOLDER NAME="org" model-entity="JarFolder">
+   <FOLDER NAME="jboss" model-entity="JarFolder">
+    <FOLDER NAME="resteasy" model-entity="JarFolder">
+     <FOLDER NAME="annotations" model-entity="JarFolder">
+      <FOLDER NAME="providers" model-entity="JarFolder">
+       <FOLDER NAME="jaxb" model-entity="JarFolder">
+        <FOLDER NAME="json" model-entity="JarFolder"/>
+       </FOLDER>
+      </FOLDER>
+     </FOLDER>
+     <FOLDER NAME="plugins" model-entity="JarFolder">
+      <FOLDER NAME="providers" model-entity="JarFolder">
+       <FOLDER NAME="jaxb" model-entity="JarFolder">
+        <FOLDER NAME="fastinfoset" model-entity="JarFolder"/>
+        <FOLDER NAME="json" model-entity="JarFolder"/>
+       </FOLDER>
+      </FOLDER>
+      <FOLDER NAME="stats" model-entity="JarFolder"/>
+     </FOLDER>
+    </FOLDER>
+   </FOLDER>
+  </FOLDER>
+ </file-system>
+ <file-system NAME="lib-resteasy-jaxrs.jar"
+  location="/home/drwolf/git/segnalazioni/it.drwolf.iscrizioni-ear/EarContent/lib/resteasy-jaxrs.jar" model-entity="FileSystemJar">
+  <FOLDER NAME="META-INF" model-entity="JarFolder">
+   <FOLDER NAME="maven" model-entity="JarFolder">
+    <FOLDER NAME="org.jboss.resteasy" model-entity="JarFolder">
+     <FOLDER NAME="resteasy-jaxrs" model-entity="JarFolder"/>
+    </FOLDER>
+   </FOLDER>
+   <FOLDER NAME="services" model-entity="JarFolder"/>
+  </FOLDER>
+  <FOLDER NAME="org" model-entity="JarFolder">
+   <FOLDER NAME="jboss" model-entity="JarFolder">
+    <FOLDER NAME="resteasy" model-entity="JarFolder">
+     <FOLDER NAME="annotations" model-entity="JarFolder">
+      <FOLDER NAME="cache" model-entity="JarFolder"/>
+      <FOLDER NAME="providers" model-entity="JarFolder">
+       <FOLDER NAME="img" model-entity="JarFolder"/>
+      </FOLDER>
+     </FOLDER>
+     <FOLDER NAME="client" model-entity="JarFolder">
+      <FOLDER NAME="cache" model-entity="JarFolder"/>
+      <FOLDER NAME="core" model-entity="JarFolder"/>
+     </FOLDER>
+     <FOLDER NAME="core" model-entity="JarFolder">
+      <FOLDER NAME="interception" model-entity="JarFolder"/>
+      <FOLDER NAME="registry" model-entity="JarFolder"/>
+     </FOLDER>
+     <FOLDER NAME="mock" model-entity="JarFolder"/>
+     <FOLDER NAME="plugins" model-entity="JarFolder">
+      <FOLDER NAME="delegates" model-entity="JarFolder"/>
+      <FOLDER NAME="interceptors" model-entity="JarFolder">
+       <FOLDER NAME="encoding" model-entity="JarFolder"/>
+      </FOLDER>
+      <FOLDER NAME="providers" model-entity="JarFolder"/>
+      <FOLDER NAME="server" model-entity="JarFolder">
+       <FOLDER NAME="embedded" model-entity="JarFolder"/>
+       <FOLDER NAME="resourcefactory" model-entity="JarFolder"/>
+       <FOLDER NAME="servlet" model-entity="JarFolder"/>
+       <FOLDER NAME="tjws" model-entity="JarFolder"/>
+      </FOLDER>
+     </FOLDER>
+     <FOLDER NAME="specimpl" model-entity="JarFolder"/>
+     <FOLDER NAME="spi" model-entity="JarFolder"/>
+     <FOLDER NAME="test" model-entity="JarFolder"/>
+     <FOLDER NAME="util" model-entity="JarFolder"/>
+    </FOLDER>
+   </FOLDER>
+  </FOLDER>
+ </file-system>
+ <file-system NAME="lib-slf4j-api.jar"
+  location="/home/drwolf/git/segnalazioni/it.drwolf.iscrizioni-ear/EarContent/lib/slf4j-api.jar" model-entity="FileSystemJar">
+  <FOLDER NAME="META-INF" model-entity="JarFolder">
+   <FOLDER NAME="maven" model-entity="JarFolder">
+    <FOLDER NAME="org.slf4j" model-entity="JarFolder">
+     <FOLDER NAME="slf4j-api" model-entity="JarFolder"/>
+    </FOLDER>
+   </FOLDER>
+  </FOLDER>
+  <FOLDER NAME="org" model-entity="JarFolder">
+   <FOLDER NAME="slf4j" model-entity="JarFolder">
+    <FOLDER NAME="helpers" model-entity="JarFolder"/>
+    <FOLDER NAME="spi" model-entity="JarFolder"/>
+   </FOLDER>
+  </FOLDER>
+ </file-system>
+ <file-system NAME="lib-slf4j-log4j12.jar"
+  location="/home/drwolf/git/segnalazioni/it.drwolf.iscrizioni-ear/EarContent/lib/slf4j-log4j12.jar" model-entity="FileSystemJar">
+  <FOLDER NAME="META-INF" model-entity="JarFolder">
+   <FOLDER NAME="maven" model-entity="JarFolder">
+    <FOLDER NAME="org.slf4j" model-entity="JarFolder">
+     <FOLDER NAME="slf4j-log4j12" model-entity="JarFolder"/>
+    </FOLDER>
+   </FOLDER>
+  </FOLDER>
+  <FOLDER NAME="org" model-entity="JarFolder">
+   <FOLDER NAME="slf4j" model-entity="JarFolder">
+    <FOLDER NAME="impl" model-entity="JarFolder"/>
+   </FOLDER>
+  </FOLDER>
+ </file-system>
  <file-system NAME="lib-resources.jar"
-  location="/usr/lib/jvm/java-6-sun-1.6.0.24/jre/lib/resources.jar" model-entity="FileSystemJar">
+  location="/opt/java-6-sun/jre/lib/resources.jar" model-entity="FileSystemJar">
   <FOLDER NAME="META-INF" model-entity="JarFolder">
    <FOLDER NAME="services" model-entity="JarFolder"/>
   </FOLDER>
@@ -66610,19 +66772,8 @@ a backing bean</description>
    </FOLDER>
   </FOLDER>
  </file-system>
- <file-system NAME="lib-sunjce_provider.jar"
-  location="/usr/lib/jvm/java-6-sun-1.6.0.24/jre/lib/ext/sunjce_provider.jar" model-entity="FileSystemJar">
-  <FOLDER NAME="META-INF" model-entity="JarFolder"/>
-  <FOLDER NAME="com" model-entity="JarFolder">
-   <FOLDER NAME="sun" model-entity="JarFolder">
-    <FOLDER NAME="crypto" model-entity="JarFolder">
-     <FOLDER NAME="provider" model-entity="JarFolder"/>
-    </FOLDER>
-   </FOLDER>
-  </FOLDER>
- </file-system>
  <file-system NAME="lib-sunpkcs11.jar"
-  location="/usr/lib/jvm/java-6-sun-1.6.0.24/jre/lib/ext/sunpkcs11.jar" model-entity="FileSystemJar">
+  location="/opt/java-6-sun/jre/lib/ext/sunpkcs11.jar" model-entity="FileSystemJar">
   <FOLDER NAME="META-INF" model-entity="JarFolder"/>
   <FOLDER NAME="sun" model-entity="JarFolder">
    <FOLDER NAME="security" model-entity="JarFolder">
@@ -66632,8 +66783,19 @@ a backing bean</description>
    </FOLDER>
   </FOLDER>
  </file-system>
+ <file-system NAME="lib-sunjce_provider.jar"
+  location="/opt/java-6-sun/jre/lib/ext/sunjce_provider.jar" model-entity="FileSystemJar">
+  <FOLDER NAME="META-INF" model-entity="JarFolder"/>
+  <FOLDER NAME="com" model-entity="JarFolder">
+   <FOLDER NAME="sun" model-entity="JarFolder">
+    <FOLDER NAME="crypto" model-entity="JarFolder">
+     <FOLDER NAME="provider" model-entity="JarFolder"/>
+    </FOLDER>
+   </FOLDER>
+  </FOLDER>
+ </file-system>
  <file-system NAME="lib-dnsns.jar"
-  location="/usr/lib/jvm/java-6-sun-1.6.0.24/jre/lib/ext/dnsns.jar" model-entity="FileSystemJar">
+  location="/opt/java-6-sun/jre/lib/ext/dnsns.jar" model-entity="FileSystemJar">
   <FOLDER NAME="META-INF" model-entity="JarFolder">
    <FOLDER NAME="services" model-entity="JarFolder"/>
   </FOLDER>
@@ -66648,7 +66810,7 @@ a backing bean</description>
   </FOLDER>
  </file-system>
  <file-system NAME="lib-localedata.jar"
-  location="/usr/lib/jvm/java-6-sun-1.6.0.24/jre/lib/ext/localedata.jar" model-entity="FileSystemJar">
+  location="/opt/java-6-sun/jre/lib/ext/localedata.jar" model-entity="FileSystemJar">
   <FOLDER NAME="META-INF" model-entity="JarFolder"/>
   <FOLDER NAME="sun" model-entity="JarFolder">
    <FOLDER NAME="text" model-entity="JarFolder">

@@ -12,6 +12,8 @@ import it.drwolf.iscrizioni.util.IdGenerator;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -22,6 +24,7 @@ import org.apache.commons.mail.SimpleEmail;
 import org.hibernate.validator.Email;
 import org.jboss.envers.VersionsReader;
 import org.jboss.envers.VersionsReaderFactory;
+import org.jboss.seam.annotations.Factory;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.faces.FacesMessages;
@@ -46,9 +49,10 @@ public class IscrittoHome extends EntityHome<Iscritto> {
 	private Integer revision;
 
 	private HashSet<OpzioneServizio> opzioni = new HashSet<OpzioneServizio>();
-
 	@In(create = true)
 	private ServizioList servizioList;
+
+	private Boolean notifica = false;
 
 	public void aggiungiServizio(Servizio s) {
 		this.getInstance().getServizi().add(s);
@@ -153,12 +157,27 @@ public class IscrittoHome extends EntityHome<Iscritto> {
 		return this.email;
 	}
 
+	@Factory("hiddenFields")
+	public List<String> getHiddenFields() {
+		AppParam p = this.getEntityManager().find(AppParam.class,
+				AppParam.APP_FIELDS_HIDDEN);
+		if (p == null || p.getValue() == null) {
+			return Collections.emptyList();
+		} else {
+			return Arrays.asList(p.getValue().toLowerCase().split(","));
+		}
+	}
+
 	public String getImportData() {
 		return this.importData;
 	}
 
 	public String getIscrittoId() {
 		return (String) this.getId();
+	}
+
+	public Boolean getNotifica() {
+		return this.notifica;
 	}
 
 	public String getPrivacyUrl() {
@@ -215,6 +234,17 @@ public class IscrittoHome extends EntityHome<Iscritto> {
 			}
 		} catch (Exception e) {
 			return "KO\n" + e.getMessage();
+		}
+	}
+
+	@Factory("requiredFields")
+	public List<String> getRequiredFields() {
+		AppParam p = this.getEntityManager().find(AppParam.class,
+				AppParam.APP_FIELDS_REQ);
+		if (p == null || p.getValue() == null) {
+			return Collections.emptyList();
+		} else {
+			return Arrays.asList(p.getValue().toLowerCase().split(","));
 		}
 	}
 
@@ -398,20 +428,34 @@ public class IscrittoHome extends EntityHome<Iscritto> {
 		this.opzioni.clear();
 		List<Servizio> servizi = this.servizioList.getResultList();
 		for (Servizio s : servizi) {
-			for (CategoriaOpzioniServizio cos : s.getCategorieOpzioni()) {
+			for (CategoriaOpzioniServizio cat : s.getCategorieOpzioni()) {
 				for (OpzioneServizio os : this.getInstance()
 						.getOpzioniServizi()) {
+
 					if (os.getCategoriaOpzioniServizio().getId()
-							.equals(cos.getId())) {
+							.equals(cat.getId())) {
 						this.opzioni.add(os);
-						if (cos.getMultiple()) {
-							cos.getOpzioniServizio4Iscritto().add(os);
+						if (cat.getMultiple()) {
+							cat.getOpzioniServizio4Iscritto().add(os);
 						} else {
-							cos.setOpzioneServizio4Iscritto(os);
+							cat.setOpzioneServizio4Iscritto(os);
 						}
 					}
 
 				}
+				if (this.getInstance().getOpzioniServizi().size() == 0) {
+					for (OpzioneServizio os : cat.getOpzioniServizio()) {
+						if (os.getDef()) {
+							this.opzioni.add(os);
+							if (cat.getMultiple()) {
+								cat.getOpzioniServizio4Iscritto().add(os);
+							} else {
+								cat.setOpzioneServizio4Iscritto(os);
+							}
+						}
+					}
+				}
+
 			}
 		}
 		return servizi;
@@ -420,7 +464,11 @@ public class IscrittoHome extends EntityHome<Iscritto> {
 	@Override
 	public String persist() {
 		this.beforeUpdate();
-		return super.persist();
+		String res = super.persist();
+		this.email = this.getInstance().getEmail();
+		this.rememberCode();
+		return res;
+
 	}
 
 	@SuppressWarnings("unchecked")
@@ -512,6 +560,10 @@ public class IscrittoHome extends EntityHome<Iscritto> {
 
 	public void setIscrittoId(String id) {
 		this.setId(id);
+	}
+
+	public void setNotifica(Boolean notifica) {
+		this.notifica = notifica;
 	}
 
 	public void setQuery(String query) {

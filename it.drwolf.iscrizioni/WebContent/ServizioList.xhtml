@@ -18,6 +18,7 @@
                 <ui:define name="label">Nome</ui:define>
                 <h:inputText id="nome" value="#{servizioList.servizio.nome}"/>
             </s:decorate>
+            
 
             <s:decorate template="layout/display.xhtml">
                 <ui:define name="label">Url</ui:define>
@@ -69,6 +70,16 @@
                 </ui:include>
             </f:facet>
             <h:outputText value="#{_servizio.nome}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{servizioList}"/>
+                    <ui:param name="propertyLabel" value="Posizione"/>
+                    <ui:param name="propertyPath" value="servizio.posizione"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_servizio.posizione}"/>
         </h:column>
         <h:column>
             <f:facet name="header">

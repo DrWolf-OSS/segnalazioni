@@ -5,14 +5,15 @@
 <dependent-module deploy-path="/" handle="module:/resource/it.drwolf.alerting-ejb/it.drwolf.alerting-ejb">
 <dependency-type>uses</dependency-type>
 </dependent-module>
-<dependent-module deploy-path="/" handle="module:/resource/it.drwolf.alerting/it.drwolf.alerting">
-<dependency-type>uses</dependency-type>
-</dependent-module>
         <dependent-module deploy-path="/" handle="module:/resource/it.drwolf.eloise.web-ejb/it.drwolf.eloise.web-ejb">
             <dependent-object/>
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module deploy-path="/" handle="module:/resource/it.drwolf.iscrizioni-ejb/it.drwolf.iscrizioni-ejb">
+            <dependent-object/>
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="it.drwolf.alerting.war" deploy-path="/" handle="module:/resource/it.drwolf.alerting/it.drwolf.alerting">
             <dependent-object/>
             <dependency-type>uses</dependency-type>
         </dependent-module>

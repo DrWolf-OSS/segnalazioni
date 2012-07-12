@@ -30,26 +30,40 @@ public class AsyncSender {
 		String mailHost = this.entityManager.find(AppParam.class,
 				AppParam.APP_MAIL_HOST).getValue();
 
-		for (Iscritto i : (List<Iscritto>) this.entityManager.createQuery(
-				"from Iscritto").getResultList()) {
-			Email email = null;
-			if (i.isTextMail()) {
-				email = new SimpleEmail();
-				email.setMsg(textBody);
-			} else {
-				email = new HtmlEmail();
-				((HtmlEmail) email).setHtmlMsg(htmlBody);
+		List<Iscritto> resultList = this.entityManager.createQuery(
+				"from Iscritto").getResultList();
+		System.out.println(String.format("Sto per inviare %d email",
+				resultList.size()));
+		for (Iscritto i : resultList) {
+			try {
+				Email email = null;
+				if (i.isTextMail()) {
+					email = new SimpleEmail();
+					email.setMsg(textBody);
+				} else {
+					email = new HtmlEmail();
+					((HtmlEmail) email).setHtmlMsg(htmlBody);
+				}
+				if (i.getCognome() != null) {
+					email.addTo(i.getEmail(),
+							i.getNome() + " " + i.getCognome());
+				} else {
+					email.addTo(i.getEmail());
+				}
+				email.setFrom(from, fromName);
+				email.setHostName(mailHost);
+				email.setSubject(subject);
+				if (port != null) {
+					email.setSmtpPort(Integer.parseInt(port.getValue()));
+				}
+				email.send();
+				System.out.println("Email inviata a " + i.getEmail());
+			} catch (Exception e) {
+				System.out.println("Errore invio a " + i.getEmail());
+				e.printStackTrace();
 			}
-			email.addTo(i.getEmail(), i.getNome() + " " + i.getCognome());
-			email.setFrom(from, fromName);
-			email.setHostName(mailHost);
-			email.setSubject(subject);
-			if (port != null) {
-				email.setSmtpPort(Integer.parseInt(port.getValue()));
-			}
-			email.send();
-
 		}
 
+		System.out.println("Invio terminato");
 	}
 }

@@ -69,6 +69,16 @@
             <f:facet name="header">
                 <ui:include src="layout/sort.xhtml">
                     <ui:param name="entityList" value="#{opzioneServizioList}"/>
+                    <ui:param name="propertyLabel" value="Default"/>
+                    <ui:param name="propertyPath" value="opzioneServizio.def"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_opzioneServizio.categoriaOpzioniServizio.id}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{opzioneServizioList}"/>
                     <ui:param name="propertyLabel" value="Nome"/>
                     <ui:param name="propertyPath" value="opzioneServizio.nome"/>
                 </ui:include>

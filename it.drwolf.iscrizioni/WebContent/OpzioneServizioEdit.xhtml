@@ -19,14 +19,16 @@
 
             <s:decorate id="idField" template="layout/edit.xhtml">
                 <ui:define name="label">Id</ui:define>
-                <h:inputTextarea id="id"
-                               cols="80"
-                               rows="3"
+                <h:inputText id="id"
                            disabled="#{opzioneServizioHome.managed}"
                            required="true"
                               value="#{opzioneServizioHome.instance.id}"/>
             </s:decorate>
 
+            <s:decorate template="layout/edit.xhtml">
+                <ui:define name="label">Default</ui:define>
+              	<h:selectBooleanCheckbox value="#{opzioneServizioHome.instance.def}" />
+            </s:decorate>
 
 
             <s:decorate id="nomeField" template="layout/edit.xhtml">

@@ -13,6 +13,7 @@ import javax.persistence.Table;
 @Table(catalog = "iscrizioni")
 public class Servizio {
 	private String id;
+	private Integer posizione;
 	private String nome;
 	private String url;
 	private String userPrefsUrl;
@@ -66,5 +67,13 @@ public class Servizio {
 	@Override
 	public String toString() {
 		return this.nome;
+	}
+
+	public Integer getPosizione() {
+		return posizione;
+	}
+
+	public void setPosizione(Integer posizione) {
+		this.posizione = posizione;
 	}
 }

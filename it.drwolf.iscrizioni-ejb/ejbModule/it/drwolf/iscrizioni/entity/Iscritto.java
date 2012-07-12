@@ -228,9 +228,13 @@ public class Iscritto {
 
 	@Override
 	public String toString() {
-		if (this.cognome != null) {
-			return this.nome + " " + this.cognome;
-		} else if (this.email != null) {
+		if (this.cognome != null && this.email != null
+				&& !this.email.trim().equals("")) {
+			return String.format("%s %s (%s)", this.nome, this.cognome,
+					this.email);
+		} else if (this.cognome != null) {
+			return String.format("%s %s", this.nome, this.cognome);
+		} else if (this.email != null && !this.email.trim().equals("")) {
 			return this.email;
 		}
 		return this.id;

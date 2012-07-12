@@ -4,9 +4,9 @@
 	<comment></comment>
 	<projects>
 		<project>it.drwolf.alerting-ejb</project>
-		<project>it.drwolf.alerting</project>
 		<project>it.drwolf.eloise.web-ejb</project>
 		<project>it.drwolf.iscrizioni-ejb</project>
+		<project>it.drwolf.alerting</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

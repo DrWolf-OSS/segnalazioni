@@ -72,18 +72,17 @@ public class Reports {
 	@In(required = false)
 	private JbpmContext jbpmContext;
 
-	private Date aperturaDa = this.getFirstDayOfTheYear();
+	private Date aperturaDa = null;
 
-	private Date aperturaA = new Date(System.currentTimeMillis());
+	private Date aperturaA = null;
 
-	private Date chiusuraDa = this.getFirstDayOfTheYear();
+	private Date chiusuraDa = null;
 
-	private Date chiusuraA = new Date(System.currentTimeMillis());
+	private Date chiusuraA = null;
 
-	private Date scadenzaDa = this.getFirstDayOfTheYear();
+	private Date scadenzaDa = null;
 
-	private Date scadenzaA = new Date(System.currentTimeMillis()
-			+ DateUtils.MILLIS_PER_DAY * 100);
+	private Date scadenzaA = null;
 
 	private List<Stato> stati = new ArrayList<Stato>(0);
 
@@ -125,6 +124,37 @@ public class Reports {
 	private List<Segnalazione> fetchSegnalazioni() {
 
 		String q = this.BASE_QUERY;
+
+		if (this.aperturaDa == null) {
+			this.aperturaDa = (Date) this.entityManager.createQuery(
+					"select min(s.data) from Segnalazione s)")
+					.getSingleResult();
+		}
+		if (this.aperturaA == null) {
+			this.aperturaA = (Date) this.entityManager.createQuery(
+					"select max(s.data) from Segnalazione s)")
+					.getSingleResult();
+		}
+		if (this.chiusuraDa == null) {
+			this.chiusuraDa = (Date) this.entityManager.createQuery(
+					"select min(s.chiusura) from Segnalazione s)")
+					.getSingleResult();
+		}
+		if (this.chiusuraA == null) {
+			this.chiusuraA = (Date) this.entityManager.createQuery(
+					"select max(s.chiusura) from Segnalazione s)")
+					.getSingleResult();
+		}
+		if (this.scadenzaDa == null) {
+			this.scadenzaDa = (Date) this.entityManager.createQuery(
+					"select min(s.scadenza) from Segnalazione s)")
+					.getSingleResult();
+		}
+		if (this.scadenzaA == null) {
+			this.scadenzaA = (Date) this.entityManager.createQuery(
+					"select max(s.scadenza) from Segnalazione s)")
+					.getSingleResult();
+		}
 
 		if (this.getNumero() != null) {
 			q = " s.id=" + this.numero + " ";

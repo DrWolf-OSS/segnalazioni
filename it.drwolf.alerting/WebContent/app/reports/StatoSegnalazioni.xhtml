@@ -233,11 +233,11 @@
 			</rich:column>
 
 			<rich:column label="Cittadino" sortable="true" rendered="#{not s:hasRole('cittadino')}"  
-				sortBy="#{s.cittadino.cognome}">
+				sortBy="#{s.cittadino}">
 				<f:facet name="header">
         	Cittadino
         	</f:facet>
-            #{s.cittadino.cognome} #{s.cittadino.nome}
+            #{s.cittadino}
         </rich:column>
 
 			<rich:column label="Inserita da" sortable="true"

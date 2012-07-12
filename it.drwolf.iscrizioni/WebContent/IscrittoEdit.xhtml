@@ -26,6 +26,7 @@
            <s:decorate id="nomeField" template="layout/edit.xhtml">
                 <ui:define name="label">Nome</ui:define>
                 <h:inputText id="nome" rendered="#{!iscrittoHome.instance.confermato}" 
+                			  required="#{requiredFields.contains('nome')}"
                               value="#{iscrittoHome.instance.nome}"/>
                 <h:outputText rendered="#{iscrittoHome.instance.confermato}" 
                               value="#{iscrittoHome.instance.nome}"/>
@@ -33,7 +34,8 @@
             
             <s:decorate id="cognomeField" template="layout/edit.xhtml">
                 <ui:define name="label">Cognome</ui:define>
-                <h:inputText id="nome" rendered="#{!iscrittoHome.instance.confermato}" 
+                <h:inputText id="nome" rendered="#{!iscrittoHome.instance.confermato}"
+                				required="#{requiredFields.contains('cognome')}" 
                               value="#{iscrittoHome.instance.cognome}"/>
                 <h:outputText rendered="#{iscrittoHome.instance.confermato}" 
                               value="#{iscrittoHome.instance.cognome}"/>
@@ -65,36 +67,38 @@
             
             <s:decorate  template="layout/edit.xhtml">
                 <ui:define name="label">Telefono</ui:define>
-                <h:inputText value="#{iscrittoHome.instance.telefono}"/>
+                <h:inputText value="#{iscrittoHome.instance.telefono}"
+                	required="#{requiredFields.contains('telefono')}"/>
             </s:decorate>
 
             <s:decorate id="cellField" template="layout/edit.xhtml">
                 <ui:define name="label">Cellulare</ui:define>
                 <h:inputText id="cell" 
+                			required="#{requiredFields.contains('cellulare')}"
                               value="#{iscrittoHome.instance.cellulare}"/>
             </s:decorate>
 
             <s:decorate  template="layout/edit.xhtml">
                 <ui:define name="label">Fax</ui:define>
-                <h:inputText value="#{iscrittoHome.instance.fax}"/>
+                <h:inputText required="#{requiredFields.contains('fax')}" value="#{iscrittoHome.instance.fax}"/>
             </s:decorate>
 
 
             <s:decorate id="indField" template="layout/edit.xhtml">
                 <ui:define name="label">Indirizzo</ui:define>
-                <h:inputText id="ind" size="50"
+                <h:inputText required="#{requiredFields.contains('indirizzo')}" id="ind" size="50"
                               value="#{iscrittoHome.instance.indirizzo}"/>
                 
             </s:decorate>
             <s:decorate  template="layout/edit.xhtml">
                 <ui:define name="label">CAP</ui:define>
-                <h:inputText
+                <h:inputText required="#{requiredFields.contains('cap')}"
                               value="#{iscrittoHome.instance.cap}"/>
                 
             </s:decorate>
             <s:decorate template="layout/edit.xhtml">
                 <ui:define name="label">Località</ui:define>
-                <h:inputText 
+                <h:inputText  required="#{requiredFields.contains('localita')}"
                               value="#{iscrittoHome.instance.localita}"/>
                 
             </s:decorate>
@@ -142,7 +146,11 @@
             
 
   <div class="actionButtons" style="clear:both">
-
+			
+			<s:span rendered="#{!iscrittoHome.managed}">
+				<h:selectBooleanCheckbox 
+				value="#{iscrittoHome.notifica}" />Invia e-mail di notifica&#160;
+			</s:span>
             <h:commandButton id="save"
                           value="Conferma le modifiche"
                          action="#{iscrittoHome.persist}"

@@ -2,6 +2,7 @@ package it.drwolf.alerting.session;
 
 import it.drwolf.alerting.entity.Cittadino;
 import it.drwolf.alerting.util.Constants;
+import it.drwolf.iscrizioni.entity.OpzioneServizio;
 
 import java.util.List;
 
@@ -24,11 +25,22 @@ public class Authenticator {
 				.setParameter("codice", codice).getResultList();
 		if ((l != null) && (l.size() > 0)) {
 			Cittadino c = l.get(0);
-			if (email == null) {
-				return c;
+
+			boolean segnalazioni = false;
+			for (OpzioneServizio os : c.getIscritto().getOpzioniServizi()) {
+				if (os.getId().equals("segnalazioni.iscrizioni.true")) {
+					segnalazioni = true;
+					break;
+				}
 			}
-			if (c.getEmail().equals(email)) {
-				return c;
+
+			if (segnalazioni) {
+				if (email == null) {
+					return c;
+				}
+				if (c.getEmail().equals(email)) {
+					return c;
+				}
 			}
 		}
 		return null;

@@ -1,27 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="ejbModule"/>
-	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/java-6-sun">
+		<attributes>
+			<attribute name="owner.project.facets" value="java"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.jboss.ide.eclipse.as.core.server.runtime.runtimeTarget/JBoss 4.2.3 Runtime"/>
 	<classpathentry kind="lib" path="/it.drwolf.iscrizioni-ear/EarContent/lib/antlr-runtime.jar"/>
+	<classpathentry kind="lib" path="/it.drwolf.iscrizioni-ear/EarContent/lib/commons-beanutils.jar"/>
+	<classpathentry kind="lib" path="/it.drwolf.iscrizioni-ear/EarContent/lib/commons-email-1.1.jar"/>
+	<classpathentry kind="lib" path="/it.drwolf.iscrizioni-ear/EarContent/lib/commons-lang-2.4.jar"/>
 	<classpathentry kind="lib" path="/it.drwolf.iscrizioni-ear/EarContent/lib/drools-compiler.jar"/>
 	<classpathentry kind="lib" path="/it.drwolf.iscrizioni-ear/EarContent/lib/drools-core.jar"/>
+	<classpathentry kind="lib" path="/it.drwolf.iscrizioni-ear/EarContent/lib/envers-1.0.0.ga.jar"/>
+	<classpathentry kind="lib" path="/it.drwolf.iscrizioni-ear/EarContent/lib/jaxrs-api.jar"/>
 	<classpathentry kind="lib" path="/it.drwolf.iscrizioni-ear/EarContent/lib/jboss-el.jar"/>
+	<classpathentry kind="lib" path="/it.drwolf.iscrizioni-ear/EarContent/lib/jboss-seam-resteasy.jar"/>
 	<classpathentry kind="lib" path="/it.drwolf.iscrizioni-ear/EarContent/lib/jboss-seam.jar"/>
 	<classpathentry kind="lib" path="/it.drwolf.iscrizioni-ear/EarContent/lib/jbpm-jpdl.jar"/>
 	<classpathentry kind="lib" path="/it.drwolf.iscrizioni-ear/EarContent/lib/mvel14.jar"/>
-	<classpathentry kind="lib" path="/it.drwolf.iscrizioni-ear/EarContent/lib/richfaces-api.jar"/>
-	<classpathentry kind="lib" path="/it.drwolf.iscrizioni-ear/EarContent/lib/commons-email-1.1.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.jboss.ide.eclipse.as.core.server.runtime.runtimeTarget/JBoss 4.2.3 Runtime">
-		<attributes>
-			<attribute name="owner.project.facets" value="jst.ejb"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/it.drwolf.iscrizioni-ear/EarContent/lib/mvel2.jar"/>
 	<classpathentry kind="lib" path="/it.drwolf.iscrizioni-ear/EarContent/lib/opencsv-2.2.jar"/>
 	<classpathentry kind="lib" path="/it.drwolf.iscrizioni-ear/EarContent/lib/resteasy-atom-provider.jar"/>
 	<classpathentry kind="lib" path="/it.drwolf.iscrizioni-ear/EarContent/lib/resteasy-jaxb-provider.jar"/>
 	<classpathentry kind="lib" path="/it.drwolf.iscrizioni-ear/EarContent/lib/resteasy-jaxrs.jar"/>
-	<classpathentry kind="lib" path="/it.drwolf.iscrizioni-ear/EarContent/lib/jboss-seam-resteasy.jar"/>
-	<classpathentry kind="lib" path="/it.drwolf.iscrizioni-ear/EarContent/lib/jaxrs-api.jar"/>
+	<classpathentry kind="lib" path="/it.drwolf.iscrizioni-ear/EarContent/lib/richfaces-api.jar"/>
+	<classpathentry kind="lib" path="/it.drwolf.iscrizioni-ear/EarContent/lib/slf4j-api.jar"/>
+	<classpathentry kind="lib" path="/it.drwolf.iscrizioni-ear/EarContent/lib/slf4j-log4j12.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

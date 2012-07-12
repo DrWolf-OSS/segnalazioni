@@ -52710,8 +52710,245 @@ a backing bean</description>
    </FOLDER>
   </FOLDER>
  </file-system>
+ <file-system NAME="lib-jboss-seam-pdf.jar-1"
+  location="/home/drwolf/git/segnalazioni/it.drwolf.alerting/WebContent/WEB-INF/lib/jboss-seam-pdf.jar" model-entity="FileSystemJar">
+  <FOLDER NAME="META-INF" model-entity="JarFolder">
+   <faces-config model-entity="FacesConfig12">
+    <application model-entity="JSFApplication12">
+     <locale-config model-entity="JSFLocaleConfig"/>
+    </application>
+    <factory model-entity="JSFFactory"/>
+    <lifecycle model-entity="JSFLifecycle"/>
+    <!--
+    <render-kit>
+        <render-kit-id>PDF</render-kit-id>
+        <render-kit-class>org.jboss.seam.pdf.PDFRenderKit</render-kit-class>
+
+        <renderer> 
+            <component-family>javax.faces.Output</component-family>
+            <renderer-type>javax.faces.Text</renderer-type>
+            <renderer-class>
+                org.jboss.seam.pdf.ui.TextRenderer
+            </renderer-class>
+        </renderer>
+
+    </render-kit>
+    -->
+   </faces-config>
+   <facelet-taglib NAME="seam-pdf.taglib" model-entity="FileFaceletTaglib">
+    <namespace>http://jboss.com/products/seam/pdf</namespace>
+    <tag model-entity="FaceletTaglibTag">
+     <tag-name>document</tag-name>
+     <component model-entity="FaceletTaglibComponent">
+      <component-type>org.jboss.seam.pdf.ui.UIDocument</component-type>
+     </component>
+    </tag>
+    <tag model-entity="FaceletTaglibTag">
+     <tag-name>header</tag-name>
+     <component model-entity="FaceletTaglibComponent">
+      <component-type>org.jboss.seam.pdf.ui.UIHeader</component-type>
+     </component>
+    </tag>
+    <tag model-entity="FaceletTaglibTag">
+     <tag-name>footer</tag-name>
+     <component model-entity="FaceletTaglibComponent">
+      <component-type>org.jboss.seam.pdf.ui.UIFooter</component-type>
+     </component>
+    </tag>
+    <tag model-entity="FaceletTaglibTag">
+     <tag-name>pageNumber</tag-name>
+     <component model-entity="FaceletTaglibComponent">
+      <component-type>org.jboss.seam.pdf.ui.UIPageNumber</component-type>
+     </component>
+    </tag>
+    <tag model-entity="FaceletTaglibTag">
+     <tag-name>paragraph</tag-name>
+     <component model-entity="FaceletTaglibComponent">
+      <component-type>org.jboss.seam.pdf.ui.UIParagraph</component-type>
+     </component>
+    </tag>
+    <tag model-entity="FaceletTaglibTag">
+     <tag-name>newPage</tag-name>
+     <component model-entity="FaceletTaglibComponent">
+      <component-type>org.jboss.seam.pdf.ui.UIPage</component-type>
+     </component>
+    </tag>
+    <tag model-entity="FaceletTaglibTag">
+     <tag-name>list</tag-name>
+     <component model-entity="FaceletTaglibComponent">
+      <component-type>org.jboss.seam.pdf.ui.UIList</component-type>
+     </component>
+    </tag>
+    <tag model-entity="FaceletTaglibTag">
+     <tag-name>listItem</tag-name>
+     <component model-entity="FaceletTaglibComponent">
+      <component-type>org.jboss.seam.pdf.ui.UIListItem</component-type>
+     </component>
+    </tag>
+    <tag model-entity="FaceletTaglibTag">
+     <tag-name>font</tag-name>
+     <component model-entity="FaceletTaglibComponent">
+      <component-type>org.jboss.seam.pdf.ui.UIFont</component-type>
+     </component>
+    </tag>
+    <tag model-entity="FaceletTaglibTag">
+     <tag-name>image</tag-name>
+     <component model-entity="FaceletTaglibComponent">
+      <component-type>org.jboss.seam.pdf.ui.UIImage</component-type>
+     </component>
+    </tag>
+    <tag model-entity="FaceletTaglibTag">
+     <tag-name>anchor</tag-name>
+     <component model-entity="FaceletTaglibComponent">
+      <component-type>org.jboss.seam.pdf.ui.UIAnchor</component-type>
+     </component>
+    </tag>
+    <tag model-entity="FaceletTaglibTag">
+     <tag-name>chapter</tag-name>
+     <component model-entity="FaceletTaglibComponent">
+      <component-type>org.jboss.seam.pdf.ui.UIChapter</component-type>
+     </component>
+    </tag>
+    <tag model-entity="FaceletTaglibTag">
+     <tag-name>section</tag-name>
+     <component model-entity="FaceletTaglibComponent">
+      <component-type>org.jboss.seam.pdf.ui.UISection</component-type>
+     </component>
+    </tag>
+    <tag model-entity="FaceletTaglibTag">
+     <tag-name>title</tag-name>
+     <component model-entity="FaceletTaglibComponent">
+      <component-type>org.jboss.seam.pdf.ui.UITitle</component-type>
+     </component>
+    </tag>
+    <tag model-entity="FaceletTaglibTag">
+     <tag-name>table</tag-name>
+     <component model-entity="FaceletTaglibComponent">
+      <component-type>org.jboss.seam.pdf.ui.UITable</component-type>
+     </component>
+    </tag>
+    <tag model-entity="FaceletTaglibTag">
+     <tag-name>cell</tag-name>
+     <component model-entity="FaceletTaglibComponent">
+      <component-type>org.jboss.seam.pdf.ui.UICell</component-type>
+     </component>
+    </tag>
+    <tag model-entity="FaceletTaglibTag">
+     <tag-name>signature</tag-name>
+     <component model-entity="FaceletTaglibComponent">
+      <component-type>org.jboss.seam.pdf.ui.UISignature</component-type>
+     </component>
+    </tag>
+    <tag model-entity="FaceletTaglibTag">
+     <tag-name>text</tag-name>
+     <component model-entity="FaceletTaglibComponent">
+      <component-type>org.jboss.seam.pdf.ui.UIOutputText</component-type>
+     </component>
+    </tag>
+    <tag model-entity="FaceletTaglibTag">
+     <tag-name>element</tag-name>
+     <component model-entity="FaceletTaglibComponent">
+      <component-type>org.jboss.seam.pdf.ui.UIElement</component-type>
+     </component>
+    </tag>
+    <tag model-entity="FaceletTaglibTag">
+     <tag-name>barCode</tag-name>
+     <component model-entity="FaceletTaglibComponent">
+      <component-type>org.jboss.seam.pdf.ui.UIBarCode</component-type>
+     </component>
+    </tag>
+    <tag model-entity="FaceletTaglibTag">
+     <tag-name>chart</tag-name>
+     <component model-entity="FaceletTaglibComponent">
+      <component-type>org.jboss.seam.pdf.ui.UIAnyChart</component-type>
+     </component>
+    </tag>
+    <tag model-entity="FaceletTaglibTag">
+     <tag-name>piechart</tag-name>
+     <component model-entity="FaceletTaglibComponent">
+      <component-type>org.jboss.seam.pdf.ui.UIPieChart</component-type>
+     </component>
+    </tag>
+    <tag model-entity="FaceletTaglibTag">
+     <tag-name>barchart</tag-name>
+     <component model-entity="FaceletTaglibComponent">
+      <component-type>org.jboss.seam.pdf.ui.UIBarChart</component-type>
+     </component>
+    </tag>
+    <tag model-entity="FaceletTaglibTag">
+     <tag-name>linechart</tag-name>
+     <component model-entity="FaceletTaglibComponent">
+      <component-type>org.jboss.seam.pdf.ui.UILineChart</component-type>
+     </component>
+    </tag>
+    <tag model-entity="FaceletTaglibTag">
+     <tag-name>timeserieschart</tag-name>
+     <component model-entity="FaceletTaglibComponent">
+      <component-type>org.jboss.seam.pdf.ui.UITimeSeriesChart</component-type>
+     </component>
+    </tag>
+    <tag model-entity="FaceletTaglibTag">
+     <tag-name>data</tag-name>
+     <component model-entity="FaceletTaglibComponent">
+      <component-type>org.jboss.seam.pdf.ui.UIChartData</component-type>
+     </component>
+    </tag>
+    <tag model-entity="FaceletTaglibTag">
+     <tag-name>series</tag-name>
+     <component model-entity="FaceletTaglibComponent">
+      <component-type>org.jboss.seam.pdf.ui.UIChartSeries</component-type>
+     </component>
+    </tag>
+    <tag model-entity="FaceletTaglibTag">
+     <tag-name>color</tag-name>
+     <component model-entity="FaceletTaglibComponent">
+      <component-type>org.jboss.seam.pdf.ui.UIColor</component-type>
+     </component>
+    </tag>
+    <tag model-entity="FaceletTaglibTag">
+     <tag-name>stroke</tag-name>
+     <component model-entity="FaceletTaglibComponent">
+      <component-type>org.jboss.seam.pdf.ui.UIStroke</component-type>
+     </component>
+    </tag>
+    <tag model-entity="FaceletTaglibTag">
+     <tag-name>html</tag-name>
+     <component model-entity="FaceletTaglibComponent">
+      <component-type>org.jboss.seam.pdf.ui.UIHtmlText</component-type>
+     </component>
+    </tag>
+    <tag model-entity="FaceletTaglibTag">
+     <tag-name>swing</tag-name>
+     <component model-entity="FaceletTaglibComponent">
+      <component-type>org.jboss.seam.pdf.ui.UISwingComponent</component-type>
+     </component>
+    </tag>
+    <tag model-entity="FaceletTaglibTag">
+     <tag-name>form</tag-name>
+     <component model-entity="FaceletTaglibComponent">
+      <component-type>org.jboss.seam.pdf.ui.UIForm</component-type>
+     </component>
+    </tag>
+    <tag model-entity="FaceletTaglibTag">
+     <tag-name>field</tag-name>
+     <component model-entity="FaceletTaglibComponent">
+      <component-type>org.jboss.seam.pdf.ui.UIField</component-type>
+     </component>
+    </tag>
+   </facelet-taglib>
+  </FOLDER>
+  <FOLDER NAME="org" model-entity="JarFolder">
+   <FOLDER NAME="jboss" model-entity="JarFolder">
+    <FOLDER NAME="seam" model-entity="JarFolder">
+     <FOLDER NAME="pdf" model-entity="JarFolder">
+      <FOLDER NAME="ui" model-entity="JarFolder"/>
+     </FOLDER>
+    </FOLDER>
+   </FOLDER>
+  </FOLDER>
+ </file-system>
  <file-system NAME="lib-resources.jar"
-  location="/usr/lib/jvm/java-6-sun-1.6.0.24/jre/lib/resources.jar" model-entity="FileSystemJar">
+  location="/opt/java-6-sun/jre/lib/resources.jar" model-entity="FileSystemJar">
   <FOLDER NAME="META-INF" model-entity="JarFolder">
    <FOLDER NAME="services" model-entity="JarFolder"/>
   </FOLDER>
@@ -52901,19 +53138,8 @@ a backing bean</description>
    </FOLDER>
   </FOLDER>
  </file-system>
- <file-system NAME="lib-sunjce_provider.jar"
-  location="/usr/lib/jvm/java-6-sun-1.6.0.24/jre/lib/ext/sunjce_provider.jar" model-entity="FileSystemJar">
-  <FOLDER NAME="META-INF" model-entity="JarFolder"/>
-  <FOLDER NAME="com" model-entity="JarFolder">
-   <FOLDER NAME="sun" model-entity="JarFolder">
-    <FOLDER NAME="crypto" model-entity="JarFolder">
-     <FOLDER NAME="provider" model-entity="JarFolder"/>
-    </FOLDER>
-   </FOLDER>
-  </FOLDER>
- </file-system>
  <file-system NAME="lib-sunpkcs11.jar"
-  location="/usr/lib/jvm/java-6-sun-1.6.0.24/jre/lib/ext/sunpkcs11.jar" model-entity="FileSystemJar">
+  location="/opt/java-6-sun/jre/lib/ext/sunpkcs11.jar" model-entity="FileSystemJar">
   <FOLDER NAME="META-INF" model-entity="JarFolder"/>
   <FOLDER NAME="sun" model-entity="JarFolder">
    <FOLDER NAME="security" model-entity="JarFolder">
@@ -52923,8 +53149,19 @@ a backing bean</description>
    </FOLDER>
   </FOLDER>
  </file-system>
+ <file-system NAME="lib-sunjce_provider.jar"
+  location="/opt/java-6-sun/jre/lib/ext/sunjce_provider.jar" model-entity="FileSystemJar">
+  <FOLDER NAME="META-INF" model-entity="JarFolder"/>
+  <FOLDER NAME="com" model-entity="JarFolder">
+   <FOLDER NAME="sun" model-entity="JarFolder">
+    <FOLDER NAME="crypto" model-entity="JarFolder">
+     <FOLDER NAME="provider" model-entity="JarFolder"/>
+    </FOLDER>
+   </FOLDER>
+  </FOLDER>
+ </file-system>
  <file-system NAME="lib-dnsns.jar"
-  location="/usr/lib/jvm/java-6-sun-1.6.0.24/jre/lib/ext/dnsns.jar" model-entity="FileSystemJar">
+  location="/opt/java-6-sun/jre/lib/ext/dnsns.jar" model-entity="FileSystemJar">
   <FOLDER NAME="META-INF" model-entity="JarFolder">
    <FOLDER NAME="services" model-entity="JarFolder"/>
   </FOLDER>
@@ -52939,7 +53176,7 @@ a backing bean</description>
   </FOLDER>
  </file-system>
  <file-system NAME="lib-localedata.jar"
-  location="/usr/lib/jvm/java-6-sun-1.6.0.24/jre/lib/ext/localedata.jar" model-entity="FileSystemJar">
+  location="/opt/java-6-sun/jre/lib/ext/localedata.jar" model-entity="FileSystemJar">
   <FOLDER NAME="META-INF" model-entity="JarFolder"/>
   <FOLDER NAME="sun" model-entity="JarFolder">
    <FOLDER NAME="text" model-entity="JarFolder">

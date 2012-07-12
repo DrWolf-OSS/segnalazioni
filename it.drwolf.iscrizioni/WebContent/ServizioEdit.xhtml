@@ -27,6 +27,11 @@
                               value="#{servizioHome.instance.id}"/>
             </s:decorate>
 
+            <s:decorate template="layout/edit.xhtml">
+                <ui:define name="label">Posizione</ui:define>
+                <h:inputText value="#{servizioHome.instance.posizione}"/>
+            </s:decorate>
+
             <s:decorate id="nomeField" template="layout/edit.xhtml">
                 <ui:define name="label">Nome</ui:define>
                 <h:inputText id="nome"

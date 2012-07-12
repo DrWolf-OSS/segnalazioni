@@ -8,6 +8,9 @@ import java.util.Arrays;
 @Name("appParamList")
 public class AppParamList extends EntityQuery<AppParam> {
 
+	
+	private static final long serialVersionUID = 8906362748073211848L;
+
 	private static final String EJBQL = "select appParam from AppParam appParam";
 
 	private static final String[] RESTRICTIONS = {

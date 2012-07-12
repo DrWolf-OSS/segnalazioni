@@ -10,6 +10,7 @@ import javax.persistence.Table;
 public class OpzioneServizio {
 	private String id;
 	private String nome;
+	private Boolean def = false;
 	private CategoriaOpzioniServizio categoriaOpzioniServizio;
 
 	@ManyToOne
@@ -43,5 +44,13 @@ public class OpzioneServizio {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	public Boolean getDef() {
+		return def!=null ? def:false;
+	}
+
+	public void setDef(Boolean def) {
+		this.def = def;
 	}
 }
