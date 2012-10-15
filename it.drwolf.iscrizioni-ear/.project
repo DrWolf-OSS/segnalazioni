@@ -3,8 +3,8 @@
 	<name>it.drwolf.iscrizioni-ear</name>
 	<comment></comment>
 	<projects>
-		<project>it.drwolf.iscrizioni-ejb</project>
 		<project>it.drwolf.iscrizioni</project>
+		<project>it.drwolf.iscrizioni-ejb</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

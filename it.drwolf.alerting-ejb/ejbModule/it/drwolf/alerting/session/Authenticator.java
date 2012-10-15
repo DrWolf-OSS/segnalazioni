@@ -23,7 +23,7 @@ public class Authenticator {
 		List<Cittadino> l = em
 				.createQuery("from Cittadino where idIscritto=:codice")
 				.setParameter("codice", codice).getResultList();
-		if ((l != null) && (l.size() > 0)) {
+		if (l != null && l.size() > 0) {
 			Cittadino c = l.get(0);
 
 			boolean segnalazioni = false;

@@ -189,7 +189,7 @@ public class IscrittoHome extends EntityHome<Iscritto> {
 		return this.query;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public String getQueryResult() {
 		try {
 			if (this.getEntityManager()
@@ -415,6 +415,7 @@ public class IscrittoHome extends EntityHome<Iscritto> {
 			FacesMessages.instance().add(Severity.INFO,
 					iscritto.getEmail() + " importato");
 			System.out.println("importato " + iscritto.getEmail());
+			reader.close();
 
 		}
 

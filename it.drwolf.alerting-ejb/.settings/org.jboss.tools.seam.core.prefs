@@ -1,2 +1,16 @@
+action.package=org.domain.it.drwolf.alertingejb.session
+action.sources=/it.drwolf.alerting-ejb/ejbModule
 eclipse.preferences.version=1
+model.package=org.domain.it.drwolf.alertingejb.entity
+model.sources=/it.drwolf.alerting-ejb/ejbModule
+seam.ear.project=it.drwolf.alerting-ejb
+seam.ejb.project=it.drwolf.alerting-ejb
 seam.parent.project=it.drwolf.alerting
+seam.project.connection.profile=DefaultDS
+seam.project.deployment.type=ear
+seam.project.settings.version=1.1
+seam.project.web.root.folder=/it.drwolf.alerting-ejb/ejbModule
+seam.test.creating=false
+seam.test.project=it.drwolf.alerting-ejb
+test.package=org.domain.it.drwolf.alertingejb.test
+test.sources=/it.drwolf.alerting-ejb/ejbModule

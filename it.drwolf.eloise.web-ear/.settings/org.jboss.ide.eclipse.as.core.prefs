@@ -1,3 +1,2 @@
-#Thu Mar 24 12:19:13 CET 2011
 eclipse.preferences.version=1
-org.jboss.ide.eclipse.as.core.singledeployable.deployableList=resources/it.drwolf.eloise.web-ds.xml\nresources/sso-ds.xml\n
+org.jboss.ide.eclipse.as.core.singledeployable.deployableList=resources/it.drwolf.iscrizioni-ds.xml\nresources/it.drwolf.iscrizioni-ds.xml\nresources/it.drwolf.alerting-ds.xml\nresources/it.drwolf.alerting-ds.xml\nresources/it.drwolf.eloise.web-ds.xml\nresources/it.drwolf.eloise.web-ds.xml\nresources/sso-ds.xml\nresources/sso-ds.xml\nresources/tiforma-ds.xml\n

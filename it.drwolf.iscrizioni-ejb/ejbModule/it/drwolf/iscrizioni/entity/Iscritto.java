@@ -7,6 +7,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
@@ -124,6 +125,7 @@ public class Iscritto {
 	}
 
 	@ManyToMany
+	@JoinTable(catalog = "iscrizioni")
 	public List<OpzioneServizio> getOpzioniServizi() {
 		return this.opzioniServizi;
 	}
@@ -134,6 +136,7 @@ public class Iscritto {
 	}
 
 	@ManyToMany
+	@JoinTable(catalog = "iscrizioni")
 	public List<Servizio> getServizi() {
 		return this.servizi;
 	}
