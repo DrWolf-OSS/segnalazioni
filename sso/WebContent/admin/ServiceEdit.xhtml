@@ -1,0 +1,121 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:a="http://richfaces.org/a4j"
+                xmlns:rich="http://richfaces.org/rich"
+                template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:messages globalOnly="true" styleClass="message" id="globalMessages"/>
+
+    <h:form id="service" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{serviceHome.managed ? 'Edit' : 'Add'} Service</f:facet>
+
+			<s:validateAll>
+
+            <s:decorate id="idDecoration" template="layout/edit.xhtml">
+                <ui:define name="label">ID dell'applicazione</ui:define>
+                <h:inputText id="id"
+                           disabled="#{serviceHome.managed}"
+                           required="true"
+                              value="#{serviceHome.instance.id}"/>
+            </s:decorate>
+
+            <s:decorate id="nameDecoration" template="layout/edit.xhtml">
+                <ui:define name="label">Nome</ui:define>
+                <h:inputText id="name"
+                               cols="80"
+                               rows="3"
+                              value="#{serviceHome.instance.name}"/>
+            </s:decorate>
+
+           
+
+
+            <s:decorate id="loginUrlDecoration" template="layout/edit.xhtml">
+                <ui:define name="label">URL di login</ui:define>
+                <h:inputText id="loginUrl" required="true"
+								title="Url della pagina che viene visualizzata dopo aver effattuato login"
+                              value="#{serviceHome.instance.loginUrl}"/>
+            </s:decorate>
+
+
+            <s:decorate id="logoutUrlDecoration" template="layout/edit.xhtml">
+                <ui:define name="label">URL di logout</ui:define>
+                <h:inputText id="logoutUrl" required="true"
+							title="Url della pagina che viene visualizzata dopo aver effattuato logout"
+                              value="#{serviceHome.instance.logoutUrl}" />
+            </s:decorate>
+
+
+            <s:decorate id="usersLink" template="layout/edit.xhtml">
+                <ui:define name="label">Abilitazione utenti </ui:define>
+
+                <rich:pickList
+                	moveControlsVerticalAlign="top"
+                	copyAllControlLabel="Autorizza tutti"
+
+                	copyControlLabel="Autorizza"
+                	removeAllControlLabel="Nega l'accesso a tutti"
+                	removeControlLabel="Nega l'accesso"
+                	showButtonsLabel="false"
+                	required="false"
+                	value="#{serviceHome.usernames}"
+					style="width: 400px"
+                	>
+
+                	<s:selectItems var="user" label="#{user}" value="#{serviceHome.availableUsers}"/>
+
+
+                </rich:pickList>
+
+            </s:decorate>
+			</s:validateAll>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{serviceHome.persist}"
+                       disabled="#{!serviceHome.wired}"
+                       rendered="#{!serviceHome.managed}"/>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{serviceHome.update}"
+                       rendered="#{serviceHome.managed}"/>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{serviceHome.remove}"
+                      immediate="true"
+                       rendered="#{serviceHome.managed}"/>
+
+            <s:button id="done"
+                   value="Done"
+             propagation="end"
+                    view="/admin/Service.xhtml"
+                rendered="#{serviceHome.managed}"/>
+
+            <s:button id="cancel"
+                   value="Cancel"
+             propagation="end"
+                    view="/admin/#{empty serviceFrom ? 'ServiceList' : serviceFrom}.xhtml"
+                rendered="#{!serviceHome.managed}"/>
+
+        </div>
+    </h:form>
+
+</ui:define>
+
+</ui:composition>

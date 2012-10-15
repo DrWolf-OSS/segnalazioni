@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Class-Path: sso-ejb.jar 
+ drools-compiler.jar 
+ commons-beanutils.jar 
+ antlr-runtime.jar 
+ drools-core.jar 
+ jboss-el.jar 
+ jbpm-jpdl.jar 
+ jboss-seam.jar 
+ mvel2.jar 
+ richfaces-api.jar 

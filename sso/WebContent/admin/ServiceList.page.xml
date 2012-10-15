@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.com/products/seam/pages"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd">
+      
+   <param name="firstResult" value="#{serviceList.firstResult}"/>
+   <param name="order" value="#{serviceList.order}"/>
+   <param name="from"/>
+   <param name="id" value="#{serviceList.service.id}"/>
+   <param name="loginUrl" value="#{serviceList.service.loginUrl}"/>
+   <param name="logoutUrl" value="#{serviceList.service.logoutUrl}"/>
+   <param name="name" value="#{serviceList.service.name}"/>
+
+</page>

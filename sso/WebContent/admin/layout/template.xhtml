@@ -1,0 +1,26 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:f="http://java.sun.com/jsf/core"
+       xmlns:rich="http://richfaces.org/rich"
+      xmlns:s="http://jboss.com/products/seam/taglib">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>DrWolf SSO</title>
+    <a4j:loadStyle src="/stylesheet/theme.css" />
+</head>
+
+<body class="admin">
+	<rich:panel styleClass="bodyPanel">
+	<f:facet name="header">
+		<s:div styleClass="panelHeader"><ui:insert name="panelHeader"/>		<s:button view="/login.xhtml" value="Home"><f:param name="s" value="admin"/></s:button> <s:button view="/admin/ModuleList.seam" propagation="none" value="Moduli SSO"></s:button> <s:button view="/admin/ServiceList.seam" propagation="none" value="Servizi" ></s:button>
+		<br style="clear:both"/></s:div>
+	</f:facet>
+		<h:messages styleClass="messages" globalOnly="true"/>
+		<ui:insert name="body"/>
+	</rich:panel>
+</body>
+</html>

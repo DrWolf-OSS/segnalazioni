@@ -1,0 +1,93 @@
+body.sso{
+
+background: #444;
+}
+
+#login td{
+padding:.5em;
+}
+.adminLogin{
+
+color: #888;
+font-size: 10px;
+}
+
+.adminChangepwd{
+
+color: #888;
+font-size: 10px;
+}
+
+.remindPwd{
+
+color: #888;
+font-size: 10px;
+}
+
+.logout{
+float: right;
+}
+
+.sso .panelHeader{
+font-size: 150%;
+padding: 5px;
+}
+
+#login{
+padding: 1em;
+}
+
+#login input{
+font-size: 100%;
+border: 1px solid #bbb;
+padding-top: 5px;
+padding-bottom: 5px;
+}
+
+
+.sso .bodyPanel .rich-panel-body{
+font-size: 110%;
+padding:0;
+}
+
+.sso .bodyPanel {
+width: 400px;
+}
+
+.dialog td{
+padding: 10px;
+text-align: right;
+}
+
+.dialog label{
+width: 100%;
+display: block;
+text-align: right;
+}
+
+.actionButtons{
+text-align: right;
+}
+
+.logoutBody{
+padding: 1em;
+}
+
+.logoutBody a{
+display: block;
+padding: 1em;
+}
+
+.prop .name, .prop .value{
+display: block;
+}
+
+
+.admin table{
+width: 100%;
+}
+
+#servizi{
+width:100%;
+}
+

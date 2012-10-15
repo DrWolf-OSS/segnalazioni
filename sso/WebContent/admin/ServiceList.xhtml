@@ -1,0 +1,132 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:rich="http://richfaces.org/rich"
+                template="layout/template.xhtml">
+
+<ui:define name="body">
+<h:form>
+
+    <h:messages globalOnly="true" styleClass="message" id="globalMessages"/>
+
+
+
+
+
+    <div class="results" id="serviceList">
+
+    <h:outputText value="Non sono presenti servizi."
+               rendered="#{empty serviceList.resultList}"/>
+
+    <rich:dataTable id="serviceList"
+                var="service"
+              value="#{serviceList.resultList}"
+           rendered="#{not empty serviceList.resultList}">
+        <h:column>
+            <f:facet name="header">
+                <s:link styleClass="columnHeader"
+                             value="id #{serviceList.order=='id asc' ? messages.down : ( serviceList.order=='id desc' ? messages.up : '' )}">
+                    <f:param name="order" value="#{serviceList.order=='id asc' ? 'id desc' : 'id asc'}"/>
+                </s:link>
+            </f:facet>
+            #{service.id}
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <s:link styleClass="columnHeader"
+                             value="loginUrl #{serviceList.order=='loginUrl asc' ? messages.down : ( serviceList.order=='loginUrl desc' ? messages.up : '' )}">
+                    <f:param name="order" value="#{serviceList.order=='loginUrl asc' ? 'loginUrl desc' : 'loginUrl asc'}"/>
+                </s:link>
+            </f:facet>
+            #{service.loginUrl}
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <s:link styleClass="columnHeader"
+                             value="logoutUrl #{serviceList.order=='logoutUrl asc' ? messages.down : ( serviceList.order=='logoutUrl desc' ? messages.up : '' )}">
+                    <f:param name="order" value="#{serviceList.order=='logoutUrl asc' ? 'logoutUrl desc' : 'logoutUrl asc'}"/>
+                </s:link>
+            </f:facet>
+            #{service.logoutUrl}
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <s:link styleClass="columnHeader"
+                             value="name #{serviceList.order=='name asc' ? messages.down : ( serviceList.order=='name desc' ? messages.up : '' )}">
+                    <f:param name="order" value="#{serviceList.order=='name asc' ? 'name desc' : 'name asc'}"/>
+                </s:link>
+            </f:facet>
+            #{service.name}
+        </h:column>
+        <h:column>
+            <f:facet name="header">Azioni</f:facet>
+            <s:link view="/admin/#{empty from ? 'Service' : from}.xhtml"
+                   value="Seleziona"
+                      id="service">
+                <f:param name="serviceId"
+                        value="#{service.id}"/>
+            </s:link>
+            <h:commandButton  action="#{serviceHome.remindAll(service)}"
+                   value="Mail Passwords"
+                      />
+
+
+        </h:column>
+    </rich:dataTable>
+
+    </div>
+
+
+    <div class="tableControl">
+
+        <s:link view="/admin/ServiceList.xhtml"
+            rendered="#{serviceList.previousExists}"
+               value="#{messages.left}#{messages.left} First Page"
+                  id="firstPage">
+          <f:param name="firstResult" value="0"/>
+        </s:link>
+
+        <s:link view="/admin/ServiceList.xhtml"
+            rendered="#{serviceList.previousExists}"
+               value="#{messages.left} Previous Page"
+                  id="previousPage">
+            <f:param name="firstResult"
+                    value="#{serviceList.previousFirstResult}"/>
+        </s:link>
+
+        <s:link view="/admin/ServiceList.xhtml"
+            rendered="#{serviceList.nextExists}"
+               value="Next Page #{messages.right}"
+                  id="nextPage">
+            <f:param name="firstResult"
+                    value="#{serviceList.nextFirstResult}"/>
+        </s:link>
+
+        <s:link view="/admin/ServiceList.xhtml"
+            rendered="#{serviceList.nextExists}"
+               value="Last Page #{messages.right}#{messages.right}"
+                  id="lastPage">
+            <f:param name="firstResult"
+                    value="#{serviceList.lastFirstResult}"/>
+        </s:link>
+
+    </div>
+
+    <s:div styleClass="actionButtons" rendered="#{empty from}">
+        <s:button view="/admin/ServiceEdit.xhtml"
+                    id="create"
+                 value="Aggiungi Servizio">
+            <f:param name="serviceId"/>
+        </s:button>
+    </s:div>
+</h:form>
+</ui:define>
+
+</ui:composition>
+

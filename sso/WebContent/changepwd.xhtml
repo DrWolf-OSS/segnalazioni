@@ -1,0 +1,88 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:rich="http://richfaces.org/rich"
+                template="layout/template.xhtml">
+
+<ui:define name="panelHeader">
+	<h:outputText  value="Modifica Password" />
+</ui:define>
+
+<ui:define name="body">
+
+
+
+
+    <h:form id="login" >
+            	<table width="100%" height="100%" >
+            		<s:fragment rendered="#{not identity.loggedIn}">
+               		<tr>
+               			<td>
+               				 Username
+               			</td>
+               			<td>
+	               			 <h:inputText id="username"
+                              value="#{passwordChanger.user}"/>
+               			</td>
+               		</tr>
+               		</s:fragment>
+               		<tr>
+               			<td>
+               				Password corrente
+               			</td>
+               			<td>
+	               			<h:inputSecret id="password"
+                                value="#{passwordChanger.oldpwd}"/>
+               			</td>
+               		</tr>
+               		<tr>
+               			<td>
+               				Nuova password
+               			</td>
+               			<td>
+	               			<h:inputSecret id="newpassword"
+                                value="#{passwordChanger.newpwd}"/>
+               			</td>
+               		</tr>
+               		
+               		<tr>
+               			<td colspan="2" align="center">
+               			                    <s:div styleClass="loginButton"><h:commandButton  value="Cambia password" action="#{passwordChanger.change}"/></s:div>
+               			
+               			</td>
+               			
+               		</tr>
+               		
+               		<tr>
+               		<td colspan="2" align="center">
+               		
+		<s:link styleClass="remindPwd" rendered="#{not identity.loggedIn}" view="/remind.xhtml" value="richiedi password">
+		</s:link>
+		
+		&#160;
+
+		<s:link styleClass="remindPwd" view="/login.xhtml" value="login">
+		</s:link>
+		&#160;
+
+
+ 		<s:link styleClass="adminLogin" view="/login.xhtml" rendered="#{not identity.loggedIn}" value="admin">
+
+			<f:param name="s" value="admin"/>
+		</s:link>
+               		
+               		</td>
+               		</tr>
+               </table>
+          
+
+
+    </h:form>
+
+
+ </ui:define>
+</ui:composition>

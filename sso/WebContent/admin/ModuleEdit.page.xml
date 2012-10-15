@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.com/products/seam/pages"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd"
+      no-conversation-view-id="/admin/ModuleList.xhtml"
+      login-required="true">
+   
+   <begin-conversation join="true"/>
+   
+   <action execute="#{moduleHome.wire}"/>
+   
+   <param name="moduleFrom"/>
+   <param name="moduleId" value="#{moduleHome.moduleId}"/>
+
+
+   <navigation from-action="#{moduleHome.persist}">
+       <end-conversation/>
+       <redirect view-id="/admin/Module.xhtml"/>
+   </navigation>
+   
+   <navigation from-action="#{moduleHome.update}">
+       <end-conversation/>
+       <redirect view-id="/admin/Module.xhtml"/>
+   </navigation>
+   
+   <navigation from-action="#{moduleHome.remove}">
+       <end-conversation/>
+       <redirect view-id="/admin/ModuleList.xhtml"/>
+   </navigation>
+   
+</page>
