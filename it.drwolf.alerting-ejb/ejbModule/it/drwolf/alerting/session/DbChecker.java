@@ -43,9 +43,9 @@ public class DbChecker implements IStarter {
 				Constants.CANALE_PERSONA_DESC.toString());
 
 		for (Entry<String, String> entry : stati.entrySet()) {
-			List<CanaleSegnalazione> l = this.entityManager.createQuery(
-					"from CanaleSegnalazione where nome=:nome").setParameter(
-					"nome", entry.getKey()).getResultList();
+			List<CanaleSegnalazione> l = this.entityManager
+					.createQuery("from CanaleSegnalazione where nome=:nome")
+					.setParameter("nome", entry.getKey()).getResultList();
 			if (l.size() == 0) {
 				CanaleSegnalazione s = new CanaleSegnalazione();
 				s.setNome(entry.getKey());
@@ -67,8 +67,12 @@ public class DbChecker implements IStarter {
 	private void checkParams() {
 
 		for (AppParam ap : AppParam.defaults) {
-			if (this.entityManager.find(AppParam.class, ap.getKey()) == null) {
+			AppParam find = this.entityManager
+					.find(AppParam.class, ap.getKey());
+			if (find == null) {
 				this.entityManager.persist(ap);
+			} else {
+				ap.setValue(find.getValue());
 			}
 		}
 
@@ -76,9 +80,9 @@ public class DbChecker implements IStarter {
 
 	private void checkRoles() {
 		for (String role : GlobalRole.defaults) {
-			if (this.entityManager.createQuery(
-					"from GlobalRole where name=:nome").setParameter("nome",
-					role).getResultList().size() == 0) {
+			if (this.entityManager
+					.createQuery("from GlobalRole where name=:nome")
+					.setParameter("nome", role).getResultList().size() == 0) {
 				GlobalRole gr = new GlobalRole();
 				gr.setName(role);
 				this.entityManager.persist(gr);
@@ -90,9 +94,9 @@ public class DbChecker implements IStarter {
 	private void checkStati() {
 
 		for (Stato stato : Stato.defaults) {
-			List<Stato> l = this.entityManager.createQuery(
-					"from Stato where nome=:nome").setParameter("nome",
-					stato.getNome()).getResultList();
+			List<Stato> l = this.entityManager
+					.createQuery("from Stato where nome=:nome")
+					.setParameter("nome", stato.getNome()).getResultList();
 			if (l.size() == 0) {
 				Stato s = new Stato();
 				s.setNome(stato.getNome());

@@ -88,7 +88,19 @@ public class AppParam implements Serializable {
 			"assegnatario.in.mail", "false");
 
 	public static final AppParam RIPASSA_URP_SEMPRE = new AppParam(
-			"ripassa.urp.sempre", "false");;
+			"ripassa.urp.sempre", "false");
+
+	public static final AppParam ALFRESCO_URL = new AppParam("alfresco.url",
+			"http://web.comune.calenzano.fi.it/alfresco");
+
+	public static final AppParam ALFRESCO_USERNAME = new AppParam(
+			"alfresco.username", "caleearth");
+
+	public static final AppParam ALFRESCO_PASSWORD = new AppParam(
+			"alfresco.password", "pwd4ce@alfresco");
+
+	public static final AppParam ALFRESCO_CALEEARTH_PATH = new AppParam(
+			"alfresco.caleearth.path", "/CaleEarth/foto");
 
 	public static final AppParam[] defaults = new AppParam[] {
 			AppParam.APP_NAME, AppParam.APP_DESCRIPTION, AppParam.APP_SKIN,
@@ -102,7 +114,9 @@ public class AppParam implements Serializable {
 			AppParam.APP_FILTRO_STATI_DEFAULT, AppParam.APP_ASSEGNAZIONE_POOL,
 			AppParam.APP_RISP_UFFICIO, AppParam.RIPASSA_URP_CON_MAIL_TEL,
 			AppParam.ASSEGNATARIO_IN_MAIL, AppParam.APP_RISP_SALUTI,
-			AppParam.APP_RISP_SALUTI_PS, AppParam.RIPASSA_URP_SEMPRE };
+			AppParam.APP_RISP_SALUTI_PS, AppParam.RIPASSA_URP_SEMPRE,
+			AppParam.ALFRESCO_URL, AppParam.ALFRESCO_USERNAME,
+			AppParam.ALFRESCO_PASSWORD, AppParam.ALFRESCO_CALEEARTH_PATH };
 
 	private String key;
 	private String value;

@@ -13,23 +13,6 @@
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/it.drwolf.alerting-ear/EarContent/lib/antlr-runtime.jar"/>
-	<classpathentry kind="lib" path="/it.drwolf.alerting-ear/EarContent/lib/commons-beanutils.jar"/>
-	<classpathentry kind="lib" path="/it.drwolf.alerting-ear/EarContent/lib/commons-email-1.1.jar"/>
-	<classpathentry kind="lib" path="/it.drwolf.alerting-ear/EarContent/lib/commons-lang-2.4.jar"/>
-	<classpathentry kind="lib" path="/it.drwolf.alerting-ear/EarContent/lib/drools-compiler.jar"/>
-	<classpathentry kind="lib" path="/it.drwolf.alerting-ear/EarContent/lib/drools-core.jar"/>
-	<classpathentry kind="lib" path="/it.drwolf.alerting-ear/EarContent/lib/envers-1.0.0.ga.jar"/>
-	<classpathentry kind="lib" path="/it.drwolf.alerting-ear/EarContent/lib/itext.jar"/>
-	<classpathentry kind="lib" path="/it.drwolf.alerting-ear/EarContent/lib/jboss-el.jar"/>
-	<classpathentry kind="lib" path="/it.drwolf.alerting-ear/EarContent/lib/jboss-seam-pdf.jar"/>
-	<classpathentry kind="lib" path="/it.drwolf.alerting-ear/EarContent/lib/jboss-seam.jar"/>
-	<classpathentry kind="lib" path="/it.drwolf.alerting-ear/EarContent/lib/jbpm-jpdl.jar"/>
-	<classpathentry kind="lib" path="/it.drwolf.alerting-ear/EarContent/lib/joda-time-1.6.jar"/>
-	<classpathentry kind="lib" path="/it.drwolf.alerting-ear/EarContent/lib/mvel14.jar"/>
-	<classpathentry kind="lib" path="/it.drwolf.alerting-ear/EarContent/lib/mvel2.jar"/>
-	<classpathentry kind="lib" path="/it.drwolf.alerting-ear/EarContent/lib/poi-3.2.jar"/>
-	<classpathentry kind="lib" path="/it.drwolf.alerting-ear/EarContent/lib/richfaces-api.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

@@ -48,6 +48,13 @@
        <action execute="#{redirect.returnToCapturedView}"/>
    </event>
 
+
+    <component class="org.jboss.seam.web.MultipartFilter">
+        <property name="createTempFiles">true</property>
+        <property name="maxRequestSize">800000000</property>
+        <property name="urlPattern">*.seam</property>
+    </component>
+    
    <mail:mail-session ssl="false" tls="false" host="#{workSession.getParam('app.mail.host')}" port="25" />
         
    <!-- For use with jBPM pageflow or process management -->
