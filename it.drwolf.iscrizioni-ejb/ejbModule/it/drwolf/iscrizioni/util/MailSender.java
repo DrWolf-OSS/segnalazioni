@@ -20,7 +20,9 @@ public class MailSender {
 			@FormParam("subject") String subject,
 			@FormParam("html") String htmlBody,
 			@FormParam("text") String textBody,
-			@FormParam("secret") String secret) throws Exception {
+			@FormParam("secret") String secret,
+			@FormParam("groups") String groups,
+			@FormParam("services") String services) throws Exception {
 
 		AsyncSender asyncSender = (AsyncSender) Component
 				.getInstance("asyncSender");
@@ -31,7 +33,7 @@ public class MailSender {
 			return "SECRET ERRATO!";
 		}
 		asyncSender.sendToAll(from, fromName, subject, htmlBody, textBody,
-				secret);
+				secret, groups, services);
 		return "OK";
 
 	}

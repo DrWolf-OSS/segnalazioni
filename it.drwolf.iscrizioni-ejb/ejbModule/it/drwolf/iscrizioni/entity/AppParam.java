@@ -42,6 +42,8 @@ public class AppParam {
 
 	public static final String APP_MAIL_SECRET = "app.mail.secret";
 
+	public static final String APP_MAIL_TRAP = "app.mail.trap";
+
 	public static final String APP_FIELDS_REQ = "app.fields.required";
 
 	public static final String APP_FIELDS_HIDDEN = "app.fields.hidden";
@@ -57,6 +59,7 @@ public class AppParam {
 					"Iscrizione ai servizi del Comune"),
 			new AppParam(AppParam.APP_SECRET, UUID.randomUUID().toString()),
 			new AppParam(AppParam.APP_SKIN, "blueSky"),
+			new AppParam(AppParam.APP_MAIL_TRAP, "null"),
 			new AppParam(AppParam.APP_NEW_SUBSCRIPTION,
 					"I dati per completare l'iscrizione sono stati inviati all'inidirizzo {0}"),
 			new AppParam(AppParam.APP_EDIT_SUBSCRIPTION,
