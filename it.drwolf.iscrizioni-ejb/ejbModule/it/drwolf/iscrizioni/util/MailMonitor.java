@@ -4,6 +4,7 @@ import it.drwolf.iscrizioni.entity.Iscritto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -19,7 +20,7 @@ public class MailMonitor implements Serializable {
 
 	private static final long serialVersionUID = 6089771503648745008L;
 
-	private String lastLog = "";
+	private String lastLog = null;
 
 	private Map<String, LinkedList<Iscritto>> inCorso = new LinkedHashMap<String, LinkedList<Iscritto>>();
 
@@ -32,7 +33,7 @@ public class MailMonitor implements Serializable {
 	}
 
 	public String getLastLog() {
-		return this.lastLog;
+		return this.lastLog == null ? "" + new Date() : this.lastLog;
 	}
 
 	public void setInCorso(Map<String, LinkedList<Iscritto>> inCorso) {

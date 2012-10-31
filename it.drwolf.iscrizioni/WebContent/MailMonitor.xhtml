@@ -11,8 +11,9 @@
 
 <ui:define name="body">
     <h3>Code invio mail</h3>    
-    
+    <a4j:form>
     <a4j:poll reRender="panel"  interval="2000" />
+    </a4j:form>
     <a4j:outputPanel id="panel">
     
     <rich:panel header="Ultimo log">
@@ -21,7 +22,7 @@
     
     <ui:repeat value="#{mailMonitor.inCorsoKeys}" var="k">
     
-        <rich:simpleTogglePanel opened="true" switchType="client">
+        <rich:simpleTogglePanel opened="true" switchType="client" label="#{k}">
             <rich:dataList value="#{mailMonitor.inCorso[k]}" var="i">
                 <h:outputText value="#{i}" />
             </rich:dataList>
