@@ -47,7 +47,7 @@
 				<f:facet name="header">
 					Azioni
 				</f:facet>						
-				<h:commandButton rendered="#{segnalazione.sottotipoSegnalazione.tipoSegnalazione.ufficioSmistatore.gestori.contains(identity.username) or (segnalazione.cittadino eq null and alertingController.isTaskAssignee())}" action="#{rispostaHome.mailRisposta(r)}" value="Invia per email #{r.sent ? '(già inviata o stampata)' : ''}" reRender="risposteDecoration"/>
+				<h:commandButton rendered="#{segnalazione.sottotipoSegnalazione.tipoSegnalazione.ufficioSmistatore.gestori.contains(identity.username) or (segnalazione.cittadino eq null and alertingController.isTaskAssignee())}" action="#{rispostaHome.mailRisposta(r)}" value="Invia per email #{r.sent ? '(già inviata o stampata)' : ''}" reRender="risposteDecoration" onclick="Richfaces.showModalPanel('wait');" oncomplete="Richfaces.hideModalPanel('wait');"/>
 				<s:button view="/app/segnalazione/stampaRisposta.xhtml" value="Stampa PDF">
 					<f:param name="rid" value="#{r.id}"/>
 				</s:button>
