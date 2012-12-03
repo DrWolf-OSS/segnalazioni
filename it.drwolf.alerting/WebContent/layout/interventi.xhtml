@@ -34,7 +34,7 @@
 			</h:column>
 		</rich:dataTable>
 		
-		<rich:simpleTogglePanel rendered="#{alertingController.isGestore(identity.username) and alertingController.taskAssignee}" label="Genera Intervento" opened="false" switchType="client">
+		<rich:simpleTogglePanel rendered="#{alertingController.isGestore(identity.username) and alertingController.taskAssignee}" label="Genera Intervento" opened="false" switchType="ajax">
 
 	<s:decorate  template="/layout/input.xhtml">
     	<ui:define name="label">Oggetto</ui:define>
