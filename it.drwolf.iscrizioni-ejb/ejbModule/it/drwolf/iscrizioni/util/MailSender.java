@@ -29,7 +29,8 @@ public class MailSender {
 	public String sendSMS(@FormParam("from") String from,
 			@FormParam("text") String text, @FormParam("secret") String secret,
 			@FormParam("groups") String groups,
-			@FormParam("services") String services) {
+			@FormParam("services") String services,
+			@FormParam("urlinfo") String urlinfo) {
 
 		EntityManager entityManager = (EntityManager) Component
 				.getInstance("entityManager");
@@ -43,7 +44,7 @@ public class MailSender {
 		String hash = DigestUtils.shaHex(ht);
 
 		if (MailSender.lastSMS.contains(hash)) {
-			return "SMS già inviato";
+			return "SMS duplicato, invio annullato";
 		}
 		MailSender.lastSMS.add(hash);
 
@@ -96,7 +97,8 @@ public class MailSender {
 			OutputStream cmdout = f.storeFileStream(hash.substring(1, 10)
 					+ ".txt.do_send");
 			OutputStreamWriter cmdw = new OutputStreamWriter(smsout);
-			cmdw.write("ACTION=ALERT\nALERT_EMAIL=on\nFROM=agea@drwolf.it\nCC=andrea.agili@drwolf.it\nBODY=HTML\n");
+			cmdw.write("￼￼ACTION=ALERT\nALERT_WEB=on\nURL=" + urlinfo
+					+ "\nTICKET=" + hash);
 			cmdw.close();
 			cmdout.close();
 			if (!f.completePendingCommand()) {
@@ -111,7 +113,7 @@ public class MailSender {
 			return "Errore invio: " + e;
 		}
 
-		return "OK";
+		return String.format("OK\nInviati %d SMS:\n%s", numeri.size(), numeri);
 	}
 
 	@POST
