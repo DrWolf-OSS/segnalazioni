@@ -28,6 +28,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.CollectionOfElements;
 import org.jboss.envers.Versioned;
 
 /**
@@ -82,6 +83,7 @@ public class Segnalazione implements java.io.Serializable {
 	private String oggetto;
 
 	private Set<Sollecito> solleciti = new TreeSet<Sollecito>();
+	private List<String> allegati = new ArrayList<String>();
 
 	// Apertura
 	private Date data;
@@ -89,6 +91,7 @@ public class Segnalazione implements java.io.Serializable {
 	private String messaggio;
 
 	private Date scadenza;
+
 	private Date chiusura;
 
 	private List<Risposta> risposte;
@@ -116,6 +119,11 @@ public class Segnalazione implements java.io.Serializable {
 			return false;
 		}
 		return true;
+	}
+
+	@CollectionOfElements
+	public List<String> getAllegati() {
+		return this.allegati;
 	}
 
 	@OneToOne(cascade = CascadeType.ALL)
@@ -290,6 +298,10 @@ public class Segnalazione implements java.io.Serializable {
 		return result;
 	}
 
+	public void setAllegati(List<String> allegati) {
+		this.allegati = allegati;
+	}
+
 	public void setBpmInfo(BPMInfo bpmInfo) {
 		this.bpmInfo = bpmInfo;
 	}
@@ -378,13 +390,11 @@ public class Segnalazione implements java.io.Serializable {
 		this.solleciti = solleciti;
 	}
 
-	public void setSottocategoriaUtenza(
-			SottocategoriaUtenza sottocategoriaUtenza) {
+	public void setSottocategoriaUtenza(SottocategoriaUtenza sottocategoriaUtenza) {
 		this.sottocategoriaUtenza = sottocategoriaUtenza;
 	}
 
-	public void setSottotipoSegnalazione(
-			SottotipoSegnalazione sottotipoSegnalazione) {
+	public void setSottotipoSegnalazione(SottotipoSegnalazione sottotipoSegnalazione) {
 		this.sottotipoSegnalazione = sottotipoSegnalazione;
 	}
 

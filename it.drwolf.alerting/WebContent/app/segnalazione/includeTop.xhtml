@@ -35,6 +35,11 @@
                             <ui:param name="segnalazione" value="#{segnalazione}"/>
                         </ui:include>
                     </rich:tab>
+                     <rich:tab label="foto">
+                        <ui:include src="/layout/fotografie.xhtml">
+                            <ui:param name="segnalazione" value="#{segnalazione}"/>
+                        </ui:include>
+                    </rich:tab>
 				</rich:tabPanel>
 			</s:validateAll>
 		</h:form>
