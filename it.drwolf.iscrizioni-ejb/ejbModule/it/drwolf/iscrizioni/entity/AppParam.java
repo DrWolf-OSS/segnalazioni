@@ -48,6 +48,9 @@ public class AppParam {
 
 	public static final String APP_FIELDS_HIDDEN = "app.fields.hidden";
 
+	public static final String APP_SMS_USER = "app.sms.user";
+	public static final String APP_SMS_PWD = "app.sms.pwd";
+
 	public static AppParam[] defaults = new AppParam[] {
 			new AppParam(AppParam.LOCAL_ADMIN_PASSWORD, "changeme"),
 			new AppParam("sso.url", "http://localhost:8180/sso"),
