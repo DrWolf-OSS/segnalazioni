@@ -3,7 +3,6 @@ package it.drwolf.alerting.util;
 import it.drwolf.alerting.entity.AppParam;
 
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,12 +14,10 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
 import org.alfresco.cmis.client.AlfrescoDocument;
-import org.apache.chemistry.opencmis.client.api.Document;
 import org.apache.chemistry.opencmis.client.api.Folder;
 import org.apache.chemistry.opencmis.client.api.Session;
 import org.apache.chemistry.opencmis.commons.PropertyIds;
 import org.apache.chemistry.opencmis.commons.data.ContentStream;
-import org.apache.commons.io.IOUtils;
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
@@ -57,6 +54,7 @@ public class FotoApi {
 	public Response uploadFile(MultipartFormDataInput input) {
 		System.out.println("Uploado");
 		String fileName = "";
+		String mime = "";
 
 		Map<String, List<InputPart>> uploadForm = input.getFormDataMap();
 
@@ -75,72 +73,25 @@ public class FotoApi {
 					CmisUtils cmisUtils = new CmisUtils();
 					cmisUtils.login();
 
-					if (fileName.toLowerCase().endsWith("csv")) {
-						List<String> lines = IOUtils.readLines(new InputStreamReader(inputStream));
-						String[] h = lines.get(0).split(";");
-						String[] b = lines.get(1).split(";");
-						Map<String, String> map = new HashMap<String, String>();
-						for (int i = 0; i < h.length; i++) {
-							map.put(h[i], b[i]);
-						}
+					Map<String, Object> props = new HashMap<String, Object>();
+					props.put(PropertyIds.NAME, fileName);
+					props.put(PropertyIds.OBJECT_TYPE_ID, "cmis:document");
 
-						Map<String, Object> props = new HashMap<String, Object>();
-						props.put(PropertyIds.NAME, map.get("nomefileJPG"));
+					if (fileName.toLowerCase().endsWith("jpg")) {
+						mime = "image/jpeg";
 
-						Folder base = (Folder) cmisUtils.getSession().getObjectByPath(AppParam.ALFRESCO_CALEEARTH_PATH.getValue());
+					} else if (fileName.toLowerCase().endsWith("csv")) {
+						mime = "text/plain";
+					}
 
-						AlfrescoDocument alfDoc = (AlfrescoDocument) cmisUtils.createDocument(base, props);
+					Folder base = (Folder) cmisUtils.getSession().getObjectByPath(AppParam.ALFRESCO_CALEEARTH_PATH.getValue());
+					AlfrescoDocument doc = (AlfrescoDocument) cmisUtils.createDocument(base, props);
+					props = new HashMap<String, Object>();
 
-						// if (alfDoc.hasAspect("P:cm:titled")) {
-
-						props = new HashMap<String, Object>();
-
-						// if (map.get("segnalazione") != null) {
-						// props.put("dw:segnalazione",
-						// Integer.parseInt(map.get("segnalazione")));
-						// }
-						// if (map.get("deviceID") != null) {
-						// props.put("dw:deviceId", map.get("deviceId"));
-						// }
-						// if (map.get("longitudine") != null) {
-						// props.put("dw:lon",
-						// Double.parseDouble(map.get("longitudine")));
-						// }
-						// if (map.get("latitudine") != null) {
-						// props.put("dw:lat",
-						// Double.parseDouble(map.get("latitudine")));
-						// }
-						// if (map.get("altitudine") != null) {
-						// props.put("dw:alt",
-						// Double.parseDouble(map.get("altitudine")));
-						// }
-
-						// SimpleDateFormat sdf = new
-						// SimpleDateFormat("dd/MM/yyyy HH:mm:SS");
-						//
-						// if (map.get("data") != null && map.get("ora") !=
-						// null) {
-						// Date date = sdf.parse(map.get("data") + " " +
-						// map.get("ora"));
-						// Calendar c = Calendar.getInstance();
-						// c.setTime(date);
-						// props.put("dw:data", c);
-						// }
-						// alfDoc.updateProperties(props);
-						// }
-
-					} else if (fileName.toLowerCase().endsWith("jpg")) {
+					{
 						Session s = cmisUtils.getSession();
-						String id = s
-								.query("select cmis:objectId from cmis:document where IN_TREE('" + s.getObjectByPath(AppParam.ALFRESCO_CALEEARTH_PATH.getValue()).getId()
-										+ "') and cmis:name='" + fileName + "'", false).iterator().next().getPropertyById("cmis:objectId").getFirstValue().toString();
-						Document doc = (Document) s.getObject(id);
-						Object varTest = doc.getPropertyValue(fileName);
-
-						ContentStream csi = s.getObjectFactory().createContentStream(fileName, 1000000000, "image/jpeg", inputStream);
-
+						ContentStream csi = s.getObjectFactory().createContentStream(fileName, 1000000000, mime, inputStream);
 						doc.setContentStream(csi, true, true);
-
 					}
 
 					return Response.status(200).entity("upload ok: " + fileName + ", " + inputStream.available() + " bytes").build();
