@@ -1,31 +1,27 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-   xmlns:ui="http://java.sun.com/jsf/facelets"
-   xmlns:h="http://java.sun.com/jsf/html"
-   xmlns:f="http://java.sun.com/jsf/core"
-   xmlns:rich="http://richfaces.org/rich"
-   xmlns:a4j="http://richfaces.org/a4j"
-   xmlns:c="http://java.sun.com/jstl/core"
-   xmlns:s="http://jboss.com/products/seam/taglib">
-   
-   
-	
-<s:decorate id="fotografieDecoration">
-    <form action="/sign/seam/resource/rest/foto/upload" method="post" enctype="multipart/form-data">
-    </form>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:c="http://java.sun.com/jstl/core" xmlns:s="http://jboss.com/products/seam/taglib">
 
-<a4j:region>
-	<h:outputText value="prova" />
-	    <form action="/sign/seam/resource/rest/foto/upload" method="post" enctype="multipart/form-data">
-Segnalazione: #{segnalazioneHome.instance.id} - #{segnalazioneHome.instance.oggetto} 
-       <p>
-        Select a file : <input type="file" name="uploadedFile" size="50" />
-       </p>
- 
-       <input type="submit" value="Upload" />
-    </form>
-    
-	 <a4j:status onstart="#{rich:component('wait')}.show()" onstop="#{rich:component('wait')}.hide()"/>
-</a4j:region>
 
-</s:decorate>
+
+	<s:decorate id="fotografieDecoration">
+		<form action="/sign/seam/resource/rest/foto/upload" method="post" enctype="multipart/form-data"></form>
+
+		<a4j:region>
+
+			<form action="/sign/seam/resource/rest/foto/upload" method="post" enctype="multipart/form-data">
+
+				<rich:panel styleClass="fotoPnl"> 
+					 
+
+					<p>
+						Select a file : <input type="file" name="uploadedFile" size="50" onclick="document.getElementById('btnSubmit').disabled = #{false}"/>
+					</p>
+					<input type="submit" id="btnSubmit" value="Upload" disabled="true" />
+				</rich:panel>
+			</form>
+			<a4j:status onstart="#{rich:component('wait')}.show()" onstop="#{rich:component('wait')}.hide()" />
+		</a4j:region>
+
+	</s:decorate>
 </ui:composition>
