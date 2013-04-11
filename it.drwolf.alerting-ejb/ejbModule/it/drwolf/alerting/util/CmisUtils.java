@@ -22,7 +22,12 @@ import org.apache.chemistry.opencmis.commons.enums.BaseTypeId;
 import org.apache.chemistry.opencmis.commons.enums.BindingType;
 import org.apache.chemistry.opencmis.commons.exceptions.CmisObjectNotFoundException;
 import org.apache.commons.io.IOUtils;
+import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Scope;
 
+@Name("cmisUtils")
+@Scope(ScopeType.APPLICATION)
 public class CmisUtils {
 
 	private Session session;
@@ -33,14 +38,12 @@ public class CmisUtils {
 		if (("" + ref).length() < 10) {
 			System.out.println("null ref");
 		}
-		return ref.startsWith(CmisUtils.NODEREF_PREFIX) ? new ObjectIdImpl(ref)
-				: new ObjectIdImpl(CmisUtils.NODEREF_PREFIX + ref);
+		return ref.startsWith(CmisUtils.NODEREF_PREFIX) ? new ObjectIdImpl(ref) : new ObjectIdImpl(CmisUtils.NODEREF_PREFIX + ref);
 	}
 
 	public Document createDocument(Folder parent, Map<String, Object> map) {
 		Map<String, Object> properties = new HashMap<String, Object>();
-		properties.put(PropertyIds.OBJECT_TYPE_ID,
-				"cmis:document,P:dw:caleearth");
+		properties.put(PropertyIds.OBJECT_TYPE_ID, "cmis:document,P:dw:caleearth");
 		for (Entry<String, Object> e : map.entrySet()) {
 			properties.put(e.getKey(), e.getValue());
 		}
@@ -54,16 +57,13 @@ public class CmisUtils {
 
 		try {
 
-			folder = (AlfrescoFolder) this.session.getObjectByPath(parent
-					.getPath() + "/" + folderName);
+			folder = (AlfrescoFolder) this.session.getObjectByPath(parent.getPath() + "/" + folderName);
 
 		} catch (CmisObjectNotFoundException e) {
 			HashMap<String, Object> props = new HashMap<String, Object>();
 			props.put(PropertyIds.NAME, folderName);
-			props.put(PropertyIds.OBJECT_TYPE_ID,
-					BaseTypeId.CMIS_FOLDER.value());
-			folder = (AlfrescoFolder) parent.createFolder(props, null, null,
-					null, this.session.createOperationContext());
+			props.put(PropertyIds.OBJECT_TYPE_ID, BaseTypeId.CMIS_FOLDER.value());
+			folder = (AlfrescoFolder) parent.createFolder(props, null, null, null, this.session.createOperationContext());
 		}
 
 		return folder;
@@ -71,30 +71,29 @@ public class CmisUtils {
 	}
 
 	public AlfrescoFolder findOrCreateFolder(String path, String folderName) {
-		AlfrescoFolder parent = (AlfrescoFolder) this.session
-				.getObjectByPath(path);
+		AlfrescoFolder parent = (AlfrescoFolder) this.session.getObjectByPath(path);
 		return this.findOrCreateFolder(parent, folderName);
 
 	}
 
 	public Session getSession() {
+		if (this.session == null) {
+			this.login();
+		}
 		return this.session;
 	}
 
 	public Object getThumbnail(String id, String name) {
 		if (id == null || id.length() > 20) {
 			try {
-				OperationContext context = this.session
-						.createOperationContext();
+				OperationContext context = this.session.createOperationContext();
 				context.setRenditionFilterString("*");
-				Document doc = (Document) this.session.getObject(
-						CmisUtils.ref2id(id), context);
+				Document doc = (Document) this.session.getObject(CmisUtils.ref2id(id), context);
 				if (doc.getContentStream().getMimeType().contains("image")) {
 					for (Rendition r : doc.getRenditions()) {
-						if (name.equals(r.getTitle())) {
-							return IOUtils.toByteArray(r.getContentStream()
-									.getStream());
-						}
+						// if (name.equals(r.getTitle())) {
+						return IOUtils.toByteArray(r.getContentStream().getStream());
+						// }
 					}
 				}
 			} catch (Exception e) {
@@ -109,24 +108,18 @@ public class CmisUtils {
 		Map<String, String> parameter = new HashMap<String, String>();
 
 		// Set the user credentials
-		parameter.put(SessionParameter.USER,
-				AppParam.ALFRESCO_USERNAME.getValue());
-		parameter.put(SessionParameter.PASSWORD,
-				AppParam.ALFRESCO_PASSWORD.getValue());
+		parameter.put(SessionParameter.USER, AppParam.ALFRESCO_USERNAME.getValue());
+		parameter.put(SessionParameter.PASSWORD, AppParam.ALFRESCO_PASSWORD.getValue());
 
 		// Specify the connection settings
-		parameter.put(SessionParameter.ATOMPUB_URL,
-				AppParam.ALFRESCO_URL.getValue() + "/service/cmis");
-		parameter.put(SessionParameter.BINDING_TYPE,
-				BindingType.ATOMPUB.value());
+		parameter.put(SessionParameter.ATOMPUB_URL, AppParam.ALFRESCO_URL.getValue() + "/service/cmis");
+		parameter.put(SessionParameter.BINDING_TYPE, BindingType.ATOMPUB.value());
 
 		// Set the alfresco object factory
-		parameter.put(SessionParameter.OBJECT_FACTORY_CLASS,
-				"org.alfresco.cmis.client.impl.AlfrescoObjectFactoryImpl");
+		parameter.put(SessionParameter.OBJECT_FACTORY_CLASS, "org.alfresco.cmis.client.impl.AlfrescoObjectFactoryImpl");
 
 		// Create a session
 		SessionFactory factory = SessionFactoryImpl.newInstance();
-		this.session = factory.getRepositories(parameter).get(0)
-				.createSession();
+		this.session = factory.getRepositories(parameter).get(0).createSession();
 	}
 }

@@ -22,8 +22,9 @@
 			</form>
 			<a4j:status onstart="#{rich:component('wait')}.show()" onstop="#{rich:component('wait')}.hide()" />
 		</a4j:region>
-		<a4j:commandButton action="#{fotoUtils.getFoto(segnalazioneHome.instance)}" value="provafoto"  />
-		
+		<rich:dataList var="foto" value="#{fotoUtils.getFoto(segnalazioneHome.instance)}" rows="10">
+			 <h:outputText value="#{foto}"/><br/>
+		</rich:dataList>
 		
 	</s:decorate>
 </ui:composition>
