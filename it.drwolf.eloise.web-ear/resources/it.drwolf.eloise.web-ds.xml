@@ -11,7 +11,7 @@
 		<xa-datasource-class >com.mysql.jdbc.jdbc2.optional.MysqlXADataSource</xa-datasource-class>
 		<xa-datasource-property name="URL"><![CDATA[jdbc:mysql://localhost:3306/eloise]]></xa-datasource-property>
 		<user-name>root</user-name>
-		<password>root</password>
+		<password></password>
 	</xa-datasource>
 </datasources>
 
