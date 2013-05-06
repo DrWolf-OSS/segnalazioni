@@ -80,6 +80,18 @@
     <servlet-class>org.jboss.seam.document.DocumentStoreServlet</servlet-class>
    </servlet>
 
+
+ <servlet>
+  <servlet-name>Thumbnail Servlet</servlet-name>
+  <servlet-class>it.drwolf.alerting.ThumbnailServlet</servlet-class>
+ </servlet>
+ 
+  <servlet-mapping>
+  <servlet-name>Thumbnail Servlet</servlet-name>
+  <url-pattern>/tn/*</url-pattern>
+ </servlet-mapping>
+ 
+ 
    <servlet-mapping>
     <servlet-name>Document Store Servlet</servlet-name>
     <url-pattern>*.pdf</url-pattern>

@@ -1,6 +1,7 @@
 package it.drwolf.alerting.session;
 
 import it.drwolf.alerting.entity.Segnalazione;
+import it.drwolf.alerting.util.CmisUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -42,6 +43,9 @@ public class AlfrescoWrapper {
 
 	@In
 	private Credentials credentials;
+
+	@In
+	private CmisUtils cmisUtils;
 
 	public static final String NODEREF_PREFIX = "workspace://SpacesStore/";
 
@@ -124,7 +128,7 @@ public class AlfrescoWrapper {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		if (id == null || id.length() > 20) {
 			try {
-				Session session = this.alfrescoAdminIdentity.getSession();
+				Session session = this.cmisUtils.getSession();
 				OperationContext context = session.createOperationContext();
 
 				context.setRenditionFilterString("*");
@@ -132,7 +136,7 @@ public class AlfrescoWrapper {
 				Document doc = (Document) session.getObject(AlfrescoWrapper.ref2id(id), context);
 
 				for (Rendition r : doc.getRenditions()) {
-					if (name.equals(r.getTitle())) {
+					if (r != null && name.equals(r.getTitle())) {
 						byte[] buffer = new byte[4096];
 						InputStream is = r.getContentStream().getStream();
 						int read;
@@ -146,7 +150,7 @@ public class AlfrescoWrapper {
 					}
 				}
 			} catch (Exception e) {
-
+				e.printStackTrace();
 			}
 		}
 

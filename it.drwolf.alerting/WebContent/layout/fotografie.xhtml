@@ -7,24 +7,60 @@
 	<s:decorate id="fotografieDecoration">
 		<form action="/sign/seam/resource/rest/foto/upload" method="post" enctype="multipart/form-data"></form>
 
-		<a4j:region>
+		<a4j:region rendered="false"> 
 
 			<form action="/sign/seam/resource/rest/foto/upload" method="post" enctype="multipart/form-data">
 
-				<rich:panel styleClass="fotoPnl"> 
-					 
+				<rich:panel styleClass="fotoPnl">
+
 
 					<p>
-						Select a file : <input type="file" name="uploadedFile" size="50" onclick="document.getElementById('btnSubmit').disabled = #{false}"/>
+						Select a file : <input type="file" name="uploadedFile" size="50" onclick="document.getElementById('btnSubmit').disabled = #{false}" />
 					</p>
 					<input type="submit" id="btnSubmit" value="Upload" disabled="true" />
 				</rich:panel>
 			</form>
 			<a4j:status onstart="#{rich:component('wait')}.show()" onstop="#{rich:component('wait')}.hide()" />
 		</a4j:region>
-		<rich:dataList var="foto" value="#{fotoUtils.getFoto(segnalazioneHome.instance)}" rows="10">
-			 <h:outputText value="#{foto}"/><br/>
-		</rich:dataList>
-		
+
+
+
+
+
+		<rich:dataGrid var="foto" value="#{fotoUtils.getFoto(segnalazioneHome.instance)}" columns="5">
+
+			<h:outputLink value="#" id="link" onclick="Richfaces.showModalPanel('FotoMP');">
+				<span onclick="updateLink('/sign/tn/ThumbnailServlet?id=#{foto}&amp;name=pdfpreview')">
+				 <img src="/sign/tn/ThumbnailServlet?id=#{foto}&amp;name=doclib" />
+				</span>
+
+			</h:outputLink>
+
+		</rich:dataGrid>
+
+
+		<rich:modalPanel id="FotoMP" width="800" height="600">
+			<f:facet name="header">
+				<h:panelGroup>
+					<h:outputText value="Modal Panel"></h:outputText>
+				</h:panelGroup>
+			</f:facet>
+			<f:facet name="controls">
+				<h:panelGroup>
+					<h:graphicImage value="/img/close.png" styleClass="hidelink" id="hidelink" />
+					<rich:componentControl for="FotoMP" attachTo="hidelink" operation="hide" event="onclick" />
+				</h:panelGroup>
+			</f:facet>
+			<h:outputText id="showname" value="#{fotoUtils.selectedFotoId}" />  
+			<h:panelGrid id="fotoPG" >	 
+			<img src="#{fotoUtils.selectedFotoId}" />
+			</h:panelGrid>
+		</rich:modalPanel>
+
+		<a4j:jsFunction name="updateLink" reRender="fotoPG" >
+			<a4j:actionparam name="fotoid" assignTo="#{fotoUtils.selectedFotoId}" />
+			
+		</a4j:jsFunction>
+
 	</s:decorate>
 </ui:composition>

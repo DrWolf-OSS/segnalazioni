@@ -21,6 +21,8 @@ public class FotoUtils {
 	@In
 	SegnalazioneHome segnalazioneHome;
 
+	String selectedFotoId;
+
 	@SuppressWarnings("unchecked")
 	public ArrayList getFoto(Segnalazione segnalazione) {
 
@@ -38,13 +40,22 @@ public class FotoUtils {
 				String queryName = property.getQueryName();
 				Object value = property.getFirstValue();
 				resultList.add(value);
-				System.out.println(queryName + ": " + value);
+
 			}
-			System.out.println("--------------------------------------");
+
 		}
 
 		return resultList;
 
+	}
+
+	public String getSelectedFotoId() {
+		return this.selectedFotoId;
+	}
+
+	public void setSelectedFotoId(String selectedFotoId) {
+		this.selectedFotoId = selectedFotoId;
+		System.out.println("Set di selectedfotoId con id: " + selectedFotoId);
 	}
 
 }
