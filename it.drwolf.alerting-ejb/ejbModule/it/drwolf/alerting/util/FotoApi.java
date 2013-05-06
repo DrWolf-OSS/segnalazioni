@@ -52,7 +52,6 @@ public class FotoApi {
 	 * via tal dei tali; 23; 351722053751586; prova upload
 	 */
 	public Response uploadFile(MultipartFormDataInput input) {
-		System.out.println("Uploado");
 		String fileName = "";
 		String mime = "";
 

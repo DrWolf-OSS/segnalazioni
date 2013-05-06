@@ -369,3 +369,12 @@ width:100%;
 .fotoPnl{
 	margin-left: 10px;
 }
+
+.fotoGrid{
+	border: 0px;
+	text-align: center;
+}
+
+.fotoGrid .dr-table-cell {
+	border-style: none;
+}
