@@ -28,7 +28,7 @@
 		<rich:dataGrid var="foto" value="#{fotoUtils.getFoto(segnalazioneHome.instance)}" columns="7" styleClass="fotoGrid" >
 
 			<h:outputLink value="#" id="link" onclick="Richfaces.showModalPanel('FotoMP');">
-				<span onclick="updateLink('/sign/tn/ThumbnailServlet?id=#{foto}&amp;name=largepreview')">
+				<span onclick="updateLink('#{foto}')">
 				 <img src="/sign/tn/ThumbnailServlet?id=#{foto}&amp;name=doclib" />
 				</span>
 
@@ -53,11 +53,11 @@
 			</f:facet>
 			<div align="center" > 
 			<h:panelGrid id="fotoPG"  >	 
-				<img src="#{not empty fotoUtils.selectedFotoId ? fotoUtils.selectedFotoId : '/sign/img/spinner.gif'}" />
-				 
+				<img src="#{not empty fotoUtils.selectedFotoId ? '/sign/tn/ThumbnailServlet?id='.concat(fotoUtils.selectedFotoId).concat('&amp;name=largepreview') : '/sign/img/spinner.gif'}" />
+				  
 			</h:panelGrid>
 			</div>
-			<h:outputLink value="#{fotoUtils.selectedFotoId}" target="_blank" id="fotoLink"  >Scarica la foto</h:outputLink>
+			<h:outputLink value="#{/sign/tn/ThumbnailServlet?id='.concat(fotoUtils.selectedFotoId).concat('&amp;name=largepreview')}" target="_blank" id="fotoLink"  >Scarica la foto</h:outputLink>
 						
 			
 		</rich:modalPanel>
