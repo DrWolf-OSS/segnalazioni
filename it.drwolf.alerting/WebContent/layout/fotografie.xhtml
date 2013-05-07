@@ -28,7 +28,7 @@
 		<rich:dataGrid var="foto" value="#{fotoUtils.getFoto(segnalazioneHome.instance)}" columns="7" styleClass="fotoGrid" >
 
 			<h:outputLink value="#" id="link" onclick="Richfaces.showModalPanel('FotoMP');">
-				<span onclick="updateLink('/sign/tn/ThumbnailServlet?id=#{foto}&amp;name=pdfpreview')">
+				<span onclick="updateLink('/sign/tn/ThumbnailServlet?id=#{foto}&amp;name=largepreview')">
 				 <img src="/sign/tn/ThumbnailServlet?id=#{foto}&amp;name=doclib" />
 				</span>
 
@@ -37,7 +37,7 @@
 		</rich:dataGrid>
 
 
-		<rich:modalPanel id="FotoMP" width="800" height="600" style="valign:middle" styleClass="fotoMP">
+		<rich:modalPanel id="FotoMP" width="800" height="800" style="valign:middle" styleClass="fotoMP"> 
 			<f:facet name="header">
 				<h:panelGroup>
 					<h:outputText value="Modal Panel"></h:outputText>
@@ -54,11 +54,15 @@
 			<div align="center" > 
 			<h:panelGrid id="fotoPG"  >	 
 				<img src="#{not empty fotoUtils.selectedFotoId ? fotoUtils.selectedFotoId : '/sign/img/spinner.gif'}" />
+				 
 			</h:panelGrid>
 			</div>
+			<h:outputLink value="#{fotoUtils.selectedFotoId}" target="_blank" id="fotoLink"  >Scarica la foto</h:outputLink>
+						
+			
 		</rich:modalPanel>
 
-		<a4j:jsFunction name="updateLink" reRender="fotoPG" >
+		<a4j:jsFunction name="updateLink" reRender="fotoPG,fotoLink" >
 			<a4j:actionparam name="fotoid" assignTo="#{fotoUtils.selectedFotoId}" />
 			
 		</a4j:jsFunction>
