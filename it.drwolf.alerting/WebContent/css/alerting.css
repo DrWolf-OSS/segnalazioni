@@ -378,3 +378,8 @@ width:100%;
 .fotoGrid .dr-table-cell {
 	border-style: none;
 }
+
+.fotoMP td{
+	vertical-align:middle
+
+}
