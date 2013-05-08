@@ -24,6 +24,7 @@
 		</a4j:region>
 
 
+		<h:outputText value="Non ci sono foto presenti." rendered="#{empty fotoUtils.getFoto(segnalazioneHome.instance) }" />
 
 		<rich:dataGrid var="foto" value="#{fotoUtils.getFoto(segnalazioneHome.instance)}" columns="7" styleClass="fotoGrid" >
 
