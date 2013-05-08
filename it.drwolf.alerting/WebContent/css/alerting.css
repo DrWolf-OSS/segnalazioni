@@ -380,6 +380,12 @@ width:100%;
 }
 
 .fotoMP td{
-	vertical-align:middle
+	vertical-align:middle;
 
+}
+
+.linkOriginalFoto{
+	position:absolute;
+	top: 650px;
+	left: 600px;
 }

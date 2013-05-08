@@ -37,7 +37,7 @@
 		</rich:dataGrid>
 
 
-		<rich:modalPanel id="FotoMP" width="800" height="800" style="valign:middle" styleClass="fotoMP"> 
+		<rich:modalPanel id="FotoMP" width="700" height="700" style="valign:middle" styleClass="fotoMP"> 
 			<f:facet name="header">
 				<h:panelGroup>
 					<h:outputText value="Modal Panel"></h:outputText>
@@ -57,9 +57,10 @@
 				  
 			</h:panelGrid>
 			</div>
-			<h:outputLink value="#{/sign/tn/ThumbnailServlet?id='.concat(fotoUtils.selectedFotoId).concat('&amp;name=largepreview')}" target="_blank" id="fotoLink"  >Scarica la foto</h:outputLink>
-						
-			
+			<s:div styleClass="linkOriginalFoto">
+				<h:outputLink  value="#{'/sign/tn/ThumbnailServlet?id='.concat(fotoUtils.selectedFotoId).concat('&amp;name=largepreview')}" target="_blank" id="fotoLink"  >Scarica la foto</h:outputLink>
+			</s:div>		
+			 
 		</rich:modalPanel>
 
 		<a4j:jsFunction name="updateLink" reRender="fotoPG,fotoLink" >
