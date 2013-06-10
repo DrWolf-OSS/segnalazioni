@@ -605,8 +605,9 @@ public class Reports {
 
 			final String actorId = this.getAssignee(s);
 			try {
-				return PeopleConverter.formatPeople(this.entityManager.find(
-						People.class, actorId));
+				return this.entityManager.find(People.class, actorId) != null ? PeopleConverter
+						.formatPeople(this.entityManager.find(People.class,
+								actorId)) : actorId;
 			} catch (Exception e) {
 				return actorId;
 			}
