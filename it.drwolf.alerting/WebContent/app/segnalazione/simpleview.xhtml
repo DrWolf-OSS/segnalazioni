@@ -1,0 +1,37 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j">
+	
+	<s:decorate id="messaggio" template="/layout/display.xhtml">
+		<ui:define name="label">Descrizione</ui:define>
+		<h:outputText value="#{alertingController.getFirstMessage(segnalazioneHome.instance)}" />
+	</s:decorate>
+
+	<rich:panel id="risposta" style="background-color:#FEFFF0" rendered="#{segnalazioneHome.instance.stato.nome eq 'chiuso'}">
+		<ui:param name="risposta" value="#{segnalazioneHome.instance.risposte.get(0)}" />		
+		<f:facet name="header">
+			<s:div>
+			
+			#{risposta.oggetto}
+			</s:div>
+		</f:facet>
+		<h:outputText value="#{risposta.mittente}" style="float:left; font-weight: bold;">
+			<f:converter converterId="usernameConverter"/>
+		</h:outputText>
+		<h:outputText value="#{risposta.data}" style="float:right">
+				<f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
+			</h:outputText>
+		
+		<s:div style="clear:both; display:block; height:1.5em;"/>
+		<h:outputText value="#{risposta.testo}" escape="false"/>
+	</rich:panel>
+
+	
+</ui:composition>

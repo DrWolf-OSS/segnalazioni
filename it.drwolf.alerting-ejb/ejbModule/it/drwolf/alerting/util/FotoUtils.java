@@ -4,6 +4,7 @@ import it.drwolf.alerting.entity.Segnalazione;
 import it.drwolf.alerting.homes.SegnalazioneHome;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.chemistry.opencmis.client.api.ItemIterable;
 import org.apache.chemistry.opencmis.client.api.QueryResult;
@@ -24,15 +25,16 @@ public class FotoUtils {
 	String selectedFotoId;
 
 	@SuppressWarnings("unchecked")
-	public ArrayList getFoto(Segnalazione segnalazione) {
+	public List<Object> getFoto(Segnalazione segnalazione) {
 
 		Session session = this.cmisUtils.getSession();
-		ItemIterable<QueryResult> results = session.query(
-				"select d.cmis:objectId from cmis:document as d join dw:caleearth as c on d.cmis:objectId  = c.cmis:objectId where c.dw:segnalazione = "
+		ItemIterable<QueryResult> results = session
+				.query("select d.cmis:objectId from cmis:document as d join dw:caleearth as c on d.cmis:objectId  = c.cmis:objectId where c.dw:segnalazione = "
 						+ this.segnalazioneHome.getInstance().getId(), false);
-		System.out.println("Cerco fotografie per segnalazione n° " + this.segnalazioneHome.getInstance().getId());
+		System.out.println("Cerco fotografie per segnalazione n° "
+				+ this.segnalazioneHome.getInstance().getId());
 
-		ArrayList resultList = new ArrayList();
+		List resultList = new ArrayList();
 		for (QueryResult hit : results) {
 
 			for (PropertyData<?> property : hit.getProperties()) {

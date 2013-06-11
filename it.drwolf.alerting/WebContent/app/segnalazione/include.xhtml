@@ -166,7 +166,7 @@
 			<div id="loading" style="width:100%;text-align:right;display:none">
 				Caricamento elenco indirizzi...
 			</div>
-			
+		<s:fragment rendered="utils.getParamValue('autocomplete.indirizzo.active') eq 'true'">
 			<rich:suggestionbox id="suggestion" 
 				requestDelay="800"
 				immediate="true"
@@ -180,9 +180,10 @@
 				suggestionAction="#{segnalazioneHome.indirizzi}">
 				<h:column>
 					#{result.strada}
-				</h:column>	
-				
+				</h:column>				
 			</rich:suggestionbox>
+		</s:fragment>
+		
 			<a4j:status for="indreg" onstart="document.getElementById('loading').style.display='block'"
 			onstop="document.getElementById('loading').style.display='none'"/>
 			</a4j:region>

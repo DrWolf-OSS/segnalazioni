@@ -27,34 +27,34 @@
 
         <s:div styleClass="dialog">
        
-<div class="loginTitle" >Cittadini</div>
-<h:form>
-<s:validateAll>
-          <s:decorate template="/layout/input.xhtml">
-          <ui:define name="label">E-mail</ui:define>
-	          <h:inputText id="username" required="true" value="#{identity.username}"/>
-
-          </s:decorate>
-
-          <s:decorate template="/layout/input.xhtml">
-          <ui:define name="label">Codice utente</ui:define>
-	          <h:inputSecret id="password" required="true"
-                                value="#{identity.password}"/>
-
-          </s:decorate>
-		<s:div >
+			<div class="loginTitle" >Cittadini</div>
+			<h:form>
+			<s:validateAll>
+			          <s:decorate template="/layout/input.xhtml">
+			          <ui:define name="label">E-mail</ui:define>
+				          <h:inputText id="username" required="true" value="#{identity.username}"/>
 			
-
-			<a href="#{workSession.getParam('app.iscrizioni.publicUrl')}">Iscriviti / </a>
-			<a href="#{workSession.getParam('app.iscrizioni.publicUrl')}">Ricordami il codice utente</a> 
+			          </s:decorate>
 			
-		</s:div> 
-
-        <s:decorate template="/layout/actions.xhtml">
-            <h:commandButton value="Entra" action="#{identity.login}"/>
-        </s:decorate>
-</s:validateAll>
-</h:form>
+			          <s:decorate template="/layout/input.xhtml">
+			          <ui:define name="label">Codice utente</ui:define>
+				          <h:inputSecret id="password" required="true"
+			                                value="#{identity.password}"/>
+			
+			          </s:decorate>
+					<s:div >
+						
+			
+						<a href="#{workSession.getParam('app.iscrizioni.publicUrl')}">Iscriviti / </a>
+						<a href="#{workSession.getParam('app.iscrizioni.publicUrl')}">Ricordami il codice utente</a> 
+						
+					</s:div> 
+			
+			        <s:decorate template="/layout/actions.xhtml">
+			            <h:commandButton value="Entra" action="#{identity.login}"/>
+			        </s:decorate>
+			</s:validateAll>
+			</h:form>
         </s:div>
         
 </rich:panel>
