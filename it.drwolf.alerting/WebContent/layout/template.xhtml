@@ -53,8 +53,8 @@ swfobject.embedSWF("http://web.comune.calenzano.fi.it/portale/banner/banner.swf"
 		
 		<s:div rendered="#{identity.loggedIn}" styleClass="user">
 		
-		<h:outputText rendered="#{empty sostitutoList.inverseList and identity.username eq sso.originalUser}">#{workSession.userFullname}</h:outputText>
-		<h:form rendered="#{not empty sostitutoList.inverseList or identity.username ne sso.originalUser}">
+		<h:outputText rendered="#{empty sostitutoList.inverseList and (empty sso.originalUser or identity.username eq sso.originalUser)}">#{workSession.userFullname}</h:outputText>
+		<h:form rendered="#{(not empty sostitutoList.inverseList) or (not empty sso.originalUser and identity.username ne sso.originalUser)}">
 		 <rich:dropDownMenu  styleClass="userMenu">
     	  <f:facet name="label">
     	  <s:div>
@@ -62,15 +62,15 @@ swfobject.embedSWF("http://web.comune.calenzano.fi.it/portale/banner/banner.swf"
     	  </s:div>
     	  </f:facet>
     	  <c:if test="#{identity.username eq sso.originalUser}">
-    	  <c:forEach items="#{sostitutoList.inverseList}" var="s">
-    	   <rich:menuItem  
-                    action="#{authenticator.impersonate(s.username)}" >
-                    <h:outputText value="#{s.username}" converter="usernameConverter" />
-                    </rich:menuItem>
-          </c:forEach>
+	    	  <c:forEach items="#{sostitutoList.inverseList}" var="s">
+	    	   	<rich:menuItem  
+	                    action="#{authenticator.impersonate(s.username)}" >
+	                    <h:outputText value="#{s.username}" converter="usernameConverter" />
+	                    </rich:menuItem>
+	          </c:forEach>
           </c:if>
-          <c:if  test="#{identity.username ne sso.originalUser}">
-    	   <rich:menuItem  
+          <c:if  test="#{not empty sso.originalUser and identity.username ne sso.originalUser}">
+    	   	<rich:menuItem  
                     action="#{authenticator.impersonate(sso.originalUser)}" >
                     <h:outputText value="#{sso.originalUser}" converter="usernameConverter" />
                     </rich:menuItem>
