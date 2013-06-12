@@ -11,12 +11,14 @@ import javax.persistence.Id;
 public class Stato {
 
 	public final static Stato[] defaults = new Stato[] {
-			new Stato("daesaminare", "Da Esaminare"),
-			new Stato("aperto", "Aperto"),
-			new Stato("dilazionato", "Dilazionato"),
-			new Stato("chiuso", "Chiuso") };
+			new Stato("daesaminare", "Da Esaminare", 1),
+			new Stato("aperto", "Aperto", 2),
+			new Stato("dilazionato", "Dilazionato", 3),
+			new Stato("chiuso", "Chiuso", 4) };
 
 	private Integer id;
+
+	private Integer posizione;
 
 	private String nome;
 
@@ -25,10 +27,11 @@ public class Stato {
 	public Stato() {
 	}
 
-	public Stato(String nome, String descrizione) {
+	public Stato(String nome, String descrizione, Integer posizione) {
 		super();
 		this.descrizione = descrizione;
 		this.nome = nome;
+		this.posizione = posizione;
 	}
 
 	public String getDescrizione() {
@@ -46,6 +49,11 @@ public class Stato {
 		return this.nome;
 	}
 
+	@Column(insertable = true, updatable = false, unique = true)
+	public Integer getPosizione() {
+		return this.posizione;
+	}
+
 	public void setDescrizione(String descrizione) {
 		this.descrizione = descrizione;
 	}
@@ -56,6 +64,10 @@ public class Stato {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	public void setPosizione(Integer posizione) {
+		this.posizione = posizione;
 	}
 
 	@Override

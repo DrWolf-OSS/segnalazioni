@@ -130,7 +130,7 @@
 
 
 </s:fragment>
-
+	<s:div style="clear:both; display:block; height:2em;" rendered="#{s:hasRole('cittadino')}"/>
 	<s:decorate  template="/layout/input.xhtml"  rendered="#{edit and not s:hasRole('cittadino')}">
     	<ui:define name="label">Tipologia</ui:define>
 		<h:selectOneRadio required="true" layout="pageDirection"

@@ -308,7 +308,7 @@
                     src="/sign/img/exclamation.png" height="16" width="16" alt="Scaduta" title="Scaduta"/>
             </s:fragment>
             
-            <s:link value="#{s.id} - #{s.oggetto}" view="/app/segnalazione.xhtml">
+            <s:link value="#{s.id} - #{s.oggetto}" view="/app/simplesegn.xhtml" propagation="none">
             <f:param name="sid" value="#{s.id}"/>
             </s:link>
           </rich:column>

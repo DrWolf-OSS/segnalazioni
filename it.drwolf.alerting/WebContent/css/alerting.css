@@ -389,3 +389,21 @@ width:100%;
 	top: 650px;
 	left: 600px;
 }
+
+.statoCell{
+	width:23%;
+	line-height: 36px;
+	display: inline-block;
+	vertical-align: middle;
+	font-size: 20px;
+	margin:5px;
+}
+
+.reached{
+	border-bottom:solid gold; /*o goldenrod  .. ghostwhite per il non raggiunto?*/
+}
+
+.notReached{
+	border-bottom: medium inset gray;
+    color: lightgrey;
+}

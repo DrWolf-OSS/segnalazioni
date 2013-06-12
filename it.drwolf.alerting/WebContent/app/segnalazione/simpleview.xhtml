@@ -9,16 +9,29 @@
 	xmlns:rich="http://richfaces.org/rich"
 	xmlns:a4j="http://richfaces.org/a4j">
 	
+	<s:div style="clear:both; display:block; height:1em;"/>
+	<a4j:repeat value="#{stati}" var="stato">
+		<div class="#{stato.posizione le segnalazioneHome.instance.stato.posizione ? 'reached' : 'notReached'} statoCell">
+			<h:graphicImage value="/img/fugue/32/layer.png" 
+				style="vertical-align:bottom; margin-right:5px; position:absolute; opacity:0.4; filter:alpha(opacity=40);"/>
+			<h:graphicImage value="/img/fugue/24/tick.png" 
+				style="vertical-align:bottom; margin-right:5px; position:absolute; margin-left:4px; margin-top:4px;"
+				rendered="#{stato.posizione le segnalazioneHome.instance.stato.posizione}"/>
+			<h:outputText value="#{stato.descrizione}" style="margin-left:36px"/>
+		</div>
+	</a4j:repeat>
+	<s:div style="clear:both; display:block; height:2em;"/>
+	
 	<s:decorate id="messaggio" template="/layout/display.xhtml">
 		<ui:define name="label">Descrizione</ui:define>
 		<h:outputText value="#{alertingController.getFirstMessage(segnalazioneHome.instance)}" />
 	</s:decorate>
+	
 
 	<rich:panel id="risposta" style="background-color:#FEFFF0" rendered="#{segnalazioneHome.instance.stato.nome eq 'chiuso'}">
 		<ui:param name="risposta" value="#{segnalazioneHome.instance.risposte.get(0)}" />		
 		<f:facet name="header">
-			<s:div>
-			
+			<s:div>		
 			#{risposta.oggetto}
 			</s:div>
 		</f:facet>
@@ -32,6 +45,11 @@
 		<s:div style="clear:both; display:block; height:1.5em;"/>
 		<h:outputText value="#{risposta.testo}" escape="false"/>
 	</rich:panel>
+	
+	<s:div style="clear:both; display:block; height:1em;"/>
+	<s:button view="/app/segnalazione.xhtml" propagation="none" value="Dettagli">
+		<f:param name="sid" value="#{segnalazioneHome.instance.id}"/>
+	</s:button>
 
 	
 </ui:composition>
