@@ -207,17 +207,17 @@ background: url(/sign/img/arrow_down.png) 4px no-repeat;
 
 .logoContainer{
 width:100%;
-text-align:center;
+/*text-align:center;*/
 }
 
 .homeLogo{
 width:600px;
 margin:auto;
 height: 430px;
-background: url(/sign/img/sign_logo.jpg) top center no-repeat;
+/*background: url(/sign/img/sign_logo.jpg) top center no-repeat;*/
 padding:0;
 border:0;
-text-align: right;
+/*text-align: right;*/
 }
 
 .homeText{
@@ -406,4 +406,26 @@ width:100%;
 .notReached{
 	border-bottom: medium inset gray;
     color: lightgrey;
+}
+
+.login input{
+	border-style: solid;
+	border-width: 1px;
+	background-repeat: repeat-x;
+	height: 2em;
+	font-size: 2em;
+	width:100%;
+}
+
+.login label{
+	/* font-weight: bold; */
+	height: 3em;
+	font-size: 2em;
+	/*color: white;*/
+}
+
+.inlineLable{
+	width: 33%;
+	line-height: 3em;
+	/* border-bottom: 1px solid #BA2B31;*/
 }

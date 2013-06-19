@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.com/products/seam/pages"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd">
+	
+	<param name="email" value="#{authenticator.email}"/>
+	<param name="usercode" value="#{authenticator.usercode}"/>
+	<action execute="#{authenticator.conferma}"/>
+
+   <navigation from-action="#{authenticator.conferma}">
+   		<end-conversation before-redirect="true"/>
+         <redirect view-id="/app/segnalazione/crea.xhtml"/>
+   </navigation>
+
+</page>

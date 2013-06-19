@@ -46,6 +46,10 @@ public class Authenticator {
 		return null;
 	}
 
+	private String email;
+
+	private String usercode;
+
 	@In
 	private Identity identity;
 
@@ -85,6 +89,21 @@ public class Authenticator {
 		return false;
 	}
 
+	public void conferma() {
+		this.identity.getCredentials().setUsername(this.email);
+		this.identity.getCredentials().setPassword(this.usercode);
+		String login = this.identity.login();
+		System.out.println(login);
+	}
+
+	public String getEmail() {
+		return this.email;
+	}
+
+	public String getUsercode() {
+		return this.usercode;
+	}
+
 	public void impersonate(String username) throws Exception {
 		this.identity.getCredentials().setUsername(username);
 		this.sso.login();
@@ -93,5 +112,13 @@ public class Authenticator {
 		} catch (Exception e) {
 			// do nothing
 		}
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public void setUsercode(String usercode) {
+		this.usercode = usercode;
 	}
 }

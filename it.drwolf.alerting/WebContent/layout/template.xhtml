@@ -84,11 +84,13 @@ swfobject.embedSWF("http://web.comune.calenzano.fi.it/portale/banner/banner.swf"
 		
         <s:link styleClass="home" view="/app/index.xhtml" propagation="none" >Home Segnalazioni</s:link>
 
+<ui:remove>
         <s:link propagation="none"
                 value="Crea nuova segnalazione"
                 view="/app/segnalazione/crea.xhtml">
                 <f:param name="entityId"/>
-            </s:link>
+        </s:link>
+</ui:remove>
 
     	</rich:toolBarGroup>
 	<rich:toolBarGroup itemSeparator="line" location="right">

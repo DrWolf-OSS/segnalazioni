@@ -33,12 +33,12 @@
 	
 	<c:set value="#{alertingController.isGestore(identity.username)}" var="gestore"/>
 
-    <rich:tabPanel switchType="client" selectedTab="#{workSession.currentTab}">
+    <rich:tabPanel switchType="client" selectedTab="#{workSession.currentTab}" style="margin-bottom:10px;" id="mainTabPanel">
 
       <rich:tab name="pool" ontabenter="updateTab('pool')" label="Segnalazioni da prendere in carico (#{pooledTaskInstanceList.size()})"
       			rendered="#{not empty pooledTaskInstanceList}">
 
-    <rich:dataTable value="#{pooledTaskInstanceList}" var="task" rendered="#{not empty pooledTaskInstanceList}">
+    <rich:dataTable value="#{pooledTaskInstanceList}" var="task" rendered="#{not empty pooledTaskInstanceList}" id="tasks">
 
         <rich:column>
             <f:facet name="header">
@@ -441,7 +441,8 @@
 
 <a4j:status onstart="#{rich:component('wait')}.show()" onstop="#{rich:component('wait')}.hide()"/>
 </rich:tabPanel>
-<rich:simpleTogglePanel styleClass="noPrint" label="Filtro Ricerca" opened="true" switchType="client">
+
+<rich:simpleTogglePanel styleClass="noPrint" label="Filtro Ricerca" opened="true" switchType="client" style="margin-bottom:10px;">
     <s:decorate template="/layout/input.xhtml">
     <ui:define name="label">Stato</ui:define>
     	<h:selectManyCheckbox required="true" id="stati" value="#{listaSegnalazioni.stati}">
@@ -455,7 +456,9 @@
 		A: <rich:calendar value="#{listaSegnalazioni.dataFine}" datePattern="dd/MM/yyyy" />
     </s:decorate>
     <h:commandButton action="#{listaSegnalazioni.clean()}" value="cerca"/>
-    </rich:simpleTogglePanel>
+</rich:simpleTogglePanel>
+
+	<s:button value="Crea nuova segnalazione" view="/app/segnalazione/crea.xhtml" propagation="none" style="margin-top:10px"/>
      
      <a4j:region id="utr">
         <a4j:jsFunction name="updateTab" ajaxSingle="true" immediate="true" eventsQueue="tab" >

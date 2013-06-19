@@ -14,60 +14,57 @@
 	
 </ui:define>
 
-<ui:define name="navigation">
 
-<s:div styleClass="login" >
-
-<s:decorate template="/layout/actions.xhtml" rendered="#{identity.loggedIn}">
-            <s:button value="Homepage" view="/app/index.xhtml" styleClass="homeLogout"/>
-            <s:button value="Esci"  view="/logout.xhtml" styleClass="homeLogout"/>
-        </s:decorate>
-
-<rich:panel  header="Entra" rendered="#{not identity.loggedIn}">
-
-        <s:div styleClass="dialog">
-       
-			<div class="loginTitle" >Cittadini</div>
-			<h:form>
-			<s:validateAll>
-			          <s:decorate template="/layout/input.xhtml">
-			          <ui:define name="label">E-mail</ui:define>
-				          <h:inputText id="username" required="true" value="#{identity.username}"/>
-			
-			          </s:decorate>
-			
-			          <s:decorate template="/layout/input.xhtml">
-			          <ui:define name="label">Codice utente</ui:define>
-				          <h:inputSecret id="password" required="true"
-			                                value="#{identity.password}"/>
-			
-			          </s:decorate>
-					<s:div >
-						
-			
-						<a href="#{workSession.getParam('app.iscrizioni.publicUrl')}">Iscriviti / </a>
-						<a href="#{workSession.getParam('app.iscrizioni.publicUrl')}">Ricordami il codice utente</a> 
-						
-					</s:div> 
-			
-			        <s:decorate template="/layout/actions.xhtml">
-			            <h:commandButton value="Entra" action="#{identity.login}"/>
-			        </s:decorate>
-			</s:validateAll>
-			</h:form>
-        </s:div>
-        
-</rich:panel>
-
-</s:div>
-
-</ui:define>
 
 <ui:define name="body">
 
-	<div class="logoContainer">
-		<div class="homeLogo">
 			<h:outputText styleClass="homeText" value="#{starter.welcomeText}" escape="false"/>
+	<div class="logoContainer login">
+		<div class="homeLogo">
+				 
+				<rich:panel header="Inserisci le tue credenziali">
+					<h:panelGrid columns="2" columnClasses="inlineLable, ''" style="width:100%">
+						<s:label styleClass="#{invalid?'errors':''} #{required?'required':''}">
+							<h:graphicImage value="/img/fugue/32/mail.png" style="vertical-align:top; margin-right:5px"/>
+				   		   <h:outputText value="Email"/>
+				   		</s:label> 
+				   		<s:div>
+					   		<s:div styleClass="#{invalid?'errors':''}" >
+								 <h:inputText id="username" required="true" value="#{identity.username}"/>
+							</s:div>
+					        <h:message for="username" style="color:red; font-size:15px;"/>
+				        </s:div>
+				        
+				        <s:label styleClass="#{invalid?'errors':''} #{required?'required':''}">
+				        	<h:graphicImage value="/img/fugue/32/lock.png" style="vertical-align:sub;  margin-right:5px"/>   
+				   		   <h:outputText value="Codice utente" />
+				   		</s:label> 
+				   		<s:div>
+					   		<s:div styleClass="#{invalid?'errors':''}" >
+								<h:inputSecret id="password" required="true"
+			                                value="#{identity.password}"/>
+							</s:div>
+					        <h:message for="password" style="color:red; font-size:15px;"/>
+				        </s:div>
+				        <div></div>
+				        <s:decorate template="/layout/actions.xhtml">
+			            	<h:commandButton value="Entra" action="#{identity.login}" style="font-size:24px; margin-left:0px; margin-top:10px; width:50%"/>
+			        	</s:decorate>
+					</h:panelGrid>
+			
+			        
+				</rich:panel>
+        		
+        		<s:div style="clear:both; display:block; height:1em;"/>
+        		
+        		<s:div styleClass="dialog" style="width:45%; float:left; text-align:center;">
+        			<a href="#{workSession.getParam('app.iscrizioni.publicUrl')}">Iscriviti</a>
+        		</s:div>
+        		<s:div styleClass="dialog" style="width:45%; float:right; text-align:center;">
+        			<a href="#{workSession.getParam('app.iscrizioni.publicUrl')}">Ricordami il codice utente</a> 
+        		</s:div>
+        		
+        		<s:div style="clear:both; display:block;"/>
 		</div>
 	</div>
 
