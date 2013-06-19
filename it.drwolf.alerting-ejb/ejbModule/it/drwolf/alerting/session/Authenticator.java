@@ -62,7 +62,7 @@ public class Authenticator {
 	@In
 	private WorkSession workSession;
 
-	@In
+	@In(create = true)
 	private Sso sso;
 
 	public boolean authenticate() {
