@@ -126,8 +126,6 @@ swfobject.embedSWF("http://web.comune.calenzano.fi.it/portale/banner/banner.swf"
 					<ui:insert name="title" />
 				</s:div>
 			</f:facet>
-
-
 		
 			<table class="main">
 			
@@ -174,9 +172,19 @@ swfobject.embedSWF("http://web.comune.calenzano.fi.it/portale/banner/banner.swf"
 					</td>
 				</tr>
 			</table>
+			
+			
+			<h:form styleClass="flat" id="fullpageform">
+				<s:validateAll>
+					<ui:insert name="fullpage" />
+				</s:validateAll>
+			</h:form>
 
 			<br style="clear: both;height: 0px;" />
 		</rich:panel>
+		
+		
+	
 
 
 <rich:toolBar styleClass="footer noPrint">
