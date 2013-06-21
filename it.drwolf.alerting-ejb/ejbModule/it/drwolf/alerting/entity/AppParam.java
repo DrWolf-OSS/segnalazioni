@@ -22,6 +22,9 @@ public class AppParam implements Serializable {
 	public static final AppParam APP_MAIL_FROM = new AppParam("app.mail.from",
 			"jboss@drwolf.it");
 
+	public static final AppParam APP_MAIL_TRAP = new AppParam("app.mail.trap",
+			"null");
+
 	public static final AppParam APP_SKIN = new AppParam("app.skin", "ruby");
 
 	public static final AppParam APP_COMUNE = new AppParam("app.comune",
@@ -120,7 +123,7 @@ public class AppParam implements Serializable {
 			AppParam.APP_RISP_SALUTI_PS, AppParam.RIPASSA_URP_SEMPRE,
 			AppParam.ALFRESCO_URL, AppParam.ALFRESCO_USERNAME,
 			AppParam.ALFRESCO_PASSWORD, AppParam.ALFRESCO_CALEEARTH_PATH,
-			AppParam.AUTOCOMPLETE_INDIRIZZO_ACTIVE };
+			AppParam.AUTOCOMPLETE_INDIRIZZO_ACTIVE, AppParam.APP_MAIL_TRAP };
 
 	private String key;
 	private String value;

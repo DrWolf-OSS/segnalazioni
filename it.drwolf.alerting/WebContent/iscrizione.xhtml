@@ -18,54 +18,48 @@
 
 <ui:define name="fullpage">
 
-			<h:outputText styleClass="homeText" value="#{starter.welcomeText}" escape="false"/>
 	<div class="logoContainer login">
 		<div class="homeLogo">
 				 
 				<rich:panel >
 					<h:panelGrid columns="2" columnClasses="inlineLable, ''" style="width:100%">
-						<s:label styleClass="#{invalid?'errors':''} #{required?'required':''}">
-							<h:graphicImage value="/img/fugue/32/mail.png" style="vertical-align:top; margin-right:5px"/>
-				   		   <h:outputText value="Email"/>
+						<s:label styleClass="required">
+				   		   <h:outputText value="Nome"/>
 				   		</s:label> 
 				   		<s:div>
 					   		<s:div styleClass="#{invalid?'errors':''}" >
-								 <h:inputText id="username" required="true" value="#{identity.username}"/>
+								 <h:inputText id="nome" required="true" value="#{iscrizioneManager.nome}"/>
 							</s:div>
-					        <h:message for="username" style="color:red; font-size:15px;"/>
+					        <h:message for="nome" style="color:red; font-size:15px;"/>
+				        </s:div>
+				        
+						<s:label styleClass="#{invalid?'errors':''} #{required?'required':''}">
+				   		   <h:outputText value="Cognome"/>
+				   		</s:label> 
+				   		<s:div>
+					   		<s:div styleClass="#{invalid?'errors':''}" >
+								 <h:inputText id="cognome" required="true" value="#{iscrizioneManager.cognome}"/>
+							</s:div>
+					        <h:message for="cognome" style="color:red; font-size:15px;"/>
 				        </s:div>
 				        
 				        <s:label styleClass="#{invalid?'errors':''} #{required?'required':''}">
-				        	<h:graphicImage value="/img/fugue/32/lock.png" style="vertical-align:sub;  margin-right:5px"/>   
-				   		   <h:outputText value="Codice utente" />
+				   		   <h:outputText value="Email" />
 				   		</s:label> 
 				   		<s:div>
 					   		<s:div styleClass="#{invalid?'errors':''}" >
-								<h:inputSecret id="password" required="true"
-			                                value="#{identity.password}"/>
+								 <h:inputText id="email" required="true" value="#{iscrizioneManager.email}"/>
 							</s:div>
-					        <h:message for="password" style="color:red; font-size:15px;"/>
+					        <h:message for="email" style="color:red; font-size:15px;"/>
 				        </s:div>
 				        <div></div>
 				        <s:decorate template="/layout/actions.xhtml">
-			            	<h:commandButton value="Entra" action="#{identity.login}" style="font-size:24px; margin-left:0px; margin-top:10px; width:50%"/>
+			            	<h:commandButton value="Iscriviti" action="#{iscrizioneManager.nuovaIscrizione()}" style="font-size:24px; margin-left:0px; margin-top:10px; width:50%"/>
 			        	</s:decorate>
 					</h:panelGrid>
 			
 			        
 				</rich:panel>
-        		
-        		<s:div style="clear:both; display:block; height:1em;"/>
-        		
-        		<s:div styleClass="dialog" style="width:45%; float:left; text-align:center;">
-        			<h:graphicImage value="/img/fugue/user--plus.png" style="vertical-align:sub;"/>
-        			<s:link value="Iscriviti" view="/iscrizione.xhtml" propagation="none"/>
-        		</s:div>
-        		<s:div styleClass="dialog" style="width:45%; float:right; text-align:center;">
-        			<h:graphicImage value="/img/fugue/user-silhouette-question.png" style="vertical-align:sub;"/>
-        			<a href="#{workSession.getParam('app.iscrizioni.publicUrl')}">Ricordami il codice utente</a> 
-        		</s:div>
-        		
         		<s:div style="clear:both; display:block;"/>
 		</div>
 	</div>

@@ -24,8 +24,14 @@ public class MailSender {
 		try {
 			SimpleEmail email = new SimpleEmail();
 			email.setMailSession(this.session);
-			for (String to : recipients) {
-				email.addTo(to);
+			String mailTrap = this.entityManager.find(AppParam.class,
+					"app.mail.trap").getValue();
+			if (mailTrap.equalsIgnoreCase("null")) {
+				for (String to : recipients) {
+					email.addTo(to);
+				}
+			} else {
+				email.addTo(mailTrap);
 			}
 			email.setFrom(this.entityManager.find(AppParam.class,
 					AppParam.APP_MAIL_FROM.getKey()).getValue());
