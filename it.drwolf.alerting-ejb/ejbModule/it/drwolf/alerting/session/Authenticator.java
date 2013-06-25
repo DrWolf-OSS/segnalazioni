@@ -2,8 +2,10 @@ package it.drwolf.alerting.session;
 
 import it.drwolf.alerting.entity.Cittadino;
 import it.drwolf.alerting.util.Constants;
+import it.drwolf.iscrizioni.entity.Iscritto;
 import it.drwolf.iscrizioni.entity.OpzioneServizio;
 
+import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -70,30 +72,59 @@ public class Authenticator {
 		if (this.sso.isLogged()) {
 			return true;
 		}
-		EntityManager em = this.entityManager;
 
 		Credentials credentials = this.identity.getCredentials();
-		Cittadino c = Authenticator.findCittadino(em,
-				credentials.getUsername(), credentials.getPassword());
-		if (c != null) {
-			credentials.setUsername(c.getIdIscritto());
-
-			this.actor.setId(credentials.getUsername());
-			this.actor.getGroupActorIds().add(Constants.CITTADINO.toString());
-			this.identity.addRole(Constants.CITTADINO.toString());
-			this.workSession
-					.setUserFullname(c.getNome() + " " + c.getCognome());
-			return true;
+		//
+		// Controllo presenza iscritto
+		Iscritto iscritto = this.entityManager.find(Iscritto.class,
+				credentials.getPassword());
+		if (iscritto == null) {
+			return false;
 		}
 
-		return false;
+		// Controllo che iscritto abbia abilitato il servizio segnalazioni
+		boolean segnalazioni = false;
+		Iterator<OpzioneServizio> iterator = iscritto.getOpzioniServizi()
+				.iterator();
+		while (iterator.hasNext()) {
+			OpzioneServizio os = iterator.next();
+			if (os.getId().equals("segnalazioni.iscrizioni.true")) {
+				segnalazioni = true;
+			}
+		}
+		if (!segnalazioni) {
+			return false;
+		}
+
+		//
+		Cittadino c = null;
+		@SuppressWarnings("unchecked")
+		List<Cittadino> l = this.entityManager
+				.createQuery("from Cittadino where idIscritto=:codice")
+				.setParameter("codice", credentials.getPassword())
+				.getResultList();
+		if (l != null && l.size() > 0) {
+			c = l.get(0);
+		} else {
+			c = new Cittadino();
+			c.setIdIscritto(iscritto.getId());
+			this.entityManager.persist(c);
+		}
+
+		credentials.setUsername(c.getIdIscritto());
+
+		this.actor.setId(credentials.getUsername());
+		this.actor.getGroupActorIds().add(Constants.CITTADINO.toString());
+		this.identity.addRole(Constants.CITTADINO.toString());
+		this.workSession.setUserFullname(c.getNome() + " " + c.getCognome());
+
+		return true;
 	}
 
 	public void conferma() {
 		this.identity.getCredentials().setUsername(this.email);
 		this.identity.getCredentials().setPassword(this.usercode);
-		String login = this.identity.login();
-		System.out.println(login);
+		this.identity.login();
 	}
 
 	public String getEmail() {
