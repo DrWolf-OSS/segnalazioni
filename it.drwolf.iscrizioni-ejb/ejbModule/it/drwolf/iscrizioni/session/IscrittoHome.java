@@ -9,6 +9,7 @@ import it.drwolf.iscrizioni.entity.OpzioneServizio;
 import it.drwolf.iscrizioni.entity.Servizio;
 import it.drwolf.iscrizioni.util.IdGenerator;
 
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
@@ -297,11 +298,25 @@ public class IscrittoHome extends EntityHome<Iscritto> {
 
 	@SuppressWarnings("unchecked")
 	public void importa() throws IOException {
-		CSVReader reader = new CSVReader(new StringReader(this.importData));
-		String[] header = reader.readNext();
 
-		String[] line;
-		while ((line = reader.readNext()) != null) {
+		System.out.println("importData: " + this.importData);
+
+		CSVReader reader = null;
+		if (("" + this.importData).startsWith("/")) {
+			reader = new CSVReader(new FileReader(this.importData));
+		} else {
+			reader = new CSVReader(new StringReader(this.importData));
+
+		}
+
+		List<String[]> all = reader.readAll();
+
+		String[] header = all.get(0);
+
+		System.out.println(all.size() + " lines");
+
+		for (int r = 1; r < all.size(); r++) {
+			String[] line = all.get(r);
 			Iscritto iscritto = new Iscritto();
 			String[] gruppi = new String[0];
 			String[] opzioni = new String[0];

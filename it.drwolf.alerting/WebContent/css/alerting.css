@@ -429,3 +429,11 @@ width:100%;
 	line-height: 3em;
 	/* border-bottom: 1px solid #BA2B31;*/
 }
+
+.homeText{
+	display:none ! important;	
+}
+
+.login a{
+	color:white;
+}
