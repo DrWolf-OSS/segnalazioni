@@ -41,11 +41,13 @@ public class PeopleAndRolesConverter implements Converter {
 			return null;
 		}
 		arg2 = arg2.replaceAll("\\(.*\\)", "");
-		return this.entityManager.createQuery(
-				"select idpeople from People "
-						+ "where concat(cognome,concat(:sep,nome))=:nc")
-				.setParameter("nc", arg2).setParameter("sep",
-						PeopleAndRolesConverter.nameSep).getSingleResult();
+		return this.entityManager
+				.createQuery(
+						"select idpeople from People "
+								+ "where concat(cognome,concat(:sep,nome))=:nc")
+				.setParameter("nc", arg2)
+				.setParameter("sep", PeopleAndRolesConverter.nameSep)
+				.getSingleResult();
 	}
 
 	public String getAsString(FacesContext arg0, UIComponent arg1, Object arg2) {
@@ -58,8 +60,9 @@ public class PeopleAndRolesConverter implements Converter {
 				.getInstance("eloiseUtils");
 
 		People people = this.entityManager.find(People.class, arg2.toString());
+
 		return PeopleAndRolesConverter.formatPeople(people) + " "
-				+ this.eloiseUtils.getUserRoles(people.getIdpeople());
+		+ this.eloiseUtils.getUserRoles(people.getIdpeople());
 	}
 
 }

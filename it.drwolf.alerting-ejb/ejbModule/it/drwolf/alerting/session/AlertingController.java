@@ -340,9 +340,19 @@ public class AlertingController {
 					competenti.put(people.getCognome()
 							+ PeopleConverter.nameSep + people.getNome(),
 							people.getIdpeople());
-				} else {
-					competenti.put(idpeople, idpeople);
 				}
+
+				// @Pala
+				// Tolto perchè nella pagina di assegnazione task dava eccezione
+				// se veniva passato un id di un oggetto People non più
+				// presente.
+				// Il metodo è usato solo in /app/task/scegliAssegnatario.xhtml
+				// quindi il cambiamento non dovrebbe avere ripercussioni
+				// altrove
+				//
+				// else {
+				// competenti.put(idpeople, idpeople);
+				// }
 
 			}
 
