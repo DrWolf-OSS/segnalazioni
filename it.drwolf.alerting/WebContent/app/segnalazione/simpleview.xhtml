@@ -28,7 +28,7 @@
 	</s:decorate>
 	
 
-	<rich:panel id="risposta" style="background-color:#FEFFF0" rendered="#{segnalazioneHome.instance.stato.nome eq 'chiuso'}">
+	<rich:panel id="risposta" style="background-color:#FEFFF0" rendered="#{segnalazioneHome.instance.stato.nome eq 'chiuso' and not empty segnalazioneHome.instance.risposte}">
 		<ui:param name="risposta" value="#{segnalazioneHome.instance.risposte.get(0)}" />		
 		<f:facet name="header">
 			<s:div>		
