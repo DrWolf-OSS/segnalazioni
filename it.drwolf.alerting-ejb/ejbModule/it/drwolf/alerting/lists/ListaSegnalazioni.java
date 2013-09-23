@@ -29,6 +29,8 @@ public class ListaSegnalazioni {
 	private Long inizio;
 	private Long fine;
 
+	private int rows = 25;
+
 	private List<Stato> stati = new ArrayList<Stato>(0);
 
 	private Stato cambiaStato;
@@ -122,6 +124,10 @@ public class ListaSegnalazioni {
 		return query.getResultList();
 	}
 
+	public int getRows() {
+		return this.rows;
+	}
+
 	public List<Integer> getSegnalazioniAperte() {
 		return this.segnalazioniAperte;
 	}
@@ -204,6 +210,10 @@ public class ListaSegnalazioni {
 
 	public void setInizio(Long inizio) {
 		this.inizio = inizio;
+	}
+
+	public void setRows(int rows) {
+		this.rows = rows;
 	}
 
 	public void setSegnalazioniAperte(List<Integer> segnalazioniAperte) {

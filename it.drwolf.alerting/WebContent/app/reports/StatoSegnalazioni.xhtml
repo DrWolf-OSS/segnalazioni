@@ -7,9 +7,23 @@
 	xmlns:c="http://java.sun.com/jstl/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j"
 	template="/layout/template.xhtml">
 
-	<ui:define name="title">Ricerca Segnalazioni (#{reports.listaSegnalazioni.size()} risultati)</ui:define>
+	<ui:define name="title">
+		<h:form>
+		<span>Ricerca Segnalazioni (#{reports.listaSegnalazioni.size()} risultati) 
+			<span style="float:right; margin-right:10px;">
+				<h:selectOneMenu value="#{listaSegnalazioni.rows}" onchange="submit();">
+					<f:selectItem itemLabel="25" itemValue="25"/>
+					<f:selectItem itemLabel="100" itemValue="100"/>
+					<f:selectItem itemLabel="500" itemValue="500"/>
+					<f:selectItem itemLabel="tutte" itemValue="50000"/>
+				</h:selectOneMenu>
+			</span>
+		</span>
+		</h:form>
+	</ui:define>
 
 	<ui:define name="navigation">
 		<h:form>
@@ -198,7 +212,7 @@
 
 
 
-		<rich:dataTable id="statoSegnalazioni" value="#{segnalazioni}" var="s">
+		<rich:dataTable id="statoSegnalazioni" value="#{segnalazioni}" var="s" rows="#{listaSegnalazioni.rows}">
 
 			<rich:column label="N" sortable="true" sortBy="#{s.id}">
 				<f:facet name="header">
@@ -312,6 +326,7 @@
 
 
 		</rich:dataTable>
+		<rich:datascroller for="statoSegnalazioni" />
 
 
 
