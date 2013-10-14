@@ -55,8 +55,7 @@
         <property name="urlPattern">*.seam</property>
     </component>
     
-   <mail:mail-session ssl="false" tls="false" host="#{workSession.getParam('app.mail.host')}" port="25" />
-        
+ 
    <!-- For use with jBPM pageflow or process management -->
     
    <bpm:jbpm>

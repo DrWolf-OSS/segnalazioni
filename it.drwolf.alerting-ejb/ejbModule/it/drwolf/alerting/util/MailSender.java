@@ -4,7 +4,6 @@ import it.drwolf.alerting.entity.AppParam;
 
 import java.util.List;
 
-import javax.mail.Session;
 import javax.persistence.EntityManager;
 
 import org.apache.commons.mail.EmailException;
@@ -14,8 +13,7 @@ import org.jboss.seam.annotations.Name;
 
 @Name("mailSender")
 public class MailSender {
-	@In("org.jboss.seam.mail.mailSession")
-	private Session session;
+
 	@In
 	private EntityManager entityManager;
 
@@ -23,7 +21,28 @@ public class MailSender {
 			String msg) {
 		try {
 			SimpleEmail email = new SimpleEmail();
-			email.setMailSession(this.session);
+
+			EntityManager em = this.entityManager;
+
+			email.setHostName(em.find(AppParam.class, AppParam.APP_MAIL_HOST)
+					.getValue());
+			email.setFrom(
+					em.find(AppParam.class, AppParam.APP_MAIL_FROM_ADDRESS)
+							.getValue(),
+					em.find(AppParam.class, AppParam.APP_MAIL_FROM_NAME)
+							.getValue());
+
+			AppParam port = em.find(AppParam.class, AppParam.APP_MAIL_PORT);
+			if (port != null) {
+				email.setSmtpPort(Integer.parseInt(port.getValue()));
+			}
+
+			AppParam pwd = em.find(AppParam.class, AppParam.APP_MAIL_PASSWORD);
+			if (pwd != null) {
+				AppParam user = em.find(AppParam.class, AppParam.APP_MAIL_USER);
+				email.setAuthentication(user.getValue(), pwd.getValue());
+			}
+
 			String mailTrap = this.entityManager.find(AppParam.class,
 					"app.mail.trap").getValue();
 			if (mailTrap.equalsIgnoreCase("null")) {
@@ -33,8 +52,6 @@ public class MailSender {
 			} else {
 				email.addTo(mailTrap);
 			}
-			email.setFrom(this.entityManager.find(AppParam.class,
-					AppParam.APP_MAIL_FROM.getKey()).getValue());
 			email.setSubject(this.entityManager.find(AppParam.class,
 					AppParam.APP_NAME.getKey()).getValue()
 					+ " - " + subject);

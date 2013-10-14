@@ -19,16 +19,27 @@ public class AppParam implements Serializable {
 
 	public static final AppParam APP_NAME = new AppParam("app.name", "SIGN");
 
-	public static final AppParam APP_MAIL_FROM = new AppParam("app.mail.from",
-			"jboss@drwolf.it");
+	public static final AppParam APP_MAIL_FROM_ADDRESS = new AppParam(
+			"app.mail.from", "jboss@drwolf.it");
+
+	public static final AppParam APP_MAIL_FROM_NAME = new AppParam(
+			"app.mail.from.name", "Segnalazioni");
+
+	public static final AppParam APP_MAIL_PORT = new AppParam("app.mail.port",
+			"587");
+
+	public static final AppParam APP_MAIL_USER = new AppParam("app.mail.user",
+			"agea@drwolf.it");
+
+	public static final AppParam APP_MAIL_PASSWORD = new AppParam(
+			"app.mail.password", "ftCMkaU6tK1bL2PAvnIpUg");
 
 	public static final AppParam APP_MAIL_TRAP = new AppParam("app.mail.trap",
 			"null");
 
 	public static final AppParam APP_SKIN = new AppParam("app.skin", "ruby");
 
-	public static final AppParam APP_COMUNE = new AppParam("app.comune",
-			"Lastra a Signa");
+	public static final AppParam APP_COMUNE = new AppParam("app.comune", "----");
 	public static final AppParam APP_PROVINCIA = new AppParam("app.provincia",
 			"FI");
 	public static final AppParam APP_SSOAPPID = new AppParam("app.ssoappid",
@@ -43,7 +54,7 @@ public class AppParam implements Serializable {
 			"http://localhost:8080/sign");
 
 	public static final AppParam APP_MAIL_HOST = new AppParam("app.mail.host",
-			"mail.drwolf.it");
+			"smtp.mandrillapp.comt");
 
 	public static final AppParam APP_SEGNALAZIONE_SCADENZA = new AppParam(
 			"app.segnalazione.scadenza", "20");
@@ -113,7 +124,9 @@ public class AppParam implements Serializable {
 			AppParam.APP_WELCOME, AppParam.APP_COMUNE, AppParam.APP_SSOAPPID,
 			AppParam.APP_URL, AppParam.APP_SEGNALAZIONE_SCADENZA,
 			AppParam.APP_MAIL_HOST, AppParam.APP_SEGNALAZIONE_REMINDER_START,
-			AppParam.APP_MAIL_FROM, AppParam.APP_SEGNALAZIONE_REMINDER,
+			AppParam.APP_MAIL_FROM_ADDRESS, AppParam.APP_MAIL_FROM_NAME,
+			AppParam.APP_MAIL_PORT, AppParam.APP_MAIL_USER,
+			AppParam.APP_MAIL_PASSWORD, AppParam.APP_SEGNALAZIONE_REMINDER,
 			AppParam.APP_IMG_FOOT, AppParam.APP_IMG_HEAD, AppParam.IQ_SECRET,
 			AppParam.ISCRIZIONI_URL, AppParam.ISCRIZIONI_PUBLIC_URL,
 			AppParam.APP_DAILY_STATI_DEFAULT, AppParam.APP_DAILY_STATI_HIDE,
