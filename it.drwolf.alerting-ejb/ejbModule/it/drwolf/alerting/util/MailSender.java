@@ -24,22 +24,25 @@ public class MailSender {
 
 			EntityManager em = this.entityManager;
 
-			email.setHostName(em.find(AppParam.class, AppParam.APP_MAIL_HOST)
-					.getValue());
+			email.setHostName(em.find(AppParam.class,
+					AppParam.APP_MAIL_HOST.getKey()).getValue());
 			email.setFrom(
-					em.find(AppParam.class, AppParam.APP_MAIL_FROM_ADDRESS)
-							.getValue(),
-					em.find(AppParam.class, AppParam.APP_MAIL_FROM_NAME)
-							.getValue());
+					em.find(AppParam.class,
+							AppParam.APP_MAIL_FROM_ADDRESS.getKey()).getValue(),
+					em.find(AppParam.class,
+							AppParam.APP_MAIL_FROM_NAME.getKey()).getValue());
 
-			AppParam port = em.find(AppParam.class, AppParam.APP_MAIL_PORT);
+			AppParam port = em.find(AppParam.class,
+					AppParam.APP_MAIL_PORT.getKey());
 			if (port != null) {
 				email.setSmtpPort(Integer.parseInt(port.getValue()));
 			}
 
-			AppParam pwd = em.find(AppParam.class, AppParam.APP_MAIL_PASSWORD);
+			AppParam pwd = em.find(AppParam.class,
+					AppParam.APP_MAIL_PASSWORD.getKey());
 			if (pwd != null) {
-				AppParam user = em.find(AppParam.class, AppParam.APP_MAIL_USER);
+				AppParam user = em.find(AppParam.class,
+						AppParam.APP_MAIL_USER.getKey());
 				email.setAuthentication(user.getValue(), pwd.getValue());
 			}
 
