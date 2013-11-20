@@ -38,9 +38,9 @@
       <rich:tab name="pool" ontabenter="updateTab('pool')" label="Segnalazioni da prendere in carico (#{pooledTaskInstanceList.size()})"
       			rendered="#{not empty pooledTaskInstanceList}">
 
-    <rich:dataTable value="#{pooledTaskInstanceList}" var="task" rendered="#{not empty pooledTaskInstanceList}" id="tasks">
+    <rich:dataTable value="#{pooledTaskInstanceList}" var="task" rendered="#{not empty pooledTaskInstanceList}" id="tasks" rows="10" >
 
-        <rich:column>
+        <rich:column sortBy="#{alertingController.getTitleForTask(task)}" sortOrder="DESCENDING">
             <f:facet name="header">
                 Segnalazione
             </f:facet>
@@ -65,6 +65,8 @@
             </s:button>
         </rich:column>
     </rich:dataTable>
+     <rich:datascroller align="left" for="tasks" maxPages="10"
+    	id="taskScroller" />
     </rich:tab>
     <rich:tab name="interventi" ontabenter="updateTab('interventi')" label="Interventi (#{interventi.size()})" rendered="#{gestore}">
       <rich:dataTable id="intTable" value="#{interventi}" var="intervento" rows="10" rendered="#{not empty interventi}" reRender="ids,tt">
