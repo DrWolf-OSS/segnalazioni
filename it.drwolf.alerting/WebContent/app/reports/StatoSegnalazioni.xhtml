@@ -322,6 +322,16 @@
         	</f:facet>
 				<h:outputText value="#{reports.getCurrentTaskOffice(s)}" />
 			</rich:column>
+			<rich:column label="Duplicato" sortable="false">
+				<f:facet name="header">
+	        		Duplicati
+	        	</f:facet>
+				<s:button value="Duplica" view="/app/segnalazione.xhtml" includePageParams="true" rendered="#{not empty duplicato and empty s.duplicato and s.id!=sidFrom}">
+					<f:param name="duplicato" value="#{s.id}" />
+					<f:param name="sid" value="#{sidFrom}" />
+				</s:button>
+				<h:outputText value="#{s.duplicato}" />	
+			</rich:column>
 
 
 

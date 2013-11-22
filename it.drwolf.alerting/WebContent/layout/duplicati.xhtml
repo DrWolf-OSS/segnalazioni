@@ -1,0 +1,34 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:c="http://java.sun.com/jstl/core" xmlns:s="http://jboss.com/products/seam/taglib">
+
+
+
+	<s:decorate id="duplicatiDecoration">
+
+		<s:button value="Segna come duplicato di" view="/app/reports/StatoSegnalazioni.seam" rendered="#{empty segnalazioneHome.instance.duplicato}">
+			<f:param name="duplicato" value="-1"></f:param>
+			<f:param name="sidFrom" value="#{sid}" />
+		</s:button>
+
+		<rich:dataTable id="duplicatiTable" value="#{segnalazioneHome.instance.duplicato}" var="dup" rendered="#{not empty segnalazioneHome.instance.duplicato}">
+			<rich:column sortable="false">
+				<f:facet name="header">
+        			Duplicato
+        		</f:facet>
+        		#{segnalazioneHome.instance.duplicato}
+        	</rich:column>
+			<rich:column sortable="false">
+				<f:facet name="header">
+	        		Azioni
+	       		</f:facet>
+	        	<s:button value="Cancella" action="#{segnalazioneHome.setDuplicatoId(null)}" />
+				<s:button value="Cambia" view="/app/reports/StatoSegnalazioni.seam">
+					<f:param name="duplicato" value="-1"></f:param>
+					<f:param name="sidFrom" value="#{sid}" />
+				</s:button>
+       		</rich:column>
+		</rich:dataTable>
+
+	</s:decorate>
+</ui:composition>

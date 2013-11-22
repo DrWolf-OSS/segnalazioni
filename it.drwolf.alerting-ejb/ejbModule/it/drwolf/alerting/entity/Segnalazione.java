@@ -96,6 +96,8 @@ public class Segnalazione implements java.io.Serializable {
 
 	private List<Risposta> risposte;
 
+	private Segnalazione duplicato;
+
 	public Segnalazione() {
 	}
 
@@ -170,6 +172,11 @@ public class Segnalazione implements java.io.Serializable {
 
 	public Date getData() {
 		return this.data;
+	}
+
+	@ManyToOne
+	public Segnalazione getDuplicato() {
+		return this.duplicato;
 	}
 
 	@ManyToOne
@@ -336,6 +343,10 @@ public class Segnalazione implements java.io.Serializable {
 
 	public void setData(Date data) {
 		this.data = data;
+	}
+
+	public void setDuplicato(Segnalazione duplicato) {
+		this.duplicato = duplicato;
 	}
 
 	public void setEsitoSegnalazione(EsitoSegnalazione esitoSegnalazione) {

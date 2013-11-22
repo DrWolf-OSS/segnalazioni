@@ -4,6 +4,9 @@ import it.drwolf.alerting.entity.Segnalazione;
 
 import java.util.Arrays;
 
+import javax.persistence.EntityManager;
+
+import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.framework.EntityQuery;
 
@@ -12,8 +15,10 @@ public class SegnalazioneList extends EntityQuery<Segnalazione> {
 
 	private static final long serialVersionUID = -8205611425086794681L;
 
-	private static final String[] RESTRICTIONS = {
-			"lower(segnalazione.idutenteInseritore) like concat(lower(#{segnalazioneList.segnalazione.idutenteInseritore}),'%')",
+	@In(create = true)
+	private EntityManager entityManager;
+
+	private static final String[] RESTRICTIONS = { "lower(segnalazione.idutenteInseritore) like concat(lower(#{segnalazioneList.segnalazione.idutenteInseritore}),'%')",
 			"lower(segnalazione.via) like concat(lower(#{segnalazioneList.segnalazione.via}),'%')",
 			"lower(segnalazione.civico) like concat(lower(#{segnalazioneList.segnalazione.civico}),'%')",
 			"lower(segnalazione.localita) like concat(lower(#{segnalazioneList.segnalazione.localita}),'%')",
@@ -22,8 +27,7 @@ public class SegnalazioneList extends EntityQuery<Segnalazione> {
 	private Segnalazione segnalazione = new Segnalazione();
 
 	public SegnalazioneList() {
-		this.setRestrictionExpressionStrings(Arrays
-				.asList(SegnalazioneList.RESTRICTIONS));
+		this.setRestrictionExpressionStrings(Arrays.asList(SegnalazioneList.RESTRICTIONS));
 	}
 
 	@Override
@@ -40,4 +44,7 @@ public class SegnalazioneList extends EntityQuery<Segnalazione> {
 		return this.segnalazione;
 	}
 
+	public Segnalazione getSegnalazione(int id) {
+		return this.entityManager.find(Segnalazione.class, id);
+	}
 }

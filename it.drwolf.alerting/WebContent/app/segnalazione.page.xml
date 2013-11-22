@@ -4,6 +4,8 @@
       xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd">
 
 	<param name="sid" value="#{segnalazioneHome.segnalazioneId}"/>  
+	<param name="duplicato" value="#{segnalazioneHome.duplicatoId}"/>
+
 	<restrict>#{segnalazioneHome.visible}</restrict> 
 
 	<action execute="#{segnalazioneHome.verificaScadenza(segnalazioneHome.instance,true)}" />

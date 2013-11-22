@@ -46,7 +46,7 @@
             </rich:panelMenuItem>
             
              <rich:panelMenuItem rendered="#{not s:hasRole('cittadino')}">
-            	<s:link view="/app/reports/StatoSegnalazioni.xhtml" propagation="join">Ricerca Segnalazioni</s:link>
+            	<s:link view="/app/reports/StatoSegnalazioni.xhtml" propagation="join" includePageParams="false">Ricerca Segnalazioni</s:link>
             </rich:panelMenuItem>
              <rich:panelMenuItem rendered="#{s:hasRole('admin') or s:hasRole('supervisor')}">
             	<s:link view="/app/reports/ReportListV.xhtml" propagation="none">Report Segnalazioni</s:link>
