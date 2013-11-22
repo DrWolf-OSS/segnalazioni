@@ -35,8 +35,9 @@
                             <ui:param name="segnalazione" value="#{segnalazione}"/>
                         </ui:include>
                     </rich:tab>
-                     <rich:tab label="foto">
-                        <ui:include src="/layout/fotografie.xhtml">
+                    
+                     <rich:tab label="foto" rendered="#{fotoUtils.fotoEnabled()}">
+                        <ui:include src="/layout/fotografie.xhtml" >
                             <ui:param name="segnalazione" value="#{segnalazione}"/>
                         </ui:include>
                     </rich:tab>
