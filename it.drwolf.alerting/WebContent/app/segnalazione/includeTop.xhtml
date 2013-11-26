@@ -20,7 +20,7 @@
 	 						<ui:param name="interventi" value="#{segnalazione.interventos}"/>
 						</ui:include>
 					</rich:tab>
-					<rich:tab label="storia" >
+					<rich:tab label="storia" rendered="#{not s:hasRole('cittadino') and alertingController.historyEnabled()}"> 
 						<ui:include src="/layout/history.xhtml">
 							<ui:param name="segnalazione" value="#{segnalazione}"/>
 						</ui:include>

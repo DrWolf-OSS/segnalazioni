@@ -113,32 +113,20 @@ public class AlertingController {
 
 	@SuppressWarnings("unchecked")
 	public void alertAssignee() {
-		List<UfficioCompetente> resultList = this.entityManager
-				.createQuery(
-						"select u from UfficioCompetente u where u.alert=true and :user in elements(u.gestori)")
-				.setParameter("user",
-						this.alertingProcess.getImpiegatoUfficioCompetente())
-				.getResultList();
+		List<UfficioCompetente> resultList = this.entityManager.createQuery("select u from UfficioCompetente u where u.alert=true and :user in elements(u.gestori)")
+				.setParameter("user", this.alertingProcess.getImpiegatoUfficioCompetente()).getResultList();
 		if (resultList.size() > 0) {
-			People people = this.entityManager.find(People.class,
-					this.alertingProcess.getImpiegatoUfficioCompetente());
+			People people = this.entityManager.find(People.class, this.alertingProcess.getImpiegatoUfficioCompetente());
 			String msg = "Ti è stata assegnata una segnalazione, segui il link per vedere i dettagli:";
-			msg += "\r\n\r\n"
-					+ this.entityManager.find(AppParam.class,
-							AppParam.APP_URL.getKey());
-			this.mailSender.sendSimpleMail(
-					Arrays.asList(new String[] { people.getEmail() }),
-					"Segnalazione assegnata", msg);
+			msg += "\r\n\r\n" + this.entityManager.find(AppParam.class, AppParam.APP_URL.getKey());
+			this.mailSender.sendSimpleMail(Arrays.asList(new String[] { people.getEmail() }), "Segnalazione assegnata", msg);
 		}
 	}
 
 	public String assegnaSegnalazione() throws Exception {
-		SwimlaneInstance swimlaneInstance = this.getCurrentTask()
-				.getProcessInstance().getTaskMgmtInstance()
-				.getSwimlaneInstance(Constants.UFFICIO_COMPETENTE.toString());
+		SwimlaneInstance swimlaneInstance = this.getCurrentTask().getProcessInstance().getTaskMgmtInstance().getSwimlaneInstance(Constants.UFFICIO_COMPETENTE.toString());
 		if (swimlaneInstance != null) {
-			swimlaneInstance.setActorId(this.alertingProcess
-					.getImpiegatoUfficioCompetente());
+			swimlaneInstance.setActorId(this.alertingProcess.getImpiegatoUfficioCompetente());
 		}
 		return "home";
 	}
@@ -162,15 +150,10 @@ public class AlertingController {
 			Segnalazione s = this.segnalazioneHome.getInstance();
 
 			if (s.getCanaleSegnalazione() == null) {
-				s.setCanaleSegnalazione((CanaleSegnalazione) this.entityManager
-						.createQuery("from CanaleSegnalazione where nome=:www")
-						.setParameter("www",
-								Constants.CANALE_WWW_NOME.toString())
-						.getSingleResult());
+				s.setCanaleSegnalazione((CanaleSegnalazione) this.entityManager.createQuery("from CanaleSegnalazione where nome=:www")
+						.setParameter("www", Constants.CANALE_WWW_NOME.toString()).getSingleResult());
 			}
-			s.getBpmInfo().setTokenId(
-					this.getCurrentTask().getProcessInstance().getRootToken()
-							.getId());
+			s.getBpmInfo().setTokenId(this.getCurrentTask().getProcessInstance().getRootToken().getId());
 
 			this.segnalazioneHome.update();
 
@@ -205,8 +188,7 @@ public class AlertingController {
 			if (segnalazione != null) {
 				this.segnalazioneHome.setSegnalazioneId(segnalazione.getId());
 			}
-			this.segnalazioneHome.getInstance().getBpmInfo()
-					.setCurrentTask(currentTask.getDescription());
+			this.segnalazioneHome.getInstance().getBpmInfo().setCurrentTask(currentTask.getDescription());
 
 		}
 		if (!this.interventoHome.isIdDefined()) {
@@ -214,8 +196,7 @@ public class AlertingController {
 			if (intervento != null) {
 				this.interventoHome.setInterventoId(intervento.getId());
 			}
-			this.interventoHome.getInstance().getBpmInfo()
-					.setCurrentTask(currentTask.getDescription());
+			this.interventoHome.getInstance().getBpmInfo().setCurrentTask(currentTask.getDescription());
 
 		}
 
@@ -240,17 +221,11 @@ public class AlertingController {
 		}
 		this.processInstance.getTaskMgmtInstance().endAll();
 
-		List<Segnalazione> l = this.entityManager
-				.createQuery("from Segnalazione where bpmInfo.processId=:pid")
-				.setParameter("pid", this.processInstance.getId())
-				.getResultList();
+		List<Segnalazione> l = this.entityManager.createQuery("from Segnalazione where bpmInfo.processId=:pid").setParameter("pid", this.processInstance.getId()).getResultList();
 		if (l.size() > 0) {
 			Segnalazione s = l.get(0);
-			s.setStato((Stato) this.entityManager
-					.createQuery("from Stato where nome=:n")
-					.setParameter("n",
-							Stato.defaults[Stato.defaults.length - 1].getNome())
-					.getResultList().get(0));
+			s.setStato((Stato) this.entityManager.createQuery("from Stato where nome=:n").setParameter("n", Stato.defaults[Stato.defaults.length - 1].getNome()).getResultList()
+					.get(0));
 			this.entityManager.merge(s);
 		}
 
@@ -261,13 +236,10 @@ public class AlertingController {
 		try {
 			Intervento intervento = new Intervento();
 			intervento.setSegnalazione(this.getSegnalazione());
-			intervento.getBpmInfo().setTokenId(
-					this.getCurrentTask().getToken().getId());
+			intervento.getBpmInfo().setTokenId(this.getCurrentTask().getToken().getId());
 			if (!"blu".equals(intervento.getCodiceTriage().getId())) {
 
-				intervento.setScadenza(new Date(this.getCurrentTask()
-						.getProcessInstance().getStart().getTime()
-						+ intervento.getCodiceTriage().getTempoIntervento()
+				intervento.setScadenza(new Date(this.getCurrentTask().getProcessInstance().getStart().getTime() + intervento.getCodiceTriage().getTempoIntervento()
 						* DateUtils.MILLIS_PER_DAY));
 			}
 
@@ -290,8 +262,7 @@ public class AlertingController {
 	}
 
 	public String getAppUrl() {
-		return this.entityManager.find(AppParam.class,
-				AppParam.APP_URL.getKey()).getValue();
+		return this.entityManager.find(AppParam.class, AppParam.APP_URL.getKey()).getValue();
 
 	}
 
@@ -301,8 +272,7 @@ public class AlertingController {
 
 	public List<TaskInstance> getAttivitaSegnalazione(Segnalazione segnalazione) {
 		if (this.taskCache.get(segnalazione) == null) {
-			this.taskCache.put(segnalazione,
-					this.retrieveAttivita(segnalazione));
+			this.taskCache.put(segnalazione, this.retrieveAttivita(segnalazione));
 		}
 		return this.taskCache.get(segnalazione);
 
@@ -310,8 +280,7 @@ public class AlertingController {
 
 	@SuppressWarnings("unchecked")
 	public List<Transition> getAvailableTransitions() {
-		List<Transition> availableTransitions = this.getCurrentTask()
-				.getAvailableTransitions();
+		List<Transition> availableTransitions = this.getCurrentTask().getAvailableTransitions();
 		Collections.sort(availableTransitions, new Comparator<Transition>() {
 
 			public int compare(Transition o1, Transition o2) {
@@ -328,18 +297,14 @@ public class AlertingController {
 		}
 		TreeMap<String, String> competenti = new TreeMap<String, String>();
 
-		List<UfficioCompetente> ufficiCompetenti = this.getSegnalazione()
-				.getSottotipoSegnalazione().getTipoSegnalazione()
-				.getUfficiCompetenti();
+		List<UfficioCompetente> ufficiCompetenti = this.getSegnalazione().getSottotipoSegnalazione().getTipoSegnalazione().getUfficiCompetenti();
 		for (UfficioCompetente uc : ufficiCompetenti) {
 			for (String idpeople : uc.getGestori()) {
 
 				People people = this.entityManager.find(People.class, idpeople);
 				if (people != null) {
 
-					competenti.put(people.getCognome()
-							+ PeopleConverter.nameSep + people.getNome(),
-							people.getIdpeople());
+					competenti.put(people.getCognome() + PeopleConverter.nameSep + people.getNome(), people.getIdpeople());
 				}
 
 				// @Pala
@@ -376,19 +341,13 @@ public class AlertingController {
 	public String getDirigenti() {
 		try {
 			TreeSet<String> d = new TreeSet<String>();
-			List<UfficioCompetente> uc = this.getSegnalazione()
-					.getSottotipoSegnalazione().getTipoSegnalazione()
-					.getUfficiCompetenti();
+			List<UfficioCompetente> uc = this.getSegnalazione().getSottotipoSegnalazione().getTipoSegnalazione().getUfficiCompetenti();
 			for (UfficioCompetente u : uc) {
-				Ufficio ufficio = this.entityManager.find(Ufficio.class,
-						u.getEloiseId());
-				for (Organizationalrole or : ufficio.getArea()
-						.getOrganizationalroles()) {
+				Ufficio ufficio = this.entityManager.find(Ufficio.class, u.getEloiseId());
+				for (Organizationalrole or : ufficio.getArea().getOrganizationalroles()) {
 					if (or.getUfficio() == null) {
 						for (People p : or.getPeoples()) {
-							d.add(p.getCognome() + " " + p.getNome() + " ("
-									+ p.getEmail() + ", " + p.getTelefono()
-									+ ")");
+							d.add(p.getCognome() + " " + p.getNome() + " (" + p.getEmail() + ", " + p.getTelefono() + ")");
 						}
 					}
 				}
@@ -417,14 +376,11 @@ public class AlertingController {
 	public Map<String, String> getGestori() {
 		TreeMap<String, String> competenti = new TreeMap<String, String>();
 
-		List<String> gestori = this.interventoHome.getInstance()
-				.getSottotipoIntervento().getTipoIntervento()
-				.getGestoriIntervento();
+		List<String> gestori = this.interventoHome.getInstance().getSottotipoIntervento().getTipoIntervento().getGestoriIntervento();
 		for (String idpeople : gestori) {
 			People people = this.entityManager.find(People.class, idpeople);
 
-			competenti.put(people.getCognome() + PeopleConverter.nameSep
-					+ people.getNome(), people.getIdpeople());
+			competenti.put(people.getCognome() + PeopleConverter.nameSep + people.getNome(), people.getIdpeople());
 
 		}
 		return competenti;
@@ -433,36 +389,27 @@ public class AlertingController {
 	@SuppressWarnings("unchecked")
 	public List<Info> getHistory(Segnalazione segnalazione) {
 
-		List<Object[]> res = this.entityManager
-				.createNativeQuery(
-						"SELECT START_,END_,DESCRIPTION_, ACTORID_ FROM JBPM_TASKINSTANCE J where J.PROCINST_=:pi order by ID_ desc")
-				.setParameter("pi", segnalazione.getBpmInfo().getProcessId())
-				.getResultList();
+		List<Object[]> res = this.entityManager.createNativeQuery("SELECT START_,END_,DESCRIPTION_, ACTORID_ FROM JBPM_TASKINSTANCE J where J.PROCINST_=:pi order by ID_ desc")
+				.setParameter("pi", segnalazione.getBpmInfo().getProcessId()).getResultList();
 
 		List<Info> messages = new ArrayList<Info>();
 
-		ProcessInstance process = this.jbpmContext
-				.getProcessInstance(segnalazione.getBpmInfo().getProcessId());
+		ProcessInstance process = this.jbpmContext.getProcessInstance(segnalazione.getBpmInfo().getProcessId());
 
 		if (process.getEnd() != null) {
-			messages.add(new Info(process.getEnd(), process.getEnd(),
-					"Termine segnalazione", null));
+			messages.add(new Info(process.getEnd(), process.getEnd(), "Termine segnalazione", null));
 		}
 		for (Object[] r : res) {
-			messages.add(new Info((Date) r[0], (Date) r[1], (String) r[2],
-					(String) r[3]));
+			messages.add(new Info((Date) r[0], (Date) r[1], (String) r[2], (String) r[3]));
 		}
 
-		messages.add(new Info(process.getStart(), process.getStart(),
-				"Creazione segnalazione", segnalazione.getIdutenteInseritore()));
+		messages.add(new Info(process.getStart(), process.getStart(), "Creazione segnalazione", segnalazione.getIdutenteInseritore()));
 		return messages;
 	}
 
 	@SuppressWarnings("unchecked")
 	public List<Integer> getIdTipiIntervento(String username) {
-		return this.entityManager
-				.createNativeQuery(
-						"select t.TipoIntervento_id from TipoIntervento_gestoriIntervento t where t.element=:username")
+		return this.entityManager.createNativeQuery("select t.TipoIntervento_id from TipoIntervento_gestoriIntervento t where t.element=:username")
 				.setParameter("username", username).getResultList();
 	}
 
@@ -472,10 +419,7 @@ public class AlertingController {
 		for (Token t : (List<Token>) this.processInstance.findAllTokens()) {
 			if (t.getNode() != null) {
 				if (t.getNode().getName().equals("aggiornamentoIntervento")) {
-					res.addAll(this.entityManager
-							.createQuery(
-									"from Intervento where bpmInfo.tokenId=:tid")
-							.setParameter("tid", t.getId()).getResultList());
+					res.addAll(this.entityManager.createQuery("from Intervento where bpmInfo.tokenId=:tid").setParameter("tid", t.getId()).getResultList());
 				}
 			}
 		}
@@ -492,18 +436,12 @@ public class AlertingController {
 	@SuppressWarnings("unchecked")
 	public Intervento getIntervento(TaskInstance currentTask) {
 		Intervento intervento = null;
-		List<Intervento> resultList = this.entityManager
-				.createQuery("from Intervento where bpmInfo.tokenId=:tokenId")
-				.setParameter("tokenId", currentTask.getToken().getId())
+		List<Intervento> resultList = this.entityManager.createQuery("from Intervento where bpmInfo.tokenId=:tokenId").setParameter("tokenId", currentTask.getToken().getId())
 				.getResultList();
 		if (resultList.size() > 0) {
 			intervento = resultList.get(0);
 		} else {
-			resultList = this.entityManager
-					.createQuery(
-							"from Intervento where bpmInfo.processId=:processId")
-					.setParameter("processId",
-							currentTask.getProcessInstance().getId())
+			resultList = this.entityManager.createQuery("from Intervento where bpmInfo.processId=:processId").setParameter("processId", currentTask.getProcessInstance().getId())
 					.getResultList();
 			if (resultList.size() > 0) {
 				intervento = resultList.get(0);
@@ -515,41 +453,27 @@ public class AlertingController {
 	@SuppressWarnings("unchecked")
 	public List<Intervento> getListaInterventi() {
 
-		List<Integer> idTipiIntervento = this.getIdTipiIntervento(this.identity
-				.getCredentials().getUsername());
+		List<Integer> idTipiIntervento = this.getIdTipiIntervento(this.identity.getCredentials().getUsername());
 
 		idTipiIntervento.add(-1);
 
-		return this.entityManager
-				.createQuery(
-						"from Intervento where sottotipoIntervento.tipoIntervento.id in (:idList) order by id desc")
-				.setParameter("idList", idTipiIntervento).getResultList();
+		return this.entityManager.createQuery("from Intervento where sottotipoIntervento.tipoIntervento.id in (:idList) order by id desc").setParameter("idList", idTipiIntervento)
+				.getResultList();
 	}
 
 	@SuppressWarnings("unchecked")
 	public List<Segnalazione> getListaSegnalazioni() {
 		if (this.identity.hasRole(Constants.ADMIN.toString())) {
-			return this.entityManager.createQuery(
-					"from Segnalazione order by id desc").getResultList();
+			return this.entityManager.createQuery("from Segnalazione order by id desc").getResultList();
 		} else if (this.identity.hasRole(Constants.CITTADINO.toString())) {
-			Cittadino c = Authenticator.findCittadino(this.entityManager, null,
-					this.identity.getCredentials().getUsername());
-			return this.entityManager
-					.createQuery(
-							"from Segnalazione where cittadino=:cittadino order by id desc")
-					.setParameter("cittadino", c).getResultList();
+			Cittadino c = Authenticator.findCittadino(this.entityManager, null, this.identity.getCredentials().getUsername());
+			return this.entityManager.createQuery("from Segnalazione where cittadino=:cittadino order by id desc").setParameter("cittadino", c).getResultList();
 		} else {
 			List<Number> l = this.entityManager
-					.createNativeQuery(
-							"select distinct bv.id from AlertingRevisionEntity are,BPMInfo_versions bv where bv._revision=are.id and are.username=:username")
-					.setParameter("username",
-							this.identity.getCredentials().getUsername())
-					.getResultList();
+					.createNativeQuery("select distinct bv.id from AlertingRevisionEntity are,BPMInfo_versions bv where bv._revision=are.id and are.username=:username")
+					.setParameter("username", this.identity.getCredentials().getUsername()).getResultList();
 			l.add(-1);
-			return this.entityManager
-					.createQuery(
-							"from Segnalazione where bpmInfo.id in (:l) order by id desc")
-					.setParameter("l", l).getResultList();
+			return this.entityManager.createQuery("from Segnalazione where bpmInfo.id in (:l) order by id desc").setParameter("l", l).getResultList();
 
 		}
 
@@ -558,20 +482,16 @@ public class AlertingController {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public String getMailFor(String actorId) {
 
-		Map swimlanes = this.processInstance.getTaskMgmtInstance()
-				.getSwimlaneInstances();
+		Map swimlanes = this.processInstance.getTaskMgmtInstance().getSwimlaneInstances();
 		if (swimlanes.keySet().contains(actorId)) {
-			SwimlaneInstance swimlane = (SwimlaneInstance) swimlanes
-					.get(actorId);
+			SwimlaneInstance swimlane = (SwimlaneInstance) swimlanes.get(actorId);
 			actorId = swimlane.getActorId();
 		}
 		People p = this.entityManager.find(People.class, actorId);
 		if (p != null) {
 			return p.getEmail();
 		} else {
-			List<Cittadino> l = this.entityManager
-					.createQuery("from Cittadino where username=:username")
-					.setParameter("username", actorId).getResultList();
+			List<Cittadino> l = this.entityManager.createQuery("from Cittadino where username=:username").setParameter("username", actorId).getResultList();
 			if (l.size() > 0) {
 				return l.get(0).getEmail();
 			}
@@ -587,10 +507,8 @@ public class AlertingController {
 			for (Number n : reader.getRevisions(Segnalazione.class, sId)) {
 				Segnalazione s = reader.find(Segnalazione.class, sId, n);
 				if (s.getMessaggio() != null) {
-					AlertingRevisionEntity r = reader.findRevision(
-							AlertingRevisionEntity.class, n);
-					messaggi.add(new Info(new Date(r.getTimestamp()), s
-							.getMessaggio(), r.getUsername()));
+					AlertingRevisionEntity r = reader.findRevision(AlertingRevisionEntity.class, n);
+					messaggi.add(new Info(new Date(r.getTimestamp()), s.getMessaggio(), r.getUsername()));
 				}
 			}
 		}
@@ -617,12 +535,8 @@ public class AlertingController {
 			return null;
 		}
 		Segnalazione segnalazione = null;
-		List<Segnalazione> resultList = this.entityManager
-				.createQuery(
-						"from Segnalazione where bpmInfo.processId=:processId")
-				.setParameter("processId",
-						currentTask.getProcessInstance().getId())
-				.getResultList();
+		List<Segnalazione> resultList = this.entityManager.createQuery("from Segnalazione where bpmInfo.processId=:processId")
+				.setParameter("processId", currentTask.getProcessInstance().getId()).getResultList();
 		if (resultList.size() > 0) {
 			segnalazione = resultList.get(0);
 
@@ -631,18 +545,13 @@ public class AlertingController {
 	}
 
 	@SuppressWarnings("unchecked")
-	public Segnalazione getSegnalazioneFromJBPMTask(
-			org.jbpm.taskmgmt.exe.TaskInstance currentTask) {
+	public Segnalazione getSegnalazioneFromJBPMTask(org.jbpm.taskmgmt.exe.TaskInstance currentTask) {
 		if (currentTask == null) {
 			return null;
 		}
 		Segnalazione segnalazione = null;
-		List<Segnalazione> resultList = this.entityManager
-				.createQuery(
-						"from Segnalazione where bpmInfo.processId=:processId")
-				.setParameter("processId",
-						currentTask.getProcessInstance().getId())
-				.getResultList();
+		List<Segnalazione> resultList = this.entityManager.createQuery("from Segnalazione where bpmInfo.processId=:processId")
+				.setParameter("processId", currentTask.getProcessInstance().getId()).getResultList();
 		if (resultList.size() > 0) {
 			segnalazione = resultList.get(0);
 
@@ -652,8 +561,7 @@ public class AlertingController {
 
 	@SuppressWarnings("unchecked")
 	public TaskInstance getSingleTask() {
-		List<TaskInstance> l = this.jbpmContext.getTaskList(Identity.instance()
-				.getCredentials().getUsername());
+		List<TaskInstance> l = this.jbpmContext.getTaskList(Identity.instance().getCredentials().getUsername());
 		if (l.size() == 1) {
 			return l.get(0);
 		}
@@ -661,16 +569,11 @@ public class AlertingController {
 	}
 
 	public String getSmistatoreFinale() {
-		if ((this.getSegnalazione() != null)
-				&& (this.getSegnalazione().getSottotipoSegnalazione() != null)
-				&& (this.getSegnalazione().getSottotipoSegnalazione()
-						.getTipoSegnalazione().getSmistatoreFinale() != null)) {
-			return this.getSegnalazione().getSottotipoSegnalazione()
-					.getTipoSegnalazione().getSmistatoreFinale();
+		if ((this.getSegnalazione() != null) && (this.getSegnalazione().getSottotipoSegnalazione() != null)
+				&& (this.getSegnalazione().getSottotipoSegnalazione().getTipoSegnalazione().getSmistatoreFinale() != null)) {
+			return this.getSegnalazione().getSottotipoSegnalazione().getTipoSegnalazione().getSmistatoreFinale();
 		}
-		SwimlaneInstance swimlaneInstance = this.getCurrentTask()
-				.getProcessInstance().getTaskMgmtInstance()
-				.getSwimlaneInstance(Constants.SMISTATORE.toString());
+		SwimlaneInstance swimlaneInstance = this.getCurrentTask().getProcessInstance().getTaskMgmtInstance().getSwimlaneInstance(Constants.SMISTATORE.toString());
 		if (swimlaneInstance != null) {
 			return swimlaneInstance.getActorId();
 		}
@@ -713,10 +616,17 @@ public class AlertingController {
 
 	}
 
+	public boolean historyEnabled() {
+		String paramValue = this.entityManager.find(AppParam.class, AppParam.HISTORY_ENABLED.getKey()).getValue();
+		if (paramValue.trim().equals("") || paramValue.trim().equals("false")) {
+			return false;
+		}
+		return true;
+	}
+
 	@Factory("tipiIntervento")
 	public List<Integer> idTipiIntervento() {
-		return this.getIdTipiIntervento(Identity.instance().getCredentials()
-				.getUsername());
+		return this.getIdTipiIntervento(Identity.instance().getCredentials().getUsername());
 	}
 
 	public boolean isGestore(String username) {
@@ -732,8 +642,7 @@ public class AlertingController {
 			if (this.getCurrentTask() == null) {
 				return false;
 			}
-			return this.getCurrentTask().getActorId()
-					.equals(this.identity.getCredentials().getUsername());
+			return this.getCurrentTask().getActorId().equals(this.identity.getCredentials().getUsername());
 		} catch (Exception e) {
 			return false;
 		}
@@ -746,11 +655,9 @@ public class AlertingController {
 		if (segnalazione == null) {
 			return res;
 		}
-		ProcessInstance processInstance = gs.getProcessInstance(segnalazione
-				.getBpmInfo().getProcessId());
+		ProcessInstance processInstance = gs.getProcessInstance(segnalazione.getBpmInfo().getProcessId());
 		if (processInstance != null) {
-			Collection<TaskInstance> c = processInstance.getTaskMgmtInstance()
-					.getTaskInstances();
+			Collection<TaskInstance> c = processInstance.getTaskMgmtInstance().getTaskInstances();
 			for (TaskInstance ti : c) {
 				if (ti.isOpen()) {
 					res.add(ti);
@@ -778,9 +685,7 @@ public class AlertingController {
 
 	@SuppressWarnings("unchecked")
 	public void setStatoSegnalazione(String stato) {
-		List<Stato> l = this.entityManager
-				.createQuery("from Stato where nome=:stato")
-				.setParameter("stato", stato).getResultList();
+		List<Stato> l = this.entityManager.createQuery("from Stato where nome=:stato").setParameter("stato", stato).getResultList();
 		if (l.size() > 0) {
 			Segnalazione segnalazione = this.getSegnalazione();
 			segnalazione.setStato(l.get(0));
@@ -798,13 +703,9 @@ public class AlertingController {
 
 	public String transition(String transition) throws Exception {
 
-		if (this.getSegnalazione().getStato().getNome()
-				.equals(Stato.defaults[0].getNome())) {
+		if (this.getSegnalazione().getStato().getNome().equals(Stato.defaults[0].getNome())) {
 			this.getSegnalazione().setStato(
-					(Stato) this.entityManager
-							.createQuery("from Stato where nome=:n")
-							.setParameter("n", Stato.defaults[1].getNome())
-							.getResultList().get(0));
+					(Stato) this.entityManager.createQuery("from Stato where nome=:n").setParameter("n", Stato.defaults[1].getNome()).getResultList().get(0));
 
 		}
 
