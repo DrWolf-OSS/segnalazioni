@@ -273,13 +273,16 @@
     <s:decorate template="/layout/input.xhtml" rendered="#{not (not s:hasRole('cittadino') and edit and segnalazione.id ne null)}">
 		<ui:define name="label">Stato segnalazione</ui:define>
 		#{segnalazione.stato.descrizione}
-		
+		<h:commandButton value="Chiudi Segnalazione" action="#{segnalazioneHome.chiudiSegnalazione()}" styleClass="chiudiSegBtn" 
+             	disabled="#{segnalazioneHome.instance.stato.nome eq 'chiuso'}" rendered="#{s:hasRole('admin')}"/>
+	
     </s:decorate>
     
     
     <s:decorate template="/layout/actions.xhtml" rendered="#{edit and segnalazione.id ne null}">
              <h:commandButton value="Aggiorna Segnalazione"
-                    action="#{segnalazioneHome.update}" />
+                    action="#{segnalazioneHome.update}" />	
+             
 	</s:decorate>
 
     

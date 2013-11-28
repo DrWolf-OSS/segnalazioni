@@ -62,6 +62,10 @@ public class SegnalazioneHome extends EntityHome<Segnalazione> {
 	@In(create = true)
 	private FotoUtils fotoUtils;
 
+	public void chiudiSegnalazione() {
+		this.getInstance().setStato((Stato) this.getEntityManager().createQuery("from Stato where nome like 'chiuso'").getResultList().get(0));
+	}
+
 	@Override
 	protected Segnalazione createInstance() {
 		Segnalazione s = new Segnalazione();
