@@ -273,28 +273,6 @@ font-weight: bold;
 color: white;
 }
 
-.errorLogo{
-background: url(/sign/img/error_logo.jpg);	
-height: 400px;
-width: 600px;
-text-align: center;
-}
-
-.errorText{
-display: block;
-font-size: 300%;
-font-weight: bold;
-padding-top: 1em;
-color: white;
-}
-
-.errorDetail{
-color:white;
-text-align: left;
-margin-top: 60px;
-margin-left: 300px;
-margin-right: 10px;
-}
 .flat{
 margin:0!important;
 padding:0!important;
@@ -315,23 +293,7 @@ background-position: 95% 10%;
 background-repeat:no-repeat;
 }
 
-.rich-messages dt{
-clear:both;
-}
 
-.rich-messages-marker{
-width:48%;
-text-align:right;
-float:left;
-}
-
-.rich-messages-label{
-width: 50%;
-text-align:left;
-display:block;
-margin-top: 20px;
-float:right;
-}
 
 
 fieldset{
@@ -436,4 +398,105 @@ width:100%;
 
 .login a{
 	color:white;
+}
+
+
+
+
+
+
+
+
+
+
+.rich-messages dt{
+clear:both;
+}
+
+.rich-messages-marker{
+width:48%;
+text-align:right;
+float:left;
+}
+
+.rich-messages-label{
+width: 50%;
+text-align:left;
+display:block;
+margin-top: 20px;
+float:right;
+}
+
+.errorLogo{
+background: url(/sign/img/error_logo.jpg);	
+height: 400px;
+width: 600px;
+text-align: center;
+}
+
+.errorText{
+display: block;
+font-size: 300%;
+font-weight: bold;
+padding-top: 1em;
+color: white;
+}
+
+.errorDetail{
+color:white;
+text-align: left;
+margin-top: 60px;
+margin-left: 300px;
+margin-right: 10px;
+}
+
+#TIFORMA
+
+.message {
+	list-style: none;
+	border: 0;
+	background: none;
+	padding: 0;
+	color: #000000;
+	margin: 0;
+	font-size: 12px;
+	cursor: pointer;
+}
+
+.message li {
+	background: no-repeat 10px 50%;
+	padding: 20px 54px;
+	font-weight: bold;
+	margin-bottom: 10px;
+}
+
+.message li.infomsg {
+	background-color: #eee;
+	background-image: url(../img/information.png);
+
+
+}
+
+.message li.errormsg {
+	/*color: white;
+	background-color: red;
+	*/
+	
+		
+		
+  background-color:#F2DEDE;
+  border-color:#EED3D7;
+  color:#B94A48;
+  background-image: url(../img/TFexclamation.png);
+}
+
+.message li.warnmsg {
+	/*background-color: #ffdd00;
+	background-image: url(../img/TFexclamation.png);*/
+	
+		
+  background-color:#F2DEDE;
+  border-color:#EED3D7;
+  color:#B94A48;
+  background-image: url(../img/TFexclamation.png);
 }

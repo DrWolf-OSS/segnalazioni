@@ -32,6 +32,7 @@ swfobject.embedSWF("http://web.comune.calenzano.fi.it/portale/banner/banner.swf"
 <c:if test="#{workSession.getParam('banner_calenzano') eq 'true' and not s:hasRole('impiegato')}">
 <iframe style="border:0" border="0" height="176" width="100%" src="http://web.comune.calenzano.fi.it/portale/honly"></iframe>
 </c:if>
+<a4j:loadScript src="/scripts/scripts.js" />
 </head>
 
 <body style="#{workSession.getParam('body.style')}">
@@ -135,28 +136,15 @@ swfobject.embedSWF("http://web.comune.calenzano.fi.it/portale/banner/banner.swf"
 					</s:fragment>
 					<td class="content">
 						
-						 <rich:messages showSummary="true">
-
-					<f:facet name="passedMarker">
-						<img  class="messageIcon"
-							src="/sign/img/information-big.png" />
-					</f:facet>
-					<f:facet name="infoMarker">
-						<img  class="messageIcon"
-							src="/sign//img/information-big.png" />
-					</f:facet>
-					<f:facet name="errorMarker">
-						<img  class="messageIcon"
-							src="/sign/img/error-big.png" />
-					</f:facet>
-					<f:facet name="fatalMarker">
-						<img  class="messageIcon"
-							src="/sign/img/error-big.png" />
-					</f:facet>
-					<f:facet name="warnMarker">
-						<img  class="messageIcon" 
-							src="/sign/img/warning-big.png" />
-					</f:facet>
+				<rich:messages showSummary="true">
+		
+					<a4j:outputPanel id="msgPanel" ajaxRendered="true">
+					<s:link value="X" onclick="return false;"/>
+						<h:messages id="messages" globalOnly="false" styleClass="message"
+							errorClass="errormsg" infoClass="infomsg" warnClass="warnmsg" />
+							
+					</a4j:outputPanel>
+					
 				</rich:messages>
 				<br style="font-size:1%;clear:both;"/>
 					
