@@ -218,7 +218,7 @@
 				<f:facet name="header">
         	N
         	</f:facet>
-				<s:link value="#{s.id}" view="/app/segnalazione.xhtml">
+				<s:link value="#{s.id}" view="/app/segnalazione.xhtml" includePageParams="false">
 					<f:param name="sid" value="#{s.id}" />
 				</s:link>
 			</rich:column>
@@ -238,7 +238,7 @@
 
 				<s:div>
 					<rich:toolTip>#{alertingController.getFirstMessage(s)}</rich:toolTip>
-					<s:link value="#{s.oggetto}" view="/app/segnalazione.xhtml">
+					<s:link value="#{s.oggetto}" view="/app/segnalazione.xhtml"  includePageParams="false">
 						<f:param name="sid" value="#{s.id}" />
 					</s:link>
 
