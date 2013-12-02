@@ -339,6 +339,18 @@ public class AlertingController {
 	}
 
 	public String getDirigenti() {
+
+		// if param nascondiDirigenti is present end 'true' this method shall
+		// return an empty string
+		try {
+			String paramValue = this.entityManager.find(AppParam.class, AppParam.NASCONDI_DIRIGENTI.getKey()).getValue();
+			if (!paramValue.trim().equals("true")) {
+				return "";
+			}
+		} catch (Exception e) {
+			return "";
+		}
+
 		try {
 			TreeSet<String> d = new TreeSet<String>();
 			List<UfficioCompetente> uc = this.getSegnalazione().getSottotipoSegnalazione().getTipoSegnalazione().getUfficiCompetenti();

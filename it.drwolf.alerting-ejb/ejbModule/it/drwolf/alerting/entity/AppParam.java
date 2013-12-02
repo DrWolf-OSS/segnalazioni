@@ -86,6 +86,8 @@ public class AppParam implements Serializable {
 
 	public static final AppParam AUTOCOMPLETE_INDIRIZZO_ACTIVE = new AppParam("autocomplete.indirizzo.active", "false");
 
+	public static final AppParam NASCONDI_DIRIGENTI = new AppParam("nascondi.dirigenti", "false");
+
 	public static final AppParam[] defaults = new AppParam[] { AppParam.APP_NAME, AppParam.APP_DESCRIPTION, AppParam.APP_SKIN, AppParam.APP_WELCOME, AppParam.APP_COMUNE,
 			AppParam.APP_SSOAPPID, AppParam.APP_URL, AppParam.APP_SEGNALAZIONE_SCADENZA, AppParam.APP_MAIL_HOST, AppParam.APP_SEGNALAZIONE_REMINDER_START,
 			AppParam.APP_MAIL_FROM_ADDRESS, AppParam.APP_MAIL_FROM_NAME, AppParam.APP_MAIL_PORT, AppParam.APP_MAIL_USER, AppParam.APP_MAIL_PASSWORD,
