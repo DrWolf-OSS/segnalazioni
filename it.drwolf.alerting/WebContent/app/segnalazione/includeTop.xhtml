@@ -41,7 +41,7 @@
                             <ui:param name="segnalazione" value="#{segnalazione}"/>
                         </ui:include>
                     </rich:tab>
-                     <rich:tab label="duplicati">
+                     <rich:tab label="duplicati" rendered="#{not s:hasRole('cittadino')}">
                         <ui:include src="/layout/duplicati.xhtml">
                             <ui:param name="segnalazione" value="#{segnalazione}"/>
                         </ui:include>
