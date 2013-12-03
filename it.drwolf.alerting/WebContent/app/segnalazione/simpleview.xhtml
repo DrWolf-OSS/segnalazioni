@@ -47,9 +47,8 @@
 	</rich:panel>
 	
 	<s:div style="clear:both; display:block; height:1em;"/>
-	<s:button view="/app/segnalazione.xhtml" propagation="none" value="Dettagli">
+	<s:button view="/app/segnalazione.xhtml" propagation="none" value="Dettagli" includePageParams="false"> 
 		<f:param name="sid" value="#{segnalazioneHome.instance.id}"/>
 	</s:button>
 
-	
 </ui:composition>
