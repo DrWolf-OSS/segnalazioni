@@ -22,11 +22,13 @@
 				<f:facet name="header">
 	        		Azioni
 	       		</f:facet>
+	       		<s:div rendered="#{alertingController.taskAssignee}">
 	        	<s:button value="Cancella" action="#{segnalazioneHome.setDuplicatoId(null)}" />
 				<s:button value="Cambia" view="/app/reports/StatoSegnalazioni.seam">
 					<f:param name="duplicato" value="-1"></f:param>
 					<f:param name="sidFrom" value="#{sid}" />
 				</s:button>
+				</s:div>
        		</rich:column>
 		</rich:dataTable>
 

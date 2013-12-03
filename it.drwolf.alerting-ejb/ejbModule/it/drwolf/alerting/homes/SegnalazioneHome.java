@@ -232,8 +232,11 @@ public class SegnalazioneHome extends EntityHome<Segnalazione> {
 	}
 
 	public void setDuplicatoId(Integer segnalazioneId) {
-		EntityManager entityManager = (EntityManager) Component.getInstance("entityManager");
-		this.instance.setDuplicato(entityManager.find(Segnalazione.class, segnalazioneId));
+
+		if (this.instance != null && this.instance.getId() != null && this.alertingController.isTaskAssignee()) {
+			EntityManager entityManager = (EntityManager) Component.getInstance("entityManager");
+			this.instance.setDuplicato(entityManager.find(Segnalazione.class, segnalazioneId));
+		}
 	}
 
 	public void setNewMessage(String newMessage) {
