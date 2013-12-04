@@ -35,6 +35,8 @@
        </drools:rule-files>
    </drools:rule-base>
    
+   <mail:mail-session host="smtp.mandrillapp.com" port="587" username="agea@drwolf.it" password="ftCMkaU6tK1bL2PAvnIpUg" />
+   
    <security:rule-based-permission-resolver security-rules="#{securityRules}"/>
 
    <security:identity  authenticate-method="#{authenticator.authenticate}" remember-me="true"  />
