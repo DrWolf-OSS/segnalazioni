@@ -41,17 +41,12 @@
 
    <security:identity  authenticate-method="#{authenticator.authenticate}" remember-me="true"  />
     
-   <security:remember-me mode="autoLogin" cookie-max-age="604800"/>    
-    
-   <security:jpa-token-store token-class="it.drwolf.sso.entity.AuthenticationToken"/>   
-    
-    
   <security:identity-manager identity-store="#{ssoIS}"/>
     
     
    <event type="org.jboss.seam.security.notLoggedIn">
       <action execute="#{redirect.captureCurrentView}"/>
-       <action execute="#{identity.tryLogin()}"/>
+
    </event>
    <event type="org.jboss.seam.security.loginSuccessful">
       <action execute="#{redirect.returnToCapturedView}"/>
