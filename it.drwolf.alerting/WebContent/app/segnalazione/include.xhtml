@@ -160,28 +160,36 @@
                 output.comboList.createDefaultList();
             }
    			</script>
-			Indirizzo:&#160;<h:inputText id="indvia" size="40" value="#{segnalazione.via}" >
-			</h:inputText>
+			Indirizzo:&#160;
+		<s:fragment rendered="#{utils.getParamValue('autocomplete.indirizzo.active') ne 'force'}">
+		
+			<h:inputText id="indvia" size="40" value="#{segnalazione.via}" ></h:inputText>
 			
 			<div id="loading" style="width:100%;text-align:right;display:none">
 				Caricamento elenco indirizzi...
 			</div>
-		<s:fragment rendered="utils.getParamValue('autocomplete.indirizzo.active') eq 'true'">
-			<rich:suggestionbox id="suggestion" 
-				requestDelay="800"
-				immediate="true"
-				usingSuggestObjects="true"
-				for="indvia" height="128" 
-				width="256" 
-				var="result" 
-				minchars="2"
-				eventsQueue="suggestion"
-				onselect="fillCombo(#{rich:component('civcombo')}, #{rich:component('suggestion')});"
-				suggestionAction="#{segnalazioneHome.indirizzi}">
-				<h:column>
-					#{result.strada}
-				</h:column>				
-			</rich:suggestionbox>
+			<s:fragment rendered="utils.getParamValue('autocomplete.indirizzo.active') eq 'true'">
+				<rich:suggestionbox id="suggestion" 
+					requestDelay="800"
+					immediate="true"
+					usingSuggestObjects="true"
+					for="indvia" height="128" 
+					width="256" 
+					var="result" 
+					minchars="2"
+					eventsQueue="suggestion"
+					onselect="fillCombo(#{rich:component('civcombo')}, #{rich:component('suggestion')});"
+					suggestionAction="#{segnalazioneHome.indirizzi}">
+					<h:column>
+						#{result.strada}
+					</h:column>				
+				</rich:suggestionbox>
+			</s:fragment>
+		
+		</s:fragment>
+		
+		<s:fragment rendered="#{utils.getParamValue('autocomplete.indirizzo.active') eq 'force'}">
+			<rich:comboBox value="#{segnalazione.via}" suggestionValues="#{segnalazioneHome.allIndirizzi}"></rich:comboBox>
 		</s:fragment>
 		
 			<a4j:status for="indreg" onstart="document.getElementById('loading').style.display='block'"

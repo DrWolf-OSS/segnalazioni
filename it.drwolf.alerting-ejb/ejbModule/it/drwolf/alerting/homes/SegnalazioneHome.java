@@ -63,7 +63,10 @@ public class SegnalazioneHome extends EntityHome<Segnalazione> {
 	private FotoUtils fotoUtils;
 
 	public void chiudiSegnalazione() {
-		this.getInstance().setStato((Stato) this.getEntityManager().createQuery("from Stato where nome like 'chiuso'").getResultList().get(0));
+		this.getInstance().setStato(
+				(Stato) this.getEntityManager()
+						.createQuery("from Stato where nome like 'chiuso'")
+						.getResultList().get(0));
 	}
 
 	@Override
@@ -71,26 +74,53 @@ public class SegnalazioneHome extends EntityHome<Segnalazione> {
 		Segnalazione s = new Segnalazione();
 
 		s.setData(new Date());
-		s.setScadenza(new Date(System.currentTimeMillis() + Integer.parseInt(this.getEntityManager().find(AppParam.class, AppParam.APP_SEGNALAZIONE_SCADENZA.getKey()).getValue())
-				* DateUtils.MILLIS_PER_DAY));
-		s.setIdutenteInseritore(Identity.instance().getCredentials().getUsername());
+		s.setScadenza(new Date(System.currentTimeMillis()
+				+ Integer.parseInt(this
+						.getEntityManager()
+						.find(AppParam.class,
+								AppParam.APP_SEGNALAZIONE_SCADENZA.getKey())
+						.getValue()) * DateUtils.MILLIS_PER_DAY));
+		s.setIdutenteInseritore(Identity.instance().getCredentials()
+				.getUsername());
 		if (this.cittadinoHome.isIdDefined()) {
 			s.setCittadino(this.cittadinoHome.getInstance());
 		} else {
-			s.setCittadino(Authenticator.findCittadino(this.getEntityManager(), null, this.identity.getCredentials().getUsername()));
+			s.setCittadino(Authenticator.findCittadino(this.getEntityManager(),
+					null, this.identity.getCredentials().getUsername()));
 		}
-		s.setComune(this.getEntityManager().find(AppParam.class, AppParam.APP_COMUNE.getKey()).getValue());
-		s.setStato((Stato) this.getEntityManager().createQuery("from Stato where nome=:n").setParameter("n", Stato.defaults[0].getNome()).getResultList().get(0));
-		s.setCanaleSegnalazione((CanaleSegnalazione) this.getEntityManager().createQuery("from CanaleSegnalazione where nome='www'").getResultList().get(0));
+		s.setComune(this.getEntityManager()
+				.find(AppParam.class, AppParam.APP_COMUNE.getKey()).getValue());
+		s.setStato((Stato) this.getEntityManager()
+				.createQuery("from Stato where nome=:n")
+				.setParameter("n", Stato.defaults[0].getNome()).getResultList()
+				.get(0));
+		s.setCanaleSegnalazione((CanaleSegnalazione) this.getEntityManager()
+				.createQuery("from CanaleSegnalazione where nome='www'")
+				.getResultList().get(0));
 
 		return s;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<String> getAllIndirizzi() {
+		List<SitStrada> strade = this.getEntityManager()
+				.createQuery("from SitStrada order by nome").getResultList();
+		List<String> res = new ArrayList<String>();
+		res.add("");
+		for (SitStrada ss : strade) {
+			res.add(String.format("%s %s", ss.getTipologiaToponimo()
+					.getDescrizione(), ss.getNome()));
+		}
+		return res;
+
 	}
 
 	public List<String> getCivici() {
 		if (this.getSitStrada() != null) {
 			List<String> res = new ArrayList<String>();
 			for (SitCivico sc : this.getSitStrada().getCivici()) {
-				res.add(sc.getNumero() + sc.getEsponente() != null ? " " + sc.getEsponente() : "");
+				res.add(sc.getNumero() + sc.getEsponente() != null ? " "
+						+ sc.getEsponente() : "");
 			}
 			System.out.println("GETCIVICI: " + res);
 			return res;
@@ -116,7 +146,8 @@ public class SegnalazioneHome extends EntityHome<Segnalazione> {
 	}
 
 	public List<Intervento> getInterventos() {
-		return this.getInstance() == null ? null : new ArrayList<Intervento>(this.getInstance().getInterventos());
+		return this.getInstance() == null ? null : new ArrayList<Intervento>(
+				this.getInstance().getInterventos());
 	}
 
 	public String getNewMessage() {
@@ -142,9 +173,13 @@ public class SegnalazioneHome extends EntityHome<Segnalazione> {
 			for (String v : vars) {
 				String sql = "select sitStrada from SitStrada sitStrada where lower(sitStrada.nome) like concat('%',lower(:var),'%')";
 
-				List<SitStrada> strade = this.getEntityManager().createQuery(sql).setParameter("var", v).getResultList();
+				List<SitStrada> strade = this.getEntityManager()
+						.createQuery(sql).setParameter("var", v)
+						.getResultList();
 				for (SitStrada s : strade) {
-					stringhe.add(new StradaJS(s.getTipologiaToponimo().getDescrizione() + " " + s.getNome(), s.getCiviciString()));
+					stringhe.add(new StradaJS(s.getTipologiaToponimo()
+							.getDescrizione() + " " + s.getNome(), s
+							.getCiviciString()));
 				}
 
 			}
@@ -158,7 +193,8 @@ public class SegnalazioneHome extends EntityHome<Segnalazione> {
 
 	@SuppressWarnings("unchecked")
 	public boolean isVisible() {
-		if (this.identity.hasRole(GlobalRole.ADMIN) || this.identity.hasRole(GlobalRole.SUPERVISOR)) {
+		if (this.identity.hasRole(GlobalRole.ADMIN)
+				|| this.identity.hasRole(GlobalRole.SUPERVISOR)) {
 			return true;
 		}
 		Segnalazione s = this.getInstance();
@@ -172,20 +208,29 @@ public class SegnalazioneHome extends EntityHome<Segnalazione> {
 				return true;
 			}
 		} else {
-			if (s.getSottotipoSegnalazione().getTipoSegnalazione().getUfficioSmistatore().getGestori().contains(username)) {
+			if (s.getSottotipoSegnalazione().getTipoSegnalazione()
+					.getUfficioSmistatore().getGestori().contains(username)) {
 				return true;
 			}
 		}
 		if (this.alertingController.getListaSegnalazioni().contains(s)) {
 			return true;
 		}
-		List<String> componenti = this.getEntityManager().createQuery("select elements(u.gestori) from UfficioCompetente u where :user in elements(u.gestori)")
-				.setParameter("user", this.identity.getCredentials().getUsername()).getResultList();
+		List<String> componenti = this
+				.getEntityManager()
+				.createQuery(
+						"select elements(u.gestori) from UfficioCompetente u where :user in elements(u.gestori)")
+				.setParameter("user",
+						this.identity.getCredentials().getUsername())
+				.getResultList();
 
-		if ((componenti.size() > 0)
-				&& (this.getEntityManager()
-						.createNativeQuery("select bv.id from AlertingRevisionEntity are,BPMInfo_versions bv where bv.id=:id and bv._revision=are.id and are.username in (:c)")
-						.setParameter("c", componenti).setParameter("id", s.getBpmInfo().getId()).getResultList().size() > 0)) {
+		if (componenti.size() > 0
+				&& this.getEntityManager()
+						.createNativeQuery(
+								"select bv.id from AlertingRevisionEntity are,BPMInfo_versions bv where bv.id=:id and bv._revision=are.id and are.username in (:c)")
+						.setParameter("c", componenti)
+						.setParameter("id", s.getBpmInfo().getId())
+						.getResultList().size() > 0) {
 			return true;
 		}
 
@@ -217,7 +262,8 @@ public class SegnalazioneHome extends EntityHome<Segnalazione> {
 	}
 
 	public void rispondiSollecito(Sollecito sollecito) {
-		Sollecito s = this.getEntityManager().find(Sollecito.class, sollecito.getId());
+		Sollecito s = this.getEntityManager().find(Sollecito.class,
+				sollecito.getId());
 		this.setId(s.getIdSegnalazione());
 		s.setDataRisposta(new Date());
 		s.setRisposta(sollecito.getRisposta());
@@ -233,9 +279,12 @@ public class SegnalazioneHome extends EntityHome<Segnalazione> {
 
 	public void setDuplicatoId(Integer segnalazioneId) {
 
-		if (this.instance != null && this.instance.getId() != null && this.alertingController.isTaskAssignee()) {
-			EntityManager entityManager = (EntityManager) Component.getInstance("entityManager");
-			this.instance.setDuplicato(entityManager.find(Segnalazione.class, segnalazioneId));
+		if (this.instance != null && this.instance.getId() != null
+				&& this.alertingController.isTaskAssignee()) {
+			EntityManager entityManager = (EntityManager) Component
+					.getInstance("entityManager");
+			this.instance.setDuplicato(entityManager.find(Segnalazione.class,
+					segnalazioneId));
 		}
 	}
 
@@ -249,7 +298,9 @@ public class SegnalazioneHome extends EntityHome<Segnalazione> {
 
 	public void setSitStrada(SitStrada sitStrada) {
 		this.sitStrada = sitStrada;
-		this.getInstance().setVia(sitStrada.getTipologiaToponimo().getDescrizione() + " " + sitStrada.getNome());
+		this.getInstance().setVia(
+				sitStrada.getTipologiaToponimo().getDescrizione() + " "
+						+ sitStrada.getNome());
 		// System.out.println("SETSITSTRADA: " + this.getInstance().getVia());
 	}
 
@@ -278,21 +329,26 @@ public class SegnalazioneHome extends EntityHome<Segnalazione> {
 
 	@Override
 	public String update() {
-		if ((this.newMessage != null) && !this.newMessage.trim().equals("")) {
+		if (this.newMessage != null && !this.newMessage.trim().equals("")) {
 			this.getInstance().setMessaggio(this.newMessage);
 		}
 		return super.update();
 	}
 
-	public Boolean verificaScadenza(Segnalazione segnalazione, Boolean addMessage) {
+	public Boolean verificaScadenza(Segnalazione segnalazione,
+			Boolean addMessage) {
 		try {
 			if (segnalazione.getScadenza() == null) {
 				return false;
 			}
-			boolean scaduta = (segnalazione.getChiusura() == null) && segnalazione.getScadenza().before(new Date());
-			if (scaduta && this.identity.hasRole(Constants.IMPIEGATO.toString()) && addMessage) {
+			boolean scaduta = segnalazione.getChiusura() == null
+					&& segnalazione.getScadenza().before(new Date());
+			if (scaduta
+					&& this.identity.hasRole(Constants.IMPIEGATO.toString())
+					&& addMessage) {
 
-				FacesMessages.instance().add(Severity.ERROR, "Segnalazione scaduta");
+				FacesMessages.instance().add(Severity.ERROR,
+						"Segnalazione scaduta");
 			}
 			return scaduta;
 		} catch (Exception e) {
