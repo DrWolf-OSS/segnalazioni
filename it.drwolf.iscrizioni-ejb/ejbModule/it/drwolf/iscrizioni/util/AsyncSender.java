@@ -41,6 +41,21 @@ public class AsyncSender {
 		String mailTrap = this.entityManager.find(AppParam.class,
 				AppParam.APP_MAIL_TRAP).getValue();
 
+		String mailUser = null;
+		try {
+			mailUser = this.entityManager.find(AppParam.class,
+					AppParam.APP_MAIL_USER).getValue();
+		} catch (Exception e1) {
+
+		}
+		String mailPass = null;
+		try {
+			mailPass = this.entityManager.find(AppParam.class,
+					AppParam.APP_MAIL_PASSWORD).getValue();
+		} catch (Exception e1) {
+
+		}
+
 		Query q = this.entityManager.createQuery("from Iscritto order by id");
 
 		if (groups != null) {
@@ -94,7 +109,13 @@ public class AsyncSender {
 				}
 				email.setFrom(from, fromName);
 				email.setHostName(mailHost);
+
+				if (mailUser != null && mailPass != null) {
+					email.setAuthentication(mailUser, mailPass);
+				}
+
 				email.setSubject(subject);
+
 				if (port != null) {
 					email.setSmtpPort(Integer.parseInt(port.getValue()));
 				}
