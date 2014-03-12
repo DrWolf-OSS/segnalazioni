@@ -11,9 +11,7 @@
 		<assignment pooled-actors="#{alertingProcess.getSmistatori()}"></assignment>
 	</swimlane>
 
-	<swimlane name="chiusura">
-		<assignment pooled-actors="#{alertingProcess.getSmistatori()}"></assignment>
-	</swimlane>
+
 
 
 	<start-state name="inizio">
@@ -77,10 +75,11 @@
 	</task-node>
 	
 	<task-node name="chiusuraSegnalazionePool">
-		<task name="chiudiSegnalazionePool" swimlane="chiusura" >
+		<task name="chiudiSegnalazionePool" >
 			<description>
 				Chiudi o riassegna
 			</description>
+			<assignment pooled-actors="#{alertingProcess.getSmistatori()}"></assignment>
 		</task>
 		<transition to="fine" name="chiudi">
 			<description>
