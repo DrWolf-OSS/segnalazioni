@@ -69,13 +69,18 @@ public class AlertingProcess implements Serializable {
 	}
 
 	public String[] getSmistatori() {
-		// Segnalazione segnalazione = this.getSegnalazione();
-		// if (segnalazione != null) {
-		// return segnalazione.getSottotipoSegnalazione()
-		// .getTipoSegnalazione().getUfficioSmistatore().getGestori()
-		// .toArray(new String[] {});
-		// }
-		// return new String[] {};
+		if (this.smistatori.size() == 0) {
+			Segnalazione segnalazione = this.getSegnalazione();
+			if (segnalazione != null) {
+				String[] s = segnalazione.getSottotipoSegnalazione()
+						.getTipoSegnalazione().getUfficioSmistatore()
+						.getGestori().toArray(new String[] {});
+				System.out.println("s.length" + s.length);
+				return s;
+			}
+			return new String[] {};
+
+		}
 		return this.smistatori.toArray(new String[] {});
 	}
 
@@ -107,13 +112,47 @@ public class AlertingProcess implements Serializable {
 				String telefono = this.getSegnalazione().getCittadino()
 						.getTelefono();
 				String email = this.getSegnalazione().getCittadino().getEmail();
-				if ((telefono != null && !telefono.trim().equals(""))
-						|| (email != null && !email.trim().equals(""))) {
+				if (telefono != null && !telefono.trim().equals("")
+						|| email != null && !email.trim().equals("")) {
 					return true;
 				}
 			}
 		}
 		return false;
+	}
+
+	public String ripassaAUrpCheckPool() {
+
+		if (this.getSegnalazione() != null
+				&& this.getSegnalazione().getCittadino() != null) {
+			String parametro = this.entityManager.find(AppParam.class,
+					AppParam.RIPASSA_URP_CON_MAIL_TEL.getKey()).getValue();
+			String passa = this.entityManager.find(AppParam.class,
+					AppParam.RIPASSA_URP_SEMPRE.getKey()).getValue();
+			String pool = this.entityManager.find(AppParam.class,
+					AppParam.RIPASSA_URP_POOL.getKey()).getValue();
+
+			if (pool != null && pool.trim().equals("true")) {
+				return "pool";
+			}
+			if (passa != null && passa.trim().equals("true")) {
+				return "yes";
+			}
+
+			if (parametro != null && parametro.trim().equals("true")) {
+				String telefono = this.getSegnalazione().getCittadino()
+						.getTelefono();
+				String email = this.getSegnalazione().getCittadino().getEmail();
+				if (telefono != null && !telefono.trim().equals("")
+						|| email != null && !email.trim().equals("")) {
+					if (pool != null && pool.trim().equals("true")) {
+						return "pool";
+					}
+					return "yes";
+				}
+			}
+		}
+		return "no";
 	}
 
 	public void setBpmInfoId(Integer bpmInfoId) {

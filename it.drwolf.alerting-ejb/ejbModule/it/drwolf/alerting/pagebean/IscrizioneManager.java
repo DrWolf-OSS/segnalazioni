@@ -92,7 +92,7 @@ public class IscrizioneManager {
 					.instance()
 					.add(org.jboss.seam.international.StatusMessage.Severity.INFO,
 							String.format(
-									"L'utente è stato inserito correttamente. E' stata inviata una mail con i codici di accesso all'indirizzo %s",
+									"L'utente e' stato inserito correttamente. E' stata inviata una mail con i codici di accesso all'indirizzo %s",
 									this.email), null);
 		}
 	}

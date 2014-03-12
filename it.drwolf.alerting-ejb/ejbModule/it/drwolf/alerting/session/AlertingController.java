@@ -122,7 +122,7 @@ public class AlertingController {
 		if (resultList.size() > 0) {
 			People people = this.entityManager.find(People.class,
 					this.alertingProcess.getImpiegatoUfficioCompetente());
-			String msg = "Ti è stata assegnata una segnalazione, segui il link per vedere i dettagli:";
+			String msg = "Ti e' stata assegnata una segnalazione, segui il link per vedere i dettagli:";
 			msg += "\r\n\r\n"
 					+ this.entityManager.find(AppParam.class,
 							AppParam.APP_URL.getKey());

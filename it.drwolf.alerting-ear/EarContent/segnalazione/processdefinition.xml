@@ -11,6 +11,10 @@
 		<assignment pooled-actors="#{alertingProcess.getSmistatori()}"></assignment>
 	</swimlane>
 
+	<swimlane name="chiusura">
+		<assignment pooled-actors="#{alertingProcess.getSmistatori()}"></assignment>
+	</swimlane>
+
 
 	<start-state name="inizio">
 		<transition to="cittadino"></transition>
@@ -54,11 +58,29 @@
 	</task-node>
 
 	<task-node name="chiusuraSegnalazione">
-		<task name="chiudiSegnalazione">
+		<task name="chiudiSegnalazione" >
 			<description>
 				Chiudi o riassegna
 			</description>
 			<assignment actor-id="#{alertingController.smistatoreFinale}"></assignment>
+		</task>
+		<transition to="fine" name="chiudi">
+			<description>
+				Chiudi Segnalazione
+			</description>
+		</transition>
+		<transition to="assegnazioneSegnalazione" name="riassegna">
+			<description>
+				Riassegna Segnalazione
+			</description>
+		</transition>
+	</task-node>
+	
+	<task-node name="chiusuraSegnalazionePool">
+		<task name="chiudiSegnalazionePool" swimlane="chiusura" >
+			<description>
+				Chiudi o riassegna
+			</description>
 		</task>
 		<transition to="fine" name="chiudi">
 			<description>
@@ -95,8 +117,9 @@
 		<transition to="assegnazioneSegnalazione" name="no"></transition>
 	</decision>
 
-	<decision name="cittadino2" expression="#{alertingProcess.ripassaAUrp() ? 'yes' : 'no'}">
+	<decision name="cittadino2" expression="#{alertingProcess.ripassaAUrpCheckPool()}">
 		<transition to="chiusuraSegnalazione" name="yes"></transition>
+		<transition to="chiusuraSegnalazionePool" name="pool"></transition>
 		<transition to="fine" name="no"></transition>
 	</decision>
 
@@ -110,7 +133,7 @@
 			<description>
 				Aggiorna
 			</description>
-			<assignment pooled-actors="#{alertingProcess.poolCompetente}"></assignment>
+			<assignment pooled-actors="#{alertingProcess.smistatori}"></assignment>
 		</task>
 		<transition to="assegnazioneSegnalazione" name="riassegna">
 			<description>
