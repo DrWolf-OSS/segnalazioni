@@ -65,6 +65,9 @@
                  value="Nuova squadra">
             <f:param name="squadraInterventoId"/>
         </s:button>
+		<s:button action="#{squadraInterventoList.pulisciGestori}" id="pulisciGestori"
+			onclick="if(!confirm('Si vuole cancellare i gestori non più presenti?')) return false;" value="Pulizia gestori"> 
+		</s:button>
     </s:decorate>
    
      </h:form>
