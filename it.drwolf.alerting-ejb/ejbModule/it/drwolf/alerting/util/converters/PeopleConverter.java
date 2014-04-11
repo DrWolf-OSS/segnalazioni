@@ -24,27 +24,29 @@ public class PeopleConverter implements Converter {
 		return people.getCognome() + PeopleConverter.nameSep + people.getNome();
 	}
 
+	public static String formatPeopleInverse(People people) {
+		if (people == null) {
+			return "NULL";
+		}
+		return people.getNome() + PeopleConverter.nameSep + people.getCognome();
+	}
+
 	private EntityManager entityManager;
 
 	public Object getAsObject(FacesContext arg0, UIComponent arg1, String arg2) {
 		if (arg2 == null || arg2.equals("null") || arg2.trim().equals("")) {
 			return null;
 		}
-		this.entityManager = (EntityManager) org.jboss.seam.Component
-				.getInstance("entityManager");
-		return this.entityManager.createQuery(
-				"select idpeople from People "
-						+ "where concat(cognome,concat(:sep,nome))=:nc")
-				.setParameter("nc", arg2).setParameter("sep",
-						PeopleConverter.nameSep).getSingleResult();
+		this.entityManager = (EntityManager) org.jboss.seam.Component.getInstance("entityManager");
+		return this.entityManager.createQuery("select idpeople from People " + "where concat(cognome,concat(:sep,nome))=:nc").setParameter("nc", arg2)
+				.setParameter("sep", PeopleConverter.nameSep).getSingleResult();
 	}
 
 	public String getAsString(FacesContext arg0, UIComponent arg1, Object arg2) {
 		if (arg2 == null) {
 			return null;
 		}
-		this.entityManager = (EntityManager) org.jboss.seam.Component
-				.getInstance("entityManager");
+		this.entityManager = (EntityManager) org.jboss.seam.Component.getInstance("entityManager");
 		People people = this.entityManager.find(People.class, arg2.toString());
 		return PeopleConverter.formatPeople(people);
 	}
