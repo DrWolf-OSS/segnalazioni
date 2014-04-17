@@ -66,7 +66,7 @@ public class AsyncSender {
 		} else if (services != null) {
 			q = this.entityManager
 					.createQuery(
-							"select distinct (i) from Iscritto i join i.opzioniServizii o order by i.id where o.id in (:l)")
+							"select distinct (i) from Iscritto i join i.opzioniServizi o order by i.id where o.id in (:l)")
 					.setParameter("l", Arrays.asList(services.split(",")));
 		}
 
