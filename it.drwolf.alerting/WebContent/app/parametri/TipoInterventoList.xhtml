@@ -71,10 +71,13 @@
     <s:decorate template="/layout/actions.xhtml">
         <s:button view="/app/parametri/TipoInterventoEdit.xhtml"
                     id="create" 
-                 value="Nuova tipologia intervento">
+                 value="Nuova tipologia intervento asd"> 
             <f:param name="tipoInterventoId"/>
         </s:button>
-    </s:decorate>
+		<s:button action="#{tipoInterventoList.pulisciGestori}" id="pulisciGestori"
+			onclick="if(!confirm('Si vuole cancellare i gestori non più presenti?')) return false;" value="Pulizia gestori"> 
+		</s:button>
+	</s:decorate>
     
     </h:form>
   

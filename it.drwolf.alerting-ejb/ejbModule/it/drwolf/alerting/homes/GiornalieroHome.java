@@ -47,8 +47,12 @@ public class GiornalieroHome extends EntityHome<Giornaliero> {
 
 	public String convertPeople(String idpeople) {
 
-		return PeopleConverter.formatPeople(this.getEntityManager().find(
-				People.class, idpeople));
+		return PeopleConverter.formatPeople(this.getEntityManager().find(People.class, idpeople));
+	}
+
+	public String convertPeopleInverse(String idpeople) {
+
+		return PeopleConverter.formatPeopleInverse(this.getEntityManager().find(People.class, idpeople));
 	}
 
 	@Override
@@ -57,17 +61,12 @@ public class GiornalieroHome extends EntityHome<Giornaliero> {
 		giornaliero.setData(new Date());
 
 		if (this.sqId != null) {
-			this.squadraIntervento = this.getEntityManager().find(
-					SquadraIntervento.class, this.sqId);
+			this.squadraIntervento = this.getEntityManager().find(SquadraIntervento.class, this.sqId);
 		}
 
-		List<String> ds = Arrays.asList(this.getEntityManager().find(
-				AppParam.class, AppParam.APP_DAILY_STATI_DEFAULT.getKey())
-				.getValue().split(","));
+		List<String> ds = Arrays.asList(this.getEntityManager().find(AppParam.class, AppParam.APP_DAILY_STATI_DEFAULT.getKey()).getValue().split(","));
 
-		List<Integer> idTipiIntervento = this.alertingController
-				.getIdTipiIntervento(Identity.instance().getCredentials()
-						.getUsername());
+		List<Integer> idTipiIntervento = this.alertingController.getIdTipiIntervento(Identity.instance().getCredentials().getUsername());
 
 		for (Intervento i : this.getListaInterventi(idTipiIntervento)) {
 			if (ds.contains(i.getStato().getNome())) {
@@ -88,12 +87,9 @@ public class GiornalieroHome extends EntityHome<Giornaliero> {
 	}
 
 	public List<Intervento> getInterventiNonInseriti() {
-		List<Integer> idTipiIntervento = this.alertingController
-				.getIdTipiIntervento(Identity.instance().getCredentials()
-						.getUsername());
+		List<Integer> idTipiIntervento = this.alertingController.getIdTipiIntervento(Identity.instance().getCredentials().getUsername());
 		List<Intervento> interventi = this.getListaInterventi(idTipiIntervento);
-		for (Iterator<Intervento> iterator = interventi.iterator(); iterator
-				.hasNext();) {
+		for (Iterator<Intervento> iterator = interventi.iterator(); iterator.hasNext();) {
 			Intervento intervento = iterator.next();
 			if (this.instance.getInterventi().contains(intervento)) {
 				iterator.remove();
@@ -111,26 +107,17 @@ public class GiornalieroHome extends EntityHome<Giornaliero> {
 			}
 			res.get(i.getSquadraIntervento()).add(i);
 		}
-		return new ArrayList<Entry<SquadraIntervento, List<Intervento>>>(res
-				.entrySet());
+		return new ArrayList<Entry<SquadraIntervento, List<Intervento>>>(res.entrySet());
 	}
 
 	@SuppressWarnings("unchecked")
 	private List<Intervento> getListaInterventi(List<Integer> idTipiIntervento) {
 
-		List<String> hs = Arrays.asList(this.getEntityManager().find(
-				AppParam.class, AppParam.APP_DAILY_STATI_HIDE.getKey())
-				.getValue().split(","));
+		List<String> hs = Arrays.asList(this.getEntityManager().find(AppParam.class, AppParam.APP_DAILY_STATI_HIDE.getKey()).getValue().split(","));
 
-		Query q = this
-				.getEntityManager()
-				.createQuery(
-						"select i from Intervento i left outer join i.stato where "
-								+ "i.sottotipoIntervento.tipoIntervento.id in (:idList) and "
-								+ "(i.stato is null or i.stato.nome not in (:hs)) "
-								+ (this.squadraIntervento == null ? ""
-										: "and i.squadraIntervento=:sq ")
-								+ "order by i.scadenza");
+		Query q = this.getEntityManager().createQuery(
+				"select i from Intervento i left outer join i.stato where " + "i.sottotipoIntervento.tipoIntervento.id in (:idList) and "
+						+ "(i.stato is null or i.stato.nome not in (:hs)) " + (this.squadraIntervento == null ? "" : "and i.squadraIntervento=:sq ") + "order by i.scadenza");
 		q = q.setParameter("hs", hs).setParameter("idList", idTipiIntervento);
 		if (this.squadraIntervento != null) {
 			q = q.setParameter("sq", this.squadraIntervento);
