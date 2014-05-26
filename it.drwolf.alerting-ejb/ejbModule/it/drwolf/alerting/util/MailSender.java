@@ -2,14 +2,18 @@ package it.drwolf.alerting.util;
 
 import it.drwolf.alerting.entity.AppParam;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 
-import org.apache.commons.mail.EmailException;
-import org.apache.commons.mail.SimpleEmail;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
+
+import com.microtripit.mandrillapp.lutung.MandrillApi;
+import com.microtripit.mandrillapp.lutung.view.MandrillMessage;
+import com.microtripit.mandrillapp.lutung.view.MandrillMessage.Recipient;
+import com.microtripit.mandrillapp.lutung.view.MandrillMessageStatus;
 
 @Name("mailSender")
 public class MailSender {
@@ -17,51 +21,52 @@ public class MailSender {
 	@In
 	private EntityManager entityManager;
 
-	public void sendSimpleMail(List<String> recipients, String subject,
-			String msg) {
+	public void sendSimpleMail(List<String> rcpt, String subject, String msg) {
 		try {
-			SimpleEmail email = new SimpleEmail();
 
 			EntityManager em = this.entityManager;
 
-			email.setHostName(em.find(AppParam.class,
-					AppParam.APP_MAIL_HOST.getKey()).getValue());
-			email.setFrom(
-					em.find(AppParam.class,
-							AppParam.APP_MAIL_FROM_ADDRESS.getKey()).getValue(),
-					em.find(AppParam.class,
-							AppParam.APP_MAIL_FROM_NAME.getKey()).getValue());
+			MandrillApi mandrillApi = new MandrillApi(em.find(AppParam.class,
+					AppParam.APP_MAIL_PASSWORD.getKey()).getValue());
 
-			AppParam port = em.find(AppParam.class,
-					AppParam.APP_MAIL_PORT.getKey());
-			if (port != null) {
-				email.setSmtpPort(Integer.parseInt(port.getValue()));
-			}
-
-			AppParam pwd = em.find(AppParam.class,
-					AppParam.APP_MAIL_PASSWORD.getKey());
-			if (pwd != null) {
-				AppParam user = em.find(AppParam.class,
-						AppParam.APP_MAIL_USER.getKey());
-				email.setAuthentication(user.getValue(), pwd.getValue());
-			}
+			// create your message
+			MandrillMessage message = new MandrillMessage();
+			message.setSubject(subject);
+			message.setText(msg);
+			message.setFromName(em.find(AppParam.class,
+					AppParam.APP_MAIL_FROM_NAME.getKey()).getValue());
+			message.setFromEmail(em.find(AppParam.class,
+					AppParam.APP_MAIL_FROM_ADDRESS.getKey()).getValue());
 
 			String mailTrap = this.entityManager.find(AppParam.class,
 					"app.mail.trap").getValue();
-			if (mailTrap.equalsIgnoreCase("null")) {
-				for (String to : recipients) {
-					email.addTo(to);
-				}
-			} else {
-				email.addTo(mailTrap);
-			}
-			email.setSubject(this.entityManager.find(AppParam.class,
-					AppParam.APP_NAME.getKey()).getValue()
-					+ " - " + subject);
 
-			email.setMsg(msg);
-			email.send();
-		} catch (EmailException e) {
+			ArrayList<Recipient> recipients = new ArrayList<Recipient>();
+			for (String to : rcpt) {
+				// add recipients
+				Recipient recipient = new Recipient();
+				if (mailTrap.equalsIgnoreCase("null")) {
+					recipient.setEmail(to);
+				} else {
+					recipient.setEmail(mailTrap);
+				}
+
+				recipients.add(recipient);
+				message.setTo(recipients);
+				message.setPreserveRecipients(true);
+
+			}
+
+			try {
+				for (MandrillMessageStatus mms : mandrillApi.messages().send(
+						message, false)) {
+
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
