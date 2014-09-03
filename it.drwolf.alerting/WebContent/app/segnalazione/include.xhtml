@@ -78,6 +78,7 @@
 	
 
 	<s:decorate id="utenzaDecoration" template="/layout/input.xhtml" >
+		<ui:param name="required" value="#{workSession.getParam('utenza.obbligatoria')}" /> 
     	<ui:define name="label">Utenza</ui:define>
         <h:outputText rendered="#{segnalazione.utenza ne null}">
         #{segnalazione.utenza.sottocategoriaUtenza.categoriaUtenza} - #{segnalazione.utenza.sottocategoriaUtenza.nome} - #{segnalazione.utenza}

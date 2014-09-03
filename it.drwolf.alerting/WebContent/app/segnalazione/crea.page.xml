@@ -8,10 +8,13 @@
 	<param name="cittadinoId" value="#{cittadinoHome.cittadinoId}" />
 
 	<navigation from-action="#{segnalazioneHome.persist}">
+		<rule if-outcome="ko">
+			<redirect  />
+		</rule>
 		<end-conversation before-redirect="true" />
-			<redirect view-id="/app/index.xhtml"></redirect>
+		<redirect view-id="/app/index.xhtml"></redirect>
 	</navigation>
-	
+
 
 
 </page>
