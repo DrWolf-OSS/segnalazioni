@@ -219,7 +219,7 @@ public class SegnalazioneHome extends EntityHome<Segnalazione> {
 	public String persist() {
 
 		if (this.getEntityManager().find(AppParam.class, "utenza.obbligatoria").getValue().equals("true")
-				&& (this.getInstance().getCategoriaUtenza() == null || this.getInstance().getCategoriaUtenza().toString().trim() == "")) {
+				&& (this.getInstance().getCategoriaUtenza() == null && this.getInstance().getSottocategoriaUtenza() == null && this.getInstance().getUtenza() == null)) {
 			FacesMessages.instance().add(Severity.ERROR, "compilare campo utenza");
 			return "ko";
 		} else {
