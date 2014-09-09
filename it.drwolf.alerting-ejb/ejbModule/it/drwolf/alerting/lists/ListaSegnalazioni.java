@@ -22,12 +22,20 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.security.Identity;
+import org.jbpm.JbpmContext;
+import org.jbpm.taskmgmt.exe.TaskInstance;
 
 @Name("listaSegnalazioni")
 @Scope(ScopeType.CONVERSATION)
 public class ListaSegnalazioni {
 	private Long inizio;
 	private Long fine;
+
+	private String utenza;
+
+	private String categoriaUtenza;
+
+	private String sottocategoriaUtenza;
 
 	private int rows = 25;
 
@@ -46,12 +54,19 @@ public class ListaSegnalazioni {
 	@In
 	private Identity identity;
 
+	@In(required = false)
+	private JbpmContext jbpmContext;
+
 	public void clean() {
 
 	}
 
 	public Stato getCambiaStato() {
 		return this.cambiaStato;
+	}
+
+	public String getCategoriaUtenza() {
+		return this.categoriaUtenza;
 	}
 
 	public Date getDataFine() {
@@ -78,18 +93,9 @@ public class ListaSegnalazioni {
 
 		Query query = this.entityManager
 				.createQuery(
-						"from Intervento where sottotipoIntervento.tipoIntervento.id in (:ids) "
-								+ (this.inizio != null ? "and scadenza >=:inizio "
-										: "")
-								+ (this.fine != null ? "and scadenza <=:fine "
-										: "")
-								+ "and stato in (:stati) order by codiceTriage.priorita asc, scadenza asc")
-				.setParameter(
-						"ids",
-						this.alertingController
-								.getIdTipiIntervento(this.identity
-										.getCredentials().getUsername()))
-				.setParameter("stati", this.getStati());
+						"from Intervento where sottotipoIntervento.tipoIntervento.id in (:ids) " + (this.inizio != null ? "and scadenza >=:inizio " : "")
+								+ (this.fine != null ? "and scadenza <=:fine " : "") + "and stato in (:stati) order by codiceTriage.priorita asc, scadenza asc")
+				.setParameter("ids", this.alertingController.getIdTipiIntervento(this.identity.getCredentials().getUsername())).setParameter("stati", this.getStati());
 		if (this.inizio != null) {
 			query.setParameter("inizio", new Date(this.inizio));
 		}
@@ -105,13 +111,8 @@ public class ListaSegnalazioni {
 	public List<Segnalazione> getMieSegnalazioni() {
 		Query query = this.entityManager
 				.createQuery(
-						"from Segnalazione where idutenteInseritore =:userid "
-								+ (this.inizio != null ? "and data >=:inizio "
-										: "")
-								+ (this.fine != null ? "and data <=:fine " : "")
-								+ "and stato in (:stati)")
-				.setParameter("userid",
-						this.identity.getCredentials().getUsername())
+						"from Segnalazione where idutenteInseritore =:userid " + (this.inizio != null ? "and data >=:inizio " : "")
+								+ (this.fine != null ? "and data <=:fine " : "") + "and stato in (:stati)").setParameter("userid", this.identity.getCredentials().getUsername())
 				.setParameter("stati", this.getStati());
 
 		if (this.inizio != null) {
@@ -133,14 +134,38 @@ public class ListaSegnalazioni {
 	}
 
 	@SuppressWarnings("unchecked")
+	public List<TaskInstance> getSegnalazioniInLavorazione() {
+		List<TaskInstance> tIList = new ArrayList<TaskInstance>();
+		Segnalazione segnalazione;
+		for (TaskInstance t : (List<TaskInstance>) this.jbpmContext.getTaskList(Identity.instance().getCredentials().getUsername())) {
+			segnalazione = this.alertingController.getSegnalazione(t);
+			if (this.getStati().contains(segnalazione.getStato())) {
+				if ((this.getInizio() != null ? segnalazione.getData().getTime() > this.getInizio() : true)
+						&& (this.getFine() != null ? segnalazione.getData().getTime() < this.getFine() : true)) {
+					if ((this.getUtenza() != null ? this.getUtenza().equals(segnalazione.getUtenza() == null ? "" : segnalazione.getUtenza().toString()) : true)
+							&& (this.getCategoriaUtenza() != null ? this.getCategoriaUtenza().equals(
+									segnalazione.getCategoriaUtenza() == null ? "" : segnalazione.getCategoriaUtenza().toString()) : true)
+							&& (this.getSottocategoriaUtenza() != null ? this.getSottocategoriaUtenza().equals(
+									segnalazione.getSottocategoriaUtenza() == null ? "" : segnalazione.getSottocategoriaUtenza().toString()) : true)) {
+						tIList.add(t);
+					}
+				}
+			}
+
+		}
+
+		return tIList;
+	}
+
+	@SuppressWarnings("unchecked")
 	@Factory("sollecitiSenzaRisposta")
 	public List<Sollecito> getSollecitiSenzaRisposta() {
-		return this.entityManager
-				.createQuery(
-						"from Sollecito where idassegnatario=:me and risposta is null")
-				.setParameter("me",
-						this.identity.getCredentials().getUsername())
+		return this.entityManager.createQuery("from Sollecito where idassegnatario=:me and risposta is null").setParameter("me", this.identity.getCredentials().getUsername())
 				.getResultList();
+	}
+
+	public String getSottocategoriaUtenza() {
+		return this.sottocategoriaUtenza;
 	}
 
 	public List<Stato> getStati() {
@@ -163,13 +188,15 @@ public class ListaSegnalazioni {
 	public List<Object[]> getUltimiAggiornamenti() {
 		return this.entityManager
 				.createNativeQuery(
-						"SELECT S.id, S.Oggetto,FROM_UNIXTIME(vt.t/1000) FROM Segnalazione S, "
-								+ "	(SELECT v.id rsid,v._revision rev, are.timestamp t, are.id i "
+						"SELECT S.id, S.Oggetto,FROM_UNIXTIME(vt.t/1000) FROM Segnalazione S, " + "	(SELECT v.id rsid,v._revision rev, are.timestamp t, are.id i "
 								+ "		FROM Segnalazione_versions v, AlertingRevisionEntity are where are.id = v._revision and v._revision_type!=0 and v._revision="
-								+ "		(select max(v2._revision) from Segnalazione_versions v2 where v2.id = v.id)"
-								+ "	)" + "vt where S.id=rsid order by rev desc")
+								+ "		(select max(v2._revision) from Segnalazione_versions v2 where v2.id = v.id)" + "	)" + "vt where S.id=rsid order by rev desc")
 				.setMaxResults(100).getResultList();
 
+	}
+
+	public String getUtenza() {
+		return this.utenza;
 	}
 
 	public void massUpdate() {
@@ -182,8 +209,18 @@ public class ListaSegnalazioni {
 
 	}
 
+	public void resetUtenze() {
+		this.setCategoriaUtenza(null);
+		this.setUtenza(null);
+		this.setSottocategoriaUtenza(null);
+	}
+
 	public void setCambiaStato(Stato cambiaStato) {
 		this.cambiaStato = cambiaStato;
+	}
+
+	public void setCategoriaUtenza(String categoriaUtenza) {
+		this.categoriaUtenza = categoriaUtenza;
 	}
 
 	public void setDataFine(Date fine) {
@@ -220,6 +257,10 @@ public class ListaSegnalazioni {
 		this.segnalazioniAperte = segnalazioniAperte;
 	}
 
+	public void setSottocategoriaUtenza(String sottocategoriaUtenza) {
+		this.sottocategoriaUtenza = sottocategoriaUtenza;
+	}
+
 	public void setStati(List<Stato> stati) {
 		this.stati = stati;
 	}
@@ -231,15 +272,14 @@ public class ListaSegnalazioni {
 			stati = Arrays.asList(stringStati.split(","));
 		}
 		if (stati.size() == 0) {
-			stati.addAll(Arrays.asList(this.entityManager
-					.find(AppParam.class,
-							AppParam.APP_FILTRO_STATI_DEFAULT.getKey())
-					.getValue().split(",")));
+			stati.addAll(Arrays.asList(this.entityManager.find(AppParam.class, AppParam.APP_FILTRO_STATI_DEFAULT.getKey()).getValue().split(",")));
 		}
-		this.stati = this.entityManager
-				.createQuery("from Stato where nome in (:s)")
-				.setParameter("s", stati).getResultList();
+		this.stati = this.entityManager.createQuery("from Stato where nome in (:s)").setParameter("s", stati).getResultList();
 
+	}
+
+	public void setUtenza(String utenza) {
+		this.utenza = utenza;
 	}
 
 }

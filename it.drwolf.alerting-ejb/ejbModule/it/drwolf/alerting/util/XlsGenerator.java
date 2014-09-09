@@ -45,15 +45,12 @@ public class XlsGenerator {
 	private ExternalContext extCtx;
 
 	private void downloadExcel(ByteArrayOutputStream excel, String filename) {
-		HttpServletResponse response = (HttpServletResponse) this.extCtx
-				.getResponse();
+		HttpServletResponse response = (HttpServletResponse) this.extCtx.getResponse();
 		response.setContentType("application/excel");
 
-		response.addHeader("Content-disposition", "attachment; filename=\""
-				+ filename + ".xls\"");
+		response.addHeader("Content-disposition", "attachment; filename=\"" + filename + ".xls\"");
 		response.setHeader("Expires", "0");
-		response.setHeader("Cache-Control",
-				"must-revalidate, post-check=0, pre-check=0");
+		response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
 		response.setHeader("Pragma", "public");
 		try {
 			response.setContentLength(excel.size());
@@ -65,26 +62,20 @@ public class XlsGenerator {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	private HSSFWorkbook generaHome() {
-		boolean gestore = this.alertingController.isGestore(Identity.instance()
-				.getCredentials().getUsername());
+		boolean gestore = this.alertingController.isGestore(Identity.instance().getCredentials().getUsername());
 		HSSFWorkbook wb = new HSSFWorkbook();
 		if (this.pooledTaskInstanceList.size() > 0) {
-			HSSFSheet sdpic = wb
-					.createSheet("Segnalazioni da prendere in carico");
+			HSSFSheet sdpic = wb.createSheet("Segnalazioni da prendere in carico");
 			HSSFRow row0 = sdpic.createRow(0);
-			row0.createCell(0).setCellValue(
-					new HSSFRichTextString("Segnalazione"));
+			row0.createCell(0).setCellValue(new HSSFRichTextString("Segnalazione"));
 			int i = 0;
 			for (TaskInstance task : this.pooledTaskInstanceList) {
 				i++;
 				HSSFRow row = sdpic.createRow(i);
-				row.createCell(0).setCellValue(
-						new HSSFRichTextString(this.alertingController
-								.getTitleForTask(task)));
+				row.createCell(0).setCellValue(new HSSFRichTextString(this.alertingController.getTitleForTask(task)));
 			}
 		}
 		if (gestore) {
@@ -116,43 +107,30 @@ public class XlsGenerator {
 
 			HSSFSheet interventi = wb.createSheet("Interventi");
 			HSSFRow row0 = interventi.createRow(0);
-			row0.createCell(0).setCellValue(
-					new HSSFRichTextString("Intervento"));
+			row0.createCell(0).setCellValue(new HSSFRichTextString("Intervento"));
 			row0.createCell(1).setCellValue(new HSSFRichTextString("Stato"));
 			row0.createCell(2).setCellValue(new HSSFRichTextString("Scadenza"));
 			row0.createCell(3).setCellValue(new HSSFRichTextString("Squadra"));
-			row0.createCell(4).setCellValue(
-					new HSSFRichTextString("Segnalazione"));
+			row0.createCell(4).setCellValue(new HSSFRichTextString("Segnalazione"));
 			int i = 0;
 			for (Intervento intervento : this.listaSegnalazioni.getInterventi()) {
 				i++;
 				HSSFRow row = interventi.createRow(i);
-				row.createCell(0).setCellValue(
-						new HSSFRichTextString(intervento.getOggetto()));
-				row.createCell(1)
-						.setCellValue(
-								new HSSFRichTextString(intervento.getStato()
-										.toString()));
+				row.createCell(0).setCellValue(new HSSFRichTextString(intervento.getOggetto()));
+				row.createCell(1).setCellValue(new HSSFRichTextString(intervento.getStato().toString()));
 				HSSFCell cell = row.createCell(2);
 				if (intervento.getCodiceTriage().getId().equals("nero")) {
-					cell.setCellValue(new HSSFRichTextString(this.xsdf
-							.format(intervento.getScadenza())));
+					cell.setCellValue(new HSSFRichTextString(this.xsdf.format(intervento.getScadenza())));
 
 				} else {
-					cell.setCellValue(new HSSFRichTextString(this.sdf
-							.format(intervento.getScadenza())));
+					cell.setCellValue(new HSSFRichTextString(this.sdf.format(intervento.getScadenza())));
 				}
-				cell.setCellStyle(cmap
-						.get(intervento.getCodiceTriage().getId()));
+				cell.setCellStyle(cmap.get(intervento.getCodiceTriage().getId()));
 
-				row.createCell(3).setCellValue(
-						new HSSFRichTextString(intervento
-								.getSquadraIntervento().toString()));
+				row.createCell(3).setCellValue(new HSSFRichTextString(intervento.getSquadraIntervento().toString()));
 
 				if (intervento.getSegnalazione() != null) {
-					row.createCell(4).setCellValue(
-							new HSSFRichTextString(intervento.getSegnalazione()
-									.getOggetto()));
+					row.createCell(4).setCellValue(new HSSFRichTextString(intervento.getSegnalazione().getOggetto()));
 				}
 
 			}
@@ -161,40 +139,30 @@ public class XlsGenerator {
 		if (this.taskInstanceList.size() > 0) {
 			HSSFSheet sil = wb.createSheet("Segnalazioni in lavorazione");
 			HSSFRow row0 = sil.createRow(0);
-			row0.createCell(0).setCellValue(
-					new HSSFRichTextString("Segnalazione"));
+			row0.createCell(0).setCellValue(new HSSFRichTextString("Segnalazione"));
 			row0.createCell(1).setCellValue(new HSSFRichTextString("Stato"));
 			int i = 0;
 			for (TaskInstance task : this.taskInstanceList) {
 				i++;
 				HSSFRow row = sil.createRow(i);
-				row.createCell(0).setCellValue(
-						new HSSFRichTextString(this.alertingController
-								.getTitleForTask(task)));
-				row.createCell(1).setCellValue(
-						new HSSFRichTextString(this.alertingController
-								.getSegnalazioneFromJBPMTask(task).getStato()
-								.toString()));
+				row.createCell(0).setCellValue(new HSSFRichTextString(this.alertingController.getTitleForTask(task)));
+				row.createCell(1).setCellValue(new HSSFRichTextString(this.alertingController.getSegnalazioneFromJBPMTask(task).getStato().toString()));
 			}
 		}
 
 		if (this.listaSegnalazioni.getMieSegnalazioni().size() > 0) {
 			HSSFSheet lms = wb.createSheet("Le mie Segnalazioni");
 			HSSFRow row0 = lms.createRow(0);
-			row0.createCell(0).setCellValue(
-					new HSSFRichTextString("Segnalazione"));
+			row0.createCell(0).setCellValue(new HSSFRichTextString("Segnalazione"));
 			row0.createCell(1).setCellValue(new HSSFRichTextString("Stato"));
 			row0.createCell(2).setCellValue(new HSSFRichTextString("Data"));
 			int i = 0;
 			for (Segnalazione s : this.listaSegnalazioni.getMieSegnalazioni()) {
 				i++;
 				HSSFRow row = lms.createRow(i);
-				row.createCell(0).setCellValue(
-						new HSSFRichTextString(s.getOggetto()));
-				row.createCell(1).setCellValue(
-						new HSSFRichTextString(s.getStato().toString()));
-				row.createCell(2).setCellValue(
-						new HSSFRichTextString(this.sdf.format(s.getData())));
+				row.createCell(0).setCellValue(new HSSFRichTextString(s.getOggetto()));
+				row.createCell(1).setCellValue(new HSSFRichTextString(s.getStato().toString()));
+				row.createCell(2).setCellValue(new HSSFRichTextString(this.sdf.format(s.getData())));
 			}
 		}
 
