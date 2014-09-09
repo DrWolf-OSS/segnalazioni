@@ -210,7 +210,7 @@
 										</s:div>
 									</f:facet>
 									<rich:menuItem submitMode="ajax" limitToList="true" ajaxSingle="true" action="#{listaSegnalazioni.resetUtenze()}" reRender="taskList"
-										value="Nessuna Utenza" />
+										value="Tutte le utenze" />
 									<c:forEach items="#{categoriaUtenzaList.resultList}" var="cu">
 										<rich:menuGroup value="#{cu.nome}" rendered="#{not empty cu.sottocategorie}">
 											<c:forEach items="#{cu.sottocategorie}" var="sc">
