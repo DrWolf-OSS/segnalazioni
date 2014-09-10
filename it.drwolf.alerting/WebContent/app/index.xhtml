@@ -274,7 +274,8 @@
 
 						</rich:column>
 						<rich:column style="background:#eee;">
-
+						</rich:column>
+						<rich:column style="background:#eee;"> 
 						</rich:column>
 						<rich:column style="background:#eee;">
 				#{i.oggetto}
@@ -469,6 +470,9 @@
 		</rich:simpleTogglePanel>
 
 		<s:button value="Crea nuova segnalazione" view="/app/segnalazione/crea.xhtml" propagation="none" style="margin-top:10px" />
+
+		<s:button value="chiudi segnalazioni" view="/app/chiudiSegnalazioni.xhtml" propagation="none" style="margin-top:10px" rendered="#{s:hasRole('admin')}" />
+
 
 		<a4j:region id="utr">
 			<a4j:jsFunction name="updateTab" ajaxSingle="true" immediate="true" eventsQueue="tab">
