@@ -4,7 +4,7 @@
 	xmlns:f="http://java.sun.com/jsf/core" xmlns:c="http://java.sun.com/jstl/core" xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" template="/layout/template.xhtml">
 
-	<ui:define name="title">Chiudi Segnalazioni</ui:define>
+	<ui:define name="title">Segnalazioni da chiudere</ui:define>
 	<ui:define name="navigation">
 
 		<ui:include src="/layout/menu.xhtml" />
@@ -104,7 +104,7 @@
 		</rich:dataTable>
 
 		<s:decorate id="buttons" template="/layout/actions.xhtml">
-			<h:commandButton value="chiudi Segnalazioni" action="#{TODO}" />
+			<h:commandButton value="chiudi Segnalazioni" action="#{alertingController.chiudiSegnalazioni()}" onclick="return confirm('Chiudere le segnalazioni?')"/>
 		</s:decorate>
 	</ui:define>
 </ui:composition>

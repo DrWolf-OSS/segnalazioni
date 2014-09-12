@@ -138,8 +138,8 @@ public class ListaSegnalazioni {
 	public List<Segnalazione> getSegnalazioniDaChiudere() {
 		Query query = this.entityManager.createQuery("from Segnalazione seg where 50 < (" + " select min(i.stato.posizione) from Intervento i where i.segnalazione.id=seg.id)"
 				+ " and 0<(select count(*)from Intervento i where i.segnalazione.id=seg.id)" + " and seg.stato.posizione<50 " + "order by seg.id desc");
-		List lista = query.getResultList();
-		return lista;
+		return query.getResultList();
+
 	}
 
 	@SuppressWarnings("unchecked")
