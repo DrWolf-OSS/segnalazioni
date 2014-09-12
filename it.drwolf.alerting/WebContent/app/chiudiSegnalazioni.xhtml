@@ -1,0 +1,110 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:c="http://java.sun.com/jstl/core" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" template="/layout/template.xhtml">
+
+	<ui:define name="title">Chiudi Segnalazioni</ui:define>
+	<ui:define name="navigation">
+
+		<ui:include src="/layout/menu.xhtml" />
+	</ui:define>
+
+	<ui:define name="body">
+
+		<c:set value="#{alertingController.isGestore(identity.username)}" var="gestore" />
+
+		<rich:dataTable id="segList" value="#{listaSegnalazioni.segnalazioniDaChiudere}" var="seg" rows="5">
+
+			<rich:column headerClass="ncol" >
+				<f:facet name="header">
+    	            N.
+	            </f:facet>
+				<h:outputText value="#{seg.id}" escape="false" />
+			</rich:column>
+
+			<rich:column filterMethod="#{filteringBean.filterFor('seg.oggetto').filter(seg.oggetto)}">
+
+				<f:facet name="header">
+					<s:div>
+                		Segnalazione
+		
+					</s:div>
+
+				</f:facet>
+
+				<s:fragment rendered="#{segnalazioneHome.verificaScadenza(seg,false)}">
+					<img style="margin-right: 1em;" src="/sign/img/exclamation.png" height="16" width="16" alt="Scaduta" title="Scaduta" />
+				</s:fragment>
+				<h:outputText value="#{seg.oggetto}" escape="false" />
+			</rich:column>
+			<rich:column>
+				<f:facet name="header">
+					<s:fragment>Utenza
+
+					</s:fragment>
+				</f:facet>
+				<s:fragment>
+        					#{seg.utenza} #{seg.categoriaUtenza.nome} #{seg.sottocategoriaUtenza.nome}  
+						</s:fragment>
+			</rich:column>
+			<rich:column rendered="#{gestore}">
+				<f:facet name="header">
+               Intervento
+            </f:facet>
+
+			</rich:column>
+			<rich:column>
+				<f:facet name="header">Stato</f:facet>
+    	  #{seg.stato}
+		</rich:column>
+			<rich:column rendered="#{gestore}">
+				<f:facet name="header">
+               Scadenza
+            </f:facet>
+
+			</rich:column>
+			<rich:column rendered="#{gestore}">
+				<f:facet name="header">
+               Squadra
+            </f:facet>
+
+			</rich:column>
+	
+
+			<rich:subTable rendered="#{gestore and not empty seg.interventos}"
+				value="#{seg.interventos}" var="i">
+				<rich:column style="background:#eee;">
+
+				</rich:column>
+				<rich:column style="background:#eee;">
+				</rich:column>
+				<rich:column style="background:#eee;">
+				</rich:column>
+				<rich:column style="background:#eee;">
+				#{i.oggetto}
+			</rich:column>
+				<rich:column style="background:#eee;">
+				#{i.stato}
+			</rich:column>
+				<rich:column style="background:#eee;">
+					<div style="background:#{i.codiceTriage.colore};border:1px solid #aaa;height: 1em; width: 1em; float:left;margin-right: 1em;">&#160;</div>
+					<h:outputText value="#{i.formattedScadenza}" />
+				</rich:column>
+				<rich:column style="background:#eee;">
+				#{i.squadraIntervento}
+			</rich:column>
+
+			</rich:subTable>
+
+			<f:facet name="footer">
+				<rich:datascroller for="segList" id="taskDS" />
+			</f:facet>
+
+		</rich:dataTable>
+
+		<s:decorate id="buttons" template="/layout/actions.xhtml">
+			<h:commandButton value="chiudi Segnalazioni" action="#{TODO}" />
+		</s:decorate>
+	</ui:define>
+</ui:composition>
