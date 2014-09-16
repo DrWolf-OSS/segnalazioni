@@ -17,6 +17,7 @@ import javax.persistence.Query;
 
 import org.apache.commons.lang.StringUtils;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.Factory;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
@@ -25,6 +26,7 @@ import org.jboss.seam.security.Identity;
 import org.jbpm.JbpmContext;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 
+@AutoCreate
 @Name("listaSegnalazioni")
 @Scope(ScopeType.CONVERSATION)
 public class ListaSegnalazioni {
