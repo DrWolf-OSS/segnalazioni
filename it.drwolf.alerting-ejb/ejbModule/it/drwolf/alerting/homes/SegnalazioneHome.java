@@ -218,7 +218,8 @@ public class SegnalazioneHome extends EntityHome<Segnalazione> {
 	@Override
 	public String persist() {
 
-		if (this.getEntityManager().find(AppParam.class, "utenza.obbligatoria").getValue().equals("true")
+		if (this.getEntityManager().find(AppParam.class, "utenza.obbligatoria").getValue().equals("true") && !this.identity.hasRole(Constants.CITTADINO.toString())
+				&& this.cittadinoHome.getInstance().getId() == null
 				&& (this.getInstance().getCategoriaUtenza() == null && this.getInstance().getSottocategoriaUtenza() == null && this.getInstance().getUtenza() == null)) {
 			FacesMessages.instance().add(Severity.ERROR, "compilare campo utenza");
 			return "ko";
