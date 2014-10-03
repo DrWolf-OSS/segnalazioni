@@ -154,7 +154,7 @@
 			<rich:tab name="task" ontabenter="updateTab('task')" label="Segnalazioni in lavorazione (#{taskInstanceList.size()})"
 				rendered="#{not empty taskInstanceList}">
 
-				<rich:dataTable id="taskList" value="#{listaSegnalazioni.segnalazioniInLavorazione}"  var="task" rows="5">
+				<rich:dataTable id="taskList" value="#{listaSegnalazioni.segnalazioniInLavorazione}"  var="task" rows="5" >
 
 
 					<rich:column headerClass="ncol" sortBy="#{alertingController.getSegnalazione(task).id}" filterBy="#{alertingController.getSegnalazione(task).id}">

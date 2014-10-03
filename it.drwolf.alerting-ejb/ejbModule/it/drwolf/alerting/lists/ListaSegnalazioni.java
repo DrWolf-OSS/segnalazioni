@@ -9,6 +9,8 @@ import it.drwolf.alerting.session.AlertingController;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -159,10 +161,26 @@ public class ListaSegnalazioni {
 							&& (this.getSottocategoriaUtenza() != null ? this.getSottocategoriaUtenza().equals(
 									segnalazione.getSottocategoriaUtenza() == null ? "" : segnalazione.getSottocategoriaUtenza().toString()) : true)) {
 						tIList.add(t);
+						Collections.sort(tIList, new Comparator<TaskInstance>() {
+
+							@Override
+							public int compare(TaskInstance o1, TaskInstance o2) {
+								return -1
+										* new Long(ListaSegnalazioni.this.alertingController.getSegnalazione(o1).getId()).compareTo(new Long(
+												ListaSegnalazioni.this.alertingController.getSegnalazione(o2).getId()));
+							}
+
+						});
 					}
 				}
 			}
 
+		}
+		List<Integer> idsSign = new ArrayList<Integer>();
+		List<Long> idsTask = new ArrayList<Long>();
+		for (TaskInstance t : tIList) {
+			idsSign.add(this.alertingController.getSegnalazione(t).getId());
+			idsTask.add(t.getId());
 		}
 
 		return tIList;
