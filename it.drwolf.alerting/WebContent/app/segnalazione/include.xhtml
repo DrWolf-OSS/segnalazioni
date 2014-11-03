@@ -11,9 +11,10 @@
 	
 	<s:decorate template="/layout/input.xhtml" rendered="#{not s:hasRole('cittadino') and ((segnalazione.id ne null and segnalazione.cittadino ne null) or (segnalazione.id eq null))}">
 		<ui:define name="label">Cittadino</ui:define>
+		<h:outputText rendered="#{segnalazione.cittadino ne null}" value="#{segnalazione.cittadino}"/>
 		<s:decorate  template="/layout/actions.xhtml">
 		
-		<h:outputText rendered="#{segnalazione.cittadino ne null}" value="#{segnalazione.cittadino}"/>
+		
 		<s:button rendered="#{segnalazione.id eq null}"  propagation="none" view="/app/utenti/CittadinoList.xhtml"
 			value="#{segnalazione.cittadino eq null ? 'Scegli un cittadino' : 'Cambia'}"/>
 		</s:decorate>

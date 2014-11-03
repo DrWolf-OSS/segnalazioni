@@ -89,7 +89,10 @@ public class AppParam implements Serializable {
 	public static final AppParam AUTOCOMPLETE_INDIRIZZO_ACTIVE = new AppParam("autocomplete.indirizzo.active", "false");
 
 	public static final AppParam NASCONDI_DIRIGENTI = new AppParam("nascondi.dirigenti", "false");
+
 	public static final AppParam UTENZA_OBBLICATORIA = new AppParam("utenza.obbligatoria", "false");
+
+	public static final AppParam ASSEGNAZIONE_A_UFFICIO = new AppParam("assegnazione.a.ufficio", "false");
 
 	public static final AppParam[] defaults = new AppParam[] { AppParam.APP_NAME, AppParam.APP_DESCRIPTION, AppParam.APP_SKIN, AppParam.APP_WELCOME, AppParam.APP_COMUNE,
 			AppParam.APP_SSOAPPID, AppParam.APP_URL, AppParam.APP_SEGNALAZIONE_SCADENZA, AppParam.APP_MAIL_HOST, AppParam.APP_SEGNALAZIONE_REMINDER_START,
@@ -98,7 +101,7 @@ public class AppParam implements Serializable {
 			AppParam.APP_DAILY_STATI_DEFAULT, AppParam.APP_DAILY_STATI_HIDE, AppParam.APP_FILTRO_STATI_DEFAULT, AppParam.APP_ASSEGNAZIONE_POOL, AppParam.APP_RISP_UFFICIO,
 			AppParam.RIPASSA_URP_CON_MAIL_TEL, AppParam.ASSEGNATARIO_IN_MAIL, AppParam.APP_RISP_SALUTI, AppParam.APP_RISP_SALUTI_PS, AppParam.RIPASSA_URP_SEMPRE,
 			AppParam.ALFRESCO_URL, AppParam.ALFRESCO_USERNAME, AppParam.RIPASSA_URP_POOL, AppParam.ALFRESCO_PASSWORD, AppParam.ALFRESCO_CALEEARTH_PATH, AppParam.HISTORY_ENABLED,
-			AppParam.AUTOCOMPLETE_INDIRIZZO_ACTIVE, AppParam.APP_MAIL_TRAP, AppParam.UTENZA_OBBLICATORIA };
+			AppParam.AUTOCOMPLETE_INDIRIZZO_ACTIVE, AppParam.APP_MAIL_TRAP, AppParam.ASSEGNAZIONE_A_UFFICIO, AppParam.UTENZA_OBBLICATORIA };
 
 	private String key;
 	private String value;
