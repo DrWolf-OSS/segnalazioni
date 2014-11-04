@@ -22,16 +22,14 @@ import org.jboss.seam.annotations.Scope;
 @AutoCreate
 public class Starter {
 
-	public static final String TIMER_CRON = "00 00 06 * * ?";
+	// public static final String TIMER_CRON = "00 00 06 * * ?";
 	// public static final String TIMER_CRON = "*/5 * * * * ?";
 
 	public static final Long TIMER_TIMEOUT = new Long(10 * 1000);
 
-	public static final Date TIMER_START = new Date(System.currentTimeMillis()
-			+ DateUtils.MILLIS_PER_MINUTE * 0);
+	public static final Date TIMER_START = new Date(System.currentTimeMillis() + DateUtils.MILLIS_PER_MINUTE * 0);
 
-	public static final Date TIMER_END = new Date(System.currentTimeMillis()
-			+ DateUtils.MILLIS_PER_DAY * 365 * 100);
+	public static final Date TIMER_END = new Date(System.currentTimeMillis() + DateUtils.MILLIS_PER_DAY * 365 * 100);
 
 	@In
 	private Timer alertingTimer;
@@ -49,30 +47,25 @@ public class Starter {
 
 	private void checkParams() {
 
-		AppParam name = entityManager.find(AppParam.class,
-				AppParam.APP_NAME.getKey());
+		AppParam name = this.entityManager.find(AppParam.class, AppParam.APP_NAME.getKey());
 		if (name != null) {
-			applicationName = name.getValue();
+			this.applicationName = name.getValue();
 		}
-		AppParam description = entityManager.find(AppParam.class,
-				AppParam.APP_DESCRIPTION.getKey());
+		AppParam description = this.entityManager.find(AppParam.class, AppParam.APP_DESCRIPTION.getKey());
 		if (description != null) {
-			applicationDescription = description.getValue();
+			this.applicationDescription = description.getValue();
 		}
 
-		AppParam iscrizioni = entityManager.find(AppParam.class,
-				AppParam.ISCRIZIONI_URL.getKey());
+		AppParam iscrizioni = this.entityManager.find(AppParam.class, AppParam.ISCRIZIONI_URL.getKey());
 		if (description != null) {
-			iscrizioniPath = iscrizioni.getValue();
+			this.iscrizioniPath = iscrizioni.getValue();
 		}
 
-		AppParam wt = entityManager.find(AppParam.class,
-				AppParam.APP_WELCOME.getKey());
+		AppParam wt = this.entityManager.find(AppParam.class, AppParam.APP_WELCOME.getKey());
 		if (wt != null) {
-			welcomeText = wt.getValue();
+			this.welcomeText = wt.getValue();
 		}
-		AppParam ap = entityManager.find(AppParam.class,
-				AppParam.APP_ASSEGNAZIONE_POOL.getKey());
+		AppParam ap = this.entityManager.find(AppParam.class, AppParam.APP_ASSEGNAZIONE_POOL.getKey());
 		if (ap != null && "true".equals(ap.getValue())) {
 			AlertingController.setAssegnazionePool(true);
 		}
@@ -85,33 +78,32 @@ public class Starter {
 	}
 
 	public String getApplicationDescription() {
-		return applicationDescription;
+		return this.applicationDescription;
+	}
+
+	public String getApplicationName() {
+		return this.applicationName;
+	}
+
+	public String getIscrizioniPath() {
+		return this.iscrizioniPath;
+	}
+
+	public String getWelcomeText() {
+		return this.welcomeText;
 	}
 
 	public void setIscrizioniPath(String iscrizioniPath) {
 		this.iscrizioniPath = iscrizioniPath;
 	}
 
-	public String getApplicationName() {
-		return applicationName;
-	}
-
-	public String getWelcomeText() {
-		return welcomeText;
-	}
-
-	public String getIscrizioniPath() {
-		return iscrizioniPath;
-	}
-
 	@Create
 	public void start() {
-		checkParams();
-		startTimer();
+		this.checkParams();
+		this.startTimer();
 	}
 
 	private void startTimer() {
-		alertingTimer.cron(Starter.TIMER_CRON);
-
+		this.alertingTimer.cron(this.entityManager.find(AppParam.class, AppParam.CRON_TIME.getKey()).getValue());
 	}
 }
