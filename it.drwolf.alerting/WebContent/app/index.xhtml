@@ -27,10 +27,10 @@
 
 		<c:set value="#{alertingController.isGestore(identity.username)}" var="gestore" />
 
-		<rich:tabPanel switchType="ajax"  ajaxSingle="true"  style="margin-bottom:10px;" id="mainTabPanel">
+		<rich:tabPanel switchType="ajax"    style="margin-bottom:10px;" id="mainTabPanel">
 
 			<rich:tab name="pool"  label="Segnalazioni da prendere in carico (#{pooledTaskInstanceList.size()})"
-				rendered="#{not empty pooledTaskInstanceList}" ajaxSingle="true">
+				rendered="#{not empty pooledTaskInstanceList}" >
 
 				<rich:dataTable value="#{pooledTaskInstanceList}" var="task" rendered="#{not empty pooledTaskInstanceList}" id="tasks" rows="10">
 
@@ -59,7 +59,7 @@
 				</rich:dataTable>
 				<rich:datascroller align="left" for="tasks" maxPages="10" id="taskScroller" />
 			</rich:tab>
-			<rich:tab name="interventi"  label="Interventi (#{interventi.size()})" rendered="#{gestore}" ajaxSingle="true">
+			<rich:tab name="interventi"  label="Interventi (#{interventi.size()})" rendered="#{gestore}" >
 				<rich:dataTable id="intTable" value="#{interventi}" var="intervento" rows="10" rendered="#{not empty interventi}" reRender="ids,tt">
 					<rich:column headerClass="ncol" filterBy="#{intervento.id}" sortBy="#{intervento.id}">
 						<f:facet name="header">
@@ -151,8 +151,8 @@
 				</rich:simpleTogglePanel>
 			</rich:tab>
 
-			<rich:tab name="task"  label="Segnalazioni in lavorazione (#{taskInstanceList.size()})"
-				rendered="#{not empty taskInstanceList}" ajaxSingle="true">
+			<rich:tab name="task"  label="Segnalazioni in lavorazione (#{taskInstanceList.size()})" 
+				rendered="#{not empty taskInstanceList}" >
 <a4j:region>
 				<rich:dataTable id="taskList" value="#{listaSegnalazioni.segnalazioniInLavorazione}"  var="task" rows="5" >
 
@@ -209,21 +209,21 @@
 											<h:outputText value="#{segnalazione.utenza ne null ? segnalazione.utenza : 'Scegli un\'utenza'}" />
 										</s:div>
 									</f:facet>
-									<rich:menuItem submitMode="ajax" limitToList="true" ajaxSingle="true" action="#{listaSegnalazioni.resetUtenze()}" reRender="taskList"
+									<rich:menuItem submitMode="ajax" limitToList="true"  action="#{listaSegnalazioni.resetUtenze()}" reRender="taskList"
 										value="Tutte le utenze" />
 									<c:forEach items="#{categoriaUtenzaList.resultList}" var="cu">
 										<rich:menuGroup value="#{cu.nome}" rendered="#{not empty cu.sottocategorie}">
 											<c:forEach items="#{cu.sottocategorie}" var="sc">
 												<rich:menuGroup value="#{sc.nome}" rendered="#{not empty sc.utenze}">
 													<c:forEach items="#{sc.utenze}" var="u">
-														<rich:menuItem submitMode="ajax" limitToList="true" ajaxSingle="true" action="#{listaSegnalazioni.setUtenza(u)}"
+														<rich:menuItem submitMode="ajax" limitToList="true"  action="#{listaSegnalazioni.setUtenza(u)}"
 															reRender="taskList" value="#{u.descrizione}" />
 													</c:forEach>
-													<rich:menuItem submitMode="ajax" limitToList="true" ajaxSingle="true" action="#{listaSegnalazioni.setSottocategoriaUtenza(sc)}"
+													<rich:menuItem submitMode="ajax" limitToList="true"  action="#{listaSegnalazioni.setSottocategoriaUtenza(sc)}"
 														reRender="taskList" value="#{sc.nome} - tutte le utenze" />
 												</rich:menuGroup>
 											</c:forEach>
-											<rich:menuItem submitMode="ajax" limitToList="true" ajaxSingle="true" action="#{listaSegnalazioni.setCategoriaUtenza(cu)}"
+											<rich:menuItem submitMode="ajax" limitToList="true"  action="#{listaSegnalazioni.setCategoriaUtenza(cu)}"
 												reRender="taskList" value="#{cu.nome} - tutte le utenze" />
 										</rich:menuGroup>
 									</c:forEach>
@@ -307,7 +307,7 @@
 			</rich:tab>
 
 
-			<rich:tab name="mie"  label="Le mie segnalazioni (#{mie.size()})" ajaxSingle="true">
+			<rich:tab name="mie"  label="Le mie segnalazioni (#{mie.size()})" >
 				<rich:dataTable value="#{mie}" var="s" rows="10" reRender="mieDS">
 					<rich:column>
 						<f:facet name="header">
@@ -378,7 +378,7 @@
 				</rich:dataTable>
 			</rich:tab>
 			<rich:tab name="solleciti" rendered="#{not empty sollecitiSenzaRisposta}" 
-				label="Solleciti (#{sollecitiSenzaRisposta.size()})" ajaxSingle="true">
+				label="Solleciti (#{sollecitiSenzaRisposta.size()})" >
 				<rich:dataTable value="#{sollecitiSenzaRisposta}" var="s">
 					<h:column>
 						<f:facet name="header">
@@ -422,7 +422,7 @@
 				</rich:dataTable>
 			</rich:tab>
 			<rich:tab rendered="#{alertingController.isSmistatore(identity.credentials.username)}" name="aggiornamenti" 
-				label="Ultimi aggiornamenti" ajaxSingle="true">
+				label="Ultimi aggiornamenti" >
 
 				<rich:dataTable value="#{ultimiAggiornamenti}" var="s" rows="10">
 					<rich:column>
