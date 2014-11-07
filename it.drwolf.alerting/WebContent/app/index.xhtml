@@ -27,10 +27,10 @@
 
 		<c:set value="#{alertingController.isGestore(identity.username)}" var="gestore" />
 
-		<rich:tabPanel switchType="client" selectedTab="#{workSession.currentTab}" style="margin-bottom:10px;" id="mainTabPanel">
+		<rich:tabPanel switchType="ajax"  ajaxSingle="true"  style="margin-bottom:10px;" id="mainTabPanel">
 
-			<rich:tab name="pool" ontabenter="updateTab('pool')" label="Segnalazioni da prendere in carico (#{pooledTaskInstanceList.size()})"
-				rendered="#{not empty pooledTaskInstanceList}">
+			<rich:tab name="pool"  label="Segnalazioni da prendere in carico (#{pooledTaskInstanceList.size()})"
+				rendered="#{not empty pooledTaskInstanceList}" ajaxSingle="true">
 
 				<rich:dataTable value="#{pooledTaskInstanceList}" var="task" rendered="#{not empty pooledTaskInstanceList}" id="tasks" rows="10">
 
@@ -59,7 +59,7 @@
 				</rich:dataTable>
 				<rich:datascroller align="left" for="tasks" maxPages="10" id="taskScroller" />
 			</rich:tab>
-			<rich:tab name="interventi" ontabenter="updateTab('interventi')" label="Interventi (#{interventi.size()})" rendered="#{gestore}">
+			<rich:tab name="interventi"  label="Interventi (#{interventi.size()})" rendered="#{gestore}" ajaxSingle="true">
 				<rich:dataTable id="intTable" value="#{interventi}" var="intervento" rows="10" rendered="#{not empty interventi}" reRender="ids,tt">
 					<rich:column headerClass="ncol" filterBy="#{intervento.id}" sortBy="#{intervento.id}">
 						<f:facet name="header">
@@ -151,9 +151,9 @@
 				</rich:simpleTogglePanel>
 			</rich:tab>
 
-			<rich:tab name="task" ontabenter="updateTab('task')" label="Segnalazioni in lavorazione (#{taskInstanceList.size()})"
-				rendered="#{not empty taskInstanceList}">
-
+			<rich:tab name="task"  label="Segnalazioni in lavorazione (#{taskInstanceList.size()})"
+				rendered="#{not empty taskInstanceList}" ajaxSingle="true">
+<a4j:region>
 				<rich:dataTable id="taskList" value="#{listaSegnalazioni.segnalazioniInLavorazione}"  var="task" rows="5" >
 
 
@@ -300,14 +300,14 @@
 					</f:facet>
 
 				</rich:dataTable>
-
+</a4j:region>
 
 
 
 			</rich:tab>
 
 
-			<rich:tab name="mie" ontabenter="updateTab('mie')" label="Le mie segnalazioni (#{mie.size()})">
+			<rich:tab name="mie"  label="Le mie segnalazioni (#{mie.size()})" ajaxSingle="true">
 				<rich:dataTable value="#{mie}" var="s" rows="10" reRender="mieDS">
 					<rich:column>
 						<f:facet name="header">
@@ -377,8 +377,8 @@
 					</f:facet>
 				</rich:dataTable>
 			</rich:tab>
-			<rich:tab name="solleciti" rendered="#{not empty sollecitiSenzaRisposta}" ontabenter="updateTab('solleciti')"
-				label="Solleciti (#{sollecitiSenzaRisposta.size()})">
+			<rich:tab name="solleciti" rendered="#{not empty sollecitiSenzaRisposta}" 
+				label="Solleciti (#{sollecitiSenzaRisposta.size()})" ajaxSingle="true">
 				<rich:dataTable value="#{sollecitiSenzaRisposta}" var="s">
 					<h:column>
 						<f:facet name="header">
@@ -421,8 +421,8 @@
 
 				</rich:dataTable>
 			</rich:tab>
-			<rich:tab rendered="#{alertingController.isSmistatore(identity.credentials.username)}" name="aggiornamenti" ontabenter="updateTab('aggiornamenti')"
-				label="Ultimi aggiornamenti">
+			<rich:tab rendered="#{alertingController.isSmistatore(identity.credentials.username)}" name="aggiornamenti" 
+				label="Ultimi aggiornamenti" ajaxSingle="true">
 
 				<rich:dataTable value="#{ultimiAggiornamenti}" var="s" rows="10">
 					<rich:column>
@@ -474,15 +474,13 @@
 		<s:button value="chiudi segnalazioni" view="/app/chiudiSegnalazioni.xhtml" propagation="none" style="margin-top:10px" rendered="#{s:hasRole('admin')}" />
 
 
-		<a4j:region id="utr">
-			<a4j:jsFunction name="updateTab" ajaxSingle="true" immediate="true" eventsQueue="tab">
-				<a4j:actionparam name="param1" assignTo="#{workSession.currentTab}" />
-			</a4j:jsFunction>
-		</a4j:region>
+		
 
 	</ui:define>
 
+ 
 	<ui:define name="panels">
+
 		<rich:modalPanel id="panelSollecito" autosized="true" width="400" moveable="false" resizeable="false">
 			<f:facet name="header">
             Inserisi sollecito per <s:span id="sollTit"></s:span>

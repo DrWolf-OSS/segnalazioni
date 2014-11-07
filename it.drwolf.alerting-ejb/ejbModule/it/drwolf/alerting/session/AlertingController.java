@@ -60,13 +60,13 @@ import org.jbpm.taskmgmt.exe.TaskInstance;
 @Scope(ScopeType.CONVERSATION)
 public class AlertingController {
 
-	private static final String HOME = "home";
-
-	private static Boolean assegnazionePool = false;
-
 	public static void setAssegnazionePool(Boolean assegnazionePool) {
 		AlertingController.assegnazionePool = assegnazionePool;
 	}
+
+	private static final String HOME = "home";
+
+	private static Boolean assegnazionePool = false;
 
 	@In
 	private Identity identity;
@@ -114,6 +114,8 @@ public class AlertingController {
 	@RequestParameter("taskId")
 	// same value as the 'name' in f:param
 	private String taskId;
+
+	private Map<Long, Segnalazione> sCache = new HashMap<Long, Segnalazione>();
 
 	@SuppressWarnings("unchecked")
 	public void alertAssignee() {
@@ -558,14 +560,19 @@ public class AlertingController {
 		if (currentTask == null) {
 			return null;
 		}
-		Segnalazione segnalazione = null;
-		List<Segnalazione> resultList = this.entityManager.createQuery("from Segnalazione where bpmInfo.processId=:processId")
-				.setParameter("processId", currentTask.getProcessInstance().getId()).getResultList();
-		if (resultList.size() > 0) {
-			segnalazione = resultList.get(0);
 
+		if (this.sCache.get(currentTask.getId()) == null) {
+			Segnalazione segnalazione = null;
+			List<Segnalazione> resultList = this.entityManager.createQuery("from Segnalazione where bpmInfo.processId=:processId")
+					.setParameter("processId", currentTask.getProcessInstance().getId()).getResultList();
+			if (resultList.size() > 0) {
+				segnalazione = resultList.get(0);
+
+			}
+			this.sCache.put(currentTask.getId(), segnalazione);
 		}
-		return segnalazione;
+
+		return this.sCache.get(currentTask.getId());
 	}
 
 	@SuppressWarnings("unchecked")
