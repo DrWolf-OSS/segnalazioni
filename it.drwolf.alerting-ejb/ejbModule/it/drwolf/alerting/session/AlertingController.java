@@ -550,6 +550,14 @@ public class AlertingController {
 		return this.newMessageIntervento;
 	}
 
+	private boolean getParameterBoolValue(AppParam appParam) {
+		String paramValue = this.entityManager.find(AppParam.class, appParam.getKey()).getValue();
+		if (paramValue.trim().equals("") || paramValue.trim().equals("false")) {
+			return false;
+		}
+		return true;
+	}
+
 	public Segnalazione getSegnalazione() {
 		TaskInstance currentTask = this.getCurrentTask();
 		return this.getSegnalazione(currentTask);
@@ -648,11 +656,7 @@ public class AlertingController {
 	}
 
 	public boolean historyEnabled() {
-		String paramValue = this.entityManager.find(AppParam.class, AppParam.HISTORY_ENABLED.getKey()).getValue();
-		if (paramValue.trim().equals("") || paramValue.trim().equals("false")) {
-			return false;
-		}
-		return true;
+		return this.getParameterBoolValue(AppParam.HISTORY_ENABLED);
 	}
 
 	@Factory("tipiIntervento")
@@ -748,6 +752,10 @@ public class AlertingController {
 	public String update() {
 		this.beforeTaskEnd();
 		return AlertingController.HOME;
+	}
+
+	public boolean userInLavorazione() {
+		return this.getParameterBoolValue(AppParam.UTENTE_IN_LAVORAZIONE);
 	}
 
 }

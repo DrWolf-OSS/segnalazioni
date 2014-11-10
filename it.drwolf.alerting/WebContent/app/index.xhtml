@@ -200,6 +200,14 @@
 							<h:outputText value="#{alertingController.getSegnalazione(task).oggetto}" escape="false" />
 						</s:link>
 					</rich:column>
+					<rich:column rendered="#{alertingController.userInLavorazione()}">
+							<f:facet name="header">
+				               Cittadino
+				            </f:facet>
+							<s:fragment>
+        					#{alertingController.getSegnalazione(task).cittadino}
+						</s:fragment>
+						</rich:column>
 					<rich:column>
 						<f:facet name="header">
 							<s:fragment>Utenza
@@ -274,6 +282,8 @@
 
 						</rich:column>
 						<rich:column style="background:#eee;">
+						</rich:column>
+						<rich:column style="background:#eee;"> 
 						</rich:column>
 						<rich:column style="background:#eee;"> 
 						</rich:column>
