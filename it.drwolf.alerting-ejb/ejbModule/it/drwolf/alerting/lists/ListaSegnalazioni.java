@@ -98,8 +98,8 @@ public class ListaSegnalazioni {
 		Query query = this.entityManager
 				.createQuery(
 						"from Intervento where sottotipoIntervento.tipoIntervento.id in (:ids) " + (this.inizio != null ? "and scadenza >=:inizio " : "")
-								+ (this.fine != null ? "and scadenza <=:fine " : "") + "and stato in (:stati) order by codiceTriage.priorita asc, scadenza asc")
-				.setParameter("ids", this.alertingController.getIdTipiIntervento(this.identity.getCredentials().getUsername())).setParameter("stati", this.getStati());
+						+ (this.fine != null ? "and scadenza <=:fine " : "") + "and stato in (:stati) order by codiceTriage.priorita asc, scadenza asc")
+						.setParameter("ids", this.alertingController.getIdTipiIntervento(this.identity.getCredentials().getUsername())).setParameter("stati", this.getStati());
 		if (this.inizio != null) {
 			query.setParameter("inizio", new Date(this.inizio));
 		}
@@ -110,14 +110,22 @@ public class ListaSegnalazioni {
 
 	}
 
+	private List<String> getListStati() {
+		List<String> sk = new ArrayList<String>();
+		for (Stato s : this.getStati()) {
+			sk.add(s.getNome());
+		}
+		return sk;
+	}
+
 	@SuppressWarnings("unchecked")
 	@Factory("mie")
 	public List<Segnalazione> getMieSegnalazioni() {
 		Query query = this.entityManager
 				.createQuery(
 						"from Segnalazione where idutenteInseritore =:userid " + (this.inizio != null ? "and data >=:inizio " : "")
-								+ (this.fine != null ? "and data <=:fine " : "") + "and stato in (:stati)").setParameter("userid", this.identity.getCredentials().getUsername())
-				.setParameter("stati", this.getStati());
+						+ (this.fine != null ? "and data <=:fine " : "") + "and stato in (:stati)").setParameter("userid", this.identity.getCredentials().getUsername())
+						.setParameter("stati", this.getStati());
 
 		if (this.inizio != null) {
 			query.setParameter("inizio", new Date(this.inizio));
@@ -147,6 +155,31 @@ public class ListaSegnalazioni {
 	}
 
 	@SuppressWarnings("unchecked")
+	@Factory("inLavorazione")
+	public List<Segnalazione> getSegnalazioniinLavorazione() {
+		String queryStr = "select s.* from JBPM_TASKINSTANCE ti " + "left join BPMInfo bi on bi.processId = ti.PROCINST_ " + "left join Segnalazione s on s.bpminfo_id = bi.id "
+				+ "left join Stato st on st.id = s.stato_id " + "where ti.ACTORID_ = :user " + "and END_ is null and st.descrizione in (:stati)";
+
+		if (this.inizio != null) {
+			queryStr += "and data >=:inizio";
+		}
+		if (this.fine != null) {
+			queryStr += "and data >=:fine";
+		}
+		Query query = this.entityManager.createNativeQuery(queryStr, Segnalazione.class);
+
+		query.setParameter("user", this.identity.getCredentials().getUsername());
+		query.setParameter("stati", this.getListStati());
+		if (this.inizio != null) {
+			query.setParameter("inizio", new Date(this.inizio));
+		}
+		if (this.fine != null) {
+			query.setParameter("fine", new Date(this.fine));
+		}
+		return query.getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
 	public List<TaskInstance> getSegnalazioniInLavorazione() {
 		List<TaskInstance> tIList = new ArrayList<TaskInstance>();
 		Segnalazione segnalazione;
@@ -158,8 +191,8 @@ public class ListaSegnalazioni {
 					if ((this.getUtenza() != null ? this.getUtenza().equals(segnalazione.getUtenza() == null ? "" : segnalazione.getUtenza().toString()) : true)
 							&& (this.getCategoriaUtenza() != null ? this.getCategoriaUtenza().equals(
 									segnalazione.getCategoriaUtenza() == null ? "" : segnalazione.getCategoriaUtenza().toString()) : true)
-							&& (this.getSottocategoriaUtenza() != null ? this.getSottocategoriaUtenza().equals(
-									segnalazione.getSottocategoriaUtenza() == null ? "" : segnalazione.getSottocategoriaUtenza().toString()) : true)) {
+									&& (this.getSottocategoriaUtenza() != null ? this.getSottocategoriaUtenza().equals(
+											segnalazione.getSottocategoriaUtenza() == null ? "" : segnalazione.getSottocategoriaUtenza().toString()) : true)) {
 						tIList.add(t);
 
 					}
@@ -201,10 +234,7 @@ public class ListaSegnalazioni {
 	}
 
 	public String getStringStati() {
-		List<String> sk = new ArrayList<String>();
-		for (Stato s : this.getStati()) {
-			sk.add(s.getNome());
-		}
+		List<String> sk = this.getListStati();
 		return StringUtils.join(sk, ",");
 	}
 
@@ -216,7 +246,7 @@ public class ListaSegnalazioni {
 						"SELECT S.id, S.Oggetto,FROM_UNIXTIME(vt.t/1000) FROM Segnalazione S, " + "	(SELECT v.id rsid,v._revision rev, are.timestamp t, are.id i "
 								+ "		FROM Segnalazione_versions v, AlertingRevisionEntity are where are.id = v._revision and v._revision_type!=0 and v._revision="
 								+ "		(select max(v2._revision) from Segnalazione_versions v2 where v2.id = v.id)" + "	)" + "vt where S.id=rsid order by rev desc")
-				.setMaxResults(100).getResultList();
+								.setMaxResults(100).getResultList();
 
 	}
 
