@@ -196,8 +196,8 @@ public class SegnalazioneHome extends EntityHome<Segnalazione> {
 
 		if (componenti.size() > 0
 				&& this.getEntityManager()
-						.createNativeQuery("select bv.id from AlertingRevisionEntity are,BPMInfo_versions bv where bv.id=:id and bv._revision=are.id and are.username in (:c)")
-						.setParameter("c", componenti).setParameter("id", s.getBpmInfo().getId()).getResultList().size() > 0) {
+				.createNativeQuery("select bv.id from AlertingRevisionEntity are,BPMInfo_versions bv where bv.id=:id and bv._revision=are.id and are.username in (:c)")
+				.setParameter("c", componenti).setParameter("id", s.getBpmInfo().getId()).getResultList().size() > 0) {
 			return true;
 		}
 
@@ -304,17 +304,26 @@ public class SegnalazioneHome extends EntityHome<Segnalazione> {
 		return super.update();
 	}
 
-	public Boolean verificaScadenza(Segnalazione segnalazione, Boolean addMessage) {
+	public Boolean verificaDataScadenza(Date chiusura, Date scadenza, Boolean addMessage) {
 		try {
-			if (segnalazione.getScadenza() == null) {
-				return false;
-			}
-			boolean scaduta = segnalazione.getChiusura() == null && segnalazione.getScadenza().before(new Date());
+			boolean scaduta = chiusura == null && scadenza.before(new Date());
 			if (scaduta && this.identity.hasRole(Constants.IMPIEGATO.toString()) && addMessage) {
 
 				FacesMessages.instance().add(Severity.ERROR, "Segnalazione scaduta");
 			}
 			return scaduta;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	public Boolean verificaScadenza(Segnalazione segnalazione, Boolean addMessage) {
+		try {
+			if (segnalazione.getScadenza() == null) {
+				return false;
+			} else {
+				return this.verificaDataScadenza(segnalazione.getChiusura(), segnalazione.getScadenza(), addMessage);
+			}
 		} catch (Exception e) {
 			return false;
 		}

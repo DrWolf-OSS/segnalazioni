@@ -452,6 +452,15 @@ public class AlertingController {
 		return res;
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<Object[]> getInterventiPerSegnalazioneId(Integer segnalazioneId) {
+
+		String queryStr = "select i.id,s.id from Intervento i left join Segnalazione s on s.id = i.idSegnalazione where s.id = :id";
+		List<Object[]> res = this.entityManager.createNativeQuery(queryStr).setParameter("id", segnalazioneId).getResultList();
+		return res;
+
+	}
+
 	public Intervento getIntervento() {
 		BusinessProcess.instance();
 
@@ -581,6 +590,12 @@ public class AlertingController {
 		}
 
 		return this.sCache.get(currentTask.getId());
+	}
+
+	public Segnalazione getSegnalazioneFromId(Integer id) {
+
+		return (Segnalazione) this.entityManager.createQuery("from Segnalazione s where s.id = :id").setParameter("id", id).getSingleResult();
+
 	}
 
 	@SuppressWarnings("unchecked")
