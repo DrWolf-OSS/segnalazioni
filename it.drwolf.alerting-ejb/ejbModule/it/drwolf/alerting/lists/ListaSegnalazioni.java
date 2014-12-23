@@ -158,28 +158,32 @@ public class ListaSegnalazioni {
 	@Factory("inLavorazione")
 	public List<Object[]> getSegnalazioniinLavorazione() {
 
-		String queryStr = "select ti.ID_,ti.PROCINST_ as process, s.id as segnalazione, s.oggetto, i.nome, i.cognome, i.email, u.descrizione, cu.nome, su.nome, st.descrizione,  s.chiusura, s.scadenza "
-				+ "from JBPM_TASKINSTANCE ti "
-				+ "left join BPMInfo bi on bi.processId = ti.PROCINST_ left join Segnalazione s on s.bpminfo_id = bi.id left join Stato st on st.id = s.stato_id "
-				+ "left join Cittadino c on s.idCittadino = c.id left join iscrizioni.Iscritto i on c.idIscritto = i.id left join Utenza u on s.utenza_id = u.id "
-				+ "left join SottocategoriaUtenza su on u.sottocategoriaUtenza_id = su.id left join CategoriaUtenza cu on su.categoriaUtenza_id = cu.id  "
-				+ "where ti.ACTORID_ = :user " + "and END_ is null and st.descrizione in (:stati)";
+		String queryStr = "select ti.ID_ ,ti.PROCINST_ , s.id , s.oggetto, i.nome, i.cognome, i.email, u.descrizione, cu.nome, su.nome,st.descrizione, s.chiusura, s.scadenza"
+				+ " from JBPM_TASKINSTANCE ti left join BPMInfo bi on bi.processId = ti.PROCINST_ left join Segnalazione s on s.bpminfo_id = bi.id"
+				+ " left join Stato st on st.id = s.stato_id left join Cittadino c on s.idCittadino = c.id"
+				+ " left join iscrizioni.Iscritto i on c.idIscritto = i.id left join Utenza u on s.utenza_id = u.id"
+				+ " left join SottocategoriaUtenza su on u.sottocategoriaUtenza_id = su.id" + " left join CategoriaUtenza cu on su.categoriaUtenza_id = cu.id"
+				+ " where ti.ACTORID_ like :user and END_ is null and st.descrizione in (:stati)";
+
+		System.out.println("******************");
+		System.out.println(queryStr);
+		System.out.println("******************");
 
 		if (this.inizio != null) {
-			queryStr += "and data >=:inizio";
+			// queryStr += "and data >=:inizio";
 		}
 		if (this.fine != null) {
-			queryStr += "and data >=:fine";
+			// queryStr += "and data >=:fine";
 		}
-		Query query = this.entityManager.createNativeQuery(queryStr, Segnalazione.class);
+		Query query = this.entityManager.createNativeQuery(queryStr);
 
 		query.setParameter("user", this.identity.getCredentials().getUsername());
 		query.setParameter("stati", this.getListStati());
 		if (this.inizio != null) {
-			query.setParameter("inizio", new Date(this.inizio));
+			// query.setParameter("inizio", new Date(this.inizio));
 		}
 		if (this.fine != null) {
-			query.setParameter("fine", new Date(this.fine));
+			// query.setParameter("fine", new Date(this.fine));
 		}
 		return query.getResultList();
 		// return new ArrayList<Object[]>();

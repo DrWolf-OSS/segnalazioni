@@ -4,7 +4,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -15,7 +14,6 @@ public class Utenza {
 
 	private SottocategoriaUtenza sottocategoriaUtenza;
 
-	@Lob
 	public String getDescrizione() {
 		return this.descrizione;
 	}
@@ -39,8 +37,7 @@ public class Utenza {
 		this.id = id;
 	}
 
-	public void setSottocategoriaUtenza(
-			SottocategoriaUtenza sottocategoriaUtenza) {
+	public void setSottocategoriaUtenza(SottocategoriaUtenza sottocategoriaUtenza) {
 		this.sottocategoriaUtenza = sottocategoriaUtenza;
 	}
 
