@@ -365,7 +365,7 @@
 						<s:link propagation="none" view="/app/task.xhtml">
 							<f:param name="taskId" value="#{i[1]}" />
 							<f:param name="processId" value="#{i[2]}" />
-							<h:outputText value="#{alertingController.getSegnalazioneFromId().oggetto}" escape="false" />
+							<h:outputText value="#{i[4]}" escape="false" />
 						</s:link>
 					</rich:column>
 					<rich:column rendered="#{alertingController.userInLavorazione()}">
