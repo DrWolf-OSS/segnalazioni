@@ -325,7 +325,7 @@
 				<rich:dataTable id="taskList2" value="#{inLavorazione}"  var="i" rows="5" >
 
 
-					<rich:column headerClass="ncol" sortBy="#{i[3]}" filterBy="#{i[3]}">
+					<rich:column headerClass="ncol" sortBy="#{i[2]}" filterBy="#{i[2]}">
 
 						<f:facet name="header">
                 N.
@@ -334,13 +334,13 @@
 
 
 						<s:link propagation="none" view="/app/task.xhtml">
-							<f:param name="taskId" value="#{i[1]}" />
-							<f:param name="processId" value="#{i[2]}" />
-							<h:outputText value="#{i[3]}" escape="false" />
+							<f:param name="taskId" value="#{i[0]}" />
+							<f:param name="processId" value="#{i[1]}" />
+							<h:outputText value="#{i[2]}" escape="false" />
 						</s:link>
 					</rich:column>
 
-					<rich:column filterMethod="#{filteringBean.filterFor('tilist.task.oggetto').filter(i[4])}">
+					<rich:column filterMethod="#{filteringBean.filterFor('tilist.task.oggetto').filter(i[3])}">
 
 						<f:facet name="header">
 							<s:div>
@@ -357,15 +357,15 @@
 
 						</f:facet>
 
-						<s:fragment rendered="#{segnalazioneHome.verificaDataScadenza(i[12],i[13],false)}">
+						<s:fragment rendered="#{segnalazioneHome.verificaDataScadenza(i[11],i[12],false)}">
 							<img style="margin-right: 1em;" src="/sign/img/exclamation.png" height="16" width="16" alt="Scaduta" title="Scaduta" />
 						</s:fragment>
 
 
 						<s:link propagation="none" view="/app/task.xhtml">
-							<f:param name="taskId" value="#{i[1]}" />
-							<f:param name="processId" value="#{i[2]}" />
-							<h:outputText value="#{i[4]}" escape="false" />
+							<f:param name="taskId" value="#{i[0]}" />
+							<f:param name="processId" value="#{i[1]}" />
+							<h:outputText value="#{i[3]}" escape="false" />
 						</s:link>
 					</rich:column>
 					<rich:column rendered="#{alertingController.userInLavorazione()}">
@@ -373,7 +373,7 @@
 				               Cittadino
 				            </f:facet>
 							<s:fragment>
-        					#{i[5]} #{i[6]} (#{i[7]})
+        					#{i[4]} #{i[5]} (#{i[6]})
 						</s:fragment>
 						</rich:column>
 					<rich:column>
@@ -407,7 +407,7 @@
 							</s:fragment>
 						</f:facet> 
 						<s:fragment>
-        					#{i[8]} #{i[9]} #{i[10]}  
+        					#{i[7]} #{i[8]} #{i[9]}  
 						</s:fragment>
 					</rich:column>
 					<rich:column rendered="#{gestore}">
@@ -416,10 +416,10 @@
             </f:facet>
 
 					</rich:column>
-					<rich:column sortBy="#{i[11]}"
-						filterBy="#{i[11]}">
+					<rich:column sortBy="#{i[10]}"
+						filterBy="#{i[10]}">
 						<f:facet name="header">Stato</f:facet>
-    	  #{i[11]}
+    	  #{i[10]}
 		</rich:column>
 					<rich:column rendered="#{gestore}">
 						<f:facet name="header">
@@ -438,14 +438,15 @@
                 Azioni
             </f:facet>
 						<s:button value="#{task.description}" propagation="none" view="/app/task.xhtml">
-							<f:param name="taskId" value="#{i[1]}" />
-							<f:param name="processId" value="#{i[2]}" />
+							<f:param name="taskId" value="#{i[0]}" />
+							<f:param name="processId" value="#{i[1]}" />
 						</s:button>
 
 					</rich:column>
+					<c:set var="Interventi" value="#{alertingController.getInterventiPerSegnalazioneId(segID)}" />
 
-					<rich:subTable rendered="#{gestore and not empty alertingController.getInterventiPerSegnalazioneId(i[3])}"
-						value="#{alertingController.getInterventiPerSegnalazioneId(i[3])}" var="j">
+					<rich:subTable rendered="#{gestore and not empty Interventi }"
+						value="#{Interventi}" var="j">
 						<rich:column style="background:#eee;">
 
 						</rich:column>
