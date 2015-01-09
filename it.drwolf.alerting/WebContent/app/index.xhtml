@@ -373,7 +373,8 @@
 				               Cittadino
 				            </f:facet>
 							<s:fragment>
-        					#{i[4]} #{i[5]} (#{i[6]})
+							<h:outputText value="#{i[4]} #{i[5]} (#{i[6]})" rendered="#{not empty i[6]}" />
+        					<h:outputText value="#{i[4]} #{i[5]}" rendered="#{empty i[6]}" />
 						</s:fragment>
 						</rich:column>
 					<rich:column>
