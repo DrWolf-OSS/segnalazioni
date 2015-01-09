@@ -158,7 +158,7 @@ public class ListaSegnalazioni {
 	@Factory("inLavorazione")
 	public List<Object[]> getSegnalazioniinLavorazione() {
 
-		String queryStr = "select ti.ID_ ,ti.PROCINST_ , s.id , s.oggetto, i.nome as iscrittoNome, i.cognome, i.email, u.descrizione, cu.nome, su.nome,st.descrizione, s.chiusura, s.scadenza"
+		String queryStr = "select ti.ID_ ,ti.PROCINST_ , s.id , s.oggetto, concat(i.nome,''), i.cognome, i.email, u.descrizione, concat(cu.nome,''), concat(su.nome,'') ,st.descrizione, s.chiusura, s.scadenza"
 				+ " from JBPM_TASKINSTANCE ti left join BPMInfo bi on bi.processId = ti.PROCINST_ left join Segnalazione s on s.bpminfo_id = bi.id"
 				+ " left join Stato st on st.id = s.stato_id left join Cittadino c on s.idCittadino = c.id"
 				+ " left join iscrizioni.Iscritto i on c.idIscritto = i.id left join Utenza u on s.utenza_id = u.id"
