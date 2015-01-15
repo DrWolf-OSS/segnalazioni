@@ -150,179 +150,13 @@
 					<h:commandButton action="#{listaSegnalazioni.massUpdate()}" value="Cambia stato agli interventi selezionati" />
 				</rich:simpleTogglePanel>
 			</rich:tab>
-<!-- ========================================= VECCHIO ========================================= -->
-			<rich:tab name="oldtask"  label="Segnalazioni in lavorazione (#{taskInstanceList.size()})" 
-				rendered="#{not empty taskInstanceList}" >
-<a4j:region>
-				<rich:dataTable id="taskList" value="#{listaSegnalazioni.segnalazioniInLavorazione}"  var="task" rows="5" >
-
-
-					<rich:column headerClass="ncol" sortBy="#{alertingController.getSegnalazione(task).id}" filterBy="#{alertingController.getSegnalazione(task).id}">
-
-						<f:facet name="header">
-                N.
-            </f:facet>
 
 
 
-						<s:link propagation="none" view="/app/task.xhtml">
-							<f:param name="taskId" value="#{task.id}" />
-							<f:param name="processId" value="#{task.processInstance.id}" />
-							<h:outputText value="#{alertingController.getSegnalazione(task).id}" escape="false" />
-						</s:link>
-					</rich:column>
-
-					<rich:column filterMethod="#{filteringBean.filterFor('tilist.task.oggetto').filter(alertingController.getSegnalazione(task).oggetto)}">
-
-						<f:facet name="header">
-							<s:div>
-                Segnalazione
-            <s:div>
-									<h:inputText styleClass="rich-filter-input" value="#{filteringBean.filterFor('tilist.task.oggetto').value}">
-
-										<a4j:support event="onblur" reRender="taskList" ignoreDupResponses="true" />
-
-									</h:inputText>
-
-								</s:div>
-							</s:div>
-
-						</f:facet>
-
-						<s:fragment rendered="#{segnalazioneHome.verificaScadenza(alertingController.getSegnalazione(task),false)}">
-							<img style="margin-right: 1em;" src="/sign/img/exclamation.png" height="16" width="16" alt="Scaduta" title="Scaduta" />
-						</s:fragment>
-
-
-						<s:link propagation="none" view="/app/task.xhtml">
-							<f:param name="taskId" value="#{task.id}" />
-							<f:param name="processId" value="#{task.processInstance.id}" />
-							<h:outputText value="#{alertingController.getSegnalazione(task).oggetto}" escape="false" />
-						</s:link>
-					</rich:column>
-					<rich:column rendered="#{alertingController.userInLavorazione()}">
-							<f:facet name="header">
-				               Cittadino
-				            </f:facet>
-							<s:fragment>
-        					#{alertingController.getSegnalazione(task).cittadino}
-						</s:fragment>
-						</rich:column>
-					<rich:column>
-						<f:facet name="header">
-							<s:fragment>Utenza
-								<rich:dropDownMenu styleClass="priorityMenu, centered" > 
-									<f:facet name="label">
-										<s:div>
-											<h:outputText value="#{segnalazione.utenza ne null ? segnalazione.utenza : 'Scegli un\'utenza'}" />
-										</s:div>
-									</f:facet>
-									<rich:menuItem submitMode="ajax" limitToList="true"  action="#{listaSegnalazioni.resetUtenze()}" reRender="taskList"
-										value="Tutte le utenze" />
-									<c:forEach items="#{categoriaUtenzaList.resultList}" var="cu">
-										<rich:menuGroup value="#{cu.nome}" rendered="#{not empty cu.sottocategorie}">
-											<c:forEach items="#{cu.sottocategorie}" var="sc">
-												<rich:menuGroup value="#{sc.nome}" rendered="#{not empty sc.utenze}">
-													<c:forEach items="#{sc.utenze}" var="u">
-														<rich:menuItem submitMode="ajax" limitToList="true"  action="#{listaSegnalazioni.setUtenza(u)}"
-															reRender="taskList" value="#{u.descrizione}" />
-													</c:forEach>
-													<rich:menuItem submitMode="ajax" limitToList="true"  action="#{listaSegnalazioni.setSottocategoriaUtenza(sc)}"
-														reRender="taskList" value="#{sc.nome} - tutte le utenze" />
-												</rich:menuGroup>
-											</c:forEach>
-											<rich:menuItem submitMode="ajax" limitToList="true"  action="#{listaSegnalazioni.setCategoriaUtenza(cu)}"
-												reRender="taskList" value="#{cu.nome} - tutte le utenze" />
-										</rich:menuGroup>
-									</c:forEach>
-								</rich:dropDownMenu>
-							</s:fragment>
-						</f:facet> 
-						<s:fragment>
-        					#{alertingController.getSegnalazione(task).utenza} #{alertingController.getSegnalazione(task).categoriaUtenza.nome} #{alertingController.getSegnalazione(task).sottocategoriaUtenza.nome}  
-						</s:fragment>
-					</rich:column>
-					<rich:column rendered="#{gestore}">
-						<f:facet name="header">
-               Intervento
-            </f:facet>
-
-					</rich:column>
-					<rich:column sortBy="#{alertingController.getSegnalazione(task).stato.descrizione}"
-						filterBy="#{alertingController.getSegnalazione(task).stato.descrizione}">
-						<f:facet name="header">Stato</f:facet>
-    	  #{alertingController.getSegnalazione(task).stato}
-		</rich:column>
-					<rich:column rendered="#{gestore}">
-						<f:facet name="header">
-               Scadenza
-            </f:facet>
-
-					</rich:column>
-					<rich:column rendered="#{gestore}">
-						<f:facet name="header">
-               Squadra
-            </f:facet>
-
-					</rich:column>
-					<rich:column>
-						<f:facet name="header">
-                Azioni
-            </f:facet>
-						<s:button value="#{task.description}" propagation="none" view="/app/task.xhtml">
-							<f:param name="taskId" value="#{task.id}" />
-							<f:param name="processId" value="#{task.processInstance.id}" />
-						</s:button>
-
-					</rich:column>
-
-					<rich:subTable rendered="#{gestore and not empty alertingController.getSegnalazione(task).interventos}"
-						value="#{alertingController.getSegnalazione(task).interventos}" var="i">
-						<rich:column style="background:#eee;">
-
-						</rich:column>
-						<rich:column style="background:#eee;">
-						</rich:column>
-						<rich:column style="background:#eee;"> 
-						</rich:column>
-						<rich:column style="background:#eee;"> 
-						</rich:column>
-						<rich:column style="background:#eee;">
-				#{i.oggetto}
-			</rich:column>
-						<rich:column style="background:#eee;">
-				#{i.stato}
-			</rich:column>
-						<rich:column style="background:#eee;">
-							<div style="background:#{i.codiceTriage.colore};border:1px solid #aaa;height: 1em; width: 1em; float:left;margin-right: 1em;">&#160;</div>
-							<h:outputText value="#{i.formattedScadenza}" />
-						</rich:column>
-						<rich:column style="background:#eee;">
-				#{i.squadraIntervento}
-			</rich:column>
-						<rich:column style="background:#eee;">
-
-						</rich:column>
-					</rich:subTable>
-
-					<f:facet name="footer">
-						<rich:datascroller for="taskList" id="taskDS" />
-					</f:facet>
-
-				</rich:dataTable>
-</a4j:region>
-
-
-
-			</rich:tab>
-
-<!-- ========================================= NUOVO ========================================= -->
-
-
-<rich:tab name="task"  label="Segnalazioni in lavorazione (#{inLavorazione.size()}) (NUOVO)" 
+<rich:tab name="task"  label="Segnalazioni in lavorazione (#{inLavorazione.size()}) " 
 				rendered="#{not empty inLavorazione}" >
 <a4j:region>
-				<rich:dataTable id="taskList2" value="#{inLavorazione}"  var="i" rows="5" >
+				<rich:dataTable id="taskList" value="#{inLavorazione}"  var="i" rows="5" >
 
 
 					<rich:column headerClass="ncol" sortBy="#{i[2]}" filterBy="#{i[2]}">
@@ -345,7 +179,7 @@
 						<f:facet name="header">
 							<s:div>
                 Segnalazione
-            <s:div>
+            <s:div> 
 									<h:inputText styleClass="rich-filter-input" value="#{filteringBean.filterFor('tilist.task.oggetto').value}">
 
 										<a4j:support event="onblur" reRender="taskList" ignoreDupResponses="true" />
@@ -489,9 +323,6 @@
 
 
 
-
-
-<!-- ========================================= FINE ========================================= -->
 			<rich:tab name="mie"  label="Le mie segnalazioni (#{mie.size()})" >
 				<rich:dataTable value="#{mie}" var="s" rows="10" reRender="mieDS">
 					<rich:column>
