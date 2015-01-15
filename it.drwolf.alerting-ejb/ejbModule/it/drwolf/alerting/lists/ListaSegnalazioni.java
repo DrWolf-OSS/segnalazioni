@@ -157,7 +157,9 @@ public class ListaSegnalazioni {
 	@SuppressWarnings("unchecked")
 	@Factory("inLavorazione")
 	public List<Object[]> getSegnalazioniinLavorazione() {
-
+/* IMPORTANTE!!
+ * il concat nel nome è importate perché JPA non riesce a prendere più campi con lo stesso nome!
+ */
 		String queryStr = "select ti.ID_ ,ti.PROCINST_ , s.id , s.oggetto, concat(i.nome,''), i.cognome, i.email, concat(u.descrizione,''), concat(cu.nome,''), concat(su.nome,'') ,concat(st.descrizione,''), s.chiusura, s.scadenza,ti.DESCRIPTION_"
 				+ " from JBPM_TASKINSTANCE ti left join BPMInfo bi on bi.processId = ti.PROCINST_ left join Segnalazione s on s.bpminfo_id = bi.id"
 				+ " left join Stato st on st.id = s.stato_id left join Cittadino c on s.idCittadino = c.id"
