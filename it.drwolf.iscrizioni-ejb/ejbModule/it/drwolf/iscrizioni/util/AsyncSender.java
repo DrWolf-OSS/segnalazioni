@@ -61,13 +61,13 @@ public class AsyncSender {
 		if (groups != null) {
 			q = this.entityManager
 					.createQuery(
-							"select distinct (i) from Iscritto i join i.gruppi g order by i.id where g.id in (:l)")
-					.setParameter("l", Arrays.asList(groups.split(",")));
+							"select i from Iscritto i join i.gruppi g where g.id in (:l) group by i.id")
+							.setParameter("l", Arrays.asList(groups.split(",")));
 		} else if (services != null) {
 			q = this.entityManager
 					.createQuery(
-							"select distinct (i) from Iscritto i join i.opzioniServizi o order by i.id where o.id in (:l)")
-					.setParameter("l", Arrays.asList(services.split(",")));
+							"select i from Iscritto i join i.opzioniServizi o where o.id in (:l) group by i.id")
+							.setParameter("l", Arrays.asList(services.split(",")));
 		}
 
 		List<Iscritto> resultList = q.getResultList();
@@ -90,7 +90,7 @@ public class AsyncSender {
 			Iscritto i = this.mailMonitor.getInCorso().get(hash).poll();
 			try {
 				Email email = null;
-				if (i.isTextMail()) {
+				if (i.isTextMail() && ("" + textBody).length() > 0) {
 					email = new SimpleEmail();
 					email.setMsg(textBody);
 				} else {
@@ -124,7 +124,7 @@ public class AsyncSender {
 						+ i.getEmail());
 			} catch (Exception e) {
 				this.mailMonitor.setLastLog("ERRORE Invio: " + new Date()
-						+ " - " + i.getEmail());
+				+ " - " + i.getEmail());
 				System.out.println("Errore invio a " + i.getEmail());
 				e.printStackTrace();
 			}
