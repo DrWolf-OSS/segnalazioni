@@ -10,6 +10,7 @@
    <param name="servizio" value="#{iscrittoList.idServizio}"/>
 
    <param name="from"/>
+   <param name="pageSize" value="#{iscrittoList.maxResults}"/>
    <param name="id" value="#{iscrittoList.iscritto.id}"/>
    <param name="cognome" value="#{iscrittoList.iscritto.cognome}"/>
    <param name="cell" value="#{iscrittoList.iscritto.cellulare}"/>

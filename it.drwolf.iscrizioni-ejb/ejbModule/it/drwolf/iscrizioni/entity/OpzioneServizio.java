@@ -18,6 +18,10 @@ public class OpzioneServizio {
 		return this.categoriaOpzioniServizio;
 	}
 
+	public Boolean getDef() {
+		return this.def != null ? this.def : false;
+	}
+
 	@Id
 	public String getId() {
 		return this.id;
@@ -38,19 +42,15 @@ public class OpzioneServizio {
 		this.categoriaOpzioniServizio = categoriaOpzioniServizio;
 	}
 
+	public void setDef(Boolean def) {
+		this.def = def;
+	}
+
 	public void setId(String id) {
 		this.id = id;
 	}
 
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-
-	public Boolean getDef() {
-		return def!=null ? def:false;
-	}
-
-	public void setDef(Boolean def) {
-		this.def = def;
 	}
 }

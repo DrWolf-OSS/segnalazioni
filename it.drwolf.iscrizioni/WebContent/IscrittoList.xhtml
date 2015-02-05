@@ -5,6 +5,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
     xmlns:rich="http://richfaces.org/rich"
     template="layout/template.xhtml">
 
@@ -60,15 +61,23 @@
         </div>
 
     </h:form>
-
+    
+	<h:form>
     <rich:panel>
-        <f:facet name="header">Elenco Iscritti (#{iscrittoList.resultCount})</f:facet>
+        <f:facet name="header">
+        <s:div>
+        <span style="float:right">
+			<a style="color:white;" href="/iscrizioni/IscrittoList.seam?pageSize=9999999">Mostra tutti</a>  
+        </span>
+        <s:span>Elenco Iscritti (#{iscrittoList.resultCount})</s:span>
+        </s:div>
+        </f:facet>
     <div class="results" id="iscrittoList">
 
     <h:outputText value="The iscritto search returned no results."
                rendered="#{empty iscrittoList.resultList}"/>
 
-    <rich:dataTable id="iscrittoList"
+    <rich:dataTable id="iscrittoListTbl"
                 var="_iscritto"
               value="#{iscrittoList.resultList}"
            rendered="#{not empty iscrittoList.resultList}">
@@ -123,6 +132,12 @@
             </f:facet>
             <h:outputText value="#{_iscritto.servizi}"/>
         </h:column>
+        <h:column>
+            <f:facet name="header">
+               Data iscrizione
+            </f:facet>
+            <h:outputText value="#{iscrittoList.getIscrizione(_iscritto)}"/>
+        </h:column>
         <rich:column styleClass="action">
             <f:facet name="header">Azioni</f:facet>
             <s:link view="/Iscritto.xhtml"
@@ -147,6 +162,8 @@
 	
     </div>
     </rich:panel>
+    </h:form>
+    
     <h:form  rendered="#{s:hasRole('admin')}">
 		<rich:simpleTogglePanel label="importazione" opened="false" switchType="ajax">
 			<h:inputTextarea cols="80" rows="10" value="#{iscrittoHome.importData}" />

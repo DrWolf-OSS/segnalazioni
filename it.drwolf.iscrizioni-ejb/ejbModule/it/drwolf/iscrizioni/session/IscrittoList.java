@@ -5,8 +5,11 @@ import it.drwolf.iscrizioni.entity.Iscritto;
 import it.drwolf.iscrizioni.entity.Servizio;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
+import org.jboss.envers.VersionsReader;
+import org.jboss.envers.VersionsReaderFactory;
 import org.jboss.seam.annotations.Factory;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.framework.EntityQuery;
@@ -29,11 +32,13 @@ public class IscrittoList extends EntityQuery<Iscritto> {
 
 	private Servizio servizio;
 
+	private int pageSize = 10;
+
 	public IscrittoList() {
 		this.setEjbql(IscrittoList.EJBQL);
 		this.setRestrictionExpressionStrings(Arrays
 				.asList(IscrittoList.RESTRICTIONS));
-		this.setMaxResults(10);
+		this.setMaxResults(this.pageSize);
 
 	}
 
@@ -72,6 +77,30 @@ public class IscrittoList extends EntityQuery<Iscritto> {
 		return this.iscritto;
 	}
 
+	public Date getIscrizione(Iscritto i) {
+		VersionsReader reader = VersionsReaderFactory.get(this
+				.getEntityManager());
+		Number minRev = 10000000;
+		for (Number n : reader.getRevisions(Iscritto.class, i.getId())) {
+			if (n.longValue() < minRev.longValue()) {
+				minRev = n;
+			}
+		}
+		if (minRev.longValue() != 10000000) {
+
+			try {
+				return reader.getRevisionDate(minRev);
+			} catch (Exception e) {
+				return null;
+			}
+		}
+		return null;
+	}
+
+	public int getPageSize() {
+		return this.pageSize;
+	}
+
 	public Servizio getServizio() {
 		return this.servizio;
 	}
@@ -81,6 +110,10 @@ public class IscrittoList extends EntityQuery<Iscritto> {
 			this.setServizio(this.getEntityManager().find(Servizio.class,
 					idServizio));
 		}
+	}
+
+	public void setPageSize(int pageSize) {
+		this.pageSize = pageSize;
 	}
 
 	public void setServizio(Servizio servizio) {

@@ -35,6 +35,10 @@ public class Servizio {
 		return this.nome;
 	}
 
+	public Integer getPosizione() {
+		return this.posizione;
+	}
+
 	public String getUrl() {
 		return this.url;
 	}
@@ -56,6 +60,10 @@ public class Servizio {
 		this.nome = nome;
 	}
 
+	public void setPosizione(Integer posizione) {
+		this.posizione = posizione;
+	}
+
 	public void setUrl(String url) {
 		this.url = url;
 	}
@@ -67,13 +75,5 @@ public class Servizio {
 	@Override
 	public String toString() {
 		return this.nome;
-	}
-
-	public Integer getPosizione() {
-		return posizione;
-	}
-
-	public void setPosizione(Integer posizione) {
-		this.posizione = posizione;
 	}
 }
