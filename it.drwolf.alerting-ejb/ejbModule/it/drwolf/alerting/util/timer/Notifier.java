@@ -23,7 +23,7 @@ import org.joda.time.Days;
 @Name("notifier")
 public class Notifier {
 
-	private static final String SENZA_RISPOSTA_INTERLOCUTORIA = "(select count(*) from Risposta r where r.segnalazione=s and (r.ricevuta is null or r.ricevuta=false))=0 ";
+	private static final String SENZA_RISPOSTA_INTERLOCUTORIA = "(select count(*) from Risposta r where r.segnalazione=s and (r.ricevuta is null or r.ricevuta=false))=0 and s.stato.nome != 'chiuso' ";
 
 	private static final SimpleDateFormat sdf = new SimpleDateFormat(
 			"dd/MM/yyyy");
