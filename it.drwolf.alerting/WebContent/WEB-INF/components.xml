@@ -35,7 +35,7 @@
        </drools:rule-files>
    </drools:rule-base>
    
-   <mail:mail-session host="smtp.mandrillapp.com" port="587" username="agea@drwolf.it" password="ftCMkaU6tK1bL2PAvnIpUg" />
+   <mail:mail-session host="smtp.mandrillapp.com" port="587" username="servizi@drwolf.it" password="HXr4OIDL9B9JCC_20LkOiQ" />
    
    <security:rule-based-permission-resolver security-rules="#{securityRules}"/>
 
