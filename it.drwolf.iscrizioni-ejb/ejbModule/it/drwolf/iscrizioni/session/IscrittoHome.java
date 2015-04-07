@@ -50,6 +50,7 @@ public class IscrittoHome extends EntityHome<Iscritto> {
 	private Integer revision;
 
 	private HashSet<OpzioneServizio> opzioni = new HashSet<OpzioneServizio>();
+
 	@In(create = true)
 	private ServizioList servizioList;
 
@@ -412,8 +413,10 @@ public class IscrittoHome extends EntityHome<Iscritto> {
 				}
 			}
 			for (String gid : gruppi) {
-				iscritto.getGruppi().add(
-						this.getEntityManager().find(Gruppo.class, gid));
+				Gruppo gruppo = this.getEntityManager().find(Gruppo.class, gid);
+				iscritto.getGruppi().add(gruppo);
+				gruppo.getIscritti().add(iscritto);
+
 			}
 			for (String oid : opzioni) {
 				iscritto.getOpzioniServizi().add(

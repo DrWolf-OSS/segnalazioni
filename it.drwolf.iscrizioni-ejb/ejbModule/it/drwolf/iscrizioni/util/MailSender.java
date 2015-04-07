@@ -53,13 +53,13 @@ public class MailSender {
 		if (groups != null) {
 			numeri.addAll(entityManager
 					.createQuery(
-							"select distinct (i.cellulare) from Iscritto i join i.gruppi g where g.id in (:l)")
+							"select distinct (i.cellulare) from Iscritto i join i.gruppi g where i.cellulare is not null and g.id in (:l)")
 					.setParameter("l", Arrays.asList(groups.split(",")))
 					.getResultList());
 		} else if (services != null) {
 			numeri.addAll(entityManager
 					.createQuery(
-							"select distinct (i.cellulare) from Iscritto i join i.opzioniServizi o i.id where o.id in (:l)")
+							"select distinct (i.cellulare) from Iscritto i join i.opzioniServizi o i.id where i.cellulare is not null and o.id in (:l)")
 					.setParameter("l", Arrays.asList(services.split(",")))
 					.getResultList());
 		}
@@ -81,7 +81,8 @@ public class MailSender {
 					+ ".txt");
 			OutputStreamWriter smsw = new OutputStreamWriter(smsout);
 			for (String n : numeri) {
-				if (!n.startsWith("+39")) {
+
+				if (!("" + n).startsWith("+39")) {
 					n = "+39" + n;
 				}
 				smsw.write(String.format("%-25s%-25s%-160s%010d%-2s%-20s\n", n,
