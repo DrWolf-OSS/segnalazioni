@@ -62,12 +62,12 @@ public class AsyncSender {
 			q = this.entityManager
 					.createQuery(
 							"select i from Iscritto i join i.gruppi g where g.id in (:l) group by i.id")
-							.setParameter("l", Arrays.asList(groups.split(",")));
+					.setParameter("l", Arrays.asList(groups.split(",")));
 		} else if (services != null) {
 			q = this.entityManager
 					.createQuery(
 							"select i from Iscritto i join i.opzioniServizi o where o.id in (:l) group by i.id")
-							.setParameter("l", Arrays.asList(services.split(",")));
+					.setParameter("l", Arrays.asList(services.split(",")));
 		}
 
 		List<Iscritto> resultList = q.getResultList();
@@ -97,6 +97,8 @@ public class AsyncSender {
 					email = new HtmlEmail();
 					((HtmlEmail) email).setHtmlMsg(htmlBody);
 				}
+				email.setCharset("utf-8");
+
 				if (!"null".equals(mailTrap)) {
 					email.addTo(mailTrap);
 				} else {
@@ -124,7 +126,7 @@ public class AsyncSender {
 						+ i.getEmail());
 			} catch (Exception e) {
 				this.mailMonitor.setLastLog("ERRORE Invio: " + new Date()
-				+ " - " + i.getEmail());
+						+ " - " + i.getEmail());
 				System.out.println("Errore invio a " + i.getEmail());
 				e.printStackTrace();
 			}

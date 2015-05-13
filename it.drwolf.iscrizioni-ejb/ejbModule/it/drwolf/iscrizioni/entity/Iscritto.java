@@ -60,6 +60,15 @@ public class Iscritto {
 		this.confermato = confermato;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		try {
+			return ((Iscritto) obj).getId().equals(this.getId());
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
 	@Versioned
 	public String getCap() {
 		return this.cap;
@@ -144,6 +153,11 @@ public class Iscritto {
 	@Versioned
 	public String getTelefono() {
 		return this.telefono;
+	}
+
+	@Override
+	public int hashCode() {
+		return ("" + this.getId()).hashCode();
 	}
 
 	@Versioned
