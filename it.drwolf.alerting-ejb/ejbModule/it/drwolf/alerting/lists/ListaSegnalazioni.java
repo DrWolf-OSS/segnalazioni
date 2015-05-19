@@ -166,13 +166,13 @@ public class ListaSegnalazioni {
 				+ " left join iscrizioni.Iscritto i on c.idIscritto = i.id left join Utenza u on s.utenza_id = u.id"
 				+ " left join SottocategoriaUtenza su on u.sottocategoriaUtenza_id = su.id"
 				+ " left join CategoriaUtenza cu on su.categoriaUtenza_id = cu.id"
-				+ " where ti.ACTORID_ like :user and END_ is null and st.nome in (:stati)" + " order by ti.ID_ desc";
+				+ " where ti.ACTORID_ like :user and END_ is null and st.nome in (:stati)";
 
 		if (this.inizio != null) {
 			queryStr += " and s.data >=:inizio";
 		}
 		if (this.fine != null) {
-			queryStr += " and s.data >=:fine";
+			queryStr += " and s.data <=:fine";
 		}
 		Query query = this.entityManager.createNativeQuery(queryStr);
 
@@ -184,6 +184,8 @@ public class ListaSegnalazioni {
 		if (this.fine != null) {
 			query.setParameter("fine", new Date(this.fine));
 		}
+		
+		queryStr = queryStr + " order by ti.ID_ desc";
 		return query.getResultList();
 		// return new ArrayList<Object[]>();
 
