@@ -75,7 +75,7 @@ public class ListaSegnalazioni {
 
 	public Date getDataFine() {
 
-		return this.inizio == null ? null : new Date(this.inizio);
+		return this.fine == null ? null : new Date(this.fine);
 	}
 
 	public Date getDataInizio() {
