@@ -25,7 +25,7 @@ public class AppParam implements Serializable {
 
 	public static final AppParam APP_MAIL_USER = new AppParam("app.mail.user", "servizi@drwolf.it");
 
-	public static final AppParam APP_MAIL_PASSWORD = new AppParam("app.mail.password", "HXr4OIDL9B9JCC_20LkOiQ");
+	public static final AppParam APP_MAIL_PASSWORD = new AppParam("app.mail.password", "T1XsN8ZkdNS4qf6T_1Vf7g");
 
 	public static final AppParam APP_MAIL_TRAP = new AppParam("app.mail.trap", "null");
 
