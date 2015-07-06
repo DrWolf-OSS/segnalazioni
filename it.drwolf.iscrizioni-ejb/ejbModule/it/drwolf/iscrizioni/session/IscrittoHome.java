@@ -1,14 +1,5 @@
 package it.drwolf.iscrizioni.session;
 
-import it.drwolf.iscrizioni.entity.AppParam;
-import it.drwolf.iscrizioni.entity.CategoriaOpzioniServizio;
-import it.drwolf.iscrizioni.entity.Gruppo;
-import it.drwolf.iscrizioni.entity.IscRevisionEntity;
-import it.drwolf.iscrizioni.entity.Iscritto;
-import it.drwolf.iscrizioni.entity.OpzioneServizio;
-import it.drwolf.iscrizioni.entity.Servizio;
-import it.drwolf.iscrizioni.util.IdGenerator;
-
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.StringReader;
@@ -33,6 +24,14 @@ import org.jboss.seam.framework.EntityHome;
 import org.jboss.seam.international.StatusMessage.Severity;
 
 import au.com.bytecode.opencsv.CSVReader;
+import it.drwolf.iscrizioni.entity.AppParam;
+import it.drwolf.iscrizioni.entity.CategoriaOpzioniServizio;
+import it.drwolf.iscrizioni.entity.Gruppo;
+import it.drwolf.iscrizioni.entity.IscRevisionEntity;
+import it.drwolf.iscrizioni.entity.Iscritto;
+import it.drwolf.iscrizioni.entity.OpzioneServizio;
+import it.drwolf.iscrizioni.entity.Servizio;
+import it.drwolf.iscrizioni.util.IdGenerator;
 
 @Name("iscrittoHome")
 public class IscrittoHome extends EntityHome<Iscritto> {
@@ -85,8 +84,7 @@ public class IscrittoHome extends EntityHome<Iscritto> {
 				}
 
 				if (cos.getOpzioneServizio4Iscritto() != null) {
-					i.getOpzioniServizi()
-							.add(cos.getOpzioneServizio4Iscritto());
+					i.getOpzioniServizi().add(cos.getOpzioneServizio4Iscritto());
 
 				}
 
@@ -103,20 +101,15 @@ public class IscrittoHome extends EntityHome<Iscritto> {
 
 	@SuppressWarnings("unchecked")
 	public void createNew() {
-		List<Iscritto> l = this.getEntityManager()
-				.createQuery("from Iscritto where email=:email")
+		List<Iscritto> l = this.getEntityManager().createQuery("from Iscritto where email=:email")
 				.setParameter("email", this.email).getResultList();
 		if (l.size() > 0) {
 			Iscritto iscritto = l.get(0);
 			String url = this.getEditUrl(iscritto);
 
-			this.sendSimpleMail(
-					iscritto.getEmail(),
-					this.getEntityManager()
-							.find(AppParam.class, AppParam.APP_NAME).getValue()
-							+ " - Nuova Iscrizione",
-					"E' stata richiesta una nuova iscrizione per "
-							+ iscritto.getEmail()
+			this.sendSimpleMail(iscritto.getEmail(),
+					this.getEntityManager().find(AppParam.class, AppParam.APP_NAME).getValue() + " - Nuova Iscrizione",
+					"E' stata richiesta una nuova iscrizione per " + iscritto.getEmail()
 							+ ", l'utente risulta gia' iscritto,  per modificare o cancellare l'iscrizione visita il seguente link:\r\n\r\n"
 							+ url);
 		} else {
@@ -127,22 +120,15 @@ public class IscrittoHome extends EntityHome<Iscritto> {
 
 			String url = this.getEditUrl(iscritto);
 
-			this.sendSimpleMail(
-					iscritto.getEmail(),
-					this.getEntityManager()
-							.find(AppParam.class, AppParam.APP_NAME).getValue()
-							+ " - Nuova Iscrizione",
-					"E' stata richiesta una nuova iscrizione per "
-							+ iscritto.getEmail()
-							+ " per completare o annullare l'iscrizione visita il seguente link:\r\n\r\n"
-							+ url);
+			this.sendSimpleMail(iscritto.getEmail(),
+					this.getEntityManager().find(AppParam.class, AppParam.APP_NAME).getValue() + " - Nuova Iscrizione",
+					"E' stata richiesta una nuova iscrizione per " + iscritto.getEmail()
+							+ " per completare o annullare l'iscrizione visita il seguente link:\r\n\r\n" + url);
 
 		}
 
 		FacesMessages.instance().add(
-				this.getEntityManager()
-						.find(AppParam.class, AppParam.APP_NEW_SUBSCRIPTION)
-						.getValue(), this.email);
+				this.getEntityManager().find(AppParam.class, AppParam.APP_NEW_SUBSCRIPTION).getValue(), this.email);
 	}
 
 	public Iscritto getDefinedInstance() {
@@ -161,8 +147,7 @@ public class IscrittoHome extends EntityHome<Iscritto> {
 
 	@Factory("hiddenFields")
 	public List<String> getHiddenFields() {
-		AppParam p = this.getEntityManager().find(AppParam.class,
-				AppParam.APP_FIELDS_HIDDEN);
+		AppParam p = this.getEntityManager().find(AppParam.class, AppParam.APP_FIELDS_HIDDEN);
 		if (p == null || p.getValue() == null) {
 			return Collections.emptyList();
 		} else {
@@ -183,8 +168,7 @@ public class IscrittoHome extends EntityHome<Iscritto> {
 	}
 
 	public String getPrivacyUrl() {
-		return this.getEntityManager()
-				.find(AppParam.class, AppParam.APP_PRIVACY_URL).getValue();
+		return this.getEntityManager().find(AppParam.class, AppParam.APP_PRIVACY_URL).getValue();
 	}
 
 	public String getQuery() {
@@ -194,12 +178,9 @@ public class IscrittoHome extends EntityHome<Iscritto> {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public String getQueryResult() {
 		try {
-			if (this.getEntityManager()
-					.find(AppParam.class, AppParam.APP_SECRET).getValue()
-					.equals(this.getSecret())) {
+			if (this.getEntityManager().find(AppParam.class, AppParam.APP_SECRET).getValue().equals(this.getSecret())) {
 				String res = "OK\n";
-				List results = this.getEntityManager().createQuery(this.query)
-						.getResultList();
+				List results = this.getEntityManager().createQuery(this.query).getResultList();
 				if (results.size() == 0) {
 					return res;
 				}
@@ -241,8 +222,7 @@ public class IscrittoHome extends EntityHome<Iscritto> {
 
 	@Factory("requiredFields")
 	public List<String> getRequiredFields() {
-		AppParam p = this.getEntityManager().find(AppParam.class,
-				AppParam.APP_FIELDS_REQ);
+		AppParam p = this.getEntityManager().find(AppParam.class, AppParam.APP_FIELDS_REQ);
 		if (p == null || p.getValue() == null) {
 			return Collections.emptyList();
 		} else {
@@ -255,17 +235,13 @@ public class IscrittoHome extends EntityHome<Iscritto> {
 	}
 
 	public List<Object[]> getRevisions() {
-		VersionsReader reader = VersionsReaderFactory.get(this
-				.getEntityManager());
-		List<Number> revisions = reader.getRevisions(this.getEntityClass(),
-				this.getIscrittoId());
+		VersionsReader reader = VersionsReaderFactory.get(this.getEntityManager());
+		List<Number> revisions = reader.getRevisions(this.getEntityClass(), this.getIscrittoId());
 		List<Object[]> infos = new ArrayList<Object[]>();
 		for (Number n : revisions) {
 			try {
-				IscRevisionEntity ire = reader.findRevision(
-						IscRevisionEntity.class, n);
-				infos.add(new Object[] { n, ire.getUsername(),
-						new Date(ire.getTimestamp()) });
+				IscRevisionEntity ire = reader.findRevision(IscRevisionEntity.class, n);
+				infos.add(new Object[] { n, ire.getUsername(), new Date(ire.getTimestamp()) });
 			} catch (Exception e) {
 				System.out.println(e);
 			}
@@ -278,8 +254,7 @@ public class IscrittoHome extends EntityHome<Iscritto> {
 	}
 
 	public List<Servizio> getServiziDisponibili() {
-		final List<Servizio> resultList = new ArrayList<Servizio>(
-				this.servizioList.getResultList());
+		final List<Servizio> resultList = new ArrayList<Servizio>(this.servizioList.getResultList());
 		resultList.removeAll(this.getInstance().getServizi());
 		return resultList;
 	}
@@ -290,8 +265,7 @@ public class IscrittoHome extends EntityHome<Iscritto> {
 	}
 
 	private String getUrl(Iscritto iscritto, final String i) {
-		String url = this.getEntityManager()
-				.find(AppParam.class, AppParam.APP_URL).getValue();
+		String url = this.getEntityManager().find(AppParam.class, AppParam.APP_URL).getValue();
 
 		url += i + iscritto.getId();
 		return url;
@@ -361,10 +335,8 @@ public class IscrittoHome extends EntityHome<Iscritto> {
 
 			}
 			if (iscritto.getEmail() != null) {
-				List<Iscritto> resultList = this.getEntityManager()
-						.createQuery("from Iscritto where email=:email")
-						.setParameter("email", iscritto.getEmail())
-						.getResultList();
+				List<Iscritto> resultList = this.getEntityManager().createQuery("from Iscritto where email=:email")
+						.setParameter("email", iscritto.getEmail()).getResultList();
 				if (resultList.size() > 0) {
 					iscritto = resultList.get(0);
 					for (int i = 0; i < line.length; i++) {
@@ -407,21 +379,19 @@ public class IscrittoHome extends EntityHome<Iscritto> {
 
 					}
 
-					FacesMessages.instance().add(Severity.INFO,
-							iscritto.getEmail() + " già presente");
+					FacesMessages.instance().add(Severity.INFO, iscritto.getEmail() + " già presente");
 					System.out.println("già presente " + iscritto.getEmail());
 				}
 			}
 			for (String gid : gruppi) {
+				this.getEntityManager().createQuery("select ");
 				Gruppo gruppo = this.getEntityManager().find(Gruppo.class, gid);
 				iscritto.getGruppi().add(gruppo);
 				gruppo.getIscritti().add(iscritto);
 
 			}
 			for (String oid : opzioni) {
-				iscritto.getOpzioniServizi().add(
-						this.getEntityManager()
-								.find(OpzioneServizio.class, oid));
+				iscritto.getOpzioniServizi().add(this.getEntityManager().find(OpzioneServizio.class, oid));
 			}
 			this.beforeImport(iscritto);
 			if (iscritto.getId() == null) {
@@ -430,12 +400,12 @@ public class IscrittoHome extends EntityHome<Iscritto> {
 			} else {
 				this.getEntityManager().merge(iscritto);
 			}
-			FacesMessages.instance().add(Severity.INFO,
-					iscritto.getEmail() + " importato");
+			FacesMessages.instance().add(Severity.INFO, iscritto.getEmail() + " importato");
 			System.out.println("importato " + iscritto.getEmail());
-			reader.close();
-
+			this.getEntityManager().flush();
+			this.getEntityManager().clear();
 		}
+		reader.close();
 
 	}
 
@@ -448,11 +418,9 @@ public class IscrittoHome extends EntityHome<Iscritto> {
 		List<Servizio> servizi = this.servizioList.getResultList();
 		for (Servizio s : servizi) {
 			for (CategoriaOpzioniServizio cat : s.getCategorieOpzioni()) {
-				for (OpzioneServizio os : this.getInstance()
-						.getOpzioniServizi()) {
+				for (OpzioneServizio os : this.getInstance().getOpzioniServizi()) {
 
-					if (os.getCategoriaOpzioniServizio().getId()
-							.equals(cat.getId())) {
+					if (os.getCategoriaOpzioniServizio().getId().equals(cat.getId())) {
 						this.opzioni.add(os);
 						if (cat.getMultiple()) {
 							cat.getOpzioniServizio4Iscritto().add(os);
@@ -492,31 +460,21 @@ public class IscrittoHome extends EntityHome<Iscritto> {
 
 	@SuppressWarnings("unchecked")
 	public void rememberCode() {
-		List<Iscritto> l = this.getEntityManager()
-				.createQuery("from Iscritto where email=:email")
+		List<Iscritto> l = this.getEntityManager().createQuery("from Iscritto where email=:email")
 				.setParameter("email", this.email).getResultList();
 		if (l.size() > 0) {
 			Iscritto iscritto = l.get(0);
 			String url = this.getUrl(iscritto);
 
-			this.sendSimpleMail(
-					iscritto.getEmail(),
-					this.getEntityManager()
-							.find(AppParam.class, AppParam.APP_NAME).getValue()
-							+ " - Codice utente",
-					"Il codice utente per "
-							+ iscritto.getEmail()
-							+ " e' il seguente:\r\n\r\n"
-							+ iscritto.getId()
+			this.sendSimpleMail(iscritto.getEmail(),
+					this.getEntityManager().find(AppParam.class, AppParam.APP_NAME).getValue() + " - Codice utente",
+					"Il codice utente per " + iscritto.getEmail() + " e' il seguente:\r\n\r\n" + iscritto.getId()
 							+ "\r\n\r\n"
 
-							+ "Per accedere direttamente ai dettagli dell'iscrizione visita il seguente link:\r\n"
-							+ url);
+			+ "Per accedere direttamente ai dettagli dell'iscrizione visita il seguente link:\r\n" + url);
 		}
 		FacesMessages.instance().add(
-				this.getEntityManager()
-						.find(AppParam.class, AppParam.APP_EDIT_SUBSCRIPTION)
-						.getValue(), this.email);
+				this.getEntityManager().find(AppParam.class, AppParam.APP_EDIT_SUBSCRIPTION).getValue(), this.email);
 
 	}
 
@@ -539,13 +497,9 @@ public class IscrittoHome extends EntityHome<Iscritto> {
 			SimpleEmail email = new SimpleEmail();
 			EntityManager em = this.getEntityManager();
 
-			email.setHostName(em.find(AppParam.class, AppParam.APP_MAIL_HOST)
-					.getValue());
-			email.setFrom(
-					em.find(AppParam.class, AppParam.APP_MAIL_FROM_ADDRESS)
-							.getValue(),
-					em.find(AppParam.class, AppParam.APP_MAIL_FROM_NAME)
-							.getValue());
+			email.setHostName(em.find(AppParam.class, AppParam.APP_MAIL_HOST).getValue());
+			email.setFrom(em.find(AppParam.class, AppParam.APP_MAIL_FROM_ADDRESS).getValue(),
+					em.find(AppParam.class, AppParam.APP_MAIL_FROM_NAME).getValue());
 
 			AppParam port = em.find(AppParam.class, AppParam.APP_MAIL_PORT);
 			if (port != null) {
@@ -562,8 +516,7 @@ public class IscrittoHome extends EntityHome<Iscritto> {
 			email.setMsg(message);
 			email.send();
 		} catch (Exception e) {
-			FacesMessages
-					.instance()
+			FacesMessages.instance()
 					.add("Errore nella spedizione del messaggio di conferma, per favore riprova più tardi");
 		}
 
@@ -594,10 +547,8 @@ public class IscrittoHome extends EntityHome<Iscritto> {
 		if (revision == null) {
 			return;
 		}
-		VersionsReader reader = VersionsReaderFactory.get(this
-				.getEntityManager());
-		this.setInstance(reader.find(this.getEntityClass(),
-				this.getIscrittoId(), this.revision));
+		VersionsReader reader = VersionsReaderFactory.get(this.getEntityManager());
+		this.setInstance(reader.find(this.getEntityClass(), this.getIscrittoId(), this.revision));
 	}
 
 	public void setSecret(String secret) {
@@ -612,8 +563,7 @@ public class IscrittoHome extends EntityHome<Iscritto> {
 
 	@SuppressWarnings("unchecked")
 	public void updateAll() {
-		for (Iscritto i : (List<Iscritto>) this.getEntityManager()
-				.createQuery("from Iscritto where confermato=true")
+		for (Iscritto i : (List<Iscritto>) this.getEntityManager().createQuery("from Iscritto where confermato=true")
 				.setMaxResults(150).getResultList()) {
 			i.setConfermato(false);
 			this.getEntityManager().merge(i);
