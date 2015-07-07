@@ -6,7 +6,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(catalog = "iscrizioni")
+@Table(catalog = Catalog.name)
 public class OpzioneServizio {
 	private String id;
 	private String nome;
@@ -37,8 +37,7 @@ public class OpzioneServizio {
 
 	}
 
-	public void setCategoriaOpzioniServizio(
-			CategoriaOpzioniServizio categoriaOpzioniServizio) {
+	public void setCategoriaOpzioniServizio(CategoriaOpzioniServizio categoriaOpzioniServizio) {
 		this.categoriaOpzioniServizio = categoriaOpzioniServizio;
 	}
 

@@ -11,7 +11,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
-@Table(catalog = "iscrizioni")
+@Table(catalog = Catalog.name)
 public class CategoriaOpzioniServizio {
 
 	private String id;
@@ -20,11 +20,9 @@ public class CategoriaOpzioniServizio {
 
 	private Servizio servizio;
 
-	private List<OpzioneServizio> opzioniServizio4Iscritto = new ArrayList<OpzioneServizio>(
-			0);
+	private List<OpzioneServizio> opzioniServizio4Iscritto = new ArrayList<OpzioneServizio>(0);
 
-	private List<OpzioneServizio> opzioniServizio = new ArrayList<OpzioneServizio>(
-			0);
+	private List<OpzioneServizio> opzioniServizio = new ArrayList<OpzioneServizio>(0);
 
 	private OpzioneServizio opzioneServizio4Iscritto;
 
@@ -73,8 +71,7 @@ public class CategoriaOpzioniServizio {
 		this.nome = nome;
 	}
 
-	public void setOpzioneServizio4Iscritto(
-			OpzioneServizio opzioneServizio4Iscritto) {
+	public void setOpzioneServizio4Iscritto(OpzioneServizio opzioneServizio4Iscritto) {
 		this.opzioneServizio4Iscritto = opzioneServizio4Iscritto;
 	}
 
@@ -82,8 +79,7 @@ public class CategoriaOpzioniServizio {
 		this.opzioniServizio = opzioniServizio;
 	}
 
-	public void setOpzioniServizio4Iscritto(
-			List<OpzioneServizio> opzioniServizio4Iscritto) {
+	public void setOpzioniServizio4Iscritto(List<OpzioneServizio> opzioniServizio4Iscritto) {
 		this.opzioniServizio4Iscritto = opzioniServizio4Iscritto;
 	}
 

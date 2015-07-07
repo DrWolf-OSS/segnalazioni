@@ -10,7 +10,7 @@ import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 @Entity
-@Table(catalog = "iscrizioni")
+@Table(catalog = Catalog.name)
 public class Servizio {
 	private String id;
 	private Integer posizione;
@@ -47,8 +47,7 @@ public class Servizio {
 		return this.userPrefsUrl;
 	}
 
-	public void setCategorieOpzioni(
-			List<CategoriaOpzioniServizio> categorieOpzioni) {
+	public void setCategorieOpzioni(List<CategoriaOpzioniServizio> categorieOpzioni) {
 		this.categorieOpzioni = categorieOpzioni;
 	}
 

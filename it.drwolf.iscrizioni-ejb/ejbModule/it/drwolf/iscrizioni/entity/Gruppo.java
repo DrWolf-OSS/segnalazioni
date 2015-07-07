@@ -10,12 +10,21 @@ import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 @Entity
-@Table(catalog = "iscrizioni")
+@Table(catalog = Catalog.name)
 public class Gruppo {
 
 	private String id;
 	private String nome;
 	private List<Iscritto> iscritti = new ArrayList<Iscritto>();
+
+	@Override
+	public boolean equals(Object obj) {
+		try {
+			return ((Gruppo) obj).getId().equals(this.getId());
+		} catch (Exception e) {
+			return false;
+		}
+	}
 
 	@Id
 	public String getId() {
@@ -30,6 +39,12 @@ public class Gruppo {
 
 	public String getNome() {
 		return this.nome;
+	}
+
+	@Override
+	public int hashCode() {
+
+		return ("13123" + this.getId()).hashCode();
 	}
 
 	public void setId(String id) {

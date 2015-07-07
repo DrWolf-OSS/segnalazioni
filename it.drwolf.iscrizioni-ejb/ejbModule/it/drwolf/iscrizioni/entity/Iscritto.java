@@ -15,7 +15,7 @@ import javax.persistence.Table;
 import org.jboss.envers.Versioned;
 
 @Entity
-@Table(catalog = "iscrizioni")
+@Table(catalog = Catalog.name)
 public class Iscritto {
 
 	private String id;
@@ -32,8 +32,7 @@ public class Iscritto {
 	private boolean textMail = false;
 
 	private List<Gruppo> gruppi = new ArrayList<Gruppo>();
-	private List<OpzioneServizio> opzioniServizi = new ArrayList<OpzioneServizio>(
-			0);
+	private List<OpzioneServizio> opzioniServizi = new ArrayList<OpzioneServizio>(0);
 
 	private Boolean consenso = false;
 
@@ -45,9 +44,8 @@ public class Iscritto {
 
 	}
 
-	public Iscritto(String id, String email, String nome, String cognome,
-			String cellulare, String indirizzo, boolean textMail,
-			Boolean consenso, Boolean confermato) {
+	public Iscritto(String id, String email, String nome, String cognome, String cellulare, String indirizzo,
+			boolean textMail, Boolean consenso, Boolean confermato) {
 		super();
 		this.id = id;
 		this.email = email;
@@ -106,8 +104,7 @@ public class Iscritto {
 		return this.fax;
 	}
 
-	@ManyToMany(mappedBy = "iscritti", cascade = { CascadeType.MERGE,
-			CascadeType.PERSIST })
+	@ManyToMany(mappedBy = "iscritti", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
 	@OrderBy("nome")
 	public List<Gruppo> getGruppi() {
 		return this.gruppi;
@@ -245,10 +242,8 @@ public class Iscritto {
 
 	@Override
 	public String toString() {
-		if (this.cognome != null && this.email != null
-				&& !this.email.trim().equals("")) {
-			return String.format("%s %s (%s)", this.nome, this.cognome,
-					this.email);
+		if (this.cognome != null && this.email != null && !this.email.trim().equals("")) {
+			return String.format("%s %s (%s)", this.nome, this.cognome, this.email);
 		} else if (this.cognome != null) {
 			return String.format("%s %s", this.nome, this.cognome);
 		} else if (this.email != null && !this.email.trim().equals("")) {

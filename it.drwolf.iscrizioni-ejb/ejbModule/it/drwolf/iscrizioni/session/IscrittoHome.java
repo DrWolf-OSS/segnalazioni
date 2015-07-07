@@ -384,11 +384,9 @@ public class IscrittoHome extends EntityHome<Iscritto> {
 				}
 			}
 			for (String gid : gruppi) {
-				this.getEntityManager().createQuery("select ");
 				Gruppo gruppo = this.getEntityManager().find(Gruppo.class, gid);
 				iscritto.getGruppi().add(gruppo);
 				gruppo.getIscritti().add(iscritto);
-
 			}
 			for (String oid : opzioni) {
 				iscritto.getOpzioniServizi().add(this.getEntityManager().find(OpzioneServizio.class, oid));

@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(catalog = "iscrizioni")
+@Table(catalog = Catalog.name)
 public class AppParam {
 
 	public static final String APP_SKIN = "app.skin";
@@ -51,25 +51,19 @@ public class AppParam {
 	public static final String APP_SMS_USER = "app.sms.user";
 	public static final String APP_SMS_PWD = "app.sms.pwd";
 
-	public static AppParam[] defaults = new AppParam[] {
-			new AppParam(AppParam.LOCAL_ADMIN_PASSWORD, "changeme"),
+	public static AppParam[] defaults = new AppParam[] { new AppParam(AppParam.LOCAL_ADMIN_PASSWORD, "changeme"),
 			new AppParam("sso.url", "http://localhost:8180/sso"),
-			new AppParam("app.url", "http://localhost:8180/iscrizioni"),
-			new AppParam("sso.appid", "iscrizioni"),
+			new AppParam("app.url", "http://localhost:8180/iscrizioni"), new AppParam("sso.appid", "iscrizioni"),
 			new AppParam(AppParam.APP_MAIL_HOST, "localhost"),
 			new AppParam(AppParam.APP_MAIL_FROM_ADDRESS, "jboss@drwolf.it"),
-			new AppParam(AppParam.APP_MAIL_FROM_NAME,
-					"Iscrizione ai servizi del Comune"),
-			new AppParam(AppParam.APP_SECRET, UUID.randomUUID().toString()),
-			new AppParam(AppParam.APP_SKIN, "blueSky"),
+			new AppParam(AppParam.APP_MAIL_FROM_NAME, "Iscrizione ai servizi del Comune"),
+			new AppParam(AppParam.APP_SECRET, UUID.randomUUID().toString()), new AppParam(AppParam.APP_SKIN, "blueSky"),
 			new AppParam(AppParam.APP_MAIL_TRAP, "null"),
 			new AppParam(AppParam.APP_NEW_SUBSCRIPTION,
 					"I dati per completare l'iscrizione sono stati inviati all'inidirizzo {0}"),
-			new AppParam(AppParam.APP_EDIT_SUBSCRIPTION,
-					"Il codice utente e' stato inviato all'indirizzo {0}"),
+			new AppParam(AppParam.APP_EDIT_SUBSCRIPTION, "Il codice utente e' stato inviato all'indirizzo {0}"),
 			new AppParam(AppParam.APP_PRIVACY_URL, "/"),
-			new AppParam(
-					AppParam.APP_INCOMPLETI_QUERY,
+			new AppParam(AppParam.APP_INCOMPLETI_QUERY,
 					"SELECT I.id, I.cognome, I.nome, I.email, I.cellulare FROM Iscritto I where (I.id not in (select iscritti_id from Gruppo_Iscritto)) and (I.email is null and I.id in (select Iscritto_id from Iscritto_OpzioneServizio where opzioniServizi_id like ('newsletter%') or opzioniServizi_id like ('eventi%') or opzioniServizi_id like ('comunicati%')))"),
 			new AppParam(AppParam.APP_NAME, "Sistema di iscrizione ai servizi"),
 			new AppParam(AppParam.APP_MAIL_SECRET, "mailsecret")
