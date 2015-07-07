@@ -383,11 +383,6 @@ public class IscrittoHome extends EntityHome<Iscritto> {
 					System.out.println("già presente " + iscritto.getEmail());
 				}
 			}
-			for (String gid : gruppi) {
-				Gruppo gruppo = this.getEntityManager().find(Gruppo.class, gid);
-				iscritto.getGruppi().add(gruppo);
-				gruppo.getIscritti().add(iscritto);
-			}
 			for (String oid : opzioni) {
 				iscritto.getOpzioniServizi().add(this.getEntityManager().find(OpzioneServizio.class, oid));
 			}
@@ -397,6 +392,12 @@ public class IscrittoHome extends EntityHome<Iscritto> {
 				this.getEntityManager().persist(iscritto);
 			} else {
 				this.getEntityManager().merge(iscritto);
+			}
+			for (String gid : gruppi) {
+				this.getEntityManager()
+						.createNativeQuery(
+								"insert ignore into Gruppo_Iscritto (gruppi_id,iscritti_id) values (:gid,:iid)")
+						.setParameter("gid", gid).setParameter("iid", iscritto.getId());
 			}
 			FacesMessages.instance().add(Severity.INFO, iscritto.getEmail() + " importato");
 			System.out.println("importato " + iscritto.getEmail());
