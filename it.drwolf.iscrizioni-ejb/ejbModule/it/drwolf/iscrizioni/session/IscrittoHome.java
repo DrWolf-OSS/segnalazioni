@@ -479,11 +479,14 @@ public class IscrittoHome extends EntityHome<Iscritto> {
 
 	@Override
 	public String remove() {
-		Iscritto i = this.getInstance();
-		for (Gruppo g : i.getGruppi()) {
-			g.getIscritti().remove(i);
-		}
-		return super.remove();
+		this.getEntityManager().createNativeQuery("delete from Iscritto_OpzioneServizio where Iscritto_id=:iid")
+				.setParameter("iid", this.getInstance().getId()).executeUpdate();
+		this.getEntityManager().createNativeQuery("delete from Gruppo_Iscritto where iscritti_id=:iid")
+				.setParameter("iid", this.getInstance().getId()).executeUpdate();
+		this.getEntityManager().createNativeQuery("delete from Iscritto_Servizio where Iscritto_id=:iid")
+				.setParameter("iid", this.getInstance().getId()).executeUpdate();
+		this.getEntityManager().remove(this.getInstance());
+		return "OK";
 	}
 
 	public void rimuoviServizio(Servizio s) {
