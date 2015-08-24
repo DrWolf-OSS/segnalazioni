@@ -75,18 +75,19 @@ public class Authenticator {
 						try {
 							hc.executeMethod(gm);
 
-							System.out.println(gm.getStatusCode());
-							System.out.println(gm.getResponseBodyAsString());
-							info.put("token", this.uuid);
-							this.saveToken(info);
-							this.redirect(gm.getResponseBodyAsString());
-
-							return true;
-
+							if (gm.getStatusCode() == 200) {
+								info.put("token", this.uuid);
+								username = gm.getResponseBodyAsString();
+								info.put("username", username);
+								this.saveToken(info);
+								this.redirect(username);
+								return true;
+							}
 						} catch (Exception e) {
-
+							e.printStackTrace();
+						} finally {
+							gm.releaseConnection();
 						}
-						gm.releaseConnection();
 					}
 
 				}
