@@ -1,9 +1,5 @@
 package it.drwolf.sso.session;
 
-import it.drwolf.sso.api.SSOModule;
-import it.drwolf.sso.entity.Service;
-import it.drwolf.sso.session.interfaces.ITokenManager;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
@@ -12,6 +8,10 @@ import javax.persistence.EntityManager;
 
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
+
+import it.drwolf.sso.api.SSOModule;
+import it.drwolf.sso.entity.Service;
+import it.drwolf.sso.session.interfaces.ITokenManager;
 
 @Name("checker")
 public class Checker {
@@ -55,9 +55,7 @@ public class Checker {
 			return "<error>No such token</error>";
 		}
 
-		if ((this.getServiceObject() != null)
-				&& !this.getServiceObject().canAccess(
-						this.userInfo.get("username"))) {
+		if (this.getServiceObject() != null && !this.getServiceObject().canAccess(this.userInfo.get("username"))) {
 			return "<error>User not allowed to acces this service</error>";
 		}
 		String s = "<userinfo>";
@@ -81,7 +79,7 @@ public class Checker {
 		List<SSOModule> ssoModules = this.tokenManager.getSsoModules();
 		for (SSOModule module : ssoModules) {
 			for (String user : module.listUsers()) {
-				if ((so == null) || so.canAccess(user)) {
+				if (so == null || so.canAccess(user)) {
 					s += "<username><![CDATA[" + user + "]]></username>";
 				}
 			}
@@ -100,7 +98,6 @@ public class Checker {
 
 	public void setToken(String token) {
 		this.token = token;
-
 		this.userInfo = this.tokenManager.getTokens().get(token);
 	}
 
