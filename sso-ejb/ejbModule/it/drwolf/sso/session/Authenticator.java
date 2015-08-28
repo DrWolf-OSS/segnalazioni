@@ -1,6 +1,8 @@
 package it.drwolf.sso.session;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -52,47 +54,52 @@ public class Authenticator {
 
 		if (!this.identity.isLoggedIn()) {
 			this.uuid = UUID.randomUUID().toString();
-			if (username == null) {
+			AppParam plone_url = this.entityManager.find(AppParam.class, "PLONE_URL");
+			if (username == null && plone_url != null) {
 				HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
 						.getRequest();
 				boolean ac = false;
 				HttpState initialState = new HttpState();
 				for (javax.servlet.http.Cookie sc : req.getCookies()) {
-					if (sc.getName() == "__ac") {
-						ac = true;
-						initialState.addCookie(
-								new Cookie(sc.getDomain(), sc.getName(), sc.getValue(), sc.getPath(), null, false));
+					try {
+						String domain = new URI(plone_url.getValue()).getHost();
+
+						if ("__ac".equals(sc.getName())) {
+							ac = true;
+							initialState.addCookie(new Cookie(domain, sc.getName(), sc.getValue(), "/", null, false));
+						}
+					} catch (URISyntaxException e) {
+						return false;
 					}
 				}
 				if (ac) {
 					HttpClient hc = new HttpClient();
-					AppParam plone_url = this.entityManager.find(AppParam.class, "PLONE_URL");
-					if (plone_url != null) {
 
-						HttpMethod gm = new GetMethod(plone_url.getValue());
+					HttpMethod gm = new GetMethod(plone_url.getValue());
 
-						hc.setState(initialState);
-						try {
-							hc.executeMethod(gm);
+					hc.setState(initialState);
+					try {
+						hc.executeMethod(gm);
 
-							if (gm.getStatusCode() == 200) {
-								info.put("token", this.uuid);
-								username = gm.getResponseBodyAsString();
-								info.put("username", username);
-								this.saveToken(info);
-								this.redirect(username);
-								return true;
-							}
-						} catch (Exception e) {
-							e.printStackTrace();
-						} finally {
-							gm.releaseConnection();
+						if (gm.getStatusCode() == 200) {
+							info.put("token", this.uuid);
+							String[] res = gm.getResponseBodyAsString().split("\n");
+							info.put("username", res[0]);
+							info.put("email", res[1]);
+							System.out.println(info);
+							this.saveToken(info);
+							this.redirect(username);
+							return true;
 						}
+					} catch (Exception e) {
+						e.printStackTrace();
+					} finally {
+						gm.releaseConnection();
 					}
 
 				}
 			}
-			if ("admin".equals(this.service)) {
+			if ("admin".equals(this.service) && username != null) {
 				AdminUser admin = this.entityManager.find(AdminUser.class, username);
 				if (admin != null && admin.getPassword().equals(this.identity.getCredentials().getPassword())) {
 
@@ -102,17 +109,14 @@ public class Authenticator {
 					return true;
 				}
 			}
-
-			for (SSOModule module : this.tokenManager.getSsoModules()) {
-				info = module.login(this.identity.getCredentials().getUsername(),
-						this.identity.getCredentials().getPassword());
-				if (info != null) {
-					break;
+			if (username != null) {
+				for (SSOModule module : this.tokenManager.getSsoModules()) {
+					info = module.login(this.identity.getCredentials().getUsername(),
+							this.identity.getCredentials().getPassword());
+					if (info != null) {
+						break;
+					}
 				}
-			}
-
-			if (info == null) {
-
 			}
 
 			if (info != null) {
