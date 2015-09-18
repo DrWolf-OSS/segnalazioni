@@ -17,6 +17,8 @@ public class AppParam implements Serializable {
 
 	public static final AppParam APP_NAME = new AppParam("app.name", "SIGN");
 
+	public static final AppParam APP_MAIL_FROM_ADDRESS_RISPOSTE = new AppParam("app.mail.from.address.risposte", "jboss@drwolf.it");
+	
 	public static final AppParam APP_MAIL_FROM_ADDRESS = new AppParam("app.mail.from", "jboss@drwolf.it");
 
 	public static final AppParam APP_MAIL_FROM_NAME = new AppParam("app.mail.from.name", "Segnalazioni");
@@ -100,7 +102,7 @@ public class AppParam implements Serializable {
 
 	public static final AppParam[] defaults = new AppParam[] { AppParam.APP_NAME, AppParam.APP_DESCRIPTION, AppParam.APP_SKIN, AppParam.APP_WELCOME, AppParam.APP_COMUNE,
 			AppParam.APP_SSOAPPID, AppParam.APP_URL, AppParam.APP_SEGNALAZIONE_SCADENZA, AppParam.APP_MAIL_HOST, AppParam.APP_SEGNALAZIONE_REMINDER_START,
-			AppParam.APP_MAIL_FROM_ADDRESS, AppParam.APP_MAIL_FROM_NAME, AppParam.APP_MAIL_PORT, AppParam.APP_MAIL_USER, AppParam.APP_MAIL_PASSWORD,
+			AppParam.APP_MAIL_FROM_ADDRESS_RISPOSTE,	AppParam.APP_MAIL_FROM_ADDRESS, AppParam.APP_MAIL_FROM_NAME, AppParam.APP_MAIL_PORT, AppParam.APP_MAIL_USER, AppParam.APP_MAIL_PASSWORD,
 			AppParam.APP_SEGNALAZIONE_REMINDER, AppParam.APP_IMG_FOOT, AppParam.APP_IMG_HEAD, AppParam.IQ_SECRET, AppParam.ISCRIZIONI_URL, AppParam.ISCRIZIONI_PUBLIC_URL,
 			AppParam.APP_DAILY_STATI_DEFAULT, AppParam.APP_DAILY_STATI_HIDE, AppParam.APP_FILTRO_STATI_DEFAULT, AppParam.APP_ASSEGNAZIONE_POOL, AppParam.APP_RISP_UFFICIO,
 			AppParam.RIPASSA_URP_CON_MAIL_TEL, AppParam.ASSEGNATARIO_IN_MAIL, AppParam.APP_RISP_SALUTI, AppParam.APP_RISP_SALUTI_PS, AppParam.RIPASSA_URP_SEMPRE,

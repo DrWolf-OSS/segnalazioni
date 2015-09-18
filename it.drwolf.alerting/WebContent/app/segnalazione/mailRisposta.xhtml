@@ -7,11 +7,11 @@
 	xmlns:s="http://jboss.com/products/seam/taglib"
 	>
 <m:header name="X-Composed-By" value="DrClear" />
-<m:from name="#{rispostaHome.fromName}" address="#{rispostaHome.fromAddress}" />
+<m:from address="#{workSession.getParam('app.mail.from.address.risposte')}" />
 
 <m:to name="#{rispostaHome.toName}" address="#{rispostaHome.toAddress}"/>
 
-<m:subject>[#{workSession.getParam('app.description')}] #{rispostaHome.instance.oggetto}</m:subject>
+<m:subject>#{rispostaHome.instance.oggetto}</m:subject>
 
 <m:body>
 	<html>
@@ -33,8 +33,7 @@
    				margin-bottom: .75em;
    			}
    			p{
-	   			margin-left: 150px;
-  				margin-right: 150px;
+
    			}
  			</style>
 		</head>
@@ -51,7 +50,7 @@
 			</p>
 			
 
-			<p style="text-align:right;">#{workSession.getParam('app.risposte.saluti')} #{giornalieroHome.convertPeopleInverse(rispostaHome.instance.mittente)}<br/>#{workSession.getParam('app.risposte.salutips')}</p>
+			<p style="text-align:right;">#{workSession.getParam('app.risposte.saluti')} <br/>#{workSession.getParam('app.risposte.salutips')}</p>
              
              
                    	
