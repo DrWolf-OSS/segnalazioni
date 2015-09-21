@@ -1,7 +1,5 @@
 package it.drwolf.eloise.web.session;
 
-import it.drwolf.eloise.web.entity.Orario;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -11,15 +9,18 @@ import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Expressions.ValueExpression;
 import org.jboss.seam.framework.EntityQuery;
 
+import it.drwolf.eloise.web.entity.Orario;
+
 @Name("orarioList")
 public class OrarioList extends EntityQuery<Orario> {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 8286431198559706110L;
 
-	private static final String[] RESTRICTIONS = { "lower(orario.descrizione) like concat(lower(#{orarioList.orario.descrizione}),'%')", };
+	private static final String[] RESTRICTIONS = {
+			"lower(orario.descrizione) like concat(lower(#{orarioList.orario.descrizione}),'%')", };
 
 	private Orario orario = new Orario();
 
@@ -30,7 +31,7 @@ public class OrarioList extends EntityQuery<Orario> {
 
 	@Override
 	public Integer getMaxResults() {
-		return 25;
+		return 250;
 	}
 
 	public Orario getOrario() {
@@ -48,11 +49,9 @@ public class OrarioList extends EntityQuery<Orario> {
 		List<String> expressionStrings = Arrays.asList(OrarioList.RESTRICTIONS);
 
 		Expressions expressions = new Expressions();
-		List<ValueExpression> restrictionVEs = new ArrayList<ValueExpression>(
-				expressionStrings.size());
+		List<ValueExpression> restrictionVEs = new ArrayList<ValueExpression>(expressionStrings.size());
 		for (String expressionString : expressionStrings) {
-			restrictionVEs.add(expressions
-					.createValueExpression(expressionString));
+			restrictionVEs.add(expressions.createValueExpression(expressionString));
 		}
 		// setRestrictions(restrictionVEs);
 		return restrictionVEs;
