@@ -518,6 +518,7 @@ public class IscrittoHome extends EntityHome<Iscritto> {
 			email.setMsg(message);
 			email.send();
 		} catch (Exception e) {
+			e.printStackTrace();
 			FacesMessages.instance()
 					.add("Errore nella spedizione del messaggio di conferma, per favore riprova più tardi");
 		}
