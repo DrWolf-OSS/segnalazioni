@@ -91,6 +91,7 @@ public class AsyncSender {
 					email.setMsg(textBody);
 				} else {
 					email = new HtmlEmail();
+					htmlBody.replaceAll("@@IDISCRITTO@@", i.getId());
 					((HtmlEmail) email).setHtmlMsg(htmlBody);
 				}
 				email.setCharset("utf-8");
