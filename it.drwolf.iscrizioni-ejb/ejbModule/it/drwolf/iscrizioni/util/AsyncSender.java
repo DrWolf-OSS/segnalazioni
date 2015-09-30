@@ -55,6 +55,10 @@ public class AsyncSender {
 
 		Set<Iscritto> rcpt = new HashSet<Iscritto>();
 
+		if (groups == null && services == null) {
+			rcpt.addAll(q.getResultList());
+		}
+
 		if (groups != null) {
 			q = this.entityManager
 					.createQuery("select i from Iscritto i join i.gruppi g where g.id in (:l) group by i.id")
@@ -91,7 +95,7 @@ public class AsyncSender {
 					email.setMsg(textBody);
 				} else {
 					email = new HtmlEmail();
-					htmlBody.replaceAll("@@IDISCRITTO@@", i.getId());
+					htmlBody = htmlBody.replaceAll("@@IDISCRITTO@@", i.getId());
 					((HtmlEmail) email).setHtmlMsg(htmlBody);
 				}
 				email.setCharset("utf-8");
