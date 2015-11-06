@@ -1,0 +1,17 @@
+#Thu Oct 08 14:06:01 CEST 2009
+action.package=it.drwolf.sso.session
+action.sources=/sso-ejb/ejbModule
+eclipse.preferences.version=1
+model.package=it.drwolf.sso.entity
+model.sources=/sso-ejb/ejbModule
+seam.ear.project=sso-ear
+seam.ejb.project=sso-ejb
+seam.project.connection.profile=New MySQL
+seam.project.deployment.type=ear
+seam.project.settings.version=1.1
+seam.project.web.root.folder=/sso/WebContent
+seam.runtime.name=jboss-seam-2.2.0.GA
+seam.test.creating=true
+seam.test.project=sso-test
+test.package=it.drwolf.sso.test
+test.sources=/sso-test/test-src
