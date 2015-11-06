@@ -2,32 +2,54 @@ package it.drwolf.alerting.conf;
 
 import java.io.Serializable;
 
+import javax.persistence.EntityManager;
+
+import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.AutoCreate;
+import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Scope;
+
+import it.drwolf.alerting.entity.AppParam;
+
+
+
+
+@Name("componentBean")
+@AutoCreate
+@Scope(ScopeType.EVENT)
 public class ComponentBean implements Serializable {
 
+	
+	@In(create = true)
+	private EntityManager entityManager;
+	
+	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	
-	private String mailHost;
-	private int mailPort;
-	
 	public String getMailHost() {
-		//return mailHost;
-		
-		return "mandrillapp";
+		return this.entityManager.find(AppParam.class,
+				"app.mail.host").toString();
 	}
-	public void setMailHost(String mailHost) {
-		this.mailHost = mailHost;
-	}
+	
+
 	public int getMailPort() {
-		return mailPort;
+		return Integer.parseInt(this.entityManager.find(AppParam.class,
+				"app.mail.port").toString().toString());
 	}
-	public void setMailPort(int mailPort) {
-		this.mailPort = mailPort;
+	
+	public String getMailPassword(){
+		return this.entityManager.find(AppParam.class,
+				"app.mail.password").toString().toString();
 	}
 
+	public String getMailUsername(){
+		return this.entityManager.find(AppParam.class,
+				"app.mail.user").toString().toString();
+	}
 	
 	
 } 

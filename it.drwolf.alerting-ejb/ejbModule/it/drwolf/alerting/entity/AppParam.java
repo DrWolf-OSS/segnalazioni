@@ -42,7 +42,7 @@ public class AppParam implements Serializable {
 
 	public static final AppParam APP_URL = new AppParam("app.url", "http://localhost:8080/sign");
 
-	public static final AppParam APP_MAIL_HOST = new AppParam("app.mail.host", "smtp.mandrillapp.comt");
+	public static final AppParam APP_MAIL_HOST = new AppParam("app.mail.host", "smtp.mandrillapp.com");
 
 	public static final AppParam APP_SEGNALAZIONE_SCADENZA = new AppParam("app.segnalazione.scadenza", "20");
 

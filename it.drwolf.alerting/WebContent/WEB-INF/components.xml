@@ -35,7 +35,7 @@
        </drools:rule-files>
    </drools:rule-base>
    
-   <mail:mail-session host="smtp.mandrillapp.com" port="587" username="servizi@drwolf.it" password="T1XsN8ZkdNS4qf6T_1Vf7g" />
+   <mail:mail-session host="#{componentBean.mailHost}" port="#{componentBean.mailPort}" username="#{componentBean.mailUsername}" password="#{componentBean.mailPassword}" />
    
    <security:rule-based-permission-resolver security-rules="#{securityRules}"/>
 
