@@ -13,7 +13,7 @@
 		<ui:define name="label">Cittadino</ui:define>
 		<h:outputText rendered="#{segnalazione.cittadino ne null}" value="#{segnalazione.cittadino}"/>
 		
-		<h:panelGroup rendered="#{segnalazione.cittadino.iscritto.id eq null}">
+		<h:panelGroup rendered="#{(segnalazione.cittadino ne null) and segnalazione.cittadino.iscritto.id eq null}">
 			Cittadino cancellato: <a href="#{segnalazioneHome.linkCittadinoMancante}" > qui </a> i suoi dati.
    		</h:panelGroup>
 
