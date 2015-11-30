@@ -24,6 +24,7 @@ import it.drwolf.alerting.entity.Segnalazione;
 import it.drwolf.alerting.entity.Sollecito;
 import it.drwolf.alerting.entity.Stato;
 import it.drwolf.alerting.session.AlertingController;
+import it.drwolf.alerting.session.WorkSession;
 
 @AutoCreate
 @Name("listaSegnalazioni")
@@ -31,6 +32,9 @@ import it.drwolf.alerting.session.AlertingController;
 public class ListaSegnalazioni {
 	private Long inizio;
 	private Long fine;
+
+	@In
+	private WorkSession workSession;
 
 	private String utenza;
 
@@ -178,7 +182,12 @@ public class ListaSegnalazioni {
 		if (this.fine != null) {
 			queryStr += " and s.data <=:fine";
 		}
-		queryStr = queryStr + " order by s.id asc";
+
+		if (this.workSession.getParam("ordinamento.segnalazioni.asc").equals("true")) {
+			queryStr = queryStr + " order by s.id asc";
+		} else {
+			queryStr = queryStr + " order by s.id desc";
+		}
 		Query query = this.entityManager.createNativeQuery(queryStr);
 
 		query.setParameter("user", this.identity.getCredentials().getUsername());

@@ -11,14 +11,17 @@ public class AppParam implements Serializable {
 
 	private static final long serialVersionUID = -227886573909311966L;
 
-	public static final AppParam APP_WELCOME = new AppParam("app.welcometext", "Benvenuti nel sistema di segnalazioni del comune");
+	public static final AppParam APP_WELCOME = new AppParam("app.welcometext",
+			"Benvenuti nel sistema di segnalazioni del comune");
 
-	public static final AppParam APP_DESCRIPTION = new AppParam("app.description", "Segnalazione gestione e notifiche interventi");
+	public static final AppParam APP_DESCRIPTION = new AppParam("app.description",
+			"Segnalazione gestione e notifiche interventi");
 
 	public static final AppParam APP_NAME = new AppParam("app.name", "SIGN");
 
-	public static final AppParam APP_MAIL_FROM_ADDRESS_RISPOSTE = new AppParam("app.mail.from.address.risposte", "jboss@drwolf.it");
-	
+	public static final AppParam APP_MAIL_FROM_ADDRESS_RISPOSTE = new AppParam("app.mail.from.address.risposte",
+			"jboss@drwolf.it");
+
 	public static final AppParam APP_MAIL_FROM_ADDRESS = new AppParam("app.mail.from", "jboss@drwolf.it");
 
 	public static final AppParam APP_MAIL_FROM_NAME = new AppParam("app.mail.from.name", "Segnalazioni");
@@ -52,7 +55,8 @@ public class AppParam implements Serializable {
 
 	public static final AppParam APP_DAILY_STATI_DEFAULT = new AppParam("app.daily.stati.default", "aperto");
 
-	public static final AppParam APP_FILTRO_STATI_DEFAULT = new AppParam("app.filtro.stati.default", "aperto,daesaminare");
+	public static final AppParam APP_FILTRO_STATI_DEFAULT = new AppParam("app.filtro.stati.default",
+			"aperto,daesaminare");
 
 	public static final AppParam APP_DAILY_STATI_HIDE = new AppParam("app.daily.stati.hide", "chiuso,dilazionato");
 
@@ -78,7 +82,8 @@ public class AppParam implements Serializable {
 
 	public static final AppParam RIPASSA_URP_POOL = new AppParam("ripassa.urp.pool", "false");
 
-	public static final AppParam ALFRESCO_URL = new AppParam("alfresco.url", "http://web.comune.calenzano.fi.it/alfresco");
+	public static final AppParam ALFRESCO_URL = new AppParam("alfresco.url",
+			"http://web.comune.calenzano.fi.it/alfresco");
 
 	public static final AppParam ALFRESCO_USERNAME = new AppParam("alfresco.username", "caleearth");
 
@@ -100,15 +105,22 @@ public class AppParam implements Serializable {
 
 	public static final AppParam ASSEGNAZIONE_A_UFFICIO = new AppParam("assegnazione.a.ufficio", "false");
 
-	public static final AppParam[] defaults = new AppParam[] { AppParam.APP_NAME, AppParam.APP_DESCRIPTION, AppParam.APP_SKIN, AppParam.APP_WELCOME, AppParam.APP_COMUNE,
-			AppParam.APP_SSOAPPID, AppParam.APP_URL, AppParam.APP_SEGNALAZIONE_SCADENZA, AppParam.APP_MAIL_HOST, AppParam.APP_SEGNALAZIONE_REMINDER_START,
-			AppParam.APP_MAIL_FROM_ADDRESS_RISPOSTE,	AppParam.APP_MAIL_FROM_ADDRESS, AppParam.APP_MAIL_FROM_NAME, AppParam.APP_MAIL_PORT, AppParam.APP_MAIL_USER, AppParam.APP_MAIL_PASSWORD,
-			AppParam.APP_SEGNALAZIONE_REMINDER, AppParam.APP_IMG_FOOT, AppParam.APP_IMG_HEAD, AppParam.IQ_SECRET, AppParam.ISCRIZIONI_URL, AppParam.ISCRIZIONI_PUBLIC_URL,
-			AppParam.APP_DAILY_STATI_DEFAULT, AppParam.APP_DAILY_STATI_HIDE, AppParam.APP_FILTRO_STATI_DEFAULT, AppParam.APP_ASSEGNAZIONE_POOL, AppParam.APP_RISP_UFFICIO,
-			AppParam.RIPASSA_URP_CON_MAIL_TEL, AppParam.ASSEGNATARIO_IN_MAIL, AppParam.APP_RISP_SALUTI, AppParam.APP_RISP_SALUTI_PS, AppParam.RIPASSA_URP_SEMPRE,
-			AppParam.ALFRESCO_URL, AppParam.ALFRESCO_USERNAME, AppParam.RIPASSA_URP_POOL, AppParam.ALFRESCO_PASSWORD, AppParam.ALFRESCO_CALEEARTH_PATH, AppParam.HISTORY_ENABLED,
-			AppParam.AUTOCOMPLETE_INDIRIZZO_ACTIVE, AppParam.APP_MAIL_TRAP, AppParam.CRON_TIME, AppParam.ASSEGNAZIONE_A_UFFICIO, AppParam.UTENZA_OBBLICATORIA,
-			AppParam.UTENTE_IN_LAVORAZIONE };
+	public static final AppParam ORDINAMENTO_SEGNALAZIONI_ASC = new AppParam("ordinamento.segnalazioni.asc", "false");
+
+	public static final AppParam[] defaults = new AppParam[] { AppParam.APP_NAME, AppParam.APP_DESCRIPTION,
+			AppParam.APP_SKIN, AppParam.APP_WELCOME, AppParam.APP_COMUNE, AppParam.APP_SSOAPPID, AppParam.APP_URL,
+			AppParam.APP_SEGNALAZIONE_SCADENZA, AppParam.APP_MAIL_HOST, AppParam.APP_SEGNALAZIONE_REMINDER_START,
+			AppParam.APP_MAIL_FROM_ADDRESS_RISPOSTE, AppParam.APP_MAIL_FROM_ADDRESS, AppParam.APP_MAIL_FROM_NAME,
+			AppParam.APP_MAIL_PORT, AppParam.APP_MAIL_USER, AppParam.APP_MAIL_PASSWORD,
+			AppParam.APP_SEGNALAZIONE_REMINDER, AppParam.APP_IMG_FOOT, AppParam.APP_IMG_HEAD, AppParam.IQ_SECRET,
+			AppParam.ISCRIZIONI_URL, AppParam.ISCRIZIONI_PUBLIC_URL, AppParam.APP_DAILY_STATI_DEFAULT,
+			AppParam.APP_DAILY_STATI_HIDE, AppParam.APP_FILTRO_STATI_DEFAULT, AppParam.APP_ASSEGNAZIONE_POOL,
+			AppParam.APP_RISP_UFFICIO, AppParam.RIPASSA_URP_CON_MAIL_TEL, AppParam.ASSEGNATARIO_IN_MAIL,
+			AppParam.APP_RISP_SALUTI, AppParam.APP_RISP_SALUTI_PS, AppParam.RIPASSA_URP_SEMPRE, AppParam.ALFRESCO_URL,
+			AppParam.ALFRESCO_USERNAME, AppParam.RIPASSA_URP_POOL, AppParam.ALFRESCO_PASSWORD,
+			AppParam.ALFRESCO_CALEEARTH_PATH, AppParam.HISTORY_ENABLED, AppParam.AUTOCOMPLETE_INDIRIZZO_ACTIVE,
+			AppParam.APP_MAIL_TRAP, AppParam.CRON_TIME, AppParam.ASSEGNAZIONE_A_UFFICIO, AppParam.UTENZA_OBBLICATORIA,
+			AppParam.UTENTE_IN_LAVORAZIONE, AppParam.ORDINAMENTO_SEGNALAZIONI_ASC };
 
 	private String key;
 	private String value;
