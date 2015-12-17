@@ -225,7 +225,7 @@
 	<s:decorate template="/layout/input.xhtml" rendered="#{edit}">
 		<ui:define name="label">Ubicazione</ui:define>
 		<p>Se pertinente, oppure se il luogo non ha un indirizzo, inserire una descrizione</p>
-		<h:inputTextarea value="#{segnalazione.ubicazione}"/>
+		<h:inputTextarea value="#{segnalazione.ubicazione}" styleClass="ubicazioneTextarea"/>
     </s:decorate>
     
     <s:decorate template="/layout/input.xhtml" rendered="#{!edit}">

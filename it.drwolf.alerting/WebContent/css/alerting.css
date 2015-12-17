@@ -18,6 +18,11 @@ textarea {
 	width: 100%;
 }
 
+.ubicazioneTextarea {
+	height: 1em;
+	width: 100%;
+}
+
 pre {
 	font-family: sans-serif;
 }
