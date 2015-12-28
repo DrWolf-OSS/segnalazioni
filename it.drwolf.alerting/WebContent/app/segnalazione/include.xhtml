@@ -7,6 +7,22 @@
    xmlns:rich="http://richfaces.org/rich"
    xmlns:s="http://jboss.com/products/seam/taglib">
    
+       <script type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDhpWdS4QLUPwWTP-aXUezjMdQbzmsKEcQ&amp;sensor=false">
+    </script>
+    <script type="text/javascript">
+      function initialize() {
+        var mapOptions = {
+          center: new google.maps.LatLng(43.865280, 11.167173),
+          zoom: 16,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        var map = new google.maps.Map(document.getElementById("map-canvas"),
+            mapOptions);
+      }
+      google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+    
 	<c:set var="edit" value="#{segnalazione.id eq null or alertingController.taskAssignee}"/>
 	
 	<s:decorate template="/layout/input.xhtml" rendered="#{not s:hasRole('cittadino') and ((segnalazione.id ne null and segnalazione.cittadino ne null) or (segnalazione.id eq null))}">
@@ -157,6 +173,8 @@
 
 
 	<s:decorate id="inddec" template="/layout/input.xhtml" rendered="#{edit}">
+	
+    <div id="map-canvas" class="sign-map"/>
 		<ui:define name="label">Luogo della Segnalazione</ui:define>
 	<table>
 		<tr>
@@ -171,7 +189,7 @@
 			Indirizzo:&#160;
 		<s:fragment rendered="#{utils.getParamValue('autocomplete.indirizzo.active') ne 'force'}">
 		
-			<h:inputText id="indvia" size="40" value="#{segnalazione.via}" ></h:inputText>
+			<h:inputText id="invia" size="40" value="#{segnalazione.via}" ></h:inputText>
 			
 			<div id="loading" style="width:100%;text-align:right;display:none">
 				Caricamento elenco indirizzi...

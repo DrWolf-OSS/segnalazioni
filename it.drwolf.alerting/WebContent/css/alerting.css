@@ -23,6 +23,11 @@ textarea {
 	width: 100%;
 }
 
+.sign-map {	 
+	height: 50em;
+	width: 90%;
+	display: block;
+}
 pre {
 	font-family: sans-serif;
 }
