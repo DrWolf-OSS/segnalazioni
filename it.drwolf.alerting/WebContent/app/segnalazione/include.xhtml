@@ -7,21 +7,11 @@
    xmlns:rich="http://richfaces.org/rich"
    xmlns:s="http://jboss.com/products/seam/taglib">
    
+   <a4j:loadScript src="/scripts/map.js" />
        <script type="text/javascript"
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDhpWdS4QLUPwWTP-aXUezjMdQbzmsKEcQ&amp;sensor=false">
+      src="http://maps.googleapis.com/maps/api/js?sensor=false">
     </script>
-    <script type="text/javascript">
-      function initialize() {
-        var mapOptions = {
-          center: new google.maps.LatLng(43.865280, 11.167173),
-          zoom: 16,
-          mapTypeId: google.maps.MapTypeId.ROADMAP
-        };
-        var map = new google.maps.Map(document.getElementById("map-canvas"),
-            mapOptions);
-      }
-      google.maps.event.addDomListener(window, 'load', initialize);
-    </script>
+
     
 	<c:set var="edit" value="#{segnalazione.id eq null or alertingController.taskAssignee}"/>
 	
