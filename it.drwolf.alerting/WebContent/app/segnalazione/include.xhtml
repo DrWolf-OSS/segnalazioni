@@ -170,7 +170,9 @@
 	
     <div id="map-canvas" class="sign-map"/>
 		<ui:define name="label">Luogo della Segnalazione</ui:define>
-		Indirizzo:&#160;<h:inputText id="pac-input" size="150" />
+		Indirizzo:&#160;<h:inputText id="pac-input" size="150" value="#{segnalazione.indirizzo}"/>
+		<h:inputText id="lat" style="display: none" value="#{segnalazione.latitudine}"/>
+		<h:inputText id="lng" style="display: none" value="#{segnalazione.longitudine}"/>
 
 		
 	</s:decorate>

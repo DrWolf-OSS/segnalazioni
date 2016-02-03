@@ -34,8 +34,8 @@ function initialize() {
                   map: map
               });
           }
-          //document.getElementById('lat').value=location.lat();
-          //document.getElementById('lng').value=location.lng();
+          document.getElementById('mainform:inddec:lat').value=location.lat();
+          document.getElementById('mainform:inddec:lng').value=location.lng();
           getAddress(location);           
       }
       
