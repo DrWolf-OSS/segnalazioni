@@ -47,7 +47,7 @@ function initialize() {
             function(results, status) {
               if(status == google.maps.GeocoderStatus.OK) {
                 if(results[0]) {
-                	alert(results[0].formatted_address);
+                	document.getElementById("mainform:inddec:pac-input").value = results[0].formatted_address;
                 }
                 else {
                 	alert("No results");
