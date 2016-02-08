@@ -4,10 +4,14 @@ var map;
 
 var latField;
 var lngField;
+var addressField;
 
 function initialize() {
 	latField = document.getElementById('mainform:inddec:lat');
 	lngField = document.getElementById('mainform:inddec:lng');
+	addressField = document.getElementById("mainform:inddec:pac-input");
+	
+	
 	var mapOptions = {
 			center: getCenter(),
 			zoom: 14,
@@ -23,6 +27,13 @@ function initialize() {
 		updateAddress(event.latLng); // aggiorno indirizzo nella pagina
 	});
 
+	//aggiungo l'autocomlete al campo indirizzo
+	 var autocomplete = new google.maps.places.Autocomplete(addressField);
+	  autocomplete.bindTo('bounds', map);
+
+	
+	
+	
 	//il posizionamento del marker iniziale deve essere l'ultima cosa.
 	if (latField.value > 0.0 && lngField.value > 0.0){
 		placeMarker(map.getCenter());
@@ -68,7 +79,7 @@ function getAddress(latLng) {
 			function(results, status) {
 		if(status == google.maps.GeocoderStatus.OK) {
 			if(results[0]) {
-				document.getElementById("mainform:inddec:pac-input").value = results[0].formatted_address;
+				addressField.value = results[0].formatted_address;
 			}
 			else {
 				alert("No results");
@@ -79,6 +90,7 @@ function getAddress(latLng) {
 		}
 	});
 }
+
 
 
         
