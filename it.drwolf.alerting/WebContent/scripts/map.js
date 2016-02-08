@@ -27,17 +27,40 @@ function initialize() {
 		updateAddress(event.latLng); // aggiorno indirizzo nella pagina
 	});
 
+	
+
+	
+	
 	//aggiungo l'autocomlete al campo indirizzo
 	 var autocomplete = new google.maps.places.Autocomplete(addressField);
 	  autocomplete.bindTo('bounds', map);
 
-	
-	
+	//aggiungo il listener all'autocomplete
+	  autocomplete.addListener('place_changed', function() {
+
+		    marker.setVisible(false);
+		    var place = autocomplete.getPlace();
+		    if (!place.geometry) {
+		      window.alert("Autocomplete's returned place contains no geometry");
+		      return;
+		    }
+
+		    // If the place has a geometry, then present it on a map.
+		    if (place.geometry.viewport) {
+		      map.fitBounds(place.geometry.viewport);
+		    } else {
+		      map.panTo(place.geometry.location);
+		    }
+		    updateAddress(place.geometry.location);
+		    marker.setPosition(place.geometry.location);
+		    marker.setVisible(true);
+		}); 
 	
 	//il posizionamento del marker iniziale deve essere l'ultima cosa.
 	if (latField.value > 0.0 && lngField.value > 0.0){
 		placeMarker(map.getCenter());
 	}
+	
 
 }
 
