@@ -18,7 +18,7 @@
 
 	<c:set var="editSA"
 		value="#{segnalazione.isSoggettoAggiuntivo(identity.credentials.username) and segnalazione.stato.nome.equals('aperto')}" />
-	
+
 	<s:decorate template="/layout/input.xhtml"
 		rendered="#{not s:hasRole('cittadino') and ((segnalazione.id ne null and segnalazione.cittadino ne null) or (segnalazione.id eq null))}">
 		<ui:define name="label">Cittadino</ui:define>
@@ -202,14 +202,14 @@
 			value="#{segnalazione.longitudine}" />
 		<button onclick="clearMap();" type="button">togli segnaposto
 		</button>
-		
+
 	</s:decorate>
-	
+
 	<s:decorate template="/layout/input.xhtml" rendered="#{!edit}">
 		<ui:define name="label">Luogo della Segnalazione</ui:define>
     	#{segnalazione.indirizzo}
 	</s:decorate>
-	
+
 	<s:decorate template="/layout/input.xhtml" rendered="#{edit}">
 		<ui:define name="label">Ubicazione</ui:define>
 		<p>Se pertinente, oppure se il luogo non ha un indirizzo, inserire
@@ -280,12 +280,13 @@
 		<ui:define name="label">Stato segnalazione</ui:define>
 		#{segnalazione.stato.descrizione}
 	</s:decorate>
-	<h:commandButton value="Chiudi Segnalazione"
-		action="#{segnalazioneHome.chiudiSegnalazione()}"
-		style="margin-left: 10px;margin-top: -15px;"
-		disabled="#{segnalazioneHome.instance.stato.nome eq 'chiuso'}"
-		rendered="#{s:hasRole('admin')}" />
 
+	<s:decorate template="/layout/actions.xhtml">
+		<h:commandButton value="Chiudi Segnalazione"
+			action="#{segnalazioneHome.chiudiSegnalazione()}"
+			disabled="#{segnalazioneHome.instance.stato.nome eq 'chiuso'}"
+			rendered="#{s:hasRole('admin')}" />
+	</s:decorate>
 
 	<s:decorate template="/layout/actions.xhtml"
 		rendered="#{(edit and segnalazione.id ne null) or editSA}">
@@ -293,6 +294,14 @@
 			action="#{segnalazioneHome.update}" />
 
 	</s:decorate>
+
+	<s:decorate template="/layout/actions.xhtml"
+		rendered="#{segnalazioneHome.instance.stato.nome ne 'chiuso'}">
+		<s:button value="Sollecita"
+			onclick="#{rich:element('sollIdSegnalazione')}.value=#{segnalazione.id};#{rich:component('panelSollecito')}.show();return false;" />
+	</s:decorate>
+
+
 
 
 </ui:composition>

@@ -321,7 +321,6 @@ public class SegnalazioneHome extends EntityHome<Segnalazione> {
 		sollecito.setIdassegnatario(this.reports.getAssignee(segnalazione));
 		sollecito.setIdinseritore(this.identity.getCredentials().getUsername());
 		this.update();
-
 	}
 
 	@Override
