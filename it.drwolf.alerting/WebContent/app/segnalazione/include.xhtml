@@ -38,7 +38,15 @@
 			<s:button rendered="#{segnalazione.id eq null}" propagation="none"
 				view="/app/utenti/CittadinoList.xhtml"
 				value="#{segnalazione.cittadino eq null ? 'Scegli un cittadino' : 'Cambia'}" />
+				
+			<s:button propagation="none"
+			    onclick="#{rich:component('panelCittadino')}.show();return false;" 
+				value="Nuovo Cittadino" />
+				
+				
 		</s:decorate>
+		
+		
 	</s:decorate>
 
 	<s:decorate template="/layout/input.xhtml"
@@ -292,7 +300,6 @@
 		rendered="#{(edit and segnalazione.id ne null) or editSA}">
 		<h:commandButton value="Aggiorna Segnalazione"
 			action="#{segnalazioneHome.update}" />
-
 	</s:decorate>
 
 	<s:decorate template="/layout/actions.xhtml"
@@ -300,8 +307,5 @@
 		<s:button value="Sollecita"
 			onclick="#{rich:element('sollIdSegnalazione')}.value=#{segnalazione.id};#{rich:component('panelSollecito')}.show();return false;" />
 	</s:decorate>
-
-
-
 
 </ui:composition>
