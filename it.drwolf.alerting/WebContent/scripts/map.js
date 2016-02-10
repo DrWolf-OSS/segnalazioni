@@ -5,6 +5,7 @@ var map;
 var latField;
 var lngField;
 var addressField;
+var autocomplete;
 
 function initialize() {
 	latField = document.getElementById('mainform:inddec:lat');
@@ -31,29 +32,13 @@ function initialize() {
 
 	
 	
-	//aggiungo l'autocomlete al campo indirizzo
-	 var autocomplete = new google.maps.places.Autocomplete(addressField);
+	//aggiungo l'autocomplete al campo indirizzo
+	  autocomplete = new google.maps.places.Autocomplete(addressField);
 	  autocomplete.bindTo('bounds', map);
 
 	//aggiungo il listener all'autocomplete
 	  autocomplete.addListener('place_changed', function() {
-
-		    marker.setVisible(false);
-		    var place = autocomplete.getPlace();
-		    if (!place.geometry) {
-		      window.alert("Autocomplete's returned place contains no geometry");
-		      return;
-		    }
-
-		    // If the place has a geometry, then present it on a map.
-		    if (place.geometry.viewport) {
-		      map.fitBounds(place.geometry.viewport);
-		    } else {
-		      map.panTo(place.geometry.location);
-		    }
-		    updateAddress(place.geometry.location);
-		    marker.setPosition(place.geometry.location);
-		    marker.setVisible(true);
+		  updateMap();
 		}); 
 	
 	//il posizionamento del marker iniziale deve essere l'ultima cosa.
@@ -96,6 +81,26 @@ function updateAddress(location){
 	getAddress(location);
 }
 
+function updateMap(){
+    marker.setVisible(false);
+    var place = autocomplete.getPlace();
+    if (!place.geometry) {
+      window.alert("Autocomplete's returned place contains no geometry");
+      return;
+    }
+
+    // If the place has a geometry, then present it on a map.
+    if (place.geometry.viewport) {
+      map.fitBounds(place.geometry.viewport);
+    } else {
+      map.panTo(place.geometry.location);
+    }
+	latField.value=place.geometry.location.lat(); // aggiorno i campi latitudine
+	lngField.value=place.geometry.location.lng(); // e longitudine
+    marker.setPosition(place.geometry.location);  // e la posizione del marker 
+    marker.setVisible(true);
+    return false;
+}
 
 function getAddress(latLng) {
 	geocoder.geocode( {'latLng': latLng},
@@ -112,6 +117,13 @@ function getAddress(latLng) {
 			alert(status);
 		}
 	});
+}
+
+function clearMap(){
+	
+	marker=null;
+	latField.value = null;
+	lngField.value = null;
 }
 
 

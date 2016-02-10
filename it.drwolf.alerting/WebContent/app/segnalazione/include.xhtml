@@ -173,8 +173,7 @@
 		Indirizzo:&#160;<h:inputText id="pac-input" size="150" value="#{segnalazione.indirizzo}"/>
 		<h:inputText id="lat" style="display: none" value="#{segnalazione.latitudine}"/>
 		<h:inputText id="lng" style="display: none" value="#{segnalazione.longitudine}"/>
-		<h:commandButton value="mostra indirizzo su mappa"
-                    onclick="updateAddress();" />	
+		<button  onclick="clearMap();" type="button">togli segnaposto </button>
 
 		
 	</s:decorate>
