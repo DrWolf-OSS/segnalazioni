@@ -748,12 +748,16 @@ public class AlertingController {
 		return res;
 	}
 
+	@SuppressWarnings("unchecked")
 	public void setCurrentProcessId(Long currentProcessId) {
 		this.currentProcessId = currentProcessId;
-		List<TaskInstance> taskList = this.jbpmContext.getTaskList(Identity.instance().getCredentials().getUsername());
-		for (TaskInstance taskInstance : taskList) {
-			if (currentProcessId.equals(taskInstance.getProcessInstance().getId())) {
-				this.setCurrentTaskId(taskInstance.getId());
+		if (this.currentTaskId == null) {
+			List<TaskInstance> taskList = this.jbpmContext
+					.getTaskList(Identity.instance().getCredentials().getUsername());
+			for (TaskInstance taskInstance : taskList) {
+				if (currentProcessId.equals(taskInstance.getProcessInstance().getId())) {
+					this.setCurrentTaskId(taskInstance.getId());
+				}
 			}
 		}
 
