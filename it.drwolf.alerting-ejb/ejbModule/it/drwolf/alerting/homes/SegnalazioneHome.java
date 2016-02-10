@@ -256,9 +256,15 @@ public class SegnalazioneHome extends EntityHome<Segnalazione> {
 			String persist = super.persist();
 
 			try {
+
 				this.alertingController.creaSegnalazione(this.getInstance());
+
 			} catch (Exception e) {
 				throw new RuntimeException(e);
+			}
+
+			if (!this.identity.hasRole(Constants.CITTADINO.toString())) {
+				return "task";
 			}
 			return persist;
 		}
