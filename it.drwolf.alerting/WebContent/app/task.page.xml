@@ -4,8 +4,8 @@
       xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd">
 
 
-    <param name="taskId" value="#{alertingController.currentTaskId}"/>
     <param name="processId" value="#{alertingController.currentProcessId}"/>
+    <param name="taskId" value="#{alertingController.currentTaskId}"/>
     
     
     <action execute="#{segnalazioneHome.verificaScadenza(alertingController.segnalazione,true)}" />

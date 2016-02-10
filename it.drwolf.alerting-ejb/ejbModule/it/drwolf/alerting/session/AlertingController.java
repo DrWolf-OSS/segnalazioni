@@ -750,6 +750,13 @@ public class AlertingController {
 
 	public void setCurrentProcessId(Long currentProcessId) {
 		this.currentProcessId = currentProcessId;
+		List<TaskInstance> taskList = this.jbpmContext.getTaskList(Identity.instance().getCredentials().getUsername());
+		for (TaskInstance taskInstance : taskList) {
+			if (currentProcessId.equals(taskInstance.getProcessInstance().getId())) {
+				this.setCurrentTaskId(taskInstance.getId());
+			}
+		}
+
 	}
 
 	public void setCurrentTaskId(Long currentTaskId) {
