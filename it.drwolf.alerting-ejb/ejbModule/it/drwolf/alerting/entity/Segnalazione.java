@@ -62,14 +62,19 @@ public class Segnalazione implements java.io.Serializable {
 
 	private String ubicazione;
 
+	// indirizzo completo, preso da mappa
+	private String indirizzo;
+	private Double latitudine;
+	private Double longitudine;
+
 	private String civico;
+
 	private String localita;
+
 	private String comune;
 	private Stato stato;
 	private Utenza utenza;
-
 	private CategoriaUtenza categoriaUtenza;
-
 	private SottocategoriaUtenza sottocategoriaUtenza;
 
 	private String referente;
@@ -83,11 +88,11 @@ public class Segnalazione implements java.io.Serializable {
 	private String oggetto;
 
 	private Set<Sollecito> solleciti = new TreeSet<Sollecito>();
+
 	private List<String> allegati = new ArrayList<String>();
 
 	// Apertura
 	private Date data;
-
 	private String messaggio;
 
 	private Date scadenza;
@@ -196,15 +201,31 @@ public class Segnalazione implements java.io.Serializable {
 		return this.idutenteInseritore;
 	}
 
+	@Lob
+	@Column(name = "Indirizzo")
+	public String getIndirizzo() {
+		return this.indirizzo;
+	}
+
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "segnalazione")
 	@OrderBy("scadenza")
 	public List<Intervento> getInterventos() {
 		return this.interventos;
 	}
 
+	@Column(name = "Latitudine")
+	public Double getLatitudine() {
+		return this.latitudine;
+	}
+
 	@Column(name = "Localita")
 	public String getLocalita() {
 		return this.localita;
+	}
+
+	@Column(name = "Longitudine")
+	public Double getlongitudine() {
+		return this.longitudine;
 	}
 
 	@Lob
@@ -361,12 +382,24 @@ public class Segnalazione implements java.io.Serializable {
 		this.idutenteInseritore = idutenteInseritore;
 	}
 
+	public void setIndirizzo(String indirizzo) {
+		this.indirizzo = indirizzo;
+	}
+
 	public void setInterventos(List<Intervento> interventos) {
 		this.interventos = interventos;
 	}
 
+	public void setLatitudine(Double latitudine) {
+		this.latitudine = latitudine;
+	}
+
 	public void setLocalita(String localita) {
 		this.localita = localita;
+	}
+
+	public void setLongitudine(Double longitudine) {
+		this.longitudine = longitudine;
 	}
 
 	public void setMessaggio(String messaggio) {
