@@ -16,6 +16,9 @@
 	<c:set var="edit"
 		value="#{segnalazione.id eq null or alertingController.taskAssignee}" />
 
+	<c:set var="editSA"
+		value="#{segnalazione.isSoggettoAggiuntivo(identity.credentials.username) and segnalazione.stato.nome.equals('aperto')}" />
+	
 	<s:decorate template="/layout/input.xhtml"
 		rendered="#{not s:hasRole('cittadino') and ((segnalazione.id ne null and segnalazione.cittadino ne null) or (segnalazione.id eq null))}">
 		<ui:define name="label">Cittadino</ui:define>
@@ -51,7 +54,7 @@
 	</s:decorate>
 
 	<s:decorate template="/layout/input.xhtml"
-		rendered="#{edit and segnalazione.id ne null and not s:hasRole('cittadino')}">
+		rendered="#{(edit and segnalazione.id ne null and not s:hasRole('cittadino')) or editSA}">
 		<ui:define name="label">Nuovo Messaggio</ui:define>
 		<h:inputTextarea value="#{segnalazioneHome.newMessage}" />
 	</s:decorate>
@@ -192,16 +195,21 @@
 		<div id="map-canvas" class="sign-map" />
 		<ui:define name="label">Luogo della Segnalazione</ui:define>
 		Indirizzo:&#160;<h:inputText id="pac-input" size="150"
-			value="#{segnalazione.indirizzo}" />
+			value="#{segnalazione.indirizzo}" required="true" />
 		<h:inputText id="lat" style="display: none"
 			value="#{segnalazione.latitudine}" />
 		<h:inputText id="lng" style="display: none"
 			value="#{segnalazione.longitudine}" />
 		<button onclick="clearMap();" type="button">togli segnaposto
 		</button>
-
-
+		
 	</s:decorate>
+	
+	<s:decorate template="/layout/input.xhtml" rendered="#{!edit}">
+		<ui:define name="label">Luogo della Segnalazione</ui:define>
+    	#{segnalazione.indirizzo}
+	</s:decorate>
+	
 	<s:decorate template="/layout/input.xhtml" rendered="#{edit}">
 		<ui:define name="label">Ubicazione</ui:define>
 		<p>Se pertinente, oppure se il luogo non ha un indirizzo, inserire
@@ -209,13 +217,6 @@
 		<h:inputTextarea value="#{segnalazione.ubicazione}"
 			styleClass="ubicazioneTextarea" />
 	</s:decorate>
-
-	<s:decorate template="/layout/input.xhtml" rendered="#{!edit}">
-		<ui:define name="label">Luogo della Segnalazione</ui:define>
-		#{segnalazione.via}, #{segnalazione.civico} - #{segnalazione.localita} #{segnalazione.comune}
-		<br />
-		#{segnalazione.ubicazione}
-    </s:decorate>
 
 	<s:decorate template="/layout/input.xhtml"
 		rendered="#{not s:hasRole('cittadino') and edit}">
@@ -287,12 +288,11 @@
 
 
 	<s:decorate template="/layout/actions.xhtml"
-		rendered="#{edit and segnalazione.id ne null}">
+		rendered="#{(edit and segnalazione.id ne null) or editSA}">
 		<h:commandButton value="Aggiorna Segnalazione"
 			action="#{segnalazioneHome.update}" />
 
 	</s:decorate>
-
 
 
 </ui:composition>

@@ -162,6 +162,30 @@ public class ListaSegnalazioni {
 	}
 
 	@SuppressWarnings("unchecked")
+	@Factory("segnalazioniCompetenza")
+	public List<Segnalazione> getSegnalazioniDiCompetenza() {
+
+		Query query = this.entityManager
+				.createQuery(
+						"from Segnalazione s where :userid in elements(s.sottotipoSegnalazione.tipoSegnalazione.soggettiAggiuntivi)"
+								+ (this.inizio != null ? "and s.data >=:inizio " : "")
+								+ (this.fine != null ? "and s.data <=:fine " : "")
+								+ "and s.stato in (:stati) order by id desc")
+				.setParameter("userid", this.identity.getCredentials().getUsername())
+				.setParameter("stati", this.getStati());
+
+		if (this.inizio != null) {
+			query.setParameter("inizio", new Date(this.inizio));
+		}
+		if (this.fine != null) {
+			query.setParameter("fine", new Date(this.fine));
+		}
+
+		return query.getResultList();
+
+	}
+
+	@SuppressWarnings("unchecked")
 	@Factory("inLavorazione")
 	public List<Object[]> getSegnalazioniinLavorazione() {
 		/*

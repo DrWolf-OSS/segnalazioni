@@ -1,16 +1,23 @@
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core" xmlns:c="http://java.sun.com/jstl/core" xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" template="/layout/template.xhtml">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j" template="/layout/template.xhtml">
 
 	<ui:define name="title">Homepage Segnalazioni</ui:define>
 
 
 
 	<ui:define name="pageactions">
-		<s:link target="_blank" action="#{xlsGenerator.homeExcel()}" rendered="#{not s:hasRole('cittadino')}">
-			<img height="16" width="16" alt="Esporta in Excel" style="border: 0" src="/sign/img/page_white_excel.png" />
+		<s:link target="_blank" action="#{xlsGenerator.homeExcel()}"
+			rendered="#{not s:hasRole('cittadino')}">
+			<img height="16" width="16" alt="Esporta in Excel" style="border: 0"
+				src="/sign/img/page_white_excel.png" />
 		</s:link>
 	</ui:define>
 
@@ -25,25 +32,33 @@
 
 
 
-		<c:set value="#{alertingController.isGestore(identity.username)}" var="gestore" />
+		<c:set value="#{alertingController.isGestore(identity.username)}"
+			var="gestore" />
 
-		<rich:tabPanel switchType="ajax"    style="margin-bottom:10px;" id="mainTabPanel">
+		<rich:tabPanel switchType="ajax" style="margin-bottom:10px;"
+			id="mainTabPanel">
 
-			<rich:tab name="pool"  label="Segnalazioni da prendere in carico (#{pooledTaskInstanceList.size()})"
-				rendered="#{not empty pooledTaskInstanceList}" >
+			<rich:tab name="pool"
+				label="Segnalazioni da prendere in carico (#{pooledTaskInstanceList.size()})"
+				rendered="#{not empty pooledTaskInstanceList}">
 
-				<rich:dataTable value="#{pooledTaskInstanceList}" var="task" rendered="#{not empty pooledTaskInstanceList}" id="tasks" rows="10">
+				<rich:dataTable value="#{pooledTaskInstanceList}" var="task"
+					rendered="#{not empty pooledTaskInstanceList}" id="tasks" rows="10">
 
-					<rich:column sortBy="#{alertingController.getTitleForTask(task)}" sortOrder="DESCENDING">
+					<rich:column sortBy="#{alertingController.getTitleForTask(task)}"
+						sortOrder="DESCENDING">
 						<f:facet name="header">
                 Segnalazione
             </f:facet>
 
-						<s:fragment rendered="#{segnalazioneHome.verificaScadenza(alertingController.getSegnalazione(task),false)}">
-							<img style="margin-right: 1em;" src="/sign/img/exclamation.png" height="16" width="16" alt="Scaduta" title="Scaduta" />
+						<s:fragment
+							rendered="#{segnalazioneHome.verificaScadenza(alertingController.getSegnalazione(task),false)}">
+							<img style="margin-right: 1em;" src="/sign/img/exclamation.png"
+								height="16" width="16" alt="Scaduta" title="Scaduta" />
 						</s:fragment>
 
-						<h:outputText value="#{alertingController.getTitleForTask(task)}" escape="false" />
+						<h:outputText value="#{alertingController.getTitleForTask(task)}"
+							escape="false" />
 
 					</rich:column>
 
@@ -51,17 +66,23 @@
 						<f:facet name="header">
                 Azioni
             </f:facet>
-						<s:button value="#{task.description}" propagation="none" view="/app/task.xhtml" action="#{alertingController.assignTaskToCurrentActorById()}">
+						<s:button value="#{task.description}" propagation="none"
+							view="/app/task.xhtml"
+							action="#{alertingController.assignTaskToCurrentActorById()}">
 							<f:param name="taskId" value="#{task.id}" />
 							<f:param name="processId" value="#{task.processInstance.id}" />
 						</s:button>
 					</rich:column>
 				</rich:dataTable>
-				<rich:datascroller align="left" for="tasks" maxPages="10" id="taskScroller" />
+				<rich:datascroller align="left" for="tasks" maxPages="10"
+					id="taskScroller" />
 			</rich:tab>
-			<rich:tab name="interventi"  label="Interventi (#{interventi.size()})" rendered="#{gestore}" >
-				<rich:dataTable id="intTable" value="#{interventi}" var="intervento" rows="10" rendered="#{not empty interventi}" reRender="ids,tt">
-					<rich:column headerClass="ncol" filterBy="#{intervento.id}" sortBy="#{intervento.id}">
+			<rich:tab name="interventi" label="Interventi (#{interventi.size()})"
+				rendered="#{gestore}">
+				<rich:dataTable id="intTable" value="#{interventi}" var="intervento"
+					rows="10" rendered="#{not empty interventi}" reRender="ids,tt">
+					<rich:column headerClass="ncol" filterBy="#{intervento.id}"
+						sortBy="#{intervento.id}">
 						<f:facet name="header">
           N.
           </f:facet>
@@ -71,13 +92,16 @@
           </s:link>
 					</rich:column>
 
-					<rich:column filterMethod="#{filteringBean.filterFor('intervento.oggetto').filter}">
+					<rich:column
+						filterMethod="#{filteringBean.filterFor('intervento.oggetto').filter}">
 						<f:facet name="header">
 							<s:div>
           Intervento
           <s:div>
-									<h:inputText styleClass="rich-filter-input" value="#{filteringBean.filterFor('intervento.oggetto').value}">
-										<a4j:support event="onblur" reRender="intTable" ignoreDupResponses="true" />
+									<h:inputText styleClass="rich-filter-input"
+										value="#{filteringBean.filterFor('intervento.oggetto').value}">
+										<a4j:support event="onblur" reRender="intTable"
+											ignoreDupResponses="true" />
 									</h:inputText>
 								</s:div>
 							</s:div>
@@ -87,30 +111,37 @@
           #{intervento.oggetto}
           </s:link>
 					</rich:column>
-					<rich:column sortBy="#{intervento.stato.descrizione}" filterBy="#{intervento.stato.descrizione}">
+					<rich:column sortBy="#{intervento.stato.descrizione}"
+						filterBy="#{intervento.stato.descrizione}">
 						<f:facet name="header">Stato</f:facet>
-						<h:selectBooleanCheckbox styleClass="noPrint" value="#{intervento.cambiaStato}" />
+						<h:selectBooleanCheckbox styleClass="noPrint"
+							value="#{intervento.cambiaStato}" />
     	  #{intervento.stato}
 		</rich:column>
 					<rich:column sortBy="#{intervento.scadenza}">
 						<f:facet name="header">Scadenza</f:facet>
-						<div class="noPrint" style="background:#{intervento.codiceTriage.colore};border:1px solid #aaa;height: 1em; width: 1em; float:left;margin-right: 1em;">&#160;</div>
+						<div class="noPrint"
+							style="background:#{intervento.codiceTriage.colore};border:1px solid #aaa;height: 1em; width: 1em; float:left;margin-right: 1em;">&#160;</div>
 						<span class="forPrint">#{intervento.codiceTriage.descrizione}</span>
 						<h:outputText value="#{intervento.formattedScadenza}" />
 					</rich:column>
 
-					<rich:column sortBy="#{intervento.squadraIntervento.nome}" filterBy="#{intervento.squadraIntervento.nome}">
+					<rich:column sortBy="#{intervento.squadraIntervento.nome}"
+						filterBy="#{intervento.squadraIntervento.nome}">
 						<f:facet name="header">Squadra</f:facet>
 		  #{intervento.squadraIntervento}
 		</rich:column>
 
-					<rich:column filterMethod="#{filteringBean.filterFor('intervento.indirizzo').filter(intervento.indirizzo)}">
+					<rich:column
+						filterMethod="#{filteringBean.filterFor('intervento.indirizzo').filter(intervento.indirizzo)}">
 						<f:facet name="header">
 							<s:div>
       	  Indirizzo
       	  <s:div>
-									<h:inputText styleClass="rich-filter-input" value="#{filteringBean.filterFor('intervento.indirizzo').value}">
-										<a4j:support event="onblur" reRender="intTable" ignoreDupResponses="true" />
+									<h:inputText styleClass="rich-filter-input"
+										value="#{filteringBean.filterFor('intervento.indirizzo').value}">
+										<a4j:support event="onblur" reRender="intTable"
+											ignoreDupResponses="true" />
 									</h:inputText>
 								</s:div>
 							</s:div>
@@ -119,17 +150,22 @@
 		</rich:column>
 
 
-					<rich:column headerClass="ncol" sortBy="#{intervento.segnalazione.id}" filterBy="#{intervento.segnalazione.id}">
+					<rich:column headerClass="ncol"
+						sortBy="#{intervento.segnalazione.id}"
+						filterBy="#{intervento.segnalazione.id}">
 						<f:facet name="header">N.</f:facet>
 		  #{intervento.segnalazione.id}
 		</rich:column>
-					<rich:column filterMethod="#{filteringBean.filterFor('intervento.segnalazione.oggetto').filter(intervento.segnalazione.oggetto)}">
+					<rich:column
+						filterMethod="#{filteringBean.filterFor('intervento.segnalazione.oggetto').filter(intervento.segnalazione.oggetto)}">
 						<f:facet name="header">
 							<s:div>
       	  Segnalazione
       	  <s:div>
-									<h:inputText styleClass="rich-filter-input" value="#{filteringBean.filterFor('intervento.segnalazione.oggetto').value}">
-										<a4j:support event="onblur" reRender="intTable" ignoreDupResponses="true" />
+									<h:inputText styleClass="rich-filter-input"
+										value="#{filteringBean.filterFor('intervento.segnalazione.oggetto').value}">
+										<a4j:support event="onblur" reRender="intTable"
+											ignoreDupResponses="true" />
 									</h:inputText>
 								</s:div>
 							</s:div>
@@ -137,185 +173,208 @@
 		  #{intervento.segnalazione.oggetto}
 		</rich:column>
 					<f:facet name="footer">
-						<rich:datascroller renderIfSinglePage="false" id="ids" reRender="tt" />
+						<rich:datascroller renderIfSinglePage="false" id="ids"
+							reRender="tt" />
 					</f:facet>
 
 				</rich:dataTable>
 
-				<rich:simpleTogglePanel styleClass="noPrint" rendered="#{not empty interventi}" label="Aggiornamento multiplo" opened="false" switchType="client">
+				<rich:simpleTogglePanel styleClass="noPrint"
+					rendered="#{not empty interventi}" label="Aggiornamento multiplo"
+					opened="false" switchType="client">
 					<h:selectOneMenu value="#{listaSegnalazioni.cambiaStato}">
-						<s:selectItems value="#{statoList.resultList}" var="s" label="#{s}" />
+						<s:selectItems value="#{statoList.resultList}" var="s"
+							label="#{s}" />
 						<s:convertEntity />
 					</h:selectOneMenu>
-					<h:commandButton action="#{listaSegnalazioni.massUpdate()}" value="Cambia stato agli interventi selezionati" />
+					<h:commandButton action="#{listaSegnalazioni.massUpdate()}"
+						value="Cambia stato agli interventi selezionati" />
 				</rich:simpleTogglePanel>
 			</rich:tab>
 
 
 
-<rich:tab name="task"  label="Segnalazioni in lavorazione (#{inLavorazione.size()}) " 
-				rendered="#{not empty inLavorazione}" >
-<a4j:region>
-				<rich:dataTable id="taskList" value="#{inLavorazione}"  var="i" rows="5" >
+			<rich:tab name="task"
+				label="Segnalazioni in lavorazione (#{inLavorazione.size()}) "
+				rendered="#{not empty inLavorazione}">
+				<a4j:region>
+					<rich:dataTable id="taskList" value="#{inLavorazione}" var="i"
+						rows="5">
 
 
-					<rich:column headerClass="ncol" sortBy="#{i[2]}" filterBy="#{i[2]}">
+						<rich:column headerClass="ncol" sortBy="#{i[2]}"
+							filterBy="#{i[2]}">
 
-						<f:facet name="header">
+							<f:facet name="header">
                 N.
             </f:facet>
 
 
 
-						<s:link propagation="none" view="/app/task.xhtml">
-							<f:param name="taskId" value="#{i[0]}" />
-							<f:param name="processId" value="#{i[1]}" />
-							<h:outputText value="#{i[2]}" escape="false" />
-						</s:link>
-					</rich:column>
+							<s:link propagation="none" view="/app/task.xhtml">
+								<f:param name="taskId" value="#{i[0]}" />
+								<f:param name="processId" value="#{i[1]}" />
+								<h:outputText value="#{i[2]}" escape="false" />
+							</s:link>
+						</rich:column>
 
-					<rich:column filterMethod="#{filteringBean.filterFor('tilist.task.oggetto').filter(i[3])}">
+						<rich:column
+							filterMethod="#{filteringBean.filterFor('tilist.task.oggetto').filter(i[3])}">
 
-						<f:facet name="header">
-							<s:div>
+							<f:facet name="header">
+								<s:div>
                 Segnalazione
-            <s:div> 
-									<h:inputText styleClass="rich-filter-input" value="#{filteringBean.filterFor('tilist.task.oggetto').value}">
+            <s:div>
+										<h:inputText styleClass="rich-filter-input"
+											value="#{filteringBean.filterFor('tilist.task.oggetto').value}">
 
-										<a4j:support event="onblur" reRender="taskList" ignoreDupResponses="true" />
+											<a4j:support event="onblur" reRender="taskList"
+												ignoreDupResponses="true" />
 
-									</h:inputText>
+										</h:inputText>
 
+									</s:div>
 								</s:div>
-							</s:div>
 
-						</f:facet>
+							</f:facet>
 
-						<s:fragment rendered="#{segnalazioneHome.verificaDataScadenza(i[11],i[12],false)}">
-							<img style="margin-right: 1em;" src="/sign/img/exclamation.png" height="16" width="16" alt="Scaduta" title="Scaduta" />
-						</s:fragment>
+							<s:fragment
+								rendered="#{segnalazioneHome.verificaDataScadenza(i[11],i[12],false)}">
+								<img style="margin-right: 1em;" src="/sign/img/exclamation.png"
+									height="16" width="16" alt="Scaduta" title="Scaduta" />
+							</s:fragment>
 
 
-						<s:link propagation="none" view="/app/task.xhtml">
-							<f:param name="taskId" value="#{i[0]}" />
-							<f:param name="processId" value="#{i[1]}" />
-							<h:outputText value="#{i[3]}" escape="false" />
-						</s:link>
-					</rich:column>
-					<rich:column rendered="#{alertingController.userInLavorazione()}">
+							<s:link propagation="none" view="/app/task.xhtml">
+								<f:param name="taskId" value="#{i[0]}" />
+								<f:param name="processId" value="#{i[1]}" />
+								<h:outputText value="#{i[3]}" escape="false" />
+							</s:link>
+						</rich:column>
+						<rich:column rendered="#{alertingController.userInLavorazione()}">
 							<f:facet name="header">
 				               Cittadino
 				            </f:facet>
 							<s:fragment>
-							<h:outputText value="#{i[4]} #{i[5]} (#{i[6]})" rendered="#{not empty i[6]}" />
-        					<h:outputText value="#{i[4]} #{i[5]}" rendered="#{empty i[6]}" />
-						</s:fragment>
-						</rich:column>
-					<rich:column>
-						<f:facet name="header">
-							<s:fragment>Utenza
-								<rich:dropDownMenu styleClass="priorityMenu, centered" > 
-									<f:facet name="label">
-										<s:div>
-											<h:outputText value="#{segnalazione.utenza ne null ? segnalazione.utenza : 'Scegli un\'utenza'}" />
-										</s:div>
-									</f:facet>
-									<rich:menuItem submitMode="ajax" limitToList="true"  action="#{listaSegnalazioni.resetUtenze()}" reRender="taskList"
-										value="Tutte le utenze" />
-									<c:forEach items="#{categoriaUtenzaList.resultList}" var="cu">
-										<rich:menuGroup value="#{cu.nome}" rendered="#{not empty cu.sottocategorie}">
-											<c:forEach items="#{cu.sottocategorie}" var="sc">
-												<rich:menuGroup value="#{sc.nome}" rendered="#{not empty sc.utenze}">
-													<c:forEach items="#{sc.utenze}" var="u">
-														<rich:menuItem submitMode="ajax" limitToList="true"  action="#{listaSegnalazioni.setUtenza(u)}"
-															reRender="taskList" value="#{u.descrizione}" />
-													</c:forEach>
-													<rich:menuItem submitMode="ajax" limitToList="true"  action="#{listaSegnalazioni.setSottocategoriaUtenza(sc)}"
-														reRender="taskList" value="#{sc.nome} - tutte le utenze" />
-												</rich:menuGroup>
-											</c:forEach>
-											<rich:menuItem submitMode="ajax" limitToList="true"  action="#{listaSegnalazioni.setCategoriaUtenza(cu)}"
-												reRender="taskList" value="#{cu.nome} - tutte le utenze" />
-										</rich:menuGroup>
-									</c:forEach>
-								</rich:dropDownMenu>
+								<h:outputText value="#{i[4]} #{i[5]} (#{i[6]})"
+									rendered="#{not empty i[6]}" />
+								<h:outputText value="#{i[4]} #{i[5]}" rendered="#{empty i[6]}" />
 							</s:fragment>
-						</f:facet> 
-						<s:fragment>
+						</rich:column>
+						<rich:column>
+							<f:facet name="header">
+								<s:fragment>Utenza
+								<rich:dropDownMenu styleClass="priorityMenu, centered">
+										<f:facet name="label">
+											<s:div>
+												<h:outputText
+													value="#{segnalazione.utenza ne null ? segnalazione.utenza : 'Scegli un\'utenza'}" />
+											</s:div>
+										</f:facet>
+										<rich:menuItem submitMode="ajax" limitToList="true"
+											action="#{listaSegnalazioni.resetUtenze()}"
+											reRender="taskList" value="Tutte le utenze" />
+										<c:forEach items="#{categoriaUtenzaList.resultList}" var="cu">
+											<rich:menuGroup value="#{cu.nome}"
+												rendered="#{not empty cu.sottocategorie}">
+												<c:forEach items="#{cu.sottocategorie}" var="sc">
+													<rich:menuGroup value="#{sc.nome}"
+														rendered="#{not empty sc.utenze}">
+														<c:forEach items="#{sc.utenze}" var="u">
+															<rich:menuItem submitMode="ajax" limitToList="true"
+																action="#{listaSegnalazioni.setUtenza(u)}"
+																reRender="taskList" value="#{u.descrizione}" />
+														</c:forEach>
+														<rich:menuItem submitMode="ajax" limitToList="true"
+															action="#{listaSegnalazioni.setSottocategoriaUtenza(sc)}"
+															reRender="taskList" value="#{sc.nome} - tutte le utenze" />
+													</rich:menuGroup>
+												</c:forEach>
+												<rich:menuItem submitMode="ajax" limitToList="true"
+													action="#{listaSegnalazioni.setCategoriaUtenza(cu)}"
+													reRender="taskList" value="#{cu.nome} - tutte le utenze" />
+											</rich:menuGroup>
+										</c:forEach>
+									</rich:dropDownMenu>
+								</s:fragment>
+							</f:facet>
+							<s:fragment>
         					#{i[7]} #{i[8]} #{i[9]}  
 						</s:fragment>
-					</rich:column>
-					<rich:column rendered="#{gestore}">
-						<f:facet name="header">
+						</rich:column>
+						<rich:column rendered="#{gestore}">
+							<f:facet name="header">
                Intervento
             </f:facet>
 
-					</rich:column>
-					<rich:column sortBy="#{i[10]}"
-						filterBy="#{i[10]}">
-						<f:facet name="header">Stato</f:facet>
+						</rich:column>
+						<rich:column sortBy="#{i[10]}" filterBy="#{i[10]}">
+							<f:facet name="header">Stato</f:facet>
     	  #{i[10]}
 		</rich:column>
-					<rich:column rendered="#{gestore}">
-						<f:facet name="header">
+						<rich:column rendered="#{gestore}">
+							<f:facet name="header">
                Scadenza
             </f:facet>
 
-					</rich:column>
-					<rich:column rendered="#{gestore}">
-						<f:facet name="header">
+						</rich:column>
+						<rich:column rendered="#{gestore}">
+							<f:facet name="header">
                Squadra
             </f:facet>
 
-					</rich:column>
-					<rich:column>
-						<f:facet name="header">
+						</rich:column>
+						<rich:column>
+							<f:facet name="header">
                 Azioni
             </f:facet>
-						<s:button value="#{i[13]}" propagation="none" view="/app/task.xhtml">
-							<f:param name="taskId" value="#{i[0]}" />
-							<f:param name="processId" value="#{i[1]}" />
-						</s:button>
-
-					</rich:column>
-					<c:set var="Interventi" value="#{alertingController.getInterventiPerSegnalazioneId(segID)}" />
-
-					<rich:subTable rendered="#{gestore and not empty Interventi }"
-						value="#{Interventi}" var="j">
-						<rich:column style="background:#eee;">
+							<s:button value="#{i[13]}" propagation="none"
+								view="/app/task.xhtml">
+								<f:param name="taskId" value="#{i[0]}" />
+								<f:param name="processId" value="#{i[1]}" />
+							</s:button>
 
 						</rich:column>
-						<rich:column style="background:#eee;">
-						</rich:column>
-						<rich:column style="background:#eee;"> 
-						</rich:column>
-						<rich:column style="background:#eee;"> 
-						</rich:column>
-						<rich:column style="background:#eee;">
+						<c:set var="Interventi"
+							value="#{alertingController.getInterventiPerSegnalazioneId(segID)}" />
+
+						<rich:subTable rendered="#{gestore and not empty Interventi }"
+							value="#{Interventi}" var="j">
+							<rich:column style="background:#eee;">
+
+							</rich:column>
+							<rich:column style="background:#eee;">
+							</rich:column>
+							<rich:column style="background:#eee;">
+							</rich:column>
+							<rich:column style="background:#eee;">
+							</rich:column>
+							<rich:column style="background:#eee;">
 				#{j[1]}
 			</rich:column>
-						<rich:column style="background:#eee;">
+							<rich:column style="background:#eee;">
 				#{j[2]}
 			</rich:column>
-						<rich:column style="background:#eee;">
-							<div style="background:#{j[3]};border:1px solid #aaa;height: 1em; width: 1em; float:left;margin-right: 1em;">&#160;</div>
-							<h:outputText value="#{j[4]}" />
-						</rich:column>
-						<rich:column style="background:#eee;">
+							<rich:column style="background:#eee;">
+								<div style="background:#{j[3]};border:1px solid #aaa;height: 1em; width: 1em; float:left;margin-right: 1em;">&#160;</div>
+								<h:outputText value="#{j[4]}" />
+							</rich:column>
+							<rich:column style="background:#eee;">
 				#{j[5]}
 			</rich:column>
-						<rich:column style="background:#eee;">
+							<rich:column style="background:#eee;">
 
-						</rich:column>
-					</rich:subTable>
+							</rich:column>
+						</rich:subTable>
 
-					<f:facet name="footer">
-						<rich:datascroller for="taskList" id="taskDS2" />
-					</f:facet>
+						<f:facet name="footer">
+							<rich:datascroller for="taskList" id="taskDS2" />
+						</f:facet>
 
-				</rich:dataTable>
-				<a4j:status onstart="#{rich:component('wait')}.show()" onstop="#{rich:component('wait')}.hide()" />
-</a4j:region>
+					</rich:dataTable>
+					<a4j:status onstart="#{rich:component('wait')}.show()"
+						onstop="#{rich:component('wait')}.hide()" />
+				</a4j:region>
 
 
 
@@ -324,7 +383,7 @@
 
 
 
-			<rich:tab name="mie"  label="Le mie segnalazioni (#{mie.size()})" >
+			<rich:tab name="mie" label="Le mie segnalazioni (#{mie.size()})">
 				<rich:dataTable value="#{mie}" var="s" rows="10" reRender="mieDS">
 					<rich:column>
 						<f:facet name="header">
@@ -334,11 +393,14 @@
               </s:div>
 						</f:facet>
 
-						<s:fragment rendered="#{segnalazioneHome.verificaScadenza(s,false)  and not s:hasRole('cittadino')}">
-							<img style="margin-right: 1em;" src="/sign/img/exclamation.png" height="16" width="16" alt="Scaduta" title="Scaduta" />
+						<s:fragment
+							rendered="#{segnalazioneHome.verificaScadenza(s,false)  and not s:hasRole('cittadino')}">
+							<img style="margin-right: 1em;" src="/sign/img/exclamation.png"
+								height="16" width="16" alt="Scaduta" title="Scaduta" />
 						</s:fragment>
 
-						<s:link value="#{s.id} - #{s.oggetto}" view="/app/simplesegn.xhtml" propagation="none">
+						<s:link value="#{s.id} - #{s.oggetto}"
+							view="/app/simplesegn.xhtml" propagation="none">
 							<f:param name="sid" value="#{s.id}" />
 						</s:link>
 					</rich:column>
@@ -367,7 +429,8 @@
 							<s:convertDateTime pattern="dd/MM/yyyy" />
 						</h:outputText>
 					</rich:column>
-					<rich:column label="Chiusura" sortable="true" sortBy="#{reports.getChiusuraSegnalazione(s)}">
+					<rich:column label="Chiusura" sortable="true"
+						sortBy="#{reports.getChiusuraSegnalazione(s)}">
 						<f:facet name="header">
             Chiusura
             </f:facet>
@@ -375,7 +438,8 @@
 							<s:convertDateTime pattern="dd/MM/yyyy" />
 						</h:outputText>
 					</rich:column>
-					<rich:column label="Ufficio" sortable="true" sortBy="#{reports.getCurrentTaskOffice(s)}">
+					<rich:column label="Ufficio" sortable="true"
+						sortBy="#{reports.getCurrentTaskOffice(s)}">
 						<f:facet name="header">
             In carico a
             </f:facet>
@@ -394,8 +458,9 @@
 					</f:facet>
 				</rich:dataTable>
 			</rich:tab>
-			<rich:tab name="solleciti" rendered="#{not empty sollecitiSenzaRisposta}" 
-				label="Solleciti (#{sollecitiSenzaRisposta.size()})" >
+			<rich:tab name="solleciti"
+				rendered="#{not empty sollecitiSenzaRisposta}"
+				label="Solleciti (#{sollecitiSenzaRisposta.size()})">
 				<rich:dataTable value="#{sollecitiSenzaRisposta}" var="s">
 					<h:column>
 						<f:facet name="header">
@@ -438,15 +503,17 @@
 
 				</rich:dataTable>
 			</rich:tab>
-			<rich:tab rendered="#{alertingController.isSmistatore(identity.credentials.username)}" name="aggiornamenti" 
-				label="Ultimi aggiornamenti" >
+			<rich:tab
+				rendered="#{alertingController.isSmistatore(identity.credentials.username)}"
+				name="aggiornamenti" label="Ultimi aggiornamenti">
 
 				<rich:dataTable value="#{ultimiAggiornamenti}" var="s" rows="10">
 					<rich:column>
 						<f:facet name="header">
 				Segnalazione
             </f:facet>
-						<s:link value="#{s[0]} - #{s[1]}" view="/app/segnalazione.xhtml" propagation="none">
+						<s:link value="#{s[0]} - #{s[1]}" view="/app/segnalazione.xhtml"
+							propagation="none">
 							<f:param name="sid" value="#{s[0]}" />
 						</s:link>
 					</rich:column>
@@ -467,65 +534,108 @@
 				</rich:dataTable>
 			</rich:tab>
 
-			<a4j:status onstart="#{rich:component('wait')}.show()" onstop="#{rich:component('wait')}.hide()" />
+			<rich:tab rendered="#{s:hasRole('soggettoAggiuntivo')}"
+				name="competenza" label="Segnalazioni di competenza">
+				<rich:dataTable value="#{segnalazioniCompetenza}" var="s" rows="10">
+					<rich:column>
+						<f:facet name="header">
+				Segnalazione
+            		</f:facet>
+						<s:link value="#{s}" view="/app/segnalazione.xhtml"
+							propagation="none">
+							<f:param name="sid" value="#{s.id}" />
+						</s:link>
+					</rich:column>
+
+					<rich:column>
+						<f:facet name="header">
+     				Stato
+            		</f:facet>
+						#{s.stato}
+					</rich:column>
+
+					<f:facet name="footer">
+						<rich:datascroller />
+					</f:facet>
+
+				</rich:dataTable>
+
+			</rich:tab>
+
+			<a4j:status onstart="#{rich:component('wait')}.show()"
+				onstop="#{rich:component('wait')}.hide()" />
 		</rich:tabPanel>
 
-		<rich:simpleTogglePanel styleClass="noPrint" label="Filtro Ricerca" opened="true" switchType="client" style="margin-bottom:10px;">
+		<rich:simpleTogglePanel styleClass="noPrint" label="Filtro Ricerca"
+			opened="true" switchType="client" style="margin-bottom:10px;">
 			<s:decorate template="/layout/input.xhtml">
 				<ui:define name="label">Stato</ui:define>
-				<h:selectManyCheckbox required="true" id="stati" value="#{listaSegnalazioni.stati}">
+				<h:selectManyCheckbox required="true" id="stati"
+					value="#{listaSegnalazioni.stati}">
 					<s:selectItems value="#{statoList.resultList}" var="s" label="#{s}" />
 					<s:convertEntity />
 				</h:selectManyCheckbox>
 			</s:decorate>
 			<s:decorate template="/layout/input.xhtml">
 				<ui:define name="label">Data</ui:define>
-		Da: <rich:calendar value="#{listaSegnalazioni.dataInizio}" datePattern="dd/MM/yyyy" />
-		A: <rich:calendar value="#{listaSegnalazioni.dataFine}" datePattern="dd/MM/yyyy" />
+		Da: <rich:calendar value="#{listaSegnalazioni.dataInizio}"
+					datePattern="dd/MM/yyyy" />
+		A: <rich:calendar value="#{listaSegnalazioni.dataFine}"
+					datePattern="dd/MM/yyyy" />
 			</s:decorate>
 			<h:commandButton action="#{listaSegnalazioni.clean()}" value="cerca" />
 		</rich:simpleTogglePanel>
 
-		<s:button value="Crea nuova segnalazione" view="/app/segnalazione/crea.xhtml" propagation="none" style="margin-top:10px" />
+		<s:button value="Crea nuova segnalazione"
+			view="/app/segnalazione/crea.xhtml" propagation="none"
+			style="margin-top:10px" />
 
-		<s:button value="chiudi segnalazioni" view="/app/chiudiSegnalazioni.xhtml" propagation="none" style="margin-top:10px" rendered="#{s:hasRole('admin')}" />
+		<s:button value="chiudi segnalazioni"
+			view="/app/chiudiSegnalazioni.xhtml" propagation="none"
+			style="margin-top:10px" rendered="#{s:hasRole('admin')}" />
 
 
-		
+
 
 	</ui:define>
 
- 
+
 	<ui:define name="panels">
 
-		<rich:modalPanel id="panelSollecito" autosized="true" width="400" moveable="false" resizeable="false">
+		<rich:modalPanel id="panelSollecito" autosized="true" width="400"
+			moveable="false" resizeable="false">
 			<f:facet name="header">
             Inserisi sollecito per <s:span id="sollTit"></s:span>
 			</f:facet>
 			<f:facet name="controls">
 				<h:panelGroup>
-					<s:graphicImage value="/img/cross.png" onclick="#{rich:component('panelSollecito')}.hide()" />
+					<s:graphicImage value="/img/cross.png"
+						onclick="#{rich:component('panelSollecito')}.hide()" />
 				</h:panelGroup>
 			</f:facet>
 			<h:form>
-				<h:inputHidden value="#{sollecito.idSegnalazione}" id="sollIdSegnalazione" />
+				<h:inputHidden value="#{sollecito.idSegnalazione}"
+					id="sollIdSegnalazione" />
 
 				<s:decorate template="/layout/input.xhtml">
 					<ui:define name="label">Testo sollecito</ui:define>
 					<h:inputTextarea required="true" value="#{sollecito.testo}" />
 				</s:decorate>
 				<div style="text-align: right">
-					<h:commandButton action="#{segnalazioneHome.sollecita(sollecito)}" value="Inoltra sollecito" />
+					<h:commandButton action="#{segnalazioneHome.sollecita(sollecito)}"
+						value="Inoltra sollecito" />
 				</div>
 			</h:form>
 		</rich:modalPanel>
-		<rich:modalPanel id="panelRispostaSollecito" autosized="true" width="400" moveable="false" resizeable="false">
+		<rich:modalPanel id="panelRispostaSollecito" autosized="true"
+			width="400" moveable="false" resizeable="false">
 			<f:facet name="header">
             Rispondi a sollecito per <s:span id="rispSollTit"></s:span>
 			</f:facet>
 			<f:facet name="controls">
 				<h:panelGroup>
-					<s:graphicImage value="/img/cross.png" onclick="#{rich:component('panelRispostaSollecito')}.hide()" />
+					<s:graphicImage value="/img/cross.png"
+						onclick="#{rich:component('panelRispostaSollecito')}.hide()" />
 				</h:panelGroup>
 			</f:facet>
 			<h:form>
@@ -536,7 +646,9 @@
 					<h:inputTextarea required="true" value="#{sollecito.risposta}" />
 				</s:decorate>
 				<div style="text-align: right">
-					<h:commandButton action="#{segnalazioneHome.rispondiSollecito(sollecito)}" value="Rispondi" />
+					<h:commandButton
+						action="#{segnalazioneHome.rispondiSollecito(sollecito)}"
+						value="Rispondi" />
 				</div>
 			</h:form>
 		</rich:modalPanel>

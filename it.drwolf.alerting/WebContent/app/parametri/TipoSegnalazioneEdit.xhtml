@@ -54,9 +54,8 @@
 						<s:selectItems value="#{ufficioCompetenteList.resultList}" var="u" label="#{ufficioConverter.getAsString(null,null,u.eloiseId.toString())}"/>
 						<s:convertEntity/>
 						</rich:pickList>
-						
-						
 				</s:decorate>
+
 				<s:decorate	template="/layout/input.xhtml">
 					<ui:define name="label">Stati Possibili</ui:define>
 					<rich:pickList required="true" sourceListWidth="250px" targetListWidth="250px"
@@ -64,8 +63,14 @@
 						<s:selectItems value="#{statoList.resultList}" var="stato" label="#{stato.descrizione}"/>
 						<s:convertEntity/>
 						</rich:pickList>
-
-						
+				</s:decorate>
+				
+				<s:decorate	template="/layout/input.xhtml">
+					<ui:define name="label">Soggetti Aggiuntivi</ui:define>
+					<rich:pickList required="true" converter="#{peopleConverter}" sourceListWidth="250px" targetListWidth="250px"
+						value="#{tipoSegnalazioneHome.instance.soggettiAggiuntiviList}" >
+						<f:selectItems value="#{eloiseUtils.people}"/>
+						</rich:pickList>
 				</s:decorate>
 
 			</rich:panel>

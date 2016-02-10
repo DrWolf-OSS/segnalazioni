@@ -198,6 +198,10 @@ public class SegnalazioneHome extends EntityHome<Segnalazione> {
 			return true;
 		}
 
+		if (s.isSoggettoAggiuntivo(username)) {
+			return true;
+		}
+
 		if (s.getSottotipoSegnalazione() == null) {
 			if (this.alertingController.isSmistatore(username)) {
 				return true;

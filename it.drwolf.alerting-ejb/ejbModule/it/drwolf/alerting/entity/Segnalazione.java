@@ -326,6 +326,16 @@ public class Segnalazione implements java.io.Serializable {
 		return result;
 	}
 
+	@Transient
+
+	public boolean isSoggettoAggiuntivo(String username) {
+		if (this.getSottotipoSegnalazione() == null) {
+			return false;
+		}
+		return this.getSottotipoSegnalazione().getTipoSegnalazione().getSoggettiAggiuntivi().contains(username);
+
+	}
+
 	public void setAllegati(List<String> allegati) {
 		this.allegati = allegati;
 	}
