@@ -812,7 +812,7 @@ public class AlertingController {
 									.createQuery("select p.email from People p where p.idpeople in(:idpeople)")
 									.setParameter("idpeople", t.getSoggettiAggiuntivi()).getResultList(),
 							"Apertura Segnalazione " + segnalazione,
-							String.format("Apertura Segnalazione: %s\n\n %s/segnalazione.seam?sid=%d", segnalazione,
+							String.format("Apertura Segnalazione: %s\n\n %s/app/segnalazione.seam?sid=%d", segnalazione,
 									this.entityManager.find(AppParam.class, AppParam.APP_URL.getKey()).getValue(),
 									segnalazione.getId()));
 				} catch (Exception e) {
