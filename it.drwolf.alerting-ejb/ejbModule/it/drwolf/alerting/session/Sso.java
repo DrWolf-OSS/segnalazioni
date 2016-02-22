@@ -1,11 +1,5 @@
 package it.drwolf.alerting.session;
 
-import it.drwolf.alerting.entity.AppParam;
-import it.drwolf.alerting.entity.GlobalRole;
-import it.drwolf.alerting.lists.GlobalRoleList;
-import it.drwolf.alerting.util.Constants;
-import it.drwolf.eloise.web.entity.People;
-
 import java.net.URL;
 import java.util.List;
 
@@ -20,6 +14,12 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.bpm.Actor;
 import org.jboss.seam.security.Identity;
+
+import it.drwolf.alerting.entity.AppParam;
+import it.drwolf.alerting.entity.GlobalRole;
+import it.drwolf.alerting.lists.GlobalRoleList;
+import it.drwolf.alerting.util.Constants;
+import it.drwolf.eloise.web.entity.People;
 
 @Name("sso")
 @Scope(ScopeType.SESSION)
@@ -51,8 +51,7 @@ public class Sso {
 	}
 
 	public String getSsoAppId() {
-		return this.entityManager.find(AppParam.class, "app.ssoappid")
-				.getValue();
+		return this.entityManager.find(AppParam.class, "app.ssoappid").getValue();
 	}
 
 	public String getSsoBaseURL() {
@@ -74,8 +73,7 @@ public class Sso {
 	public boolean isSmistatore(String username) {
 
 		return this.entityManager
-				.createQuery(
-						"from TipoSegnalazione ts where :username in elements(ts.ufficioSmistatore.gestori)")
+				.createQuery("from TipoSegnalazione ts where :username in elements(ts.ufficioSmistatore.gestori)")
 				.setParameter("username", username).getResultList().size() > 0;
 	}
 
@@ -86,36 +84,37 @@ public class Sso {
 			go = false;
 			String ssobase = this.getSsoBaseURL();
 			SAXReader reader = new SAXReader();
-			Document doc = reader.read(new URL(ssobase + "/check.seam?token="
-					+ this.token));
+			Document doc = reader.read(new URL(ssobase + "/check.seam?token=" + this.token));
 			Element username = doc.getRootElement().element("username");
 			if (username != null) {
 				go = true;
 				this.identity.getCredentials().setUsername(username.getTextTrim());
 			}
-			
+
 		}
 		if (go) {
 			this.logged = true;
 			if (!this.identity.isLoggedIn()) {
-				this.setOriginalUser(this.identity.getCredentials()
-						.getUsername());
+				this.setOriginalUser(this.identity.getCredentials().getUsername());
 				this.identity.login();
 			}
-			People people = this.entityManager.find(People.class, this.identity
-					.getCredentials().getUsername());
+			People people = this.entityManager.find(People.class, this.identity.getCredentials().getUsername());
 			if (people != null) {
 				this.actor.setId(this.identity.getCredentials().getUsername());
 				this.identity.addRole(Constants.IMPIEGATO.toString());
-				this.workSession.setUserFullname(people.getNome() + " "
-						+ people.getCognome());
-				if (this.isSmistatore(this.identity.getCredentials()
-						.getUsername())) {
+				this.workSession.setUserFullname(people.getNome() + " " + people.getCognome());
+				if (this.isSmistatore(this.identity.getCredentials().getUsername())) {
 					this.identity.addRole(Constants.SMISTATORE.toString());
 				}
+
+				if (this.entityManager
+						.createQuery("select distinct s from TipoSegnalazione t join t.soggettiAggiuntivi s")
+						.getResultList().contains(people.getIdpeople())) {
+					this.identity.addRole(Constants.SOGGETTO_AGGIUNTIVO.toString());
+				}
+
 				for (GlobalRole gr : this.globalRoleList.getResultList()) {
-					if (gr.getUsers().contains(
-							this.identity.getCredentials().getUsername())) {
+					if (gr.getUsers().contains(this.identity.getCredentials().getUsername())) {
 						this.identity.addRole(gr.getName());
 					}
 				}
@@ -123,9 +122,7 @@ public class Sso {
 				List<Integer> ids = this.entityManager
 						.createNativeQuery(
 								"select t.TipoIntervento_id from TipoIntervento_gestoriIntervento t where t.element=:username")
-						.setParameter("username",
-								this.identity.getCredentials().getUsername())
-						.getResultList();
+						.setParameter("username", this.identity.getCredentials().getUsername()).getResultList();
 				for (Integer i : ids) {
 					this.actor.getGroupActorIds().add("gestore." + i);
 					this.identity.addRole("gestore." + i);

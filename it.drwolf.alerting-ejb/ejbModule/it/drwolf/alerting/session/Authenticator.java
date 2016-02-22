@@ -1,10 +1,5 @@
 package it.drwolf.alerting.session;
 
-import it.drwolf.alerting.entity.Cittadino;
-import it.drwolf.alerting.util.Constants;
-import it.drwolf.iscrizioni.entity.Iscritto;
-import it.drwolf.iscrizioni.entity.OpzioneServizio;
-
 import java.util.Iterator;
 import java.util.List;
 
@@ -17,14 +12,17 @@ import org.jboss.seam.core.Conversation;
 import org.jboss.seam.security.Credentials;
 import org.jboss.seam.security.Identity;
 
+import it.drwolf.alerting.entity.Cittadino;
+import it.drwolf.alerting.util.Constants;
+import it.drwolf.iscrizioni.entity.Iscritto;
+import it.drwolf.iscrizioni.entity.OpzioneServizio;
+
 @Name("authenticator")
 public class Authenticator {
 	@SuppressWarnings("unchecked")
-	public static Cittadino findCittadino(EntityManager em, String email,
-			String codice) {
-		List<Cittadino> l = em
-				.createQuery("from Cittadino where idIscritto=:codice")
-				.setParameter("codice", codice).getResultList();
+	public static Cittadino findCittadino(EntityManager em, String email, String codice) {
+		List<Cittadino> l = em.createQuery("from Cittadino where idIscritto=:codice").setParameter("codice", codice)
+				.getResultList();
 		if (l != null && l.size() > 0) {
 			Cittadino c = l.get(0);
 
@@ -76,16 +74,14 @@ public class Authenticator {
 		Credentials credentials = this.identity.getCredentials();
 		//
 		// Controllo presenza iscritto
-		Iscritto iscritto = this.entityManager.find(Iscritto.class,
-				credentials.getPassword());
+		Iscritto iscritto = this.entityManager.find(Iscritto.class, credentials.getPassword());
 		if (iscritto == null) {
 			return false;
 		}
 
 		// Controllo che iscritto abbia abilitato il servizio segnalazioni
 		boolean segnalazioni = false;
-		Iterator<OpzioneServizio> iterator = iscritto.getOpzioniServizi()
-				.iterator();
+		Iterator<OpzioneServizio> iterator = iscritto.getOpzioniServizi().iterator();
 		while (iterator.hasNext()) {
 			OpzioneServizio os = iterator.next();
 			if (os.getId().equals("segnalazioni.iscrizioni.true")) {
@@ -99,10 +95,8 @@ public class Authenticator {
 		//
 		Cittadino c = null;
 		@SuppressWarnings("unchecked")
-		List<Cittadino> l = this.entityManager
-				.createQuery("from Cittadino where idIscritto=:codice")
-				.setParameter("codice", credentials.getPassword())
-				.getResultList();
+		List<Cittadino> l = this.entityManager.createQuery("from Cittadino where idIscritto=:codice")
+				.setParameter("codice", credentials.getPassword()).getResultList();
 		if (l != null && l.size() > 0) {
 			c = l.get(0);
 		} else {

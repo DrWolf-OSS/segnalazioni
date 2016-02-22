@@ -11,8 +11,22 @@
 		<rule if-outcome="ko">
 			<redirect  />
 		</rule>
+		<rule if-outcome="task">
+			<end-conversation before-redirect="true" />
+			<redirect view-id="/app/task.seam">
+				<param name="processId" value="#{segnalazioneHome.instance.bpmInfo.processId}" />
+			</redirect>
+		</rule>
+		
 		<end-conversation before-redirect="true" />
 		<redirect view-id="/app/index.xhtml"></redirect>
+	</navigation>
+
+	<navigation from-action="#{iscrizioneManager.nuovoCittadino()}">
+		<end-conversation before-redirect="true" />
+		<redirect view-id="/app/segnalazione/crea.xhtml">
+				<param name="cittadinoId" value="#{cittadinoHome.cittadinoId}" />
+		</redirect>
 	</navigation>
 
 
