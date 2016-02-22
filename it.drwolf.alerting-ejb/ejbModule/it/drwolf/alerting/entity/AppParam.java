@@ -107,6 +107,8 @@ public class AppParam implements Serializable {
 
 	public static final AppParam ORDINAMENTO_SEGNALAZIONI_ASC = new AppParam("ordinamento.segnalazioni.asc", "false");
 
+	public static final AppParam MAP_KEY = new AppParam("map.key", "AIzaSyANpQcjLIrs77_XtPA3u_CQUYvCsWGvtEY");
+
 	public static final AppParam[] defaults = new AppParam[] { AppParam.APP_NAME, AppParam.APP_DESCRIPTION,
 			AppParam.APP_SKIN, AppParam.APP_WELCOME, AppParam.APP_COMUNE, AppParam.APP_SSOAPPID, AppParam.APP_URL,
 			AppParam.APP_SEGNALAZIONE_SCADENZA, AppParam.APP_MAIL_HOST, AppParam.APP_SEGNALAZIONE_REMINDER_START,
@@ -120,7 +122,7 @@ public class AppParam implements Serializable {
 			AppParam.ALFRESCO_USERNAME, AppParam.RIPASSA_URP_POOL, AppParam.ALFRESCO_PASSWORD,
 			AppParam.ALFRESCO_CALEEARTH_PATH, AppParam.HISTORY_ENABLED, AppParam.AUTOCOMPLETE_INDIRIZZO_ACTIVE,
 			AppParam.APP_MAIL_TRAP, AppParam.CRON_TIME, AppParam.ASSEGNAZIONE_A_UFFICIO, AppParam.UTENZA_OBBLICATORIA,
-			AppParam.UTENTE_IN_LAVORAZIONE, AppParam.ORDINAMENTO_SEGNALAZIONI_ASC };
+			AppParam.UTENTE_IN_LAVORAZIONE, AppParam.ORDINAMENTO_SEGNALAZIONI_ASC, AppParam.MAP_KEY };
 
 	private String key;
 	private String value;

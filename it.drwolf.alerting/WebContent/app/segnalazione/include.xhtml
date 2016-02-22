@@ -10,7 +10,7 @@
 	<a4j:loadScript src="/scripts/map.js" />
 
 	<script type="text/javascript"
-		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyANpQcjLIrs77_XtPA3u_CQUYvCsWGvtEY&amp;libraries=places">
+		src="https://maps.googleapis.com/maps/api/js?key=#{workSession.getParam('map.key')}&amp;libraries=places">
    </script>
 
 	<c:set var="edit"
@@ -196,7 +196,7 @@
     	#{segnalazione.sottotipoSegnalazione}
 	</s:decorate>
 
-
+ 
 	<s:decorate id="inddec" template="/layout/input.xhtml"
 		rendered="#{edit}">
 
