@@ -7,8 +7,9 @@ var addressField;
 var autocomplete;
 
 function initializeGmap() {
-	latField = document.getElementById('mainform:inddec:lat');
-	lngField = document.getElementById('mainform:inddec:lng');
+
+	latField = document.getElementById('mainform:lat');
+	lngField = document.getElementById('mainform:lng');
 	addressField = document.getElementById("mainform:inddec:pac-input");
 
 	var mapOptions = {
@@ -18,36 +19,39 @@ function initializeGmap() {
 	};
 	map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
 
-	geocoder = new google.maps.Geocoder();
-
-	google.maps.event.addListener(map, 'click', function(event) {
-		placeMarker(event.latLng); // aggiungo un marker
-		updateAddress(event.latLng); // aggiorno indirizzo nella pagina
-	});
-
-	google.maps.event.addDomListener(addressField, 'keydown', function(e) {
-		if (e.keyCode == 13) {
+	if(edit == "true"){ 
+		
+		geocoder = new google.maps.Geocoder();
+	
+		google.maps.event.addListener(map, 'click', function(event) {
+			placeMarker(event.latLng); // aggiungo un marker
+			updateAddress(event.latLng); // aggiorno indirizzo nella pagina
+		});
+	
+		google.maps.event.addDomListener(addressField, 'keydown', function(e) {
+			if (e.keyCode == 13) {
+				updateMap();
+				e.preventDefault();
+			}
+		});
+	
+		//aggiungo l'autocomplete al campo indirizzo
+		autocomplete = new google.maps.places.Autocomplete(addressField, {
+			bounds : {
+				north : 43.869494,
+				west : 11.141351,
+				east : 11.189588, 
+				south : 43.838299
+			}
+		});
+		autocomplete.bindTo('bounds', map);
+	
+		//aggiungo il listener all'autocomplete
+		autocomplete.addListener('place_changed', function() {
 			updateMap();
-			e.preventDefault();
-		}
-	});
-
-	//aggiungo l'autocomplete al campo indirizzo
-	autocomplete = new google.maps.places.Autocomplete(addressField, {
-		bounds : {
-			north : 43.869494,
-			west : 11.141351,
-			east : 11.189588, 
-			south : 43.838299
-		}
-	});
-	autocomplete.bindTo('bounds', map);
-
-	//aggiungo il listener all'autocomplete
-	autocomplete.addListener('place_changed', function() {
-		updateMap();
-	});
-
+		});
+	};
+	
 	//il posizionamento del marker iniziale deve essere l'ultima cosa.
 	if (latField.value > 0.0 && lngField.value > 0.0) {
 		placeMarker(map.getCenter());
