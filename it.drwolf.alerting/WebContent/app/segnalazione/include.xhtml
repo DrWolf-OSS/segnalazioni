@@ -6,6 +6,12 @@
 	xmlns:a4j="http://richfaces.org/a4j"
 	xmlns:rich="http://richfaces.org/rich"
 	xmlns:s="http://jboss.com/products/seam/taglib">
+	<c:set var="edit"
+		value="#{segnalazione.id eq null or alertingController.taskAssignee}" />
+
+	<script type="text/javascript">
+   		var edit = "#{edit}";
+	</script>
 
 	<a4j:loadScript src="/scripts/map.js" />
 
@@ -13,8 +19,9 @@
 		src="https://maps.googleapis.com/maps/api/js?key=#{workSession.getParam('map.key')}&amp;libraries=places">
    </script>
 
-	<c:set var="edit"
-		value="#{segnalazione.id eq null or alertingController.taskAssignee}" />
+
+
+
 
 	<c:set var="editSA"
 		value="#{segnalazione.isSoggettoAggiuntivo(identity.credentials.username) and segnalazione.stato.nome.equals('aperto')}" />
@@ -38,15 +45,15 @@
 			<s:button rendered="#{segnalazione.id eq null}" propagation="none"
 				view="/app/utenti/CittadinoList.xhtml"
 				value="#{segnalazione.cittadino eq null ? 'Scegli un cittadino' : 'Cambia'}" />
-				
+
 			<s:button propagation="none"
-			    onclick="#{rich:component('panelCittadino')}.show();return false;" 
+				onclick="#{rich:component('panelCittadino')}.show();return false;"
 				value="Nuovo Cittadino" />
-				
-				
+
+
 		</s:decorate>
-		
-		
+
+
 	</s:decorate>
 
 	<s:decorate template="/layout/input.xhtml"
@@ -196,7 +203,7 @@
     	#{segnalazione.sottotipoSegnalazione}
 	</s:decorate>
 
- 
+
 	<s:decorate id="inddec" template="/layout/input.xhtml"
 		rendered="#{edit}">
 
@@ -204,18 +211,19 @@
 		<ui:define name="label">Luogo della Segnalazione</ui:define>
 		Indirizzo:&#160;<h:inputText id="pac-input" size="150"
 			value="#{segnalazione.indirizzo}" required="true" />
-		<h:inputText id="lat" style="display: none"
-			value="#{segnalazione.latitudine}" />
-		<h:inputText id="lng" style="display: none"
-			value="#{segnalazione.longitudine}" />
 		<button onclick="clearMap();" type="button">togli segnaposto
 		</button>
-
 	</s:decorate>
+
+	<h:inputText id="lat" style="display: none"
+		value="#{segnalazione.latitudine}" />
+	<h:inputText id="lng" style="display: none"
+		value="#{segnalazione.longitudine}" />
 
 	<s:decorate template="/layout/input.xhtml" rendered="#{!edit}">
 		<ui:define name="label">Luogo della Segnalazione</ui:define>
-    	#{segnalazione.indirizzo}
+		<div id="map-canvas" class="sign-map" />
+    	#{segnalazione.indirizzo} 
 	</s:decorate>
 
 	<s:decorate template="/layout/input.xhtml" rendered="#{edit}">
