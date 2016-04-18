@@ -353,7 +353,6 @@ public class AlertingController {
 	}
 
 	public TaskInstance getCurrentTask() {
-
 		return this.jbpmContext.getTaskInstance(this.currentTaskId);
 	}
 

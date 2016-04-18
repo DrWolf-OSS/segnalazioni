@@ -263,7 +263,7 @@ public class SegnalazioneHome extends EntityHome<Segnalazione> {
 				throw new RuntimeException(e);
 			}
 
-			if (!this.identity.hasRole(Constants.CITTADINO.toString())) {
+			if (this.getInstance().getCittadino() == null && !this.identity.hasRole(Constants.CITTADINO.toString())) {
 				return "task";
 			}
 			return persist;
