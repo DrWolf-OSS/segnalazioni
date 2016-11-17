@@ -25,6 +25,7 @@ import org.jboss.seam.international.StatusMessage.Severity;
 
 import au.com.bytecode.opencsv.CSVReader;
 import it.drwolf.iscrizioni.entity.AppParam;
+import it.drwolf.iscrizioni.entity.Catalog;
 import it.drwolf.iscrizioni.entity.CategoriaOpzioniServizio;
 import it.drwolf.iscrizioni.entity.Gruppo;
 import it.drwolf.iscrizioni.entity.IscRevisionEntity;
@@ -470,7 +471,8 @@ public class IscrittoHome extends EntityHome<Iscritto> {
 					"Il codice utente per " + iscritto.getEmail() + " e' il seguente:\r\n\r\n" + iscritto.getId()
 							+ "\r\n\r\n"
 
-			+ "Per accedere direttamente ai dettagli dell'iscrizione visita il seguente link:\r\n" + url);
+							+ "Per accedere direttamente ai dettagli dell'iscrizione visita il seguente link:\r\n"
+							+ url);
 		}
 		FacesMessages.instance().add(
 				this.getEntityManager().find(AppParam.class, AppParam.APP_EDIT_SUBSCRIPTION).getValue(), this.email);
@@ -479,11 +481,14 @@ public class IscrittoHome extends EntityHome<Iscritto> {
 
 	@Override
 	public String remove() {
-		this.getEntityManager().createNativeQuery("delete from Iscritto_OpzioneServizio where Iscritto_id=:iid")
+		this.getEntityManager()
+				.createNativeQuery("delete from " + Catalog.name + ".Iscritto_OpzioneServizio where Iscritto_id=:iid")
 				.setParameter("iid", this.getInstance().getId()).executeUpdate();
-		this.getEntityManager().createNativeQuery("delete from Gruppo_Iscritto where iscritti_id=:iid")
+		this.getEntityManager()
+				.createNativeQuery("delete from " + Catalog.name + ".Gruppo_Iscritto where iscritti_id=:iid")
 				.setParameter("iid", this.getInstance().getId()).executeUpdate();
-		this.getEntityManager().createNativeQuery("delete from Iscritto_Servizio where Iscritto_id=:iid")
+		this.getEntityManager()
+				.createNativeQuery("delete from " + Catalog.name + ".Iscritto_Servizio where Iscritto_id=:iid")
 				.setParameter("iid", this.getInstance().getId()).executeUpdate();
 		this.getEntityManager().remove(this.getInstance());
 		return "OK";
