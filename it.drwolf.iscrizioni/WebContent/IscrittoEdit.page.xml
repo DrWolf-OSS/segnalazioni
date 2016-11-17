@@ -4,7 +4,7 @@
       xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.1.xsd"
       login-required="false">
 
-   <begin-conversation join="true" flush-mode="MANUAL"/>
+   <begin-conversation join="true" />
 
    <action execute="#{iscrittoHome.wire}"/>
 
