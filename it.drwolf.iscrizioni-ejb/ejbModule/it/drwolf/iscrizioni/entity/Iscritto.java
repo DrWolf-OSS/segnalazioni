@@ -131,7 +131,7 @@ public class Iscritto {
 	}
 
 	@ManyToMany
-	@JoinTable(catalog = "iscrizioni")
+	@JoinTable(catalog = Catalog.name)
 	public List<OpzioneServizio> getOpzioniServizi() {
 		return this.opzioniServizi;
 	}
@@ -142,7 +142,7 @@ public class Iscritto {
 	}
 
 	@ManyToMany
-	@JoinTable(catalog = "iscrizioni")
+	@JoinTable(catalog = Catalog.name)
 	public List<Servizio> getServizi() {
 		return this.servizi;
 	}
