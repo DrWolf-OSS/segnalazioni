@@ -198,6 +198,10 @@ public class SegnalazioneHome extends EntityHome<Segnalazione> {
 			return true;
 		}
 
+		if (s.isSoggettoAggiuntivo(username)) {
+			return true;
+		}
+
 		if (s.getSottotipoSegnalazione() == null) {
 			if (this.alertingController.isSmistatore(username)) {
 				return true;
@@ -252,9 +256,15 @@ public class SegnalazioneHome extends EntityHome<Segnalazione> {
 			String persist = super.persist();
 
 			try {
+
 				this.alertingController.creaSegnalazione(this.getInstance());
+
 			} catch (Exception e) {
 				throw new RuntimeException(e);
+			}
+
+			if (this.getInstance().getCittadino() == null && !this.identity.hasRole(Constants.CITTADINO.toString())) {
+				return "task";
 			}
 			return persist;
 		}
@@ -317,7 +327,6 @@ public class SegnalazioneHome extends EntityHome<Segnalazione> {
 		sollecito.setIdassegnatario(this.reports.getAssignee(segnalazione));
 		sollecito.setIdinseritore(this.identity.getCredentials().getUsername());
 		this.update();
-
 	}
 
 	@Override

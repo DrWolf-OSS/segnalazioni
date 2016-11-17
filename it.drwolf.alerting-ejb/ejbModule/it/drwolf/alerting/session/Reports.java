@@ -1,19 +1,5 @@
 package it.drwolf.alerting.session;
 
-import it.drwolf.alerting.entity.Cittadino;
-import it.drwolf.alerting.entity.EsitoSegnalazione;
-import it.drwolf.alerting.entity.GlobalRole;
-import it.drwolf.alerting.entity.Segnalazione;
-import it.drwolf.alerting.entity.SottotipoSegnalazione;
-import it.drwolf.alerting.entity.Stato;
-import it.drwolf.alerting.entity.UfficioCompetente;
-import it.drwolf.alerting.entity.Utenza;
-import it.drwolf.alerting.util.Constants;
-import it.drwolf.alerting.util.SegnalazioniInCarico;
-import it.drwolf.alerting.util.converters.PeopleConverter;
-import it.drwolf.alerting.util.converters.UfficioConverter;
-import it.drwolf.eloise.web.entity.People;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -38,16 +24,33 @@ import org.jboss.seam.security.Identity;
 import org.jbpm.JbpmContext;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 
+import it.drwolf.alerting.entity.Cittadino;
+import it.drwolf.alerting.entity.EsitoSegnalazione;
+import it.drwolf.alerting.entity.GlobalRole;
+import it.drwolf.alerting.entity.Segnalazione;
+import it.drwolf.alerting.entity.SottotipoSegnalazione;
+import it.drwolf.alerting.entity.Stato;
+import it.drwolf.alerting.entity.UfficioCompetente;
+import it.drwolf.alerting.entity.Utenza;
+import it.drwolf.alerting.util.Constants;
+import it.drwolf.alerting.util.SegnalazioniInCarico;
+import it.drwolf.alerting.util.converters.PeopleConverter;
+import it.drwolf.alerting.util.converters.UfficioConverter;
+import it.drwolf.eloise.web.entity.People;
+
 @Name("reports")
 @Scope(ScopeType.CONVERSATION)
 public class Reports {
 
+	private static SimpleDateFormat fulldate = new SimpleDateFormat("dd/MM/yyyy");
+
+	private static SimpleDateFormat month = new SimpleDateFormat("MM/yyyy");
+
+	private static SimpleDateFormat month4sorting = new SimpleDateFormat("yyyy/MM");
+
 	private List<Segnalazione> results;
 
-	private String BASE_QUERY = " DATE(s.data)>=DATE(:aperturaDa) and DATE(s.data)<=DATE(:aperturaA) and "
-			+ "(s.chiusura is null or (DATE(s.chiusura)>=DATE(:chiusuraDa) and DATE(s.chiusura)<=DATE(:chiusuraA))) and "
-			+ "(s.scadenza is null or (DATE(s.scadenza)>=DATE(:scadenzaDa) and DATE(s.scadenza) <=DATE(:scadenzaA))) and "
-			+ "s.stato in (:stati) and lower(s.oggetto) like :oggetto ";
+	private String BASE_QUERY = "s.stato in (:stati) and lower(s.oggetto) like lower(:oggetto) ";
 
 	private SottotipoSegnalazione sottotipoSegnalazione;
 
@@ -86,13 +89,8 @@ public class Reports {
 
 	private List<Stato> stati = new ArrayList<Stato>(0);
 
-	private static SimpleDateFormat fulldate = new SimpleDateFormat(
-			"dd/MM/yyyy");
-
-	private static SimpleDateFormat month = new SimpleDateFormat("MM/yyyy");
-
-	private static SimpleDateFormat month4sorting = new SimpleDateFormat(
-			"yyyy/MM");
+	@In(create = true)
+	private PeopleConverter peopleConverter;
 
 	@In(create = true)
 	private UfficioConverter ufficioConverter;
@@ -125,40 +123,31 @@ public class Reports {
 
 		String q = this.BASE_QUERY;
 
-		if (this.aperturaDa == null) {
-			this.aperturaDa = (Date) this.entityManager.createQuery(
-					"select min(s.data) from Segnalazione s)")
-					.getSingleResult();
-		}
-		if (this.aperturaA == null) {
-			this.aperturaA = (Date) this.entityManager.createQuery(
-					"select max(s.data) from Segnalazione s)")
-					.getSingleResult();
-		}
-		if (this.chiusuraDa == null) {
-			this.chiusuraDa = (Date) this.entityManager.createQuery(
-					"select min(s.chiusura) from Segnalazione s)")
-					.getSingleResult();
-		}
-		if (this.chiusuraA == null) {
-			this.chiusuraA = (Date) this.entityManager.createQuery(
-					"select max(s.chiusura) from Segnalazione s)")
-					.getSingleResult();
-		}
-		if (this.scadenzaDa == null) {
-			this.scadenzaDa = (Date) this.entityManager.createQuery(
-					"select min(s.scadenza) from Segnalazione s)")
-					.getSingleResult();
-		}
-		if (this.scadenzaA == null) {
-			this.scadenzaA = (Date) this.entityManager.createQuery(
-					"select max(s.scadenza) from Segnalazione s)")
-					.getSingleResult();
-		}
-
 		if (this.getNumero() != null) {
 			q = " s.id=" + this.numero + " ";
 		} else {
+
+			if (this.aperturaDa != null) {
+				q += " and DATE(s.data)>=DATE(:aperturaDa) ";
+			}
+
+			if (this.aperturaA != null) {
+				q += " and DATE(s.data)<=DATE(:aperturaA) ";
+			}
+			if (this.chiusuraDa != null) {
+				q += " and DATE(s.chiusura)>=DATE(:chiusuraDa) ";
+			}
+
+			if (this.chiusuraA != null) {
+				q += " and DATE(s.chiusura)<=DATE(:chiusuraA) ";
+			}
+			if (this.scadenzaDa != null) {
+				q += " and DATE(s.scadenza)>=DATE(:scadenzaDa) ";
+			}
+
+			if (this.scadenzaA != null) {
+				q += " and DATE(s.scadenza)<=DATE(:scadenzaA) ";
+			}
 
 			if (this.utenza != null) {
 				q += " and s.utenza=:utenza ";
@@ -168,7 +157,7 @@ public class Reports {
 				q += " and s.idutenteInseritore=:inseritore ";
 			}
 
-			if (this.via != null) {
+			if (this.via != null && !"".equals(this.via)) {
 				q += " and s.via like(:via) ";
 			}
 
@@ -188,7 +177,7 @@ public class Reports {
 				this.cittadino = s[s.length - 1];
 				try {
 					Integer.parseInt(this.cittadino);
-					q += " and s.cittadino.id=:cittadinos ";
+					q += " and s.cittadino=:cittadinos ";
 				} catch (Exception e) {
 					this.cittadino = null;
 				}
@@ -205,35 +194,27 @@ public class Reports {
 		}
 
 		Query query;
-		if (this.identity.hasRole(GlobalRole.ADMIN)
-				|| this.identity.hasRole(GlobalRole.SUPERVISOR)) {
+		if (this.identity.hasRole(GlobalRole.ADMIN) || this.identity.hasRole(GlobalRole.SUPERVISOR)) {
 			// ADMIN e SUPERVISOR possono vedere tutte le segnalazioni
-			query = this.entityManager.createQuery("from Segnalazione s where "
-					+ q + "order by s.id desc");
+			query = this.entityManager.createQuery("from Segnalazione s where " + q + "order by s.id desc");
 
 		} else if (this.identity.hasRole(Constants.CITTADINO.toString())) {
 			// il cittadino vede solo quelle che ha inserito
 
 			Cittadino c = Authenticator.findCittadino(this.entityManager, null,
 					this.identity.getCredentials().getUsername());
-			query = this.entityManager.createQuery(
-					"from Segnalazione s where s.cittadino=:cittadinoc and "
-							+ q + "  order by s.id desc").setParameter(
-					"cittadinoc", c);
+			query = this.entityManager
+					.createQuery("from Segnalazione s where s.cittadino=:cittadinoc and " + q + "  order by s.id desc")
+					.setParameter("cittadinoc", c);
 			// gli smistatori vedono tutte le segnalazioni di un certo tipo
-		} else if (this.alertingController.isSmistatore(this.identity
-				.getCredentials().getUsername())) {
+		} else if (this.alertingController.isSmistatore(this.identity.getCredentials().getUsername())) {
 			List sts = this.entityManager
-					.createQuery(
-							"select sottotipoSegnalaziones from TipoSegnalazione ts where"
-									+ " :username in elements(ts.ufficioSmistatore.gestori)")
-					.setParameter("username",
-							this.identity.getCredentials().getUsername())
-					.getResultList();
+					.createQuery("select sottotipoSegnalaziones from TipoSegnalazione ts where"
+							+ " :username in elements(ts.ufficioSmistatore.gestori)")
+					.setParameter("username", this.identity.getCredentials().getUsername()).getResultList();
 
 			query = this.entityManager.createQuery(
-					"from Segnalazione s where s.sottotipoSegnalazione in (:sts) and "
-							+ q + "order by s.id desc")
+					"from Segnalazione s where s.sottotipoSegnalazione in (:sts) and " + q + "order by s.id desc")
 					.setParameter("sts", sts);
 
 		} else {
@@ -242,29 +223,40 @@ public class Reports {
 			List componenti = this.entityManager
 					.createQuery(
 							"select elements(u.gestori) from UfficioCompetente u where :user in elements(u.gestori)")
-					.setParameter("user",
-							this.identity.getCredentials().getUsername())
-					.getResultList();
+					.setParameter("user", this.identity.getCredentials().getUsername()).getResultList();
 			componenti.add("heretopreventexception");
 			List l = this.entityManager
 					.createNativeQuery(
 							"select distinct bv.id from AlertingRevisionEntity are,BPMInfo_versions bv where bv._revision=are.id and are.username in (:c)")
 					.setParameter("c", componenti).getResultList();
 			l.add(-1);
-			query = this.entityManager.createQuery(
-					"from Segnalazione s where s.bpmInfo.id in (:l)  and " + q
-							+ " order by s.id desc").setParameter("l", l);
+			query = this.entityManager
+					.createQuery("from Segnalazione s where s.bpmInfo.id in (:l)  and " + q + " order by s.id desc")
+					.setParameter("l", l);
 
 		}
 		if (this.getNumero() == null) {
-			query.setParameter("aperturaDa", this.aperturaDa)
-					.setParameter("aperturaA", (this.aperturaA))
-					.setParameter("chiusuraDa", (this.chiusuraDa))
-					.setParameter("chiusuraA", (this.chiusuraA))
-					.setParameter("scadenzaDa", (this.scadenzaDa))
-					.setParameter("scadenzaA", (this.scadenzaA))
-					.setParameter("stati", this.getStati())
-					.setParameter("oggetto", "%" + this.oggetto + "%");
+
+			if (this.aperturaDa != null) {
+				query.setParameter("aperturaDa", this.aperturaDa);
+			}
+			if (this.aperturaA != null) {
+				query.setParameter("aperturaA", this.aperturaA);
+			}
+			if (this.chiusuraDa != null) {
+				query.setParameter("chiusuraDa", this.chiusuraDa);
+			}
+			if (this.chiusuraA != null) {
+				query.setParameter("chiusuraA", this.chiusuraA);
+			}
+			if (this.scadenzaDa != null) {
+				query.setParameter("scadenzaDa", this.scadenzaDa);
+			}
+			if (this.scadenzaA != null) {
+				query.setParameter("scadenzaA", this.scadenzaA);
+			}
+
+			query.setParameter("stati", this.getStati()).setParameter("oggetto", "%" + this.oggetto + "%");
 
 			if (this.utenza != null) {
 				query.setParameter("utenza", this.utenza);
@@ -274,18 +266,17 @@ public class Reports {
 				query.setParameter("inseritore", this.inseritore);
 			}
 
-			if (this.via != null) {
+			if (this.via != null && !"".equals(this.via)) {
 				query.setParameter("via", "%" + this.via + "%");
 			}
 
 			if (this.cittadino != null) {
 				query.setParameter("cittadinos",
-						Integer.parseInt(this.cittadino));
+						this.entityManager.find(Cittadino.class, Integer.parseInt(this.cittadino)));
 			}
 
 			if (this.sottotipoSegnalazione != null) {
-				query.setParameter("sottotipoSegnalazione",
-						this.sottotipoSegnalazione);
+				query.setParameter("sottotipoSegnalazione", this.sottotipoSegnalazione);
 			}
 			if (this.esitoSegnalazione != null) {
 				query.setParameter("esitoSegnalazione", this.esitoSegnalazione);
@@ -302,18 +293,17 @@ public class Reports {
 		if ((this.incaricato == null) && (this.ufficio == null)) {
 			return;
 		}
+
 		Iterator<Segnalazione> it = resultList.iterator();
 		while (it.hasNext()) {
 			Segnalazione s = it.next();
 			if (this.incaricato != null) {
-				if (!this.getCurrentTaskOwner(s).toLowerCase()
-						.startsWith(this.incaricato.toLowerCase())) {
+				if (!this.getCurrentTaskOwner(s).toLowerCase().startsWith(this.incaricato.toLowerCase())) {
 					it.remove();
 				}
 			}
 			if (this.ufficio != null) {
-				if (!this.getCurrentTaskOffice(s).toLowerCase()
-						.startsWith(this.ufficio.toLowerCase())) {
+				if (!this.getCurrentTaskOffice(s).toLowerCase().startsWith(this.ufficio.toLowerCase())) {
 					it.remove();
 				}
 			}
@@ -342,8 +332,7 @@ public class Reports {
 	}
 
 	public String getAssignee(Segnalazione s) {
-		final List<TaskInstance> attivitaSegnalazione = this.alertingController
-				.getAttivitaSegnalazione(s);
+		final List<TaskInstance> attivitaSegnalazione = this.alertingController.getAttivitaSegnalazione(s);
 		if (attivitaSegnalazione.size() == 0) {
 			return "";
 		}
@@ -363,8 +352,7 @@ public class Reports {
 	}
 
 	public Date getChiusuraSegnalazione(Segnalazione s) {
-		return this.jbpmContext.getProcessInstance(
-				s.getBpmInfo().getProcessId()).getEnd();
+		return this.jbpmContext.getProcessInstance(s.getBpmInfo().getProcessId()).getEnd();
 
 	}
 
@@ -401,8 +389,7 @@ public class Reports {
 
 	public Integer getDurataSegnalazione(Segnalazione s) {
 		Date end = null;
-		end = this.jbpmContext
-				.getProcessInstance(s.getBpmInfo().getProcessId()).getEnd();
+		end = this.jbpmContext.getProcessInstance(s.getBpmInfo().getProcessId()).getEnd();
 		if (end == null) {
 			end = new Date();
 		}
@@ -425,17 +412,15 @@ public class Reports {
 	public Map<String, String> getIncaricati() {
 		TreeMap<String, String> competenti = new TreeMap<String, String>();
 
-		List<UfficioCompetente> ufficiCompetenti = this.entityManager
-				.createQuery("from UfficioCompetente").getResultList();
+		List<UfficioCompetente> ufficiCompetenti = this.entityManager.createQuery("from UfficioCompetente")
+				.getResultList();
 		for (UfficioCompetente uc : ufficiCompetenti) {
 			for (String idpeople : uc.getGestori()) {
 				People people = this.entityManager.find(People.class, idpeople);
 
 				if (people != null) {
-					competenti.put(people.getCognome()
-							+ PeopleConverter.nameSep + people.getNome(),
-							people.getCognome() + PeopleConverter.nameSep
-									+ people.getNome());
+					competenti.put(people.getCognome() + PeopleConverter.nameSep + people.getNome(),
+							people.getCognome() + PeopleConverter.nameSep + people.getNome());
 				}
 
 			}
@@ -486,8 +471,8 @@ public class Reports {
 	@SuppressWarnings("unchecked")
 	public List<SegnalazioniInCarico> getSegnalazioniPerUfficio() {
 		HashMap<String, List<Segnalazione>> map = new HashMap<String, List<Segnalazione>>();
-		List<Segnalazione> segnalazioni = this.entityManager.createQuery(
-				"from Segnalazione where chiusura is null").getResultList();
+		List<Segnalazione> segnalazioni = this.entityManager.createQuery("from Segnalazione where chiusura is null")
+				.getResultList();
 		for (Segnalazione s : segnalazioni) {
 			String u = this.getCurrentTaskOffice(s);
 			if (map.get(u) == null) {
@@ -500,14 +485,12 @@ public class Reports {
 
 		for (Entry<String, List<Segnalazione>> e : map.entrySet()) {
 			if (sicMap.get(e.getKey()) == null) {
-				sicMap.put(e.getKey(), new SegnalazioniInCarico(e.getKey(), 0,
-						0, 0));
+				sicMap.put(e.getKey(), new SegnalazioniInCarico(e.getKey(), 0, 0, 0));
 			}
 			SegnalazioniInCarico sic = sicMap.get(e.getKey());
 			for (Segnalazione s : e.getValue()) {
 				sic.setTotale(sic.getTotale() + 1);
-				if ((s.getScadenza() != null)
-						&& s.getScadenza().before(new Date())) {
+				if ((s.getScadenza() != null) && s.getScadenza().before(new Date())) {
 					sic.setScadute(sic.getScadute() + 1);
 				} else {
 					sic.setInTempo(sic.getInTempo() + 1);
@@ -516,8 +499,7 @@ public class Reports {
 
 		}
 
-		ArrayList<SegnalazioniInCarico> res = new ArrayList<SegnalazioniInCarico>(
-				sicMap.values());
+		ArrayList<SegnalazioniInCarico> res = new ArrayList<SegnalazioniInCarico>(sicMap.values());
 		Collections.sort(res);
 		return res;
 	}
@@ -537,8 +519,7 @@ public class Reports {
 	@SuppressWarnings("unchecked")
 	public List<Stato> getStati() {
 		if (this.stati.size() == 0) {
-			return this.stati = this.entityManager.createQuery(
-					"from Stato where nome in ('daesaminare','aperto')")
+			return this.stati = this.entityManager.createQuery("from Stato where nome in ('daesaminare','aperto')")
 					.getResultList();
 		}
 		return this.stati;
@@ -558,8 +539,7 @@ public class Reports {
 
 	private String retrieveDescription(Segnalazione s) {
 		try {
-			final List<TaskInstance> attivitaSegnalazione = this.alertingController
-					.getAttivitaSegnalazione(s);
+			final List<TaskInstance> attivitaSegnalazione = this.alertingController.getAttivitaSegnalazione(s);
 			if (attivitaSegnalazione.size() == 0) {
 				return "";
 			}
@@ -572,8 +552,7 @@ public class Reports {
 	@SuppressWarnings("unchecked")
 	private String retrieveOffice(Segnalazione s) {
 		try {
-			final List<TaskInstance> attivitaSegnalazione = this.alertingController
-					.getAttivitaSegnalazione(s);
+			final List<TaskInstance> attivitaSegnalazione = this.alertingController.getAttivitaSegnalazione(s);
 			if (attivitaSegnalazione.size() == 0) {
 				return "";
 			}
@@ -583,12 +562,10 @@ public class Reports {
 					return "";
 				}
 				final List<UfficioCompetente> resultList = this.entityManager
-						.createQuery(
-								"select u from UfficioCompetente u where :user in elements(u.gestori)")
+						.createQuery("select u from UfficioCompetente u where :user in elements(u.gestori)")
 						.setParameter("user", actorId).getResultList();
 				if (resultList.size() > 0) {
-					return this.ufficioConverter.getAsString(null, null,
-							resultList.get(0).getEloiseId());
+					return this.ufficioConverter.getAsString(null, null, resultList.get(0).getEloiseId());
 				}
 
 			} catch (Exception e) {
@@ -605,9 +582,8 @@ public class Reports {
 
 			final String actorId = this.getAssignee(s);
 			try {
-				return this.entityManager.find(People.class, actorId) != null ? PeopleConverter
-						.formatPeople(this.entityManager.find(People.class,
-								actorId)) : actorId;
+				return this.entityManager.find(People.class, actorId) != null
+						? PeopleConverter.formatPeople(this.entityManager.find(People.class, actorId)) : actorId;
 			} catch (Exception e) {
 				return actorId;
 			}
@@ -639,8 +615,7 @@ public class Reports {
 		this.cittadino = cittadino;
 	}
 
-	public void setDescriptionCaches(
-			HashMap<Segnalazione, String> descriptionCaches) {
+	public void setDescriptionCaches(HashMap<Segnalazione, String> descriptionCaches) {
 		this.descriptionCaches = descriptionCaches;
 	}
 
@@ -694,8 +669,7 @@ public class Reports {
 		this.senzaRispostaInterne = senzaRispostaInterne;
 	}
 
-	public void setSottotipoSegnalazione(
-			SottotipoSegnalazione sottotipoSegnalazione) {
+	public void setSottotipoSegnalazione(SottotipoSegnalazione sottotipoSegnalazione) {
 		this.sottotipoSegnalazione = sottotipoSegnalazione;
 	}
 

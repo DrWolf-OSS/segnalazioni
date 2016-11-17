@@ -61,6 +61,14 @@
             </ui:repeat>
         </h:column>
         <h:column>
+            <f:facet name="header">
+                Soggetti aggiuntivi
+            </f:facet>
+            <ui:repeat value="#{tipoSegnalazione.soggettiAggiuntiviList}" var="s">
+            	&#8227;&#160;<h:outputText value="#{s}" converter="#{peopleConverter}" />&#160;&#160;
+            </ui:repeat>
+        </h:column>
+        <h:column>
             <f:facet name="header">Azioni</f:facet>
             <s:link view="/app/parametri/TipoSegnalazioneEdit.xhtml" 
                    value="Modifica" 

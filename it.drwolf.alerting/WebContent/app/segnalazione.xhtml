@@ -23,5 +23,37 @@
 			<ui:param name="segnalazione" value="#{segnalazioneHome.instance}" />
 		</ui:include>
    </ui:define>
+   <ui:define name="panels">
+   <rich:modalPanel id="panelSollecito" autosized="true" width="400"
+			moveable="false" resizeable="false">
+			<f:facet name="header">
+            Inserisci sollecito
+			</f:facet>
+			<f:facet name="controls">
+				<h:panelGroup>
+					<s:graphicImage value="/img/cross.png"
+						onclick="#{rich:component('panelSollecito')}.hide()" />
+				</h:panelGroup>
+			</f:facet>
+			<h:form>
+				<h:inputHidden value="#{sollecito.idSegnalazione}"
+					id="sollIdSegnalazione" />
+
+				<s:decorate template="/layout/input.xhtml">
+					<ui:define name="label">Testo sollecito</ui:define>
+					<h:inputTextarea required="true" value="#{sollecito.testo}" />
+				</s:decorate>
+				<div style="text-align: right">
+					<h:commandButton action="#{segnalazioneHome.sollecita(sollecito)}"
+						value="Inoltra sollecito" />
+				</div>
+			</h:form>
+		</rich:modalPanel>
+		
+		
+		 
+		
+		
+   </ui:define>
    
 </ui:composition>

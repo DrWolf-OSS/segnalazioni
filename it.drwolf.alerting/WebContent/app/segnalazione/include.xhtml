@@ -1,305 +1,319 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-   xmlns:ui="http://java.sun.com/jsf/facelets"
-   xmlns:c="http://java.sun.com/jstl/core"
-   xmlns:h="http://java.sun.com/jsf/html"
-   xmlns:f="http://java.sun.com/jsf/core" 
-   xmlns:a4j="http://richfaces.org/a4j"
-   xmlns:rich="http://richfaces.org/rich"
-   xmlns:s="http://jboss.com/products/seam/taglib">
-   
-	<c:set var="edit" value="#{segnalazione.id eq null or alertingController.taskAssignee}"/>
-	
-	<s:decorate template="/layout/input.xhtml" rendered="#{not s:hasRole('cittadino') and ((segnalazione.id ne null and segnalazione.cittadino ne null) or (segnalazione.id eq null))}">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:s="http://jboss.com/products/seam/taglib">
+	<c:set var="edit"
+		value="#{segnalazione.id eq null or alertingController.taskAssignee}" />
+
+	<script type="text/javascript">
+   		var edit = "#{edit}";
+	</script>
+
+	<a4j:loadScript src="/scripts/map.js" />
+
+	<script type="text/javascript"
+		src="https://maps.googleapis.com/maps/api/js?key=#{workSession.getParam('map.key')}&amp;libraries=places">
+   </script>
+
+
+
+
+
+	<c:set var="editSA"
+		value="#{segnalazione.isSoggettoAggiuntivo(identity.credentials.username) and segnalazione.stato.nome.equals('aperto')}" />
+
+	<s:decorate template="/layout/input.xhtml"
+		rendered="#{not s:hasRole('cittadino') and ((segnalazione.id ne null and segnalazione.cittadino ne null) or (segnalazione.id eq null))}">
 		<ui:define name="label">Cittadino</ui:define>
-		<h:outputText rendered="#{segnalazione.cittadino ne null}" value="#{segnalazione.cittadino}"/>
-		
-		<h:panelGroup rendered="#{(segnalazione.cittadino ne null) and segnalazione.cittadino.iscritto.id eq null}">
-			Cittadino cancellato: <a href="#{segnalazioneHome.linkCittadinoMancante}" > qui </a> i suoi dati.
+		<h:outputText rendered="#{segnalazione.cittadino ne null}"
+			value="#{segnalazione.cittadino}" />
+
+		<h:panelGroup
+			rendered="#{(segnalazione.cittadino ne null) and segnalazione.cittadino.iscritto.id eq null}">
+			Cittadino cancellato: <a
+				href="#{segnalazioneHome.linkCittadinoMancante}"> qui </a> i suoi dati.
    		</h:panelGroup>
 
-   		
-		<s:decorate  template="/layout/actions.xhtml">
-		
-		
-		<s:button rendered="#{segnalazione.id eq null}"  propagation="none" view="/app/utenti/CittadinoList.xhtml"
-			value="#{segnalazione.cittadino eq null ? 'Scegli un cittadino' : 'Cambia'}"/>
+
+		<s:decorate template="/layout/actions.xhtml">
+
+
+			<s:button rendered="#{segnalazione.id eq null}" propagation="none"
+				view="/app/utenti/CittadinoList.xhtml"
+				value="#{segnalazione.cittadino eq null ? 'Scegli un cittadino' : 'Cambia'}" />
+
+			<s:button propagation="none"
+				onclick="#{rich:component('panelCittadino')}.show();return false;"
+				value="Nuovo Cittadino" />
+
+
 		</s:decorate>
+
+
 	</s:decorate>
 
-	<s:decorate template="/layout/input.xhtml" rendered="#{segnalazione.id eq null}">
+	<s:decorate template="/layout/input.xhtml"
+		rendered="#{segnalazione.id eq null}">
 		<ui:define name="label">Oggetto</ui:define>
-		<h:inputText  required="true" size="80"
-		value="#{segnalazione.oggetto}"/>
+		<h:inputText required="true" size="80" value="#{segnalazione.oggetto}" />
 	</s:decorate>
-	
-	<s:decorate template="/layout/input.xhtml" rendered="#{segnalazione.id eq null}">
+
+	<s:decorate template="/layout/input.xhtml"
+		rendered="#{segnalazione.id eq null}">
 		<ui:define name="label">Descrizione</ui:define>
-		<h:inputTextarea required="true"
-		value="#{segnalazione.messaggio}" />
+		<h:inputTextarea required="true" value="#{segnalazione.messaggio}" />
 	</s:decorate>
-	
-	<s:decorate template="/layout/input.xhtml" rendered="#{edit and segnalazione.id ne null and not s:hasRole('cittadino')}">
+
+	<s:decorate template="/layout/input.xhtml"
+		rendered="#{(edit and segnalazione.id ne null and not s:hasRole('cittadino')) or editSA}">
 		<ui:define name="label">Nuovo Messaggio</ui:define>
 		<h:inputTextarea value="#{segnalazioneHome.newMessage}" />
 	</s:decorate>
-	
-<s:fragment rendered="#{not s:hasRole('cittadino') and segnalazione.cittadino eq null}">
-	<s:decorate template="/layout/input.xhtml" rendered="#{edit}">
-		<ui:define name="label">Referente</ui:define>
-		<div class="elementoIndirizzo">
-		Nome: <h:inputText size="40" required="true"
-		value="#{segnalazione.referente}" />
-		</div>
-		<div class="elementoIndirizzo">
-		Telefono: <h:inputText size="15" required="true"
-		value="#{segnalazione.telefonoReferente}" />
-		</div>
-	</s:decorate>
-	
-	<s:decorate template="/layout/input.xhtml" rendered="#{!edit}">
-		<ui:define name="label">Referente</ui:define>
+
+	<s:fragment
+		rendered="#{not s:hasRole('cittadino') and segnalazione.cittadino eq null}">
+		<s:decorate template="/layout/input.xhtml" rendered="#{edit}">
+			<ui:define name="label">Referente</ui:define>
+			<div class="elementoIndirizzo">
+				Nome:
+				<h:inputText size="40" required="true"
+					value="#{segnalazione.referente}" />
+			</div>
+			<div class="elementoIndirizzo">
+				Telefono:
+				<h:inputText size="15" required="true"
+					value="#{segnalazione.telefonoReferente}" />
+			</div>
+		</s:decorate>
+
+		<s:decorate template="/layout/input.xhtml" rendered="#{!edit}">
+			<ui:define name="label">Referente</ui:define>
 		#{segnalazione.referente} #{segnalazione.telefonoReferente}
 	</s:decorate>
-	
-	<s:decorate template="/layout/input.xhtml" rendered="#{edit and s:hasRole('smistatore')}">
-		<ui:define name="label">Scadenza</ui:define>	
-		Data di inserimento: &#160;<rich:calendar required="true" value="#{segnalazione.data}" datePattern="dd/MM/yyyy"/>
-		<br/>
-		<br/>
-		Data di scadenza: &#160;<rich:calendar required="true" value="#{segnalazione.scadenza}" datePattern="dd/MM/yyyy"/>
-    </s:decorate>
 
-	<s:decorate template="/layout/input.xhtml" rendered="#{!(edit and s:hasRole('smistatore'))}">
-		<ui:define name="label">Inserimento</ui:define>	
-		<h:outputText value="#{segnalazione.data}"><s:convertDateTime pattern="dd/MM/yyyy" /></h:outputText>
-    </s:decorate>
-	<s:decorate template="/layout/input.xhtml" rendered="#{!(edit and s:hasRole('smistatore'))}">
-		<ui:define name="label">Scadenza</ui:define>	
-		<h:outputText value="#{segnalazione.scadenza}"><s:convertDateTime pattern="dd/MM/yyyy" /></h:outputText>
-    </s:decorate>
-	<s:decorate template="/layout/input.xhtml" rendered="#{!edit}">
-		<ui:define name="label">Chiusura</ui:define>	
-		<h:outputText value="#{segnalazione.chiusura}"><s:convertDateTime pattern="dd/MM/yyyy" /></h:outputText>
-    </s:decorate>
+		<s:decorate template="/layout/input.xhtml"
+			rendered="#{edit and s:hasRole('smistatore')}">
+			<ui:define name="label">Scadenza</ui:define>	
+		Data di inserimento: &#160;<rich:calendar required="true"
+				value="#{segnalazione.data}" datePattern="dd/MM/yyyy" />
+			<br />
+			<br />
+		Data di scadenza: &#160;<rich:calendar required="true"
+				value="#{segnalazione.scadenza}" datePattern="dd/MM/yyyy" />
+		</s:decorate>
 
-	
+		<s:decorate template="/layout/input.xhtml"
+			rendered="#{!(edit and s:hasRole('smistatore'))}">
+			<ui:define name="label">Inserimento</ui:define>
+			<h:outputText value="#{segnalazione.data}">
+				<s:convertDateTime pattern="dd/MM/yyyy" />
+			</h:outputText>
+		</s:decorate>
+		<s:decorate template="/layout/input.xhtml"
+			rendered="#{!(edit and s:hasRole('smistatore'))}">
+			<ui:define name="label">Scadenza</ui:define>
+			<h:outputText value="#{segnalazione.scadenza}">
+				<s:convertDateTime pattern="dd/MM/yyyy" />
+			</h:outputText>
+		</s:decorate>
+		<s:decorate template="/layout/input.xhtml" rendered="#{!edit}">
+			<ui:define name="label">Chiusura</ui:define>
+			<h:outputText value="#{segnalazione.chiusura}">
+				<s:convertDateTime pattern="dd/MM/yyyy" />
+			</h:outputText>
+		</s:decorate>
 
-	<s:decorate id="utenzaDecoration" template="/layout/input.xhtml" >
-		<ui:param name="required" value="#{workSession.getParam('utenza.obbligatoria') and not s:hasRole('cittadino')}" /> 
-    	<ui:define name="label">Utenza</ui:define>
-        <h:outputText rendered="#{segnalazione.utenza ne null}">
+
+
+		<s:decorate id="utenzaDecoration" template="/layout/input.xhtml">
+			<ui:param name="required"
+				value="#{workSession.getParam('utenza.obbligatoria') and not s:hasRole('cittadino')}" />
+			<ui:define name="label">Utenza</ui:define>
+			<h:outputText rendered="#{segnalazione.utenza ne null}">
         #{segnalazione.utenza.sottocategoriaUtenza.categoriaUtenza} - #{segnalazione.utenza.sottocategoriaUtenza.nome} - #{segnalazione.utenza}
         </h:outputText>
-        <h:outputText rendered="#{segnalazione.utenza eq null and segnalazione.sottocategoriaUtenza ne null}">
+			<h:outputText
+				rendered="#{segnalazione.utenza eq null and segnalazione.sottocategoriaUtenza ne null}">
         #{segnalazione.sottocategoriaUtenza.categoriaUtenza} - #{segnalazione.sottocategoriaUtenza.nome}
         </h:outputText>
-        <h:outputText rendered="#{segnalazione.utenza eq null and segnalazione.sottocategoriaUtenza eq null and segnalazione.categoriaUtenza ne null}">
+			<h:outputText
+				rendered="#{segnalazione.utenza eq null and segnalazione.sottocategoriaUtenza eq null and segnalazione.categoriaUtenza ne null}">
         #{segnalazione.categoriaUtenza}
         </h:outputText>
-		<rich:dropDownMenu styleClass="priorityMenu" rendered="#{edit}">
- <f:facet name="label">
-    	  <s:div>
-                  <h:outputText value="#{segnalazione.utenza ne null ? segnalazione.utenza : 'Scegli un\'utenza'}"/>
-    	  </s:div>
-    	  </f:facet>
-    	  <rich:menuItem submitMode="ajax"
-									limitToList="true" ajaxSingle="true"
-									action="#{segnalazioneHome.setUtenza(null)}"
-									reRender="utenzaDecoration" value="Nessuna Utenza"
-									/>
-    	  <c:forEach items="#{categoriaUtenzaList.resultList}" var="cu">
-				<rich:menuGroup value="#{cu.nome}" rendered="#{not empty cu.sottocategorie}">
-					<c:forEach items="#{cu.sottocategorie}" var="sc">
-						<rich:menuGroup value="#{sc.nome}" rendered="#{not empty sc.utenze}">
-							<c:forEach items="#{sc.utenze}" var="u">
-								<rich:menuItem submitMode="ajax"
-									limitToList="true" ajaxSingle="true"
-									action="#{segnalazioneHome.setUtenza(u)}"
-									reRender="utenzaDecoration" value="#{u.descrizione}"
-									/>
-							</c:forEach>
-						<rich:menuItem submitMode="ajax"
-									limitToList="true" ajaxSingle="true"
+			<rich:dropDownMenu styleClass="priorityMenu" rendered="#{edit}">
+				<f:facet name="label">
+					<s:div>
+						<h:outputText
+							value="#{segnalazione.utenza ne null ? segnalazione.utenza : 'Scegli un\'utenza'}" />
+					</s:div>
+				</f:facet>
+				<rich:menuItem submitMode="ajax" limitToList="true"
+					ajaxSingle="true" action="#{segnalazioneHome.setUtenza(null)}"
+					reRender="utenzaDecoration" value="Nessuna Utenza" />
+				<c:forEach items="#{categoriaUtenzaList.resultList}" var="cu">
+					<rich:menuGroup value="#{cu.nome}"
+						rendered="#{not empty cu.sottocategorie}">
+						<c:forEach items="#{cu.sottocategorie}" var="sc">
+							<rich:menuGroup value="#{sc.nome}"
+								rendered="#{not empty sc.utenze}">
+								<c:forEach items="#{sc.utenze}" var="u">
+									<rich:menuItem submitMode="ajax" limitToList="true"
+										ajaxSingle="true" action="#{segnalazioneHome.setUtenza(u)}"
+										reRender="utenzaDecoration" value="#{u.descrizione}" />
+								</c:forEach>
+								<rich:menuItem submitMode="ajax" limitToList="true"
+									ajaxSingle="true"
 									action="#{segnalazioneHome.setSottocategoriaUtenza(sc)}"
-									reRender="utenzaDecoration" value="#{sc.nome} - tutte le utenze"
-									/>
-						</rich:menuGroup>
-					</c:forEach>
-				<rich:menuItem submitMode="ajax"
-									limitToList="true" ajaxSingle="true"
-									action="#{segnalazioneHome.setCategoriaUtenza(cu)}"
-									reRender="utenzaDecoration" value="#{cu.nome} - tutte le utenze"
-									/>
-				</rich:menuGroup>
-			</c:forEach>
-		 </rich:dropDownMenu>
-	</s:decorate>
+									reRender="utenzaDecoration"
+									value="#{sc.nome} - tutte le utenze" />
+							</rich:menuGroup>
+						</c:forEach>
+						<rich:menuItem submitMode="ajax" limitToList="true"
+							ajaxSingle="true"
+							action="#{segnalazioneHome.setCategoriaUtenza(cu)}"
+							reRender="utenzaDecoration" value="#{cu.nome} - tutte le utenze" />
+					</rich:menuGroup>
+				</c:forEach>
+			</rich:dropDownMenu>
+		</s:decorate>
 
 
 
-</s:fragment>
-	<s:div style="clear:both; display:block; height:2em;" rendered="#{s:hasRole('cittadino')}"/>
-	<s:decorate  template="/layout/input.xhtml"  rendered="#{edit and not s:hasRole('cittadino')}">
-    	<ui:define name="label">Tipologia</ui:define>
+	</s:fragment>
+	<s:div style="clear:both; display:block; height:2em;"
+		rendered="#{s:hasRole('cittadino')}" />
+	<s:decorate template="/layout/input.xhtml"
+		rendered="#{edit and not s:hasRole('cittadino')}">
+		<ui:define name="label">Tipologia</ui:define>
 		<h:selectOneRadio required="true" layout="pageDirection"
 			value="#{segnalazione.sottotipoSegnalazione}">
 
 			<s:selectItems value="#{sottotipoSegnalazioneList.resultList}"
-					var="tipo" label="#{tipo.descrizione}"/>
-			<s:convertEntity/>
+				var="tipo" label="#{tipo.descrizione}" />
+			<s:convertEntity />
 		</h:selectOneRadio>
 	</s:decorate>
-	
-	<s:decorate  template="/layout/input.xhtml"  rendered="#{!edit}">
-    	<ui:define name="label">Tipologia</ui:define>
+
+	<s:decorate template="/layout/input.xhtml" rendered="#{!edit}">
+		<ui:define name="label">Tipologia</ui:define>
     	#{segnalazione.sottotipoSegnalazione}
 	</s:decorate>
 
 
-	<s:decorate id="inddec" template="/layout/input.xhtml" rendered="#{edit}">
+	<s:decorate id="inddec" template="/layout/input.xhtml"
+		rendered="#{edit}">
+
+		<div id="map-canvas" class="sign-map" />
 		<ui:define name="label">Luogo della Segnalazione</ui:define>
-	<table>
-		<tr>
-			<td valign="top">
-			<a4j:region id="indreg">
-			<script type="text/javascript">
-            function fillCombo(output, sg){  
-                output.comboList.itemsText=sg.getSelectedItems().pluck('civiciString').toString().split(',');
-                output.comboList.createDefaultList();
-            }
-   			</script>
-			Indirizzo:&#160;
-		<s:fragment rendered="#{utils.getParamValue('autocomplete.indirizzo.active') ne 'force'}">
-		
-			<h:inputText id="indvia" size="40" value="#{segnalazione.via}" ></h:inputText>
-			
-			<div id="loading" style="width:100%;text-align:right;display:none">
-				Caricamento elenco indirizzi...
-			</div>
-			<s:fragment rendered="utils.getParamValue('autocomplete.indirizzo.active') eq 'true'">
-				<rich:suggestionbox id="suggestion" 
-					requestDelay="800"
-					immediate="true"
-					usingSuggestObjects="true"
-					for="indvia" height="128" 
-					width="256" 
-					var="result" 
-					minchars="2"
-					eventsQueue="suggestion"
-					onselect="fillCombo(#{rich:component('civcombo')}, #{rich:component('suggestion')});"
-					suggestionAction="#{segnalazioneHome.indirizzi}">
-					<h:column>
-						#{result.strada}
-					</h:column>				
-				</rich:suggestionbox>
-			</s:fragment>
-		
-		</s:fragment>
-		
-		<s:fragment rendered="#{utils.getParamValue('autocomplete.indirizzo.active') eq 'force'}">
-			<rich:comboBox value="#{segnalazione.via}" suggestionValues="#{segnalazioneHome.allIndirizzi}"></rich:comboBox>
-		</s:fragment>
-		
-			<a4j:status for="indreg" onstart="document.getElementById('loading').style.display='block'"
-			onstop="document.getElementById('loading').style.display='none'"/>
-			</a4j:region>
-			</td>
-			<td valign="top">
-			
-				Civico:&#160;
-				</td><td>
-				
-				<rich:comboBox  id="civcombo" width="70" value="#{segnalazione.civico}"/>
-			
-			</td>
-			<td valign="top">
-			Localit&#224;:&#160;<h:inputText value="#{segnalazione.localita}" />
-			</td>
-			<td valign="top">
-			Comune:&#160;<h:inputText value="#{segnalazione.comune}" />
-			</td>
-		</tr>
-	</table>
-		
+		Indirizzo:&#160;<h:inputText id="pac-input" size="150"
+			value="#{segnalazione.indirizzo}" required="true" />
+		<button onclick="clearMap();" type="button">togli segnaposto
+		</button>
 	</s:decorate>
+
+	<h:inputText id="lat" style="display: none"
+		value="#{segnalazione.latitudine}" />
+	<h:inputText id="lng" style="display: none"
+		value="#{segnalazione.longitudine}" />
+
+	<s:decorate template="/layout/input.xhtml" rendered="#{!edit}">
+		<ui:define name="label">Luogo della Segnalazione</ui:define>
+		<div id="map-canvas" class="sign-map" />
+    	#{segnalazione.indirizzo} 
+	</s:decorate>
+
 	<s:decorate template="/layout/input.xhtml" rendered="#{edit}">
 		<ui:define name="label">Ubicazione</ui:define>
-		<p>Se pertinente, oppure se il luogo non ha un indirizzo, inserire una descrizione</p>
-		<h:inputTextarea value="#{segnalazione.ubicazione}"/>
-    </s:decorate>
-    
-    <s:decorate template="/layout/input.xhtml" rendered="#{!edit}">
-    	<ui:define name="label">Luogo della Segnalazione</ui:define>
-		#{segnalazione.via}, #{segnalazione.civico} - #{segnalazione.localita} #{segnalazione.comune}
-		<br/>
-		#{segnalazione.ubicazione}
-    </s:decorate>
+		<p>Se pertinente, oppure se il luogo non ha un indirizzo, inserire
+			una descrizione</p>
+		<h:inputTextarea value="#{segnalazione.ubicazione}"
+			styleClass="ubicazioneTextarea" />
+	</s:decorate>
 
-	<s:decorate template="/layout/input.xhtml" rendered="#{not s:hasRole('cittadino') and edit}">
+	<s:decorate template="/layout/input.xhtml"
+		rendered="#{not s:hasRole('cittadino') and edit}">
 		<ui:define name="label">Canale di inserimento</ui:define>
 		<h:selectOneRadio required="true" layout="pageDirection"
 			value="#{segnalazione.canaleSegnalazione}">
 			<s:selectItems value="#{canaleSegnalazioneList.resultList}"
-					var="tipo" label="#{tipo.descrizioneCanale}"/>
-			<s:convertEntity/>
+				var="tipo" label="#{tipo.descrizioneCanale}" />
+			<s:convertEntity />
 		</h:selectOneRadio>
-		
-    </s:decorate>
-    
-    
-    <s:decorate template="/layout/input.xhtml" rendered="#{not s:hasRole('cittadino') and !edit}">
+
+	</s:decorate>
+
+
+	<s:decorate template="/layout/input.xhtml"
+		rendered="#{not s:hasRole('cittadino') and !edit}">
 		<ui:define name="label">Canale di inserimento</ui:define>
 		#{segnalazione.canaleSegnalazione}
     </s:decorate>
 
-	<s:decorate template="/layout/input.xhtml" rendered="#{not s:hasRole('cittadino') and edit}">
+	<s:decorate template="/layout/input.xhtml"
+		rendered="#{not s:hasRole('cittadino') and edit}">
 		<ui:define name="label">Canale di risposta</ui:define>
 		<h:selectOneRadio required="true" layout="pageDirection"
 			value="#{segnalazione.canaleRisposta}">
 			<s:selectItems value="#{canaleSegnalazioneList.resultList}"
-					var="tipo" label="#{tipo.descrizioneCanale}"/>
-			<s:convertEntity/>
+				var="tipo" label="#{tipo.descrizioneCanale}" />
+			<s:convertEntity />
 		</h:selectOneRadio>
-		
-    </s:decorate>
-    
-    
-    <s:decorate template="/layout/input.xhtml" rendered="#{not s:hasRole('cittadino') and !edit}">
+
+	</s:decorate>
+
+
+	<s:decorate template="/layout/input.xhtml"
+		rendered="#{not s:hasRole('cittadino') and !edit}">
 		<ui:define name="label">Canale di risposta</ui:define>
 		#{segnalazione.canaleRisposta}
     </s:decorate>
-    
-    <s:decorate  template="/layout/display.xhtml" rendered="#{!edit}">
-    	<ui:define name="label">Inserita da</ui:define>
-    	<h:outputText value="#{segnalazioneHome.instance.idutenteInseritore}" >
-    	<f:converter converterId="usernameConverter" />
-    	</h:outputText>
+
+	<s:decorate template="/layout/display.xhtml" rendered="#{!edit}">
+		<ui:define name="label">Inserita da</ui:define>
+		<h:outputText value="#{segnalazioneHome.instance.idutenteInseritore}">
+			<f:converter converterId="usernameConverter" />
+		</h:outputText>
 	</s:decorate>
-    
-    <s:decorate template="/layout/input.xhtml" rendered="#{segnalazione.sottotipoSegnalazione ne null and (not s:hasRole('cittadino') and edit and segnalazione.id ne null)}">
+
+	<s:decorate template="/layout/input.xhtml"
+		rendered="#{segnalazione.sottotipoSegnalazione ne null and (not s:hasRole('cittadino') and edit and segnalazione.id ne null)}">
 		<ui:define name="label">Stato segnalazione</ui:define>
 		<h:selectOneRadio required="true" layout="pageDirection"
 			value="#{segnalazione.stato}">
-			<s:selectItems value="#{segnalazione.sottotipoSegnalazione.tipoSegnalazione.stati4Update}"
-					var="stato" label="#{stato.descrizione}"/>
-			<s:convertEntity/>
+			<s:selectItems
+				value="#{segnalazione.sottotipoSegnalazione.tipoSegnalazione.stati4Update}"
+				var="stato" label="#{stato.descrizione}" />
+			<s:convertEntity />
 		</h:selectOneRadio>
-    </s:decorate>
-    
-    <s:decorate template="/layout/input.xhtml" rendered="#{not (not s:hasRole('cittadino') and edit and segnalazione.id ne null)}">
+	</s:decorate>
+
+	<s:decorate template="/layout/input.xhtml"
+		rendered="#{not (not s:hasRole('cittadino') and edit and segnalazione.id ne null)}">
 		<ui:define name="label">Stato segnalazione</ui:define>
 		#{segnalazione.stato.descrizione}
 	</s:decorate>
-	<h:commandButton value="Chiudi Segnalazione" action="#{segnalazioneHome.chiudiSegnalazione()}"  style="margin-left: 10px;margin-top: -15px;" 
-             	disabled="#{segnalazioneHome.instance.stato.nome eq 'chiuso'}" rendered="#{s:hasRole('admin')}"/>
-    
-    
-    <s:decorate template="/layout/actions.xhtml" rendered="#{edit and segnalazione.id ne null}">
-             <h:commandButton value="Aggiorna Segnalazione"
-                    action="#{segnalazioneHome.update}" />	
-             
+
+	<s:decorate template="/layout/actions.xhtml">
+		<h:commandButton value="Chiudi Segnalazione"
+			action="#{segnalazioneHome.chiudiSegnalazione()}"
+			disabled="#{segnalazioneHome.instance.stato.nome eq 'chiuso'}"
+			rendered="#{s:hasRole('admin')}" />
 	</s:decorate>
 
-    
-    
+	<s:decorate template="/layout/actions.xhtml"
+		rendered="#{(edit and segnalazione.id ne null) or editSA}">
+		<h:commandButton value="Aggiorna Segnalazione"
+			action="#{segnalazioneHome.update}" />
+	</s:decorate>
+
+	<s:decorate template="/layout/actions.xhtml"
+		rendered="#{segnalazioneHome.instance.stato.nome ne 'chiuso'}">
+		<s:button value="Sollecita"
+			onclick="#{rich:element('sollIdSegnalazione')}.value=#{segnalazione.id};#{rich:component('panelSollecito')}.show();return false;" />
+	</s:decorate>
+
 </ui:composition>
