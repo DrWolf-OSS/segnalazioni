@@ -188,10 +188,12 @@ public class Authenticator {
 		ssoToken.setUuid(this.uuid);
 		ssoToken.setInfo(info);
 
-		List<SSOToken> uuids = this.entityManager
+		List<SSOToken> tokens = this.entityManager
 				.createQuery("select info.ssoToken from Info info where info.key=:uc and info.value=:username")
 				.setParameter("username", info.get("username")).setParameter("uc", "username").getResultList();
-		for (SSOToken ssoToken2 : uuids) {
+		for (SSOToken ssoToken2 : tokens) {
+			this.entityManager.createQuery("delete from Info i where i.ssoToken=:ssoToken")
+					.setParameter("ssoToken", ssoToken2).executeUpdate();
 			this.entityManager.remove(ssoToken2);
 		}
 		this.entityManager.persist(ssoToken);
